@@ -14,20 +14,20 @@ router.beforeEach(async (to, from, next) => {
   const title = import.meta.env.VITE_GLOB_APP_TITLE;
   document.title = to.meta.title ? `${to.meta.title} - ${title}` : title;
 
-  if (to.path === LOGIN_URL) {
-    if (!globalStore.token) return next();
+  if(to.path === LOGIN_URL) {
+    if(!globalStore.token) return next();
     else return next(from.fullPath);
   }
   // 未登录，跳转登录页面
-  if (!globalStore.token) return next(LOGIN_URL);
+  if(!globalStore.token) return next(LOGIN_URL);
 
   // 已登录跳转
   const authStore = AuthStore();
   authStore.setRouteName(to.name);
-  if (!authStore.authMenuListGet.length) {
+  if(!authStore.authMenuListGet.length) {
     // 未获取到菜单列表
     await initDynamicRouter();
-    // return next({ ...to, replace: true });
+    return next({ ...to, replace: true });
   }
   next();
 });

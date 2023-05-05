@@ -7,30 +7,58 @@ import { HOME_URL, LOGIN_URL } from "@/config/config";
 export const staticRouter = [
   {
     path: "/",
-    redirect: HOME_URL
+    redirect: HOME_URL,
+    meta: {
+      isHide: true
+    }
   },
   {
     path: LOGIN_URL,
     name: "login",
     component: () => import("@/views/login/index.vue"),
     meta: {
-      title: "登录"
+      title: "登录",
+      icon: "UserOutlined",
+      isHide: true
     }
   },
   {
     path: "/layout",
     name: "layout",
     component: () => import("@/layouts/index.vue"),
-    redirect: HOME_URL,
-    children: []
-  },
-  {
-    path: "/home/index",
-    name: "home",
-    component: () => import("@/views/home/index.vue"),
+    isHidden: true,
     meta: {
-      title: "首页"
-    }
+      isHide: true
+    },
+    redirect: HOME_URL,
+    children: [
+      {
+        path: HOME_URL,
+        name: "home",
+        component: () => import("@/views/home/index.vue"),
+        meta: {
+          icon: "HomeFilled",
+          title: "首页",
+          isHide: false,
+          isFull: false,
+          isAffix: true,
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/about",
+        name: "about",
+        component: () => import("@/views/about/index.vue"),
+        meta: {
+          icon: "UserOutlined",
+          title: "about",
+          isHide: false,
+          isFull: false,
+          isAffix: true,
+          isKeepAlive: true
+        }
+      }
+    ]
   }
 ];
 
@@ -43,15 +71,18 @@ export const errorRouter = [
     name: "403",
     component: () => import("@/components/ErrorMessage/403.vue"),
     meta: {
-      title: "403页面"
+      title: "403页面",
+      isHide: true
     }
   },
   {
     path: "/404",
     name: "404",
+    isHide: true,
     component: () => import("@/components/ErrorMessage/404.vue"),
     meta: {
-      title: "404页面"
+      title: "404页面",
+      isHide: true
     }
   },
   {
@@ -59,7 +90,8 @@ export const errorRouter = [
     name: "500",
     component: () => import("@/components/ErrorMessage/500.vue"),
     meta: {
-      title: "500页面"
+      title: "500页面",
+      isHide: true
     }
   }
 ];

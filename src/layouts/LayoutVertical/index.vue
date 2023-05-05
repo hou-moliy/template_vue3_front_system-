@@ -1,6 +1,5 @@
 <!-- 纵向布局 -->
 <template>
-  123
   <el-container class="layout">
     <el-aside>
       <div class="menu" :style="{ width: isCollapse ? '65px' : '210px' }">
@@ -9,16 +8,8 @@
           <span v-show="!isCollapse">{{ APPNAME }}</span>
         </div>
         <el-scrollbar>
-          <el-menu
-            :default-active="activeMenu"
-            :router="false"
-            :collapse="isCollapse"
-            :collapse-transition="false"
-            :unique-opened="true"
-            background-color="#191a20"
-            text-color="#bdbdc0"
-            active-text-color="#ffffff"
-          >
+          <el-menu :default-active="activeMenu" :router="false" :collapse="isCollapse" :collapse-transition="false"
+            :unique-opened="true" background-color="#191a20" text-color="#bdbdc0" active-text-color="#ffffff">
             <SubMenu :menuList="menuList" />
           </el-menu>
         </el-scrollbar>
@@ -51,7 +42,6 @@ const authStore = AuthStore();
 const globalStore = GlobalStore();
 const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path));
 const menuList = computed(() => authStore.showMenuListGet);
-console.log(menuList, "menuList");
 const isCollapse = computed(() => globalStore.themeConfig.isCollapse);
 </script>
 
@@ -61,11 +51,13 @@ const isCollapse = computed(() => globalStore.themeConfig.isCollapse);
 
 <style lang="scss">
 .vertical {
+
   .el-menu,
   .el-menu--popup {
     .el-menu-item {
       &.is-active {
         background: #060708;
+
         &::before {
           position: absolute;
           top: 0;

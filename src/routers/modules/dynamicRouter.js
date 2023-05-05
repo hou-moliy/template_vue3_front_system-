@@ -14,26 +14,22 @@ export const initDynamicRouter = async () => {
   try {
     await authStore.getAuthMenuList();
     // 添加动态路由
-    authStore.flatMenuListGet.forEach(item => {
+    authStore.flatMenuListGet.forEach(async route => {
+      let item = { ...route };
       item.children && delete item.children;
-      if (item.component && isType(item.component) == "string") {
-        item.component = modules["/src/views" + item.component + ".vue"];
+      if(item.component && isType(item.component) == "string") {
+        item.component = () => import(`@/views/${item.component}.vue`).catch(() => import("@/components/ErrorMessage/404.vue"));
       }
-      // item.meta.isFull
-      if (!item.path.includes("layout")) {
-        if (!item.path.startsWith("/")) {
-          item.path = `/${item.path}`;
-        }
+      if(item?.meta?.isFull) {
+        // 是否全屏
         router.addRoute(item);
       } else {
-        console.log("layout");
         router.addRoute("layout", item);
       }
     });
     router.addRoute(notFoundRouter);
-    console.log("动态路由", router.getRoutes());
     return Promise.resolve(router.getRoutes());
-  } catch (error) {
+  } catch(error) {
     // 💢 当按钮 || 菜单请求出错时，重定向到登陆页
     router.replace(LOGIN_URL);
     return Promise.reject(error);
