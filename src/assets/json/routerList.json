@@ -1,0 +1,377 @@
+{
+	"code": 200,
+	"data": [
+		{
+			"path": "/home/index",
+			"name": "home",
+			"component": "/home/index",
+			"meta": {
+				"icon": "HomeFilled",
+				"title": "首页",
+				"isLink": "",
+				"isHide": false,
+				"isFull": false,
+				"isAffix": true,
+				"isKeepAlive": true
+			}
+		},
+		{
+			"path": "/panel",
+			"name": "panel",
+			"component": "/panel/index",
+			"meta": {
+				"icon": "MessageBox",
+				"title": "面板",
+				"isLink": "",
+				"isHide": false,
+				"isFull": false,
+				"isAffix": false,
+				"isKeepAlive": true
+			}
+		},
+		{
+			"path": "/dataView",
+			"name": "dataView",
+			"component": "/dataView/index",
+			"meta": {
+				"icon": "Monitor",
+				"title": "大屏数据",
+				"isLink": "",
+				"isHide": false,
+				"isFull": true,
+				"isAffix": false,
+				"isKeepAlive": true
+			}
+		},
+		{
+			"path": "/assembly",
+			"name": "assembly",
+			"redirect": "/assembly/message",
+			"meta": {
+				"icon": "Briefcase",
+				"title": "常用组件",
+				"isLink": "",
+				"isHide": false,
+				"isFull": false,
+				"isAffix": false,
+				"isKeepAlive": true
+			},
+			"children": [
+				{
+					"path": "/assembly/message",
+					"name": "message",
+					"component": "/assembly/message",
+					"meta": {
+						"title": "消息框",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/assembly/wangEditor",
+					"name": "wangEditor",
+					"component": "/assembly/wangEditor",
+					"meta": {
+						"title": "富文本",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/assembly/count",
+					"name": "count",
+					"component": "/assembly/count",
+					"meta": {
+						"title": "数字滚动",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/assembly/guide",
+					"name": "guide",
+					"component": "/assembly/guide",
+					"meta": {
+						"title": "引导页",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/assembly/drag",
+					"name": "drag",
+					"component": "/assembly/drag",
+					"meta": {
+						"title": "拖拽",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/assembly/webpage",
+					"name": "webpage",
+					"component": "/assembly/webpage",
+					"meta": {
+						"title": "内嵌网页",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/directives",
+			"name": "directives",
+			"redirect": "/directives/copy",
+			"meta": {
+				"icon": "Pointer",
+				"title": "自定义指令",
+				"isLink": "",
+				"isHide": false,
+				"isFull": false,
+				"isAffix": false,
+				"isKeepAlive": true
+			},
+			"children": [
+				{
+					"path": "/directives/copy",
+					"name": "copy",
+					"component": "/directives/copy",
+					"meta": {
+						"title": "复制",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/directives/watermark",
+					"name": "watermark",
+					"component": "/directives/watermark",
+					"meta": {
+						"title": "水印",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/directives/debounce",
+					"name": "debounce",
+					"component": "/directives/debounce",
+					"meta": {
+						"title": "防抖",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/directives/throttle",
+					"name": "throttle",
+					"component": "/directives/throttle",
+					"meta": {
+						"title": "节流",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/work",
+			"name": "work",
+			"redirect": "/work/print",
+			"meta": {
+				"icon": "Printer",
+				"title": "办公",
+				"isLink": "",
+				"isHide": false,
+				"isFull": false,
+				"isAffix": false,
+				"isKeepAlive": true
+			},
+			"children": [
+				{
+					"path": "/work/print",
+					"name": "print",
+					"component": "/work/print",
+					"meta": {
+						"title": "打印",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/work/excel",
+					"name": "excel",
+					"component": "/work/excel",
+					"meta": {
+						"title": "Excel",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/work/flowChart",
+					"name": "flowChart",
+					"component": "/work/flowChart",
+					"meta": {
+						"title": "流程图",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": false
+					}
+				}
+			]
+		},
+		{
+			"path": "/menu",
+			"name": "menu",
+			"redirect": "/menu/menu1",
+			"meta": {
+				"icon": "Menu",
+				"title": "菜单嵌套",
+				"isLink": "",
+				"isHide": false,
+				"isFull": false,
+				"isAffix": false,
+				"isKeepAlive": true
+			},
+			"children": [
+				{
+					"path": "/menu/menu1",
+					"name": "menu1",
+					"component": "/menu/menu1/index",
+					"meta": {
+						"title": "菜单1",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					}
+				},
+				{
+					"path": "/menu/menu2",
+					"name": "menu2",
+					"redirect": "/menu/menu2/menu21",
+					"meta": {
+						"title": "菜单2",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					},
+					"children": [
+						{
+							"path": "/menu/menu2/menu21",
+							"name": "menu21",
+							"component": "/menu/menu2/menu2-1/index",
+							"meta": {
+								"title": "菜单2-1",
+								"isLink": "",
+								"isHide": false,
+								"isFull": false,
+								"isAffix": false,
+								"isKeepAlive": true
+							}
+						},
+						{
+							"path": "/menu/menu2/menu22",
+							"name": "menu22",
+							"redirect": "/menu/menu2/menu2-2/menu2-2-1",
+							"meta": {
+								"title": "菜单2-2",
+								"isLink": "",
+								"isHide": false,
+								"isFull": false,
+								"isAffix": false,
+								"isKeepAlive": true
+							},
+							"children": [
+								{
+									"path": "/menu/menu2/menu22/menu221",
+									"name": "menu221",
+									"component": "/menu/menu2/menu2-2/menu2-2-1/index",
+									"meta": {
+										"title": "菜单2-2-1",
+										"isLink": "",
+										"isHide": false,
+										"isFull": false,
+										"isAffix": false,
+										"isKeepAlive": true
+									}
+								},
+								{
+									"path": "/menu/menu2/menu22/menu222",
+									"name": "menu222",
+									"component": "/menu/menu2/menu2-2/menu2-2-2/index",
+									"meta": {
+										"title": "菜单2-2-2",
+										"isLink": "",
+										"isHide": false,
+										"isFull": false,
+										"isAffix": false,
+										"isKeepAlive": true
+									}
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"path": "/language/index",
+			"name": "language",
+			"component": "/language/index",
+			"meta": {
+				"icon": "SetUp",
+				"title": "i18n多语言",
+				"isLink": "",
+				"isHide": false,
+				"isFull": false,
+				"isAffix": false,
+				"isKeepAlive": true
+			}
+		}
+	],
+	"msg": "成功"
+}
