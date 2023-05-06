@@ -6,7 +6,8 @@
           <img class="login-icon" src="@/assets/logo/logo.png" alt="" />
           <h2 class="logo-text">{{ APPNAME }}</h2>
         </div>
-        <LoginForm />
+        <LoginForm v-if="loginShow" @changeForm="changeForm" />
+        <RegisterForm v-else @changeForm="changeForm" />
       </div>
     </div>
     <div class="bruce"></div>
@@ -15,8 +16,15 @@
 
 <script setup name="login">
 import LoginForm from "./components/LoginForm.vue";
+import RegisterForm from "./components/RegisterForm.vue";
 import { APP_NAME } from "@/config/config";
+import { ref } from "vue";
 const APPNAME = APP_NAME;
+const loginShow = ref(true);
+// 切换表单
+const changeForm = () => {
+  loginShow.value = !loginShow.value;
+};
 </script>
 
 <style scoped lang="scss">

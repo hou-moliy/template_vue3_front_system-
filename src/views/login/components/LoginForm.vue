@@ -1,7 +1,7 @@
 <template>
   <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" size="large">
     <el-form-item prop="username">
-      <el-input v-model="loginForm.username" placeholder="请输入用户名">
+      <el-input v-model="loginForm.username" placeholder="请输入账号">
         <template #prefix>
           <el-icon class="el-input__icon"><user /></el-icon>
         </template>
@@ -27,7 +27,7 @@
   </el-form>
   <div class="login-btn">
     <el-button @click="login(loginFormRef)" size="large" type="primary" :loading="loading"> 登录 </el-button>
-    <el-button @click="resetForm(loginFormRef)" size="large">重置</el-button>
+    <el-button @click="register()" size="large">注册</el-button>
   </div>
 </template>
 
@@ -41,6 +41,7 @@ import { pageLogin, getCodeImg } from "@/api/login";
 import { setToken } from "@/utils/auth";
 const router = useRouter();
 const tabsStore = TabsStore();
+const emit = defineEmits(["changeForm"]);
 
 // 定义 formRef（校验规则）
 const loginFormRef = ref();
@@ -74,7 +75,7 @@ const login = formEl => {
   });
 };
 
-// 验证码
+// 获取验证码
 let codeUrl = ref();
 const getCode = () => {
   getCodeImg().then(res => {
@@ -84,11 +85,8 @@ const getCode = () => {
 };
 getCode();
 
-// resetForm
-const resetForm = formEl => {
-  if (!formEl) return;
-  formEl.resetFields();
-};
+// 注册
+const register = () => emit("changeForm", "register");
 </script>
 
 <style lang="scss" scoped>
@@ -102,7 +100,7 @@ const resetForm = formEl => {
     vertical-align: middle;
   }
 }
-::v-deep .el-form-item__content {
+:deep(.el-form-item__content) {
   justify-content: space-between;
 }
 </style>
