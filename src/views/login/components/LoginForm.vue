@@ -35,15 +35,12 @@
 import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { ElNotification } from "element-plus";
-import { GlobalStore } from "@/stores";
 import { TabsStore } from "@/stores/modules/tabs";
 import { HOME_URL, APP_NAME } from "@/config/config";
 import { pageLogin, getCodeImg } from "@/api/login";
 import { setToken } from "@/utils/auth";
-
 const router = useRouter();
 const tabsStore = TabsStore();
-const globalStore = GlobalStore();
 
 // 定义 formRef（校验规则）
 const loginFormRef = ref();
@@ -63,16 +60,14 @@ const login = formEl => {
     loading.value = true;
     try {
       const { token } = await pageLogin(loginForm);
-      globalStore.setToken(token);
       setToken(token);
       tabsStore.closeMultipleTab();
       router.push(HOME_URL);
-      // ElNotification({
-      //   title: data.name,
-      //   message: `欢迎登录${APP_NAME}`,
-      //   type: "success",
-      //   duration: 2000
-      // });
+      ElNotification({
+        message: `欢迎使用${APP_NAME}`,
+        type: "success",
+        duration: 2000
+      });
     } finally {
       loading.value = false;
     }
