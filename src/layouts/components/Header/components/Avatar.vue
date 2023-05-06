@@ -1,7 +1,7 @@
 <template>
   <el-dropdown trigger="click">
     <div class="avatar">
-      <img src="https://img2.baidu.com/it/u=2779580288,2898080432&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500" alt="avatar" />
+      <img :src="authStore.avatar" alt="avatar" />
     </div>
     <template #dropdown>
       <el-dropdown-menu>

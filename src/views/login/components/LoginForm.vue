@@ -15,7 +15,7 @@
       </el-input>
     </el-form-item>
     <el-form-item prop="code">
-      <el-input v-model="loginForm.code" auto-complete="off" placeholder="请输入验证码" style="width: 67%">
+      <el-input v-model="loginForm.code" auto-complete="off" placeholder="请输入验证码" style="width: 75%">
         <template #prefix>
           <el-icon><Checked /></el-icon>
         </template>
@@ -93,7 +93,7 @@ const resetForm = formEl => {
 
 <style lang="scss" scoped>
 .login-code {
-  width: 33%;
+  // width: 33%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -101,5 +101,8 @@ const resetForm = formEl => {
     cursor: pointer;
     vertical-align: middle;
   }
+}
+::v-deep .el-form-item__content {
+  justify-content: space-between;
 }
 </style>

@@ -2,11 +2,11 @@
  * @description 获取localStorage
  * @param {String} key Storage名称
  */
-export function localGet(key) {
+export function localGet (key) {
   const value = window.localStorage.getItem(key);
   try {
     return JSON.parse(window.localStorage.getItem(key));
-  } catch(error) {
+  } catch (error) {
     return value;
   }
 }
@@ -16,7 +16,7 @@ export function localGet(key) {
  * @param {String} key Storage名称
  * @param {Any} value Storage值
  */
-export function localSet(key, value) {
+export function localSet (key, value) {
   window.localStorage.setItem(key, JSON.stringify(value));
 }
 
@@ -24,14 +24,14 @@ export function localSet(key, value) {
  * @description 清除localStorage
  * @param {String} key Storage名称
  */
-export function localRemove(key) {
+export function localRemove (key) {
   window.localStorage.removeItem(key);
 }
 
 /**
  * @description 清除所有localStorage
  */
-export function localClear() {
+export function localClear () {
   window.localStorage.clear();
 }
 
@@ -39,32 +39,32 @@ export function localClear() {
  * @description 判断数据类型
  * @param {Any} val 需要判断类型的数据
  */
-export function isType(val) {
-  if(val === null) return "null";
-  if(typeof val !== "object") return typeof val;
+export function isType (val) {
+  if (val === null) return "null";
+  if (typeof val !== "object") return typeof val;
   else return Object.prototype.toString.call(val).slice(8, -1).toLocaleLowerCase();
 }
 
 /**
  * @description 获取当前时间对应的提示语
  */
-export function getTimeState() {
+export function getTimeState () {
   // 获取当前时间
   let timeNow = new Date();
   // 获取当前小时
   let hours = timeNow.getHours();
   // 判断当前时间段
-  if(hours >= 6 && hours <= 12) return `早上好 ⛅`;
-  if(hours >= 12 && hours <= 13) return `中午好 🌞`;
-  if(hours >= 13 && hours <= 18) return `下午好 🌞`;
-  if(hours >= 18 && hours <= 24) return `晚上好 🌛`;
-  if(hours >= 0 && hours <= 6) return `凌晨好 🌛`;
+  if (hours >= 6 && hours <= 12) return `早上好 ⛅`;
+  if (hours >= 12 && hours <= 13) return `中午好 🌞`;
+  if (hours >= 13 && hours <= 18) return `下午好 🌞`;
+  if (hours >= 18 && hours <= 24) return `晚上好 🌛`;
+  if (hours >= 0 && hours <= 6) return `凌晨好 🌛`;
 }
 
 /**
  * @description 获取当前时间
  */
-export function getTime(type) {
+export function getTime (type) {
   let myDate = new Date();
   let myYear = myDate.getFullYear();
   let myMonth = myDate.getMonth() + 1;
@@ -75,11 +75,11 @@ export function getTime(type) {
   let mySecond = myDate.getSeconds();
   let week = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
   let nowTime;
-  if(type === 1) {
+  if (type === 1) {
     nowTime = myYear + "年" + fillZero(myMonth) + "月" + fillZero(myToday) + "日";
-  } else if(type === 2) {
+  } else if (type === 2) {
     nowTime = fillZero(myHour) + ":" + fillZero(myMinute) + ":" + fillZero(mySecond);
-  } else if(type === 3) {
+  } else if (type === 3) {
     nowTime = week[myDay];
   } else {
     nowTime =
@@ -100,9 +100,9 @@ export function getTime(type) {
       " " +
       "";
   }
-  function fillZero(str) {
+  function fillZero (str) {
     let realNum;
-    if(str < 10) {
+    if (str < 10) {
       realNum = "0" + str;
     } else {
       realNum = str;
@@ -115,10 +115,10 @@ export function getTime(type) {
 /**
  * @description 获取浏览器默认语言
  */
-export function getBrowserLang() {
+export function getBrowserLang () {
   let browserLang = navigator.language ? navigator.language : navigator.browserLanguage;
   let defaultBrowserLang = "";
-  if(browserLang.toLowerCase() === "cn" || browserLang.toLowerCase() === "zh" || browserLang.toLowerCase() === "zh-cn") {
+  if (browserLang.toLowerCase() === "cn" || browserLang.toLowerCase() === "zh" || browserLang.toLowerCase() === "zh-cn") {
     defaultBrowserLang = "zh";
   } else {
     defaultBrowserLang = "en";
@@ -130,11 +130,11 @@ export function getBrowserLang() {
  * @description 扁平化数组对象(主要用来处理路由菜单)
  * @param {Array} menuList 所有菜单列表
  */
-export function getFlatArr(menuList) {
+export function getFlatArr (menuList) {
   let newMenuList = JSON.parse(JSON.stringify(menuList));
   return newMenuList.reduce((pre, current) => {
     let flatArr = [...pre, current];
-    if(current.children) flatArr = [...flatArr, ...getFlatArr(current.children)];
+    if (current.children) flatArr = [...flatArr, ...getFlatArr(current.children)];
     return flatArr;
   }, []);
 }
@@ -143,7 +143,7 @@ export function getFlatArr(menuList) {
  * @description 使用递归，过滤出需要渲染在左侧菜单的列表（剔除 isHide == true 的菜单）
  * @param {Array} menuList 菜单列表
  * */
-export function getShowMenuList(menuList) {
+export function getShowMenuList (menuList) {
   let menus = JSON.parse(JSON.stringify(menuList));
   return menus.filter(item => {
     item.children?.length && (item.children = getShowMenuList(item.children));
@@ -158,9 +158,9 @@ export function getShowMenuList(menuList) {
  * @param {String} path 当前递归的路径
  */
 export const getAllBreadcrumbList = (menuList, result = { key: "" }, path = []) => {
-  for(const item of menuList) {
+  for (const item of menuList) {
     result[item.path] = [...path, item];
-    if(item.children) getAllBreadcrumbList(item.children, result, result[item.path]);
+    if (item.children) getAllBreadcrumbList(item.children, result, result[item.path]);
   }
   return result;
 };
@@ -177,4 +177,13 @@ export const readFile = file => {
       resolve(ev.target.result);
     };
   });
+};
+
+/**
+ * 获取本地图片
+ * @param fileUrl // 本地文件路径 如 /src/assets/images/profile.jpg,不支持@
+ * @returns {*|string}
+ */
+export const getAssetsImages = fileUrl => {
+  return new URL(fileUrl, import.meta.url).href;
 };
