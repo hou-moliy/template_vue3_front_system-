@@ -24,6 +24,10 @@
         <img :src="codeUrl" @click="getCode" alt="" />
       </div>
     </el-form-item>
+    <!-- 记住密码 -->
+    <el-form-item>
+      <el-checkbox v-model="loginForm.remember">记住密码</el-checkbox>
+    </el-form-item>
   </el-form>
   <div class="login-btn">
     <el-button @click="login(loginFormRef)" size="large" type="primary" :loading="loading"> 登录 </el-button>
@@ -39,6 +43,8 @@ import { TabsStore } from "@/stores/modules/tabs";
 import { HOME_URL, APP_NAME } from "@/config/config";
 import { pageLogin, getCodeImg } from "@/api/login";
 import { setToken } from "@/utils/auth";
+import { getCookie, setCookie } from "@/utils/cookie";
+import { encode, decode } from "js-base64";
 const router = useRouter();
 const tabsStore = TabsStore();
 const emit = defineEmits(["changeForm"]);
@@ -53,7 +59,7 @@ const loginRules = reactive({
 
 const loading = ref(false);
 // 登录
-const loginForm = reactive({ username: "", password: "", code: "", uuid: "" });
+const loginForm = reactive({ username: "", password: "", code: "", uuid: "", remember: false });
 const login = formEl => {
   if (!formEl) return;
   formEl.validate(async valid => {
@@ -62,6 +68,7 @@ const login = formEl => {
     try {
       const { token } = await pageLogin(loginForm);
       setToken(token);
+      setUserInfo();
       tabsStore.closeMultipleTab();
       router.push(HOME_URL);
       ElNotification({
@@ -69,12 +76,38 @@ const login = formEl => {
         type: "success",
         duration: 2000
       });
+    } catch (error) {
+      getCode();
     } finally {
       loading.value = false;
     }
   });
 };
 
+// 存储表单信息
+const setUserInfo = () => {
+  // 判断用户是否勾选记住密码，如果勾选，向cookie中储存登录信息，
+  // 如果没有勾选，储存的信息为空
+  if (loginForm.remember) {
+    setCookie("username", loginForm.username);
+    // 加密密码存储
+    setCookie("password", encode(loginForm.password));
+  } else {
+    setCookie("username", "");
+    setCookie("password", "");
+  }
+};
+
+// 获取登录信息的cookie
+const getCookieInfo = () => {
+  const username = getCookie("username");
+  const password = getCookie("password");
+  if (username && password) {
+    loginForm.username = username;
+    loginForm.password = decode(password, "base64");
+    loginForm.remember = true;
+  }
+};
 // 获取验证码
 let codeUrl = ref();
 const getCode = () => {
@@ -83,7 +116,10 @@ const getCode = () => {
     loginForm.uuid = res.uuid;
   });
 };
+
+// 进入页面的初始化操作
 getCode();
+getCookieInfo();
 
 // 注册
 const register = () => emit("changeForm", "register");
@@ -91,7 +127,6 @@ const register = () => emit("changeForm", "register");
 
 <style lang="scss" scoped>
 .login-code {
-  // width: 33%;
   height: 100%;
   display: flex;
   align-items: center;

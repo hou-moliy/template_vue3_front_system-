@@ -1,11 +1,12 @@
 <template>
   <Maximize v-if="themeConfig.maximize" />
   <Tabs v-if="themeConfig.tabs" />
+
   <el-main>
     <router-view v-slot="{ Component, route }">
       <transition appear name="fade-transform" mode="out-in">
         <keep-alive :include="keepAliveStore.keepLiveName">
-          <component :is="Component" :key="route.path" v-if="isRouterShow" />
+          <el-card class="box-card"><component :is="Component" :key="route.path" v-if="isRouterShow" /></el-card>
         </keep-alive>
       </transition>
     </router-view>
@@ -39,8 +40,8 @@ provide("refresh", refreshCurrentPage);
 const screenWidth = ref(0);
 const listeningWindow = () => {
   screenWidth.value = document.body.clientWidth;
-  if(!isCollapse.value && screenWidth.value < 1200) globalStore.setThemeConfig({ ...themeConfig.value, isCollapse: true });
-  if(isCollapse.value && screenWidth.value > 1200) globalStore.setThemeConfig({ ...themeConfig.value, isCollapse: false });
+  if (!isCollapse.value && screenWidth.value < 1200) globalStore.setThemeConfig({ ...themeConfig.value, isCollapse: true });
+  if (isCollapse.value && screenWidth.value > 1200) globalStore.setThemeConfig({ ...themeConfig.value, isCollapse: false });
 };
 window.addEventListener("resize", listeningWindow);
 onBeforeUnmount(() => {

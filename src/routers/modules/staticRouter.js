@@ -1,4 +1,3 @@
-// import { RouteRecordRaw } from "vue-router";
 import { HOME_URL, LOGIN_URL } from "@/config/config";
 
 /**
@@ -46,17 +45,24 @@ export const staticRouter = [
         }
       },
       {
-        path: "/about",
-        name: "about",
-        component: () => import("@/views/about/index.vue"),
+        path: "customerMng",
+        name: "customerMng",
         meta: {
-          icon: "UserOutlined",
-          title: "about",
-          isHide: false,
-          isFull: false,
-          isAffix: true,
+          title: "客户管理",
           isKeepAlive: true
-        }
+        },
+        component: () => import("@/views/customerMng/accountAudit.vue"),
+        children: [
+          {
+            path: "accountList",
+            name: "accountList",
+            component: () => import("@/views/customerMng/accountAudit.vue"),
+            meta: {
+              title: "账户审批",
+              isKeepAlive: true
+            }
+          }
+        ]
       }
     ]
   }

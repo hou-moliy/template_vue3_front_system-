@@ -45,7 +45,6 @@ export const AuthStore = defineStore({
         getUserInfoApi()
           .then(res => {
             const user = res.user;
-            // const avatar = user.avatar;
             const avatar = !user.avatar ? getAssetsImages("/src/assets/images/profile.jpg") : user.avatar;
             if (res.roles && res.roles.length > 0) {
               this.roles = res.roles;
