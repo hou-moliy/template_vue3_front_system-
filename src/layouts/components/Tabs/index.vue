@@ -1,10 +1,8 @@
 <template>
   <div class="tabs-box">
     <div class="tabs-menu">
-      <el-tabs v-model="tabsMenuValue" type="card" editable class="demo-tabs" @tab-click="tabClick"
-        @tab-remove="tabRemove">
-        <el-tab-pane v-for="item in tabsMenuList" :key="item.path" :label="item.title" :name="item.path"
-          :closable="item.close">
+      <el-tabs v-model="tabsMenuValue" type="card" editable class="demo-tabs" @tab-click="tabClick" @tab-remove="tabRemove">
+        <el-tab-pane v-for="item in tabsMenuList" :key="item.path" :label="item.title" :name="item.path" :closable="item.close">
           <template #label>
             <el-icon class="tabs-icon" v-if="item.icon && themeConfig.tabsIcon">
               <component :is="item.icon"></component>
@@ -62,7 +60,7 @@ const tabsDrop = () => {
 // 初始化需要固定的标签
 const initTabs = () => {
   authStore.flatMenuListGet.forEach(item => {
-    if(item.meta.isAffix && !item.meta.isHide && !item.meta.isFull) {
+    if (item.meta.isAffix && !item.meta.isHide && !item.meta.isFull) {
       const tabsParams = {
         icon: item.meta.icon,
         title: item.meta.title,
@@ -79,7 +77,7 @@ const initTabs = () => {
 watch(
   () => route.fullPath,
   () => {
-    if(route.meta.isFull) return;
+    if (route.meta.isFull) return;
     tabsMenuValue.value = route.fullPath;
     const tabsParams = {
       icon: route.meta.icon,
@@ -111,77 +109,5 @@ const tabRemove = fullPath => {
 </script>
 
 <style scoped lang="scss">
-// @import "./index.scss";
-.tags-view-container {
-  height: 34px;
-  width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
-
-  .tags-view-wrapper {
-    .tags-view-item {
-      display: inline-block;
-      position: relative;
-      cursor: pointer;
-      height: 26px;
-      line-height: 26px;
-      border: 1px solid #d8dce5;
-      color: #495060;
-      background: #fff;
-      padding: 0 8px;
-      font-size: 12px;
-      margin-left: 5px;
-      margin-top: 4px;
-
-      &:first-of-type {
-        margin-left: 15px;
-      }
-
-      &:last-of-type {
-        margin-right: 15px;
-      }
-
-      &.active {
-        background-color: #1890ff;
-        color: #fff;
-        border-color: #1890ff;
-
-        &::before {
-          content: "";
-          background: #fff;
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          position: relative;
-          margin-right: 2px;
-        }
-      }
-    }
-  }
-
-  .contextmenu {
-    margin: 0;
-    background: #fff;
-    z-index: 3000;
-    position: absolute;
-    list-style-type: none;
-    padding: 5px 0;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #333;
-    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
-
-    li {
-      margin: 0;
-      padding: 7px 16px;
-      cursor: pointer;
-
-      &:hover {
-        background: #eee;
-      }
-    }
-  }
-}</style>
+@import "./index.scss";
+</style>
