@@ -4,22 +4,21 @@
     <el-form-item label="申请人名称">
       <el-input v-model="searchForm.name" placeholder="请输入申请人姓名" />
     </el-form-item>
+    <el-form-item label="企业名称">
+      <el-select v-model="searchForm.type" placeholder="请输入企业名称" size="large">
+        <el-option v-for="item in Roles" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled" />
+      </el-select>
+    </el-form-item>
+    <el-form-item label="申请时间">
+      <el-date-picker v-model="searchForm.createTime" type="datetime" placeholder="请选择申请时间" />
+    </el-form-item>
+    <el-form-item label="审批状态">
+      <el-select v-model="searchForm.status" placeholder="请选择">
+        <el-option label="Zone one" value="shanghai" />
+        <el-option label="Zone two" value="beijing" />
+      </el-select>
+    </el-form-item>
     <el-form-item>
-      <el-form-item label="企业名称">
-        <el-select v-model="searchForm.type" placeholder="请输入企业名称" size="large">
-          <el-option v-for="item in Roles" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="申请时间">
-        <el-date-picker v-model="searchForm.createTime" type="datetime" placeholder="请选择申请时间" />
-      </el-form-item>
-      <el-form-item label="审批状态">
-        <el-select v-model="searchForm.status" placeholder="请选择">
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
-        </el-select>
-      </el-form-item>
-
       <el-button type="primary">搜索</el-button>
       <el-button>重置</el-button>
       <el-button type="primary">新增</el-button>
@@ -41,7 +40,7 @@
     <el-table-column prop="reason" label="原因" />
     <el-table-column fixed="right" label="审批操作" width="180">
       <template #default="{ row }">
-        <el-button type="primary" size="small" @click="openAuditDialog(row, 1)">审核</el-button>
+        <el-button type="primary" size="small" @click="openAuditDialog(row)">审核</el-button>
         <el-button type="primary" size="small" @click="openAuditDialog(row, 0)">查看</el-button>
         <el-button type="primary" size="small" @click="openAuditDialog(row, 1)">撤销</el-button>
         <el-button type="primary" size="small" @click="openAuditDialog(row, 0)">下载</el-button>
@@ -49,10 +48,10 @@
     </el-table-column>
   </el-table>
   <!-- 审核弹窗 -->
-  <!-- <auditDialog ref="auditDialogRef" /> -->
+  <auditDialog ref="auditDialogRef" />
 </template>
 <script setup>
-// import auditDialog from "./components/auditDialog.vue";
+import auditDialog from "./components/auditDialog.vue";
 import { reactive, ref } from "vue";
 // 搜索表单
 const searchForm = reactive({
@@ -131,9 +130,9 @@ const tableData = [
 // 打开审核弹窗
 const auditDialogRef = ref(null);
 
-const openAuditDialog = ({ type }, info) => {
+const openAuditDialog = data => {
   // info: 1-通过 0-不通过
-  auditDialogRef?.value?.openDialog({ type, info });
+  auditDialogRef?.value?.openDialog(data);
 };
 
 const auditStatus = status => {

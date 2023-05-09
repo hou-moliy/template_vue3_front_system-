@@ -43,46 +43,55 @@ export const staticRouter = [
           isAffix: true,
           isKeepAlive: true
         }
-      },
+      }
+    ]
+  },
+  {
+    path: "/customerMng",
+    name: "customerMng",
+    meta: {
+      title: "客户管理",
+      isKeepAlive: true
+    },
+    component: LayOut,
+    children: [
       {
-        path: "customerMng",
-        name: "customerMng",
-        meta: {
-          title: "客户管理",
-          isKeepAlive: true
-        },
+        path: "accountList",
+        name: "accountList",
         component: () => import("@/views/customerMng/accountAudit.vue"),
-        children: [
-          {
-            path: "accountList",
-            name: "accountList",
-            component: () => import("@/views/customerMng/accountAudit.vue"),
-            meta: {
-              title: "账户审批",
-              isKeepAlive: true
-            }
-          }
-        ]
+        meta: {
+          title: "账户审批",
+          isKeepAlive: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/businessService",
+    name: "businessService",
+    meta: {
+      title: "业务办理",
+      isKeepAlive: true
+    },
+    component: LayOut,
+    children: [
+      {
+        path: "/businessService/businessList",
+        name: "businessList",
+        component: () => import("@/views/businessService/index.vue"),
+        meta: {
+          title: "业务列表",
+          isKeepAlive: true
+        }
       },
       {
-        path: "businessService",
-        name: "businessService",
+        path: "/businessService/businessDetail",
+        name: "businessDetail",
+        component: () => import("@/views/businessService/detail.vue"),
         meta: {
-          title: "业务办理",
+          title: "填写表单",
           isKeepAlive: true
-        },
-        component: () => import("@/views/businessService/index.vue"),
-        children: [
-          {
-            path: "businessList",
-            name: "businessList",
-            component: () => import("@/views/businessService/index.vue"),
-            meta: {
-              title: "业务列表",
-              isKeepAlive: true
-            }
-          }
-        ]
+        }
       }
     ]
   }
