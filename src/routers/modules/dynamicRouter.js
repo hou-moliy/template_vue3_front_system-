@@ -17,7 +17,7 @@ export const initDynamicRouter = async () => {
     authStore.flatMenuListGet.forEach(async item => {
       item.children && delete item.children;
       if (item.component && isType(item.component) == "string") {
-        //   // item.component = () => import(`@/views/${item.component}.vue`).catch(() => import("@/components/ErrorMessage/404.vue"));
+        // item.component = () => import(`@/views/${item.component}.vue`).catch(() => import("@/components/ErrorMessage/404.vue"));
         item.component = modules[`@/views/${item.component}`] || import("@/components/ErrorMessage/404.vue");
       }
       if (item?.meta?.isFull) {
@@ -27,6 +27,8 @@ export const initDynamicRouter = async () => {
         router.addRoute("layout", item);
       }
     });
+    console.log(router.getRoutes("layout"));
+    // 添加 404 页面
     router.addRoute(notFoundRouter);
     return Promise.resolve();
   } catch (error) {

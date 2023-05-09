@@ -1,14 +1,14 @@
 <!-- 💥 这里是异步加载 LayoutComponents -->
 <template>
-	<suspense>
-		<template #default>
-			<component :is="LayoutComponents[themeConfig.layout]" />
-		</template>
-		<template #fallback>
-			<Loading />
-		</template>
-	</suspense>
-	<ThemeDrawer />
+  <suspense>
+    <template #default>
+      <component :is="LayoutComponents[themeConfig.layout]" />
+    </template>
+    <template #fallback>
+      <Loading />
+    </template>
+  </suspense>
+  <ThemeDrawer />
 </template>
 
 <script setup name="layout">
@@ -18,10 +18,10 @@ import Loading from "@/components/Loading/index.vue";
 import ThemeDrawer from "./components/ThemeDrawer/index.vue";
 
 const LayoutComponents = {
-	vertical: defineAsyncComponent(() => import("./LayoutVertical/index.vue")),
-	classic: defineAsyncComponent(() => import("./LayoutClassic/index.vue")),
-	transverse: defineAsyncComponent(() => import("./LayoutTransverse/index.vue")),
-	columns: defineAsyncComponent(() => import("./LayoutColumns/index.vue"))
+  vertical: defineAsyncComponent(() => import("./LayoutVertical/index.vue")),
+  classic: defineAsyncComponent(() => import("./LayoutClassic/index.vue")),
+  transverse: defineAsyncComponent(() => import("./LayoutTransverse/index.vue")),
+  columns: defineAsyncComponent(() => import("./LayoutColumns/index.vue"))
 };
 
 const globalStore = GlobalStore();
@@ -30,6 +30,6 @@ const themeConfig = computed(() => globalStore.themeConfig);
 
 <style scoped lang="scss">
 .layout {
-	min-width: 740px;
+  min-width: 740px;
 }
 </style>

@@ -1,5 +1,6 @@
 import { HOME_URL, LOGIN_URL } from "@/config/config";
-
+import LayOut from "@/layouts/index.vue";
+import Home from "@/views/home/index.vue";
 /**
  * staticRouter(静态路由)
  */
@@ -24,8 +25,7 @@ export const staticRouter = [
   {
     path: "/layout",
     name: "layout",
-    component: () => import("@/layouts/index.vue"),
-    isHidden: true,
+    component: LayOut,
     meta: {
       isHide: true
     },
@@ -34,7 +34,7 @@ export const staticRouter = [
       {
         path: HOME_URL,
         name: "home",
-        component: () => import("@/views/home/index.vue"),
+        component: Home,
         meta: {
           icon: "HomeFilled",
           title: "首页",
@@ -59,6 +59,26 @@ export const staticRouter = [
             component: () => import("@/views/customerMng/accountAudit.vue"),
             meta: {
               title: "账户审批",
+              isKeepAlive: true
+            }
+          }
+        ]
+      },
+      {
+        path: "businessService",
+        name: "businessService",
+        meta: {
+          title: "业务办理",
+          isKeepAlive: true
+        },
+        component: () => import("@/views/businessService/index.vue"),
+        children: [
+          {
+            path: "businessList",
+            name: "businessList",
+            component: () => import("@/views/businessService/index.vue"),
+            meta: {
+              title: "业务列表",
               isKeepAlive: true
             }
           }

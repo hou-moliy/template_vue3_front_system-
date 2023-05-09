@@ -51,4 +51,10 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 @import "./index.scss";
+:deep(.el-card) {
+  min-height: 100%;
+  .el-card__body {
+    min-height: 100%;
+  }
+}
 </style>

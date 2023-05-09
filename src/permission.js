@@ -4,6 +4,7 @@ import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
 import router from "./routers";
 import NProgress from "@/config/nprogress";
 import { AuthStore } from "@/stores/modules/auth";
+import { ElMessage } from "element-plus";
 /**
  * @description 路由拦截 beforeEach
  * */
@@ -35,7 +36,7 @@ router.beforeEach((to, from, next) => {
         })
         .catch(err => {
           authStore.logout().then(() => {
-            Message.error(err);
+            ElMessage.error(err);
             next({ path: "/" });
           });
         });

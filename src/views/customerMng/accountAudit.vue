@@ -7,13 +7,13 @@
       </el-select>
     </el-form-item>
     <el-form-item label="审批状态">
-      <el-select v-model="searchForm.status" placeholder="Activity zone">
+      <el-select v-model="searchForm.status" placeholder="请选择">
         <el-option label="Zone one" value="shanghai" />
         <el-option label="Zone two" value="beijing" />
       </el-select>
     </el-form-item>
     <el-form-item label="申请人名称">
-      <el-input v-model="searchForm.name" placeholder="Approved by" />
+      <el-input v-model="searchForm.name" placeholder="请输入申请人姓名" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary">搜索</el-button>
@@ -25,8 +25,16 @@
     <el-table-column prop="name" label="申请人姓名" />
     <el-table-column prop="phone" label="联系方式" />
     <el-table-column prop="createTime" label="申请时间" />
-    <el-table-column prop="file" label="资料查看" />
-    <el-table-column prop="type" label="账户类型" />
+    <el-table-column prop="file" label="资料查看">
+      <template #default="scope">
+        <el-button type="primary" link size="small">点击下载</el-button>
+      </template>
+    </el-table-column>
+    <el-table-column prop="type" label="账户类型">
+      <template #default="scope">
+        <span>{{ accountType(scope.row.type) }}</span>
+      </template>
+    </el-table-column>
     <el-table-column prop="status" label="审批状态" />
     <el-table-column prop="auditer" label="审批人" />
     <el-table-column prop="updateTime" label="审批时间" />
@@ -34,8 +42,8 @@
     <el-table-column prop="remark" label="备注" />
     <el-table-column fixed="right" label="审批操作" width="180">
       <template #default="{ row }">
-        <el-button type="primary" size="small" @click="openAuditDialog(1)">通过</el-button>
-        <el-button type="primary" size="small" @click="openAuditDialog(0)">不通过</el-button>
+        <el-button type="primary" size="small" @click="openAuditDialog(row, 1)">通过</el-button>
+        <el-button type="primary" size="small" @click="openAuditDialog(row, 0)">不通过</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -45,6 +53,7 @@
 <script setup>
 import auditDialog from "./components/auditDialog.vue";
 import { reactive, ref } from "vue";
+// 搜索表单
 const searchForm = reactive({
   type: "",
   status: "",
@@ -81,7 +90,7 @@ const tableData = [
     phone: "12345678901",
     createTime: "2016-05-02",
     file: "查看",
-    type: "企业客户",
+    type: "1",
     status: "待审批",
     auditer: "张三",
     updateTime: "2016-05-02",
@@ -93,7 +102,7 @@ const tableData = [
     phone: "12345678901",
     createTime: "2016-05-02",
     file: "查看",
-    type: "企业客户",
+    type: "2",
     status: "待审批",
     auditer: "张三",
     updateTime: "2016-05-02",
@@ -105,7 +114,7 @@ const tableData = [
     phone: "12345678901",
     createTime: "2016-05-02",
     file: "查看",
-    type: "企业客户",
+    type: "3",
     status: "待审批",
     auditer: "张三",
     updateTime: "2016-05-02",
@@ -116,8 +125,23 @@ const tableData = [
 // 打开审核弹窗
 const auditDialogRef = ref(null);
 
-const openAuditDialog = info => {
+const openAuditDialog = ({ type }, info) => {
   // info: 1-通过 0-不通过
-  auditDialogRef?.value?.openDialog({ type: searchForm.type, info });
+  auditDialogRef?.value?.openDialog({ type, info });
+};
+
+const accountType = type => {
+  if (type === "1") {
+    return "企业客户";
+  } else if (type === "2") {
+    return "客户经理";
+  } else if (type === "3") {
+    return "分公司管理员";
+  } else if (type === "4") {
+    return "渠道商";
+  } else if (type === "5") {
+    return "项目经理";
+  }
+  return "";
 };
 </script>

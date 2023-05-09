@@ -66,6 +66,7 @@ const authStore = AuthStore();
 const globalStore = GlobalStore();
 const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path));
 const menuList = computed(() => authStore.showMenuListGet);
+console.log(menuList, "menuList");
 const isCollapse = computed(() => globalStore.themeConfig.isCollapse);
 
 const subMenu = ref([]);
