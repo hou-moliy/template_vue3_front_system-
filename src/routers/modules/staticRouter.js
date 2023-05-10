@@ -1,6 +1,5 @@
-// import { RouteRecordRaw } from "vue-router";
 import { HOME_URL, LOGIN_URL } from "@/config/config";
-
+import LayOut from "@/layouts/index.vue";
 /**
  * staticRouter(静态路由)
  */
@@ -25,10 +24,9 @@ export const staticRouter = [
   {
     path: "/layout",
     name: "layout",
-    component: () => import("@/layouts/index.vue"),
-    isHidden: true,
+    component: LayOut,
     meta: {
-      isHide: true
+      isHide: false
     },
     redirect: HOME_URL,
     children: [
@@ -55,6 +53,92 @@ export const staticRouter = [
           isHide: false,
           isFull: false,
           isAffix: true,
+          isKeepAlive: true
+        }
+      }
+      // {
+      //   path: "/assembly",
+      //   name: "assembly",
+      //   redirect: "/assembly/message",
+      //   component: LayOut,
+      //   meta: {
+      //     icon: "Briefcase",
+      //     title: "常用组件",
+      //     isLink: "",
+      //     isHide: false,
+      //     isFull: false,
+      //     isAffix: false,
+      //     isKeepAlive: true
+      //   },
+      //   children: [
+      //     {
+      //       path: "/assembly/message",
+      //       name: "message",
+      //       component: () => import("@/views/assembly/message.vue"),
+      //       meta: {
+      //         title: "消息框",
+      //         isLink: "",
+      //         isHide: false,
+      //         isFull: false,
+      //         isAffix: false,
+      //         isKeepAlive: true
+      //       }
+      //     },
+      //     {
+      //       path: "/assembly/wangEditor",
+      //       name: "wangEditor",
+      //       component: () => import("@/views/assembly/wangEditor.vue"),
+      //       meta: {
+      //         title: "富文本",
+      //         isLink: "",
+      //         isHide: false,
+      //         isFull: false,
+      //         isAffix: false,
+      //         isKeepAlive: true
+      //       }
+      //     }
+      //   ]
+      // }
+    ]
+  },
+  {
+    path: "/assembly",
+    name: "assembly",
+    redirect: "/assembly/message",
+    component: LayOut,
+    meta: {
+      icon: "Briefcase",
+      title: "常用组件",
+      isLink: "",
+      isHide: false,
+      isFull: false,
+      isAffix: false,
+      isKeepAlive: true
+    },
+    children: [
+      {
+        path: "/assembly/message",
+        name: "message",
+        component: () => import("@/views/assembly/message.vue"),
+        meta: {
+          title: "消息框",
+          isLink: "",
+          isHide: false,
+          isFull: false,
+          isAffix: false,
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/assembly/wangEditor",
+        name: "wangEditor",
+        component: () => import("@/views/assembly/wangEditor.vue"),
+        meta: {
+          title: "富文本",
+          isLink: "",
+          isHide: false,
+          isFull: false,
+          isAffix: false,
           isKeepAlive: true
         }
       }

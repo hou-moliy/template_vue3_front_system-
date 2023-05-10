@@ -3,8 +3,8 @@ import { getFlatArr } from "@/utils/util";
 import { getShowMenuList, getAllBreadcrumbList, getAssetsImages } from "@/utils/util";
 import { routerList } from "@/api/menu.js";
 import { getUserInfoApi } from "@/api/login.js";
-import router from "@/routers/index.js";
 import { removeToken } from "@/utils/auth";
+import { staticRouter } from "@/routers/modules/staticRouter";
 // AuthStore
 export const AuthStore = defineStore({
   id: "AuthState",
@@ -29,25 +29,23 @@ export const AuthStore = defineStore({
   },
   actions: {
     // getAuthMenuList
-    async getAuthMenuList () {
+    async getAuthMenuList() {
       const res = await routerList();
-      const routes = router.getRoutes();
       this.authMenuList = res.data;
-      this.allMenuList = [...routes, ...this.authMenuList];
     },
     // setRouteName
-    async setRouteName (name) {
+    async setRouteName(name) {
       this.routeName = name;
     },
     // 获取用户信息
-    getUserInfo () {
+    getUserInfo() {
       return new Promise((resolve, reject) => {
         getUserInfoApi()
           .then(res => {
             const user = res.user;
             // const avatar = user.avatar;
             const avatar = !user.avatar ? getAssetsImages("/src/assets/images/profile.jpg") : user.avatar;
-            if (res.roles && res.roles.length > 0) {
+            if(res.roles && res.roles.length > 0) {
               this.roles = res.roles;
               this.permissions = res.permissions;
             } else {
@@ -63,7 +61,7 @@ export const AuthStore = defineStore({
       });
     },
     // 退出登录
-    logout () {
+    logout() {
       return new Promise(resolve => {
         removeToken();
         this.roles = [];
@@ -72,6 +70,13 @@ export const AuthStore = defineStore({
         this.avatar = "";
         resolve();
       });
+    },
+    setAllMenuList() {
+      console.log("staticRouter", staticRouter);
+      const staticList = staticRouter.find(item => item.path === "/layout")?.children || [];
+      // console.log("staticList", staticList);
+
+      this.allMenuList = staticRouter.concat(this.authMenuList);
     }
   }
 });
