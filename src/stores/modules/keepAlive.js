@@ -4,7 +4,7 @@ export const KeepAliveStore = defineStore({
   id: "keepAliveStore",
   state: () => ({
     // 当前缓存的 routerName
-    keepLiveName: ["test"]
+    keepLiveName: []
   }),
   getters: {},
   actions: {

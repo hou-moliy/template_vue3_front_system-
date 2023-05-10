@@ -34,7 +34,7 @@ export const TabsStore = defineStore({
     // Close MultipleTab
     async closeMultipleTab (tabsMenuValue) {
       this.tabsMenuList = this.tabsMenuList.filter(item => {
-        return item.path === tabsMenuValue || !item.close;
+        return item.fullPath === tabsMenuValue || !item.close;
       });
     },
     // Set Tabs

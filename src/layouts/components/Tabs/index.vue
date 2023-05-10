@@ -1,7 +1,7 @@
 <template>
   <div class="tabs-box">
     <div class="tabs-menu">
-      <el-tabs v-model="tabsMenuValue" type="card" editable class="demo-tabs" @tab-click="tabClick" @tab-remove="tabRemove">
+      <el-tabs v-model="tabsMenuValue" type="card" editable class="demo-tabs" @tabClick="tabClick" @tabRemove="tabRemove">
         <el-tab-pane v-for="item in tabsMenuList" :key="item.path" :label="item.title" :name="item.path" :closable="item.close">
           <template #label>
             <el-icon class="tabs-icon" v-if="item.icon && themeConfig.tabsIcon">
@@ -34,7 +34,7 @@ const globalStore = GlobalStore();
 const authStore = AuthStore();
 const keepAliveStore = KeepAliveStore();
 
-const tabsMenuValue = ref(route.fullPath);
+const tabsMenuValue = ref(route.path);
 const tabsMenuList = computed(() => tabStore.tabsMenuList);
 const themeConfig = computed(() => globalStore.themeConfig);
 
@@ -65,6 +65,7 @@ const initTabs = () => {
         icon: item.meta.icon,
         title: item.meta.title,
         path: item.path,
+        fullPath: item.fullPath,
         name: item.name,
         close: !item.meta.isAffix
       };
@@ -75,14 +76,15 @@ const initTabs = () => {
 
 // 监听路由的变化（防止浏览器后退/前进不变化 tabsMenuValue）
 watch(
-  () => route.fullPath,
+  () => route.path,
   () => {
     if (route.meta.isFull) return;
-    tabsMenuValue.value = route.fullPath;
+    tabsMenuValue.value = route.path;
     const tabsParams = {
       icon: route.meta.icon,
       title: route.meta.title,
-      path: route.fullPath,
+      path: route.path,
+      fullPath: route.fullPath,
       name: route.name,
       close: !route.meta.isAffix
     };
@@ -90,7 +92,8 @@ watch(
     route.meta.isKeepAlive && keepAliveStore.addKeepLiveName(route.name);
   },
   {
-    immediate: true
+    immediate: true,
+    deep: true
   }
 );
 
@@ -101,10 +104,10 @@ const tabClick = tabItem => {
 };
 
 // Remove Tab
-const tabRemove = fullPath => {
-  const name = tabStore.tabsMenuList.filter(item => item.path == fullPath)[0].name || "";
+const tabRemove = path => {
+  const name = tabStore.tabsMenuList.filter(item => item.path == path)[0].name || "";
   keepAliveStore.removeKeepLiveName(name);
-  tabStore.removeTabs(fullPath, fullPath == route.fullPath);
+  tabStore.removeTabs(path, path == route.path);
 };
 </script>
 

@@ -21,7 +21,7 @@
     <el-form-item>
       <el-button type="primary">搜索</el-button>
       <el-button>重置</el-button>
-      <el-button type="primary">新增</el-button>
+      <el-button type="primary" @click="addService(true)">新增</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -41,9 +41,9 @@
     <el-table-column fixed="right" label="审批操作" width="180">
       <template #default="{ row }">
         <el-button type="primary" size="small" @click="openAuditDialog(row)">审核</el-button>
-        <el-button type="primary" size="small" @click="openAuditDialog(row, 0)">查看</el-button>
-        <el-button type="primary" size="small" @click="openAuditDialog(row, 1)">撤销</el-button>
-        <el-button type="primary" size="small" @click="openAuditDialog(row, 0)">下载</el-button>
+        <el-button type="primary" size="small" @click="addService(false)">查看</el-button>
+        <el-button type="primary" size="small">撤销</el-button>
+        <el-button type="primary" size="small">下载</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -52,7 +52,9 @@
 </template>
 <script setup>
 import auditDialog from "./components/auditDialog.vue";
+import { useRouter } from "vue-router";
 import { reactive, ref } from "vue";
+const router = useRouter();
 // 搜索表单
 const searchForm = reactive({
   type: "",
@@ -144,5 +146,8 @@ const auditStatus = status => {
     return "不通过";
   }
   return "";
+};
+const addService = isEdit => {
+  router.push(`/businessService/businessDetail?isEdit=${isEdit}`);
 };
 </script>
