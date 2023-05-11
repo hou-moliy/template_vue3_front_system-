@@ -26,7 +26,7 @@ import { useRouter } from "vue-router";
 defineProps({
   menuList: {
     type: Array,
-    default () {
+    default() {
       return [];
     }
   }

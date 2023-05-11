@@ -27,9 +27,9 @@ export const initDynamicRouter = async () => {
         router.addRoute("layout", item);
       }
     });
-    console.log(router.getRoutes("layout"));
     // 添加 404 页面
     router.addRoute(notFoundRouter);
+    authStore.setAllMenuList();
     return Promise.resolve();
   } catch (error) {
     // 💢 当按钮 || 菜单请求出错时，重定向到登陆页

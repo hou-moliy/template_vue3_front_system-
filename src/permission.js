@@ -15,19 +15,19 @@ router.beforeEach((to, from, next) => {
   const title = import.meta.env.VITE_GLOB_APP_TITLE;
   document.title = to.meta.title ? `${to.meta.title} - ${title}` : title;
 
-  if (to.path === LOGIN_URL) {
-    if (!token) return next();
+  if(to.path === LOGIN_URL) {
+    if(!token) return next();
     else return next(from.fullPath);
   }
   // 未登录，跳转登录页面
-  if (!token) return next(LOGIN_URL);
+  if(!token) return next(LOGIN_URL);
 
   // 已登录跳转
   const authStore = AuthStore();
   authStore.setRouteName(to.name);
   // 用户权限
   const rolesLen = authStore.roles.length;
-  if (!rolesLen) {
+  if(!rolesLen) {
     // 获取用户信息
     authStore.getUserInfo().then(() => {
       initDynamicRouter()

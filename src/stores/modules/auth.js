@@ -4,7 +4,7 @@ import { getShowMenuList, getAllBreadcrumbList, getAssetsImages } from "@/utils/
 import { routerList } from "@/api/menu.js";
 import { getUserInfoApi } from "@/api/login.js";
 import { removeToken } from "@/utils/auth";
-
+import { staticRouter } from "@/routers/modules/staticRouter";
 // AuthStore
 export const AuthStore = defineStore({
   id: "AuthState",
@@ -21,7 +21,7 @@ export const AuthStore = defineStore({
     // 后端返回的菜单列表 ==> 这里没有经过任何处理
     authMenuListGet: state => state.authMenuList,
     // 后端返回的菜单列表 ==> 左侧菜单栏渲染，需要去除 isHide == true
-    showMenuListGet: state => getShowMenuList(state.authMenuList),
+    showMenuListGet: state => getShowMenuList(state.allMenuList),
     // 扁平化之后的一维数组路由，主要用来添加动态路由
     flatMenuListGet: state => getFlatArr(state.authMenuList),
     // 所有面包屑导航列表
@@ -69,6 +69,12 @@ export const AuthStore = defineStore({
         this.avatar = "";
         resolve();
       });
+    },
+    setAllMenuList () {
+      console.log("staticRouter", staticRouter);
+      const layoutList = staticRouter.find(item => item.path === "/layout")?.children ?? [];
+      const staticList = staticRouter.filter(item => item.path !== "/layout") ?? [];
+      this.allMenuList = [...layoutList, ...staticList, ...this.authMenuList];
     }
   }
 });
