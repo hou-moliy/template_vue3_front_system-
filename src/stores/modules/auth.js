@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { getFlatArr } from "@/utils/util";
-import { getShowMenuList, getAllBreadcrumbList, getAssetsImages } from "@/utils/util";
+import { getShowMenuList, getAllBreadcrumbList, getAssetsImages } from "@/utils/util.js";
 import { routerList } from "@/api/menu.js";
 import { getUserInfoApi } from "@/api/login.js";
 import { removeToken } from "@/utils/auth";
@@ -43,7 +43,6 @@ export const AuthStore = defineStore({
         getUserInfoApi()
           .then(res => {
             const user = res.user;
-            // const avatar = user.avatar;
             const avatar = !user.avatar ? getAssetsImages("/src/assets/images/profile.jpg") : user.avatar;
             if(res.roles && res.roles.length > 0) {
               this.roles = res.roles;
@@ -73,10 +72,9 @@ export const AuthStore = defineStore({
     },
     setAllMenuList() {
       console.log("staticRouter", staticRouter);
-      const staticList = staticRouter.find(item => item.path === "/layout")?.children || [];
-      // console.log("staticList", staticList);
-
-      this.allMenuList = staticRouter.concat(this.authMenuList);
+      const layoutList = staticRouter.find(item => item.path === "/layout")?.children ?? [];
+      const staticList = staticRouter.filter(item => item.path !== "/layout") ?? [];
+      this.allMenuList = [...layoutList, ...staticList, ...this.authMenuList];
     }
   }
 });
