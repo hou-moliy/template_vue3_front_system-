@@ -254,4 +254,7 @@ defineExpose({ interForm, onSubmit });
   justify-content: center;
   margin-top: 15px;
 }
+.el-card:last-child {
+  margin-bottom: 25px;
+}
 </style>

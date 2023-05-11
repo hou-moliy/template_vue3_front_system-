@@ -100,6 +100,7 @@ watch(
 // Tab Click
 const tabClick = tabItem => {
   const fullPath = tabItem.props.name;
+  console.log(tabItem);
   router.push(fullPath);
 };
 

@@ -67,7 +67,7 @@ export default (formData: any) => {
         ? [{ validator: createValidator("请输入接收短信转发话单事件地址"), trigger: "blur" }]
         : [];
     },
-    { deep: true }
+    { deep: true, immediate: false }
   );
   return {
     privacyRules,

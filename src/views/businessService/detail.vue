@@ -27,7 +27,7 @@
     </el-form-item>
     <privacyForm ref="privacyFormRef" v-if="form.acceptType == 2" :disabled="!isEdit" />
     <interForm ref="interFormRef" v-if="form.acceptType == 1" :disabled="!isEdit" />
-    <el-form-item>
+    <el-form-item v-if="isEdit">
       <el-button>重置</el-button>
       <el-button type="primary" @click="onSubmit(formRef)">提交</el-button>
       <el-button>取消</el-button>

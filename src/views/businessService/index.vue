@@ -38,10 +38,11 @@
       </template>
     </el-table-column>
     <el-table-column prop="reason" label="原因" />
-    <el-table-column fixed="right" label="审批操作" width="180">
+    <el-table-column fixed="right" label="审批操作">
       <template #default="{ row }">
         <el-button type="primary" size="small" @click="openAuditDialog(row)">审核</el-button>
         <el-button type="primary" size="small" @click="addService(false)">查看</el-button>
+        <el-button type="primary" size="small" @click="addService(true)">修改</el-button>
         <el-button type="primary" size="small">撤销</el-button>
         <el-button type="primary" size="small">下载</el-button>
       </template>
@@ -151,3 +152,4 @@ const addService = isEdit => {
   router.push(`/businessService/businessDetail?isEdit=${isEdit}`);
 };
 </script>
+<style lang="scss" scoped></style>

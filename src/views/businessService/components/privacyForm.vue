@@ -1,8 +1,16 @@
 <template>
-  <el-form :model="privacyForm" ref="privacyFormRef" label-width="120px" :rules="privacyRules" :disabled="disabled">
+  <el-form
+    :model="privacyForm"
+    ref="privacyFormRef"
+    label-width="120px"
+    label-position="left"
+    :rules="privacyRules"
+    :disabled="disabled"
+  >
     <el-form-item label="企业名称" prop="cmpName">
       <el-input v-model="privacyForm.cmpName" placeholder="请输入企业名称" />
     </el-form-item>
+    <slot name="center"></slot>
     <el-form-item label="归属省份地市" prop="province">
       <el-select v-model="privacyForm.province" placeholder="请选择归属省份地市">
         <el-option label="北京" value="bj" />
@@ -42,6 +50,7 @@
     <el-form-item label="企业ip白名单列表" prop="whiteList">
       <el-input v-model="privacyForm.whiteList" />
     </el-form-item>
+    <slot name="footer"></slot>
   </el-form>
 </template>
 <script setup>
@@ -79,6 +88,9 @@ const onSubmit = () => {
     if (!valid) return;
   });
 };
-defineExpose({ privacyForm, onSubmit });
+const resetForm = () => {
+  privacyFormRef.value.resetFields();
+};
+defineExpose({ privacyForm, onSubmit, resetForm });
 </script>
 <style></style>

@@ -97,6 +97,44 @@ export const staticRouter = [
     ]
   },
   {
+    path: "/businessMng",
+    name: "businessMng",
+    meta: {
+      title: "业务管理",
+      isKeepAlive: true
+    },
+    component: LayOut,
+    children: [
+      {
+        path: "/businessMng/cmpyInfoList",
+        name: "cmpyInfoList",
+        component: () => import("@/views/businessMng/cmpyInfoList.vue"),
+        meta: {
+          title: "企业客户账户信息列表",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/businessMng/channelInfoList",
+        name: "channelInfoList",
+        component: () => import("@/views/businessMng/channelInfoList.vue"),
+        meta: {
+          title: "渠道账户信息列表",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/businessMng/customManagerList",
+        name: "customManagerList",
+        component: () => import("@/views/businessMng/customManagerList.vue"),
+        meta: {
+          title: "客户经理账户信息列表",
+          isKeepAlive: true
+        }
+      }
+    ]
+  },
+  {
     path: "/assembly",
     name: "assembly",
     redirect: "/assembly/message",

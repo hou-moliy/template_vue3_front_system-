@@ -31,7 +31,7 @@ import { ref, reactive } from "vue";
 const dialogVisible = ref(false);
 const auditFormRef = ref(null);
 // openDialog
-const openDialog = e => {
+const openDialog = () => {
   dialogVisible.value = true;
 };
 
