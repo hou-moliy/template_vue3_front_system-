@@ -1,6 +1,7 @@
 <template>
   <Maximize v-if="themeConfig.maximize" />
-  <Tabs v-if="themeConfig.tabs" />
+  <!-- <Tabs v-if="themeConfig.tabs" /> -->
+  <tagsView></tagsView>
   <el-main>
     <router-view v-slot="{ Component, route }">
       <transition appear name="fade-transform" mode="out-in">
@@ -21,6 +22,7 @@ import { GlobalStore } from "@/stores";
 import { KeepAliveStore } from "@/stores/modules/keepAlive";
 import Maximize from "./components/Maximize.vue";
 import Tabs from "@/layouts/components/Tabs/index.vue";
+import tagsView from "@/layouts/components/tagsView/index.vue";
 import Footer from "@/layouts/components/Footer/index.vue";
 
 const globalStore = GlobalStore();
