@@ -131,6 +131,15 @@ export const staticRouter = [
           title: "客户经理账户信息列表",
           isKeepAlive: true
         }
+      },
+      {
+        path: "/businessMng/branchCmpyList",
+        name: "branchCmpyList",
+        component: () => import("@/views/businessMng/branchCmpyList.vue"),
+        meta: {
+          title: "分公司账户信息列表",
+          isKeepAlive: true
+        }
       }
     ]
   },

@@ -19,7 +19,7 @@
       <el-form-item>
         <el-button type="primary">搜索</el-button>
         <el-button>重置</el-button>
-        <el-button @click="innerVisible = true">添加</el-button>
+        <el-button @click="innerVisible = true" v-hasPermi="['channel']">添加</el-button>
       </el-form-item>
     </el-form>
     <!-- 表格 -->
@@ -27,7 +27,7 @@
       <el-table-column prop="name" label="客户名称" />
       <el-table-column prop="businessType" label="业务模式" />
       <el-table-column prop="createTime" label="创建时间" />
-      <el-table-column prop="operation" label="操作">
+      <el-table-column prop="operation" label="操作" v-hasPermi="['channel']">
         <template #default="{ row, $index }">
           <el-button type="danger" size="small" @click="deleteRow($index, row)">删除</el-button>
         </template>
@@ -76,6 +76,7 @@ const tableData = reactive([
 ]);
 // 删除
 const deleteRow = (index, row) => {
+  console.log(index, row);
   ElMessageBox.confirm("是否确定删除渠道商下该企业客户？？？", "删除提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",

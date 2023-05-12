@@ -76,6 +76,7 @@ const tableData = reactive([
 ]);
 // 删除
 const deleteRow = (index, row) => {
+  console.log(index, row);
   ElMessageBox.confirm("是否确定删除该客户经理？？？", "删除提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",

@@ -38,6 +38,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       host: "0.0.0.0",
       port: viteEnv.VITE_PORT,
       open: viteEnv.VITE_OPEN,
+      hmr: true,
       cors: true,
       // 跨域代理配置
       proxy: {

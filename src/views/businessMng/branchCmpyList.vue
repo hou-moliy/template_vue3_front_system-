@@ -1,8 +1,8 @@
 <template>
   <!-- 表单 -->
   <el-form :inline="true" :model="searchForm">
-    <el-form-item label="渠道商名称">
-      <el-input v-model="searchForm.name" placeholder="请输入渠道商名称" />
+    <el-form-item label="分公司名称">
+      <el-input v-model="searchForm.name" placeholder="请输入分公司名称" />
     </el-form-item>
     <el-form-item label="创建时间">
       <el-date-picker v-model="searchForm.createTime" type="datetime" placeholder="请选择创建时间" />
@@ -14,12 +14,12 @@
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border>
-    <el-table-column prop="name" label="渠道商名称" />
+    <el-table-column prop="name" label="分公司名称" />
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column prop="operation" label="操作">
       <template #default="{ row, $index }">
-        <el-button type="primary" size="small" @click="showChannelDetailDialog(row, false)">详情</el-button>
-        <el-button type="primary" size="small" @click="showChannelDetailDialog(row, true)">编辑</el-button>
+        <el-button type="primary" size="small" @click="showDetailDialog(row, false)">详情</el-button>
+        <el-button type="primary" size="small" @click="showDetailDialog(row, true)">编辑</el-button>
         <el-button type="danger" size="small" @click="deleteRow($index, row)">删除</el-button>
         <el-button type="primary" size="small" @click="showCmpyListDialog(row)">查看客户列表</el-button>
         <el-button type="primary" size="small">下载附件</el-button>
@@ -29,12 +29,12 @@
   <!-- 企业客户列表 -->
   <cmpyListDialog ref="cmpyListDialogRef" />
   <!-- 编辑、详情 -->
-  <channelDetail ref="channelDetailRef" />
+  <branchDetailDialog ref="branchDetailDialogRef" />
 </template>
 <script setup>
 import { reactive, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import channelDetail from "./components/channelDetail.vue";
+import branchDetailDialog from "./components/branchDetailDialog.vue";
 import cmpyListDialog from "./components/cmpyListDialog.vue";
 // 搜索表单
 const searchForm = reactive({
@@ -67,7 +67,7 @@ const tableData = reactive([
 // 删除
 const deleteRow = (index, row) => {
   console.log(index, row);
-  ElMessageBox.confirm("是否确定删除该渠道商？？？", "删除提示", {
+  ElMessageBox.confirm("是否确定删除该分公司？？？", "删除提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",
     type: "warning"
@@ -85,8 +85,8 @@ const showCmpyListDialog = row => {
   cmpyListDialogRef?.value?.openDialog(row);
 };
 // 编辑、详情
-const channelDetailRef = ref(null);
-const showChannelDetailDialog = (data, isEdit) => {
-  channelDetailRef?.value?.openDialog({ data, isEdit });
+const branchDetailDialogRef = ref(null);
+const showDetailDialog = (data, isEdit) => {
+  branchDetailDialogRef?.value?.openDialog({ data, isEdit });
 };
 </script>
