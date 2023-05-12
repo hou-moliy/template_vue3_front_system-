@@ -26,8 +26,8 @@
       </template>
     </el-table-column>
   </el-table>
-  <!-- 企业客户列表 -->
-  <cmpyListDialog ref="cmpyListDialogRef" />
+  <!-- 客户经理列表 -->
+  <customListDialog ref="customListDialogRef" />
   <!-- 编辑、详情 -->
   <branchDetailDialog ref="branchDetailDialogRef" />
 </template>
@@ -35,7 +35,8 @@
 import { reactive, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import branchDetailDialog from "./components/branchDetailDialog.vue";
-import cmpyListDialog from "./components/cmpyListDialog.vue";
+// import cmpyListDialog from "./components/cmpyListDialog.vue";
+import customListDialog from "./components/customListDialog.vue";
 // 搜索表单
 const searchForm = reactive({
   name: "",
@@ -80,9 +81,9 @@ const deleteRow = (index, row) => {
   });
 };
 // 查看企业客户列表
-const cmpyListDialogRef = ref(null);
+const customListDialogRef = ref(null);
 const showCmpyListDialog = row => {
-  cmpyListDialogRef?.value?.openDialog(row);
+  customListDialogRef?.value?.openDialog(row);
 };
 // 编辑、详情
 const branchDetailDialogRef = ref(null);

@@ -51,7 +51,8 @@ export const staticRouter = [
     name: "customerMng",
     meta: {
       title: "客户管理",
-      isKeepAlive: true
+      isKeepAlive: true,
+      icon: "UserFilled"
     },
     component: LayOut,
     children: [
@@ -71,7 +72,8 @@ export const staticRouter = [
     name: "businessService",
     meta: {
       title: "业务办理",
-      isKeepAlive: true
+      isKeepAlive: true,
+      icon: "Briefcase"
     },
     component: LayOut,
     children: [
@@ -101,7 +103,8 @@ export const staticRouter = [
     name: "businessMng",
     meta: {
       title: "业务管理",
-      isKeepAlive: true
+      isKeepAlive: true,
+      icon: "GoodsFilled"
     },
     component: LayOut,
     children: [
@@ -138,6 +141,45 @@ export const staticRouter = [
         component: () => import("@/views/businessMng/branchCmpyList.vue"),
         meta: {
           title: "分公司账户信息列表",
+          isKeepAlive: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/phoneMng",
+    name: "phoneMng",
+    meta: {
+      title: "号码管理",
+      isKeepAlive: true,
+      icon: "PhoneFilled"
+    },
+    component: LayOut,
+    children: [
+      {
+        path: "/phoneMng/unUsePhone",
+        name: "unUsePhone",
+        component: () => import("@/views/phoneMng/unUsePhone.vue"),
+        meta: {
+          title: "导入未使用号码资源",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/phoneMng/phoneOrder",
+        name: "phoneOrder",
+        component: () => import("@/views/phoneMng/phoneOrder.vue"),
+        meta: {
+          title: "号码订购",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/phoneMng/phoneUnOrder",
+        name: "phoneUnOrder",
+        component: () => import("@/views/phoneMng/phoneUnOrder.vue"),
+        meta: {
+          title: "号码退订",
           isKeepAlive: true
         }
       }
