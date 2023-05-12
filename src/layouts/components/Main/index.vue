@@ -1,7 +1,6 @@
 <template>
   <Maximize v-if="themeConfig.maximize" />
   <Tabs v-if="themeConfig.tabs" />
-
   <el-main>
     <router-view v-slot="{ Component, route }">
       <transition appear name="fade-transform" mode="out-in">

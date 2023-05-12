@@ -23,13 +23,13 @@ export const TabsStore = defineStore({
       const tabsMenuList = this.tabsMenuList;
       if (isCurrent) {
         tabsMenuList.forEach((item, index) => {
-          if (item.path !== tabPath) return;
+          if (item.fullPath !== tabPath) return;
           const nextTab = tabsMenuList[index + 1] || tabsMenuList[index - 1];
           if (!nextTab) return;
           router.push(nextTab.path);
         });
       }
-      this.tabsMenuList = tabsMenuList.filter(item => item.path !== tabPath);
+      this.tabsMenuList = tabsMenuList.filter(item => item.fullPath !== tabPath);
     },
     // Close MultipleTab
     async closeMultipleTab (tabsMenuValue) {
@@ -46,6 +46,14 @@ export const TabsStore = defineStore({
       const nowFullPath = location.hash.substring(1);
       this.tabsMenuList.forEach(item => {
         if (item.path == nowFullPath) item.title = title;
+      });
+    },
+    updateTabs (tabItem) {
+      const tabsMenuList = this.tabsMenuList;
+      tabsMenuList.forEach(item => {
+        if (item.path === tabItem.path) {
+          Object.assign(item, tabItem);
+        }
       });
     }
   },
