@@ -52,7 +52,6 @@ export const staticRouter = [
           title: "about",
           isHide: false,
           isFull: false,
-          isAffix: true,
           isKeepAlive: true
         }
       }

@@ -12,40 +12,48 @@ export const TabsStore = defineStore({
   getters: {},
   actions: {
     // Add Tabs
-    async addTabs (tabItem) {
-      if (TABS_WHITE_LIST.includes(tabItem.path)) return;
-      if (this.tabsMenuList.every(item => item.path !== tabItem.path)) {
+    async addTabs(tabItem) {
+      if(TABS_WHITE_LIST.includes(tabItem.path)) return;
+      if(this.tabsMenuList.every(item => item.path !== tabItem.path)) {
         this.tabsMenuList.push(tabItem);
       }
     },
     // Remove Tabs
-    async removeTabs (tabPath, isCurrent = true) {
+    async removeTabs(tabPath, isCurrent = true) {
       const tabsMenuList = this.tabsMenuList;
-      if (isCurrent) {
+      if(isCurrent) {
         tabsMenuList.forEach((item, index) => {
-          if (item.path !== tabPath) return;
+          if(item.path !== tabPath) return;
           const nextTab = tabsMenuList[index + 1] || tabsMenuList[index - 1];
-          if (!nextTab) return;
+          if(!nextTab) return;
           router.push(nextTab.path);
         });
       }
       this.tabsMenuList = tabsMenuList.filter(item => item.path !== tabPath);
     },
     // Close MultipleTab
-    async closeMultipleTab (tabsMenuValue) {
+    async closeMultipleTab(tabsMenuValue) {
       this.tabsMenuList = this.tabsMenuList.filter(item => {
         return item.path === tabsMenuValue || !item.close;
       });
     },
     // Set Tabs
-    async setTabs (tabsMenuList) {
+    async setTabs(tabsMenuList) {
       this.tabsMenuList = tabsMenuList;
     },
     // Set Tabs Title
-    async setTabsTitle (title) {
+    async setTabsTitle(title) {
       const nowFullPath = location.hash.substring(1);
       this.tabsMenuList.forEach(item => {
-        if (item.path == nowFullPath) item.title = title;
+        if(item.path == nowFullPath) item.title = title;
+      });
+    },
+    updateTabs(tabItem) {
+      const tabsMenuList = this.tabsMenuList;
+      tabsMenuList.forEach(item => {
+        if(item.path === tabItem.path) {
+          Object.assign(item, tabItem);
+        }
       });
     }
   },

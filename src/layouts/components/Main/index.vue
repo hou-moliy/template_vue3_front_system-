@@ -1,12 +1,13 @@
 <template>
   <Maximize v-if="themeConfig.maximize" />
-  <!-- <Tabs v-if="themeConfig.tabs" /> -->
-  <tagsView></tagsView>
+  <Tabs v-if="themeConfig.tabs" />
   <el-main>
     <router-view v-slot="{ Component, route }">
       <transition appear name="fade-transform" mode="out-in">
         <keep-alive :include="keepAliveStore.keepLiveName">
-          <component :is="Component" :key="route.path" v-if="isRouterShow" />
+          <el-card class="box-card">
+            <component :is="Component" :key="route.path" v-if="isRouterShow" />
+          </el-card>
         </keep-alive>
       </transition>
     </router-view>
@@ -22,7 +23,6 @@ import { GlobalStore } from "@/stores";
 import { KeepAliveStore } from "@/stores/modules/keepAlive";
 import Maximize from "./components/Maximize.vue";
 import Tabs from "@/layouts/components/Tabs/index.vue";
-import tagsView from "@/layouts/components/tagsView/index.vue";
 import Footer from "@/layouts/components/Footer/index.vue";
 
 const globalStore = GlobalStore();
@@ -52,4 +52,11 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 @import "./index.scss";
-</style>
+
+:deep(.el-card) {
+  min-height: 100%;
+
+  .el-card__body {
+    min-height: 100%;
+  }
+}</style>
