@@ -9,10 +9,6 @@ export const GlobalStore = defineStore({
   id: "GlobalState",
   // state: 返回对象的函数
   state: () => ({
-    // token
-    token: "",
-    // userInfo
-    userInfo: "",
     // element组件大小
     assemblySize: "default",
     // language
@@ -47,24 +43,16 @@ export const GlobalStore = defineStore({
   }),
   getters: {},
   actions: {
-    // setToken
-    setToken (token) {
-      this.token = token;
-    },
-    // setUserInfo
-    setUserInfo (userInfo) {
-      this.userInfo = userInfo;
-    },
     // setAssemblySizeSize
-    setAssemblySizeSize (assemblySize) {
+    setAssemblySizeSize(assemblySize) {
       this.assemblySize = assemblySize;
     },
     // updateLanguage
-    updateLanguage (language) {
+    updateLanguage(language) {
       this.language = language;
     },
     // setThemeConfig
-    setThemeConfig (themeConfig) {
+    setThemeConfig(themeConfig) {
       this.themeConfig = themeConfig;
     }
   },

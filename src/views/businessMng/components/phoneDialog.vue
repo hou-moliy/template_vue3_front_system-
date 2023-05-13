@@ -2,12 +2,7 @@
   <el-dialog v-model="dialogVisible" title="号码列表" width="50%">
     <!-- 搜索 -->
     <el-form ref="phoneFormRef" :model="phoneForm" :inline="true">
-      <el-form-item label="省份地市" prop="province">
-        <el-select v-model="phoneForm.province" placeholder="请选择省份地市">
-          <el-option label="四川" :value="1" />
-          <el-option label="北京" :value="0" />
-        </el-select>
-      </el-form-item>
+      <regionSelect v-model="address" :level="2" />
       <el-form-item>
         <el-button type="primary" @click="onSubmit(phoneFormRef)" :loading="loading">搜索</el-button>
         <el-button @click="resetForm(phoneFormRef)">重置</el-button>
@@ -34,6 +29,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import phoneDetail from "./phoneDetail.vue";
+import regionSelect from "@/components/regionSelect/index.vue";
 const dialogVisible = ref(false);
 const phoneFormRef = ref(null);
 // openDialog
@@ -44,7 +40,8 @@ const openDialog = data => {
 
 // 审核表单
 const phoneForm = reactive({
-  province: ""
+  province: "",
+  city: ""
 });
 const tableData = [
   {
@@ -71,20 +68,23 @@ const tableData = [
 // 提交
 const loading = ref(false);
 const onSubmit = formEl => {
-  if (!formEl) return;
+  if(!formEl) return;
   formEl.validate(async valid => {
-    if (!valid) return;
+    if(!valid) return;
     loading.value = true;
   });
 };
 // 重置，关闭弹窗
 const resetForm = formEl => {
-  if (!formEl) return;
+  if(!formEl) return;
   formEl.resetFields();
   dialogVisible.value = false;
 };
 // 号码详情
 const innerVisible = ref(false);
+
+// 地址
+const address = reactive([phoneForm.province, phoneForm.city]);
 
 defineExpose({ openDialog });
 </script>

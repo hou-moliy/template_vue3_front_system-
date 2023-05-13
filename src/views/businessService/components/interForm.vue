@@ -8,11 +8,7 @@
           <el-input v-model="interForm.proName" placeholder="请输入项目名称" />
         </el-form-item>
         <el-form-item label="归属省份地市" prop="province">
-          <el-select v-model="interForm.province" placeholder="请选择归属省份地市">
-            <el-option label="北京" value="bj" />
-            <el-option label="上海" value="sh" />
-            <el-option label="四川" value="sc" />
-          </el-select>
+          <regionSelect v-model="address" :level="2" />
         </el-form-item>
       </div>
       <div class="form-item-wrap">
@@ -173,6 +169,7 @@ defineProps({
 const interForm = reactive({
   proName: "",
   province: "",
+  city: "",
   integration: "",
   businessType: "",
   calling: "",
@@ -192,10 +189,12 @@ const interForm = reactive({
   phone: "",
   adress: ""
 });
+// 地址
+const address = reactive([interForm.province, interForm.city]);
 const onSubmit = () => {
-  if (!interFormRef.value) return;
+  if(!interFormRef.value) return;
   interFormRef.value.validate(async valid => {
-    if (!valid) return;
+    if(!valid) return;
   });
 };
 // 城市号码数量和呼叫量
@@ -233,6 +232,7 @@ defineExpose({ interForm, onSubmit });
   justify-content: flex-start;
   align-items: center;
 }
+
 :deep(.el-form-item + .el-form-item) {
   margin-left: 25px;
 }
@@ -248,12 +248,14 @@ defineExpose({ interForm, onSubmit });
 :deep(.el-card + .el-card) {
   margin-top: 25px;
 }
+
 .btn-wrap {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 15px;
 }
+
 .el-card:last-child {
   margin-bottom: 25px;
 }

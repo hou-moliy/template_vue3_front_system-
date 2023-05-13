@@ -1,22 +1,12 @@
 <template>
-  <el-form
-    :model="privacyForm"
-    ref="privacyFormRef"
-    label-width="120px"
-    label-position="left"
-    :rules="privacyRules"
-    :disabled="disabled"
-  >
+  <el-form :model="privacyForm" ref="privacyFormRef" label-width="120px" label-position="left" :rules="privacyRules"
+    :disabled="disabled">
     <el-form-item label="企业名称" prop="cmpName">
       <el-input v-model="privacyForm.cmpName" placeholder="请输入企业名称" />
     </el-form-item>
     <slot name="center"></slot>
     <el-form-item label="归属省份地市" prop="province">
-      <el-select v-model="privacyForm.province" placeholder="请选择归属省份地市">
-        <el-option label="北京" value="bj" />
-        <el-option label="上海" value="sh" />
-        <el-option label="四川" value="sc" />
-      </el-select>
+      <regionSelect v-model="address" :level="2" />
     </el-form-item>
     <el-form-item label="录音模式" prop="recordType">
       <el-select v-model="privacyForm.recordType" placeholder="请选择归属省份地市">
@@ -67,6 +57,7 @@ const privacyFormRef = ref(null);
 const privacyForm = reactive({
   cmpName: "",
   province: "",
+  city: "",
   recordType: "",
   note: false,
   startOpen: false,
@@ -81,11 +72,13 @@ const privacyForm = reactive({
   forward: "",
   whiteList: ""
 });
+// 地址
+const address = reactive([privacyForm.province, privacyForm.city]);
 const { privacyRules } = useRules(privacyForm);
 const onSubmit = () => {
-  if (!privacyFormRef.value) return;
+  if(!privacyFormRef.value) return;
   privacyFormRef.value.validate(async valid => {
-    if (!valid) return;
+    if(!valid) return;
   });
 };
 const resetForm = () => {
