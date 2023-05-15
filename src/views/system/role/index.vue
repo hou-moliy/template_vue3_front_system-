@@ -1,15 +1,15 @@
 <template>
   <!-- 表单 -->
-  <el-form :inline="true" :model="searchForm">
+  <el-form :inline="true" :model="form" ref="formRef">
     <el-form-item label="角色">
-      <el-select v-model="searchForm.role" placeholder="请输入角色类型">
+      <el-select v-model="form.role" placeholder="请输入角色类型">
         <el-option label="角色1" value="shanghai" />
         <el-option label="角色2" value="beijing" />
       </el-select>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary">搜索</el-button>
-      <el-button>重置</el-button>
+      <el-button type="primary" @click="handleSubitForm">搜索</el-button>
+      <el-button @click="handleFormReset">重置</el-button>
       <el-button type="primary" @click="addRole(true)">新增角色</el-button>
     </el-form-item>
   </el-form>
@@ -26,6 +26,8 @@
       </template>
     </el-table-column>
   </el-table>
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
+    @pagination="getList" />
   <!-- 新增或者编辑角色 -->
   <roleDialog ref="roleDialogRef" />
 </template>
@@ -33,12 +35,31 @@
 import { reactive, ref } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import roleDialog from "./components/roleDialog.vue";
+import useForm from "@/hooks/useForm";
 // 搜索表单
-const searchForm = reactive({
-  account: "",
+const initialValues = {
   role: "",
-  status: ""
-});
+  pageNum: 1,
+  pageSize: 10
+};
+const { form, formRef, resetForm, submitForm } = useForm(initialValues);
+
+const handleFormReset = () => {
+  resetForm(() => getList());
+};
+const handleSubitForm = () => {
+  submitForm(
+    () => {
+      // 成功回调
+      getList();
+      console.log("表单提交成功");
+    },
+    () => {
+      // 失败回调
+      console.log("表单提交失败");
+    }
+  );
+};
 const tableData = reactive([
   {
     role: "角色1",
@@ -73,5 +94,9 @@ const deleteRole = ({ role }, index) => {
 const roleDialogRef = ref(null);
 const addRole = isEdit => {
   roleDialogRef?.value?.openDialog({ isEdit });
+};
+const total = ref(tableData.length);
+const getList = () => {
+  console.log("请求接口数据", form);
 };
 </script>

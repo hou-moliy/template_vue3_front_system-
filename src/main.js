@@ -22,9 +22,18 @@ import errorHandler from "@/utils/errorHandler";
 import directives from "@/directives/index";
 import "@/permission";
 import "./mock/index";
+import Pagination from "@/components/Pagination/index.vue";
 
 const app = createApp(App);
 
 app.config.errorHandler = errorHandler;
 
-app.use(router).use(I18n).use(pinia).use(elementIcon).use(directives).component("svg-icon", svgIcon).mount("#app");
+app
+  .use(router)
+  .use(I18n)
+  .use(pinia)
+  .use(elementIcon)
+  .use(directives)
+  .component("svg-icon", svgIcon)
+  .component("Pagination", Pagination)
+  .mount("#app");

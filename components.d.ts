@@ -15,7 +15,7 @@ declare module 'vue' {
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCascader: typeof import("element-plus/es")["ElCascader"];
-    ElCheckbox: typeof import("element-plus/es")["ElCheckbox"];
+    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElContainer: typeof import('element-plus/es')['ElContainer']
@@ -36,6 +36,7 @@ declare module 'vue' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElOption: typeof import('element-plus/es')['ElOption']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
     ElRadio: typeof import("element-plus/es")["ElRadio"];
     ElRadioGroup: typeof import("element-plus/es")["ElRadioGroup"];
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
@@ -47,10 +48,12 @@ declare module 'vue' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    ElTree: typeof import('element-plus/es')['ElTree']
     Loading: typeof import('./src/components/Loading/index.vue')['default']
     LockScreen: typeof import('./src/components/LockScreen/src/LockScreen.vue')['default']
     Message: typeof import('./src/components/Message/src/Message.vue')['default']
     MessageBox: typeof import('./src/components/MessageBox/src/MessageBox.vue')['default']
+    Pagination: typeof import('./src/components/Pagination/index.vue')['default']
     RegionSelect: typeof import('./src/components/regionSelect/index.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     SwitchDark: typeof import('./src/components/SwitchDark/index.vue')['default']
