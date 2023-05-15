@@ -11,7 +11,7 @@ import VueSetupExtend from "vite-plugin-vue-setup-extend";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import importToCDN from "vite-plugin-cdn-import";
 import AutoImport from "unplugin-auto-import/vite";
-import Components from "unplugin-vue-components/vite";
+import Components from "unplugin-vue-components/vite"; // 自定义组件自动引入插件
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
 // @see: https://vitejs.dev/config/

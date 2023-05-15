@@ -8,3 +8,11 @@ export const routerList = () => {
     baseURL
   });
 };
+// 查询菜单列表树状结构
+export const treeselect = () => {
+  return service({
+    url: "/system/menu/treeselect",
+    method: "get",
+    baseURL
+  });
+};
