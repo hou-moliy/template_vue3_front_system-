@@ -10,7 +10,6 @@ import { regionData, pcaTextArr, pcTextArr, provinceAndCityData } from "element-
 // pcaTextArr省市区三级联动数据，纯汉字
 // codeToText是个大对象，属性是区域码，属性值是汉字 用法例如：codeToText['110000']输出北京市
 const emits = defineEmits(["update:modelValue"]);
-console.log(props.modelValue, "modelValue");
 const onChange = e => {
   emits("update:modelValue", e);
 };

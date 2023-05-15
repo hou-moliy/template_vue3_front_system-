@@ -131,8 +131,8 @@
         <el-table-column prop="remark" label="备注" width="120" />
       </el-table>
       <div class="btn-wrap">
-        <el-button type="primary" size="small" @click="onAddItem">新增</el-button>
-        <el-button type="danger" size="small" @click="onDelete">删除</el-button>
+        <el-button type="primary" @click="onAddItem">新增</el-button>
+        <el-button type="danger" @click="onDelete">删除</el-button>
       </div>
     </el-card>
     <!-- 业务生效规则 -->
@@ -159,6 +159,7 @@
 </template>
 <script setup>
 import { reactive, ref } from "vue";
+import { useRegion } from "@/hooks/useRegion.js";
 const interFormRef = ref(null);
 defineProps({
   disabled: {
@@ -190,11 +191,11 @@ const interForm = reactive({
   adress: ""
 });
 // 地址
-const address = reactive([interForm.province, interForm.city]);
+const { address, setAddress } = useRegion(interFormRef, interForm);
 const onSubmit = () => {
-  if(!interFormRef.value) return;
+  if (!interFormRef.value) return;
   interFormRef.value.validate(async valid => {
-    if(!valid) return;
+    if (!valid) return;
   });
 };
 // 城市号码数量和呼叫量
@@ -223,7 +224,11 @@ const onAddItem = () => {
 const onDelete = () => {
   tableData.pop();
 };
-defineExpose({ interForm, onSubmit });
+const onReset = () => {
+  interFormRef.value.resetFields();
+  setAddress([]);
+};
+defineExpose({ interForm, onSubmit, onReset });
 </script>
 <style scoped lang="scss">
 .form-item-wrap {

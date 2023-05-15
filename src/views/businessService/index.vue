@@ -40,11 +40,11 @@
     <el-table-column prop="reason" label="原因" />
     <el-table-column fixed="right" label="审批操作">
       <template #default="{ row }">
-        <el-button type="primary" size="small" @click="openAuditDialog(row)">审核</el-button>
-        <el-button type="primary" size="small" @click="addService(false)">查看</el-button>
-        <el-button type="primary" size="small" @click="addService(true)">修改</el-button>
-        <el-button type="primary" size="small">撤销</el-button>
-        <el-button type="primary" size="small">下载</el-button>
+        <el-button type="primary" @click="openAuditDialog(row)">审核</el-button>
+        <el-button type="primary" @click="addService(false)">查看</el-button>
+        <el-button type="primary" @click="addService(true)">修改</el-button>
+        <el-button type="primary">撤销</el-button>
+        <el-button type="primary">下载</el-button>
       </template>
     </el-table-column>
   </el-table>

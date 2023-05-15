@@ -27,11 +27,11 @@
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column prop="operation" label="操作">
       <template #default="{ row, $index }">
-        <el-button type="primary" size="small" @click="showCmpyInfoDialog(row, false)">详情</el-button>
-        <el-button type="primary" size="small" @click="showCmpyInfoDialog(row, true)">编辑</el-button>
-        <el-button type="danger" size="small" @click="deleteRow($index, row)">删除</el-button>
-        <el-button type="primary" size="small" @click="showPhoneDialog(row)">查看号码列表</el-button>
-        <el-button type="primary" size="small">下载附件</el-button>
+        <el-button type="primary" @click="showCmpyInfoDialog(row, false)">详情</el-button>
+        <el-button type="primary" @click="showCmpyInfoDialog(row, true)">编辑</el-button>
+        <el-button type="danger" @click="deleteRow($index, row)">删除</el-button>
+        <el-button type="primary" @click="showPhoneDialog(row)">查看号码列表</el-button>
+        <el-button type="primary">下载附件</el-button>
       </template>
     </el-table-column>
   </el-table>

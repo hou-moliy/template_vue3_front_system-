@@ -14,14 +14,14 @@ export const useTheme = () => {
   // 切换暗黑模式
   const switchDark = () => {
     const body = document.documentElement;
-    if(themeConfig.value.isDark) body.setAttribute("class", "dark");
+    if (themeConfig.value.isDark) body.setAttribute("class", "dark");
     else body.setAttribute("class", "");
     changePrimary(themeConfig.value.primary);
   };
 
   // 修改主题颜色
   const changePrimary = val => {
-    if(!val) {
+    if (!val) {
       val = DEFAULT_PRIMARY;
       ElMessage({ type: "success", message: `主题颜色已重置为 ${DEFAULT_PRIMARY}` });
     }
@@ -35,7 +35,7 @@ export const useTheme = () => {
         : `${getDarkColor(themeConfig.value.primary, 0.3)}`
     );
     // 颜色加深或变浅
-    for(let i = 1; i <= 9; i++) {
+    for (let i = 1; i <= 9; i++) {
       document.documentElement.style.setProperty(
         `--el-color-primary-light-${i}`,
         themeConfig.value.isDark

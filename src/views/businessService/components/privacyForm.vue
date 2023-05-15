@@ -1,6 +1,12 @@
 <template>
-  <el-form :model="privacyForm" ref="privacyFormRef" label-width="120px" label-position="left" :rules="privacyRules"
-    :disabled="disabled">
+  <el-form
+    :model="privacyForm"
+    ref="privacyFormRef"
+    label-width="120px"
+    label-position="left"
+    :rules="privacyRules"
+    :disabled="disabled"
+  >
     <el-form-item label="企业名称" prop="cmpName">
       <el-input v-model="privacyForm.cmpName" placeholder="请输入企业名称" />
     </el-form-item>
@@ -46,6 +52,7 @@
 <script setup>
 import { reactive, ref } from "vue";
 import useRules from "../hooks/useRules.ts";
+import { useRegion } from "@/hooks/useRegion.js";
 defineProps({
   disabled: {
     type: Boolean,
@@ -73,17 +80,18 @@ const privacyForm = reactive({
   whiteList: ""
 });
 // 地址
-const address = reactive([privacyForm.province, privacyForm.city]);
+const { address, setAddress } = useRegion(privacyFormRef, privacyForm);
 const { privacyRules } = useRules(privacyForm);
 const onSubmit = () => {
-  if(!privacyFormRef.value) return;
+  if (!privacyFormRef.value) return;
   privacyFormRef.value.validate(async valid => {
-    if(!valid) return;
+    if (!valid) return;
   });
 };
-const resetForm = () => {
+const onReset = () => {
   privacyFormRef.value.resetFields();
+  setAddress([]);
 };
-defineExpose({ privacyForm, onSubmit, resetForm });
+defineExpose({ privacyForm, onSubmit, onReset });
 </script>
 <style></style>

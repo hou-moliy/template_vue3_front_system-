@@ -27,7 +27,7 @@
     <el-table-column prop="createTime" label="申请时间" />
     <el-table-column prop="file" label="资料查看">
       <template #default="scope">
-        <el-button type="primary" link size="small">点击下载</el-button>
+        <el-button type="primary" link>点击下载</el-button>
       </template>
     </el-table-column>
     <el-table-column prop="type" label="账户类型">
@@ -42,8 +42,8 @@
     <el-table-column prop="remark" label="备注" />
     <el-table-column fixed="right" label="审批操作" width="180">
       <template #default="{ row }">
-        <el-button type="primary" size="small" @click="openAuditDialog(row, 1)">通过</el-button>
-        <el-button type="primary" size="small" @click="openAuditDialog(row, 0)">不通过</el-button>
+        <el-button type="primary" @click="openAuditDialog(row, 1)">通过</el-button>
+        <el-button type="primary" @click="openAuditDialog(row, 0)">不通过</el-button>
       </template>
     </el-table-column>
   </el-table>
