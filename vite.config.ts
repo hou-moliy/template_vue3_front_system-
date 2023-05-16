@@ -43,7 +43,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       // 跨域代理配置
       proxy: {
         [viteEnv.VITE_BASE_API]: {
-          target: "http://10.1.35.207:8180/admin", // easymock
+          // target: "http://10.1.35.207:8180/admin", // easymock
+          target: "http://10.1.61.13:9501/admin/api",
           changeOrigin: true,
           rewrite: path => path.replace(viteEnv.VITE_BASE_API, "")
         }

@@ -1,4 +1,4 @@
-import { reactive, ref, Ref } from "vue";
+import { reactive, ref, Ref, nextTick } from "vue";
 import type { FormInstance } from "element-plus";
 interface FormValues {
   [key: string]: any;
@@ -11,25 +11,21 @@ interface FormHooks {
   submitForm: (successCallback?: () => void, errorCallback?: () => void) => void;
 }
 
-export function useForm (initialValues: FormValues): FormHooks {
-  let form = reactive<FormValues>(initialValues);
+export function useForm(initialValues: FormValues): FormHooks {
+  let form = reactive<FormValues>({ ...initialValues });
   const formRef = ref<FormInstance | null>(null);
 
-  // const resetForm = (successCallback?: () => void) => {
-  //   formRef.value?.resetFields();
-  //   if (typeof successCallback === "function") {
-  //     successCallback();
-  //   }
-  // };
   const resetForm = (successCallback?: () => void) => {
-    formRef.value?.clearValidate();
-    form = reactive<FormValues>(initialValues);
-    if (typeof successCallback === "function") {
-      successCallback();
-    }
+    // Object.assign(form, initialValues);
+    formRef.value?.resetFields();
+    nextTick(() => {
+      if (typeof successCallback === "function") {
+        successCallback();
+      }
+    });
   };
-
   const submitForm = (successCallback?: () => void, errorCallback?: () => void) => {
+    console.log(initialValues, "initialValues");
     formRef.value?.validate((valid: boolean) => {
       if (valid) {
         // 执行表单提交操作

@@ -42,17 +42,21 @@ export const AuthStore = defineStore({
       return new Promise((resolve, reject) => {
         getUserInfoApi()
           .then(res => {
-            const user = res.user;
-            const avatar = !user.avatar ? getAssetsImages("/src/assets/images/profile.jpg") : user.avatar;
-            if (res.roles && res.roles.length > 0) {
-              this.roles = res.roles;
-              this.permissions = res.permissions;
+            if (res?.code === 200) {
+              const user = res.user;
+              const avatar = !user.avatar ? getAssetsImages("/src/assets/images/profile.jpg") : user.avatar;
+              if (res.roles && res.roles.length > 0) {
+                this.roles = res.roles;
+                this.permissions = res.permissions;
+              } else {
+                this.roles = ["ROLE_DEFAULT"];
+              }
+              this.name = user.userName;
+              this.avatar = avatar;
+              resolve(res);
             } else {
-              this.roles = ["ROLE_DEFAULT"];
+              reject();
             }
-            this.name = user.userName;
-            this.avatar = avatar;
-            resolve(res);
           })
           .catch(error => {
             reject(error);
@@ -73,7 +77,8 @@ export const AuthStore = defineStore({
     setAllMenuList () {
       const layoutList = staticRouter.find(item => item.path === "/layout")?.children ?? [];
       const staticList = staticRouter.filter(item => item.path !== "/layout") ?? [];
-      this.allMenuList = [...layoutList, ...staticList, ...this.authMenuList];
+      // console.log(this.authMenuList);
+      this.allMenuList = [...layoutList, ...staticList];
     }
   }
 });

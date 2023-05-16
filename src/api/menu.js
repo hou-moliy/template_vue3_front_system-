@@ -16,3 +16,12 @@ export const treeselect = () => {
     baseURL
   });
 };
+// 根据角色ID查询菜单下拉树结构
+export const roleMenuTreeselect = params => {
+  return service({
+    url: "/system/menu/roleMenuTreeselect",
+    method: "get",
+    params,
+    baseURL
+  });
+};

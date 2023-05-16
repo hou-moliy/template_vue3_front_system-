@@ -3,6 +3,7 @@ import { getToken } from "@/utils/auth";
 import { AuthStore } from "@/stores/modules/auth";
 import { ElMessageBox, ElNotification, ElMessage } from "element-plus";
 import router from "../routers";
+import { LOGIN_URL } from "@/config/config";
 axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 // 创建axios实例
 const service = axios.create({
@@ -37,7 +38,6 @@ service.interceptors.response.use(
           location.reload(); // 为了重新实例化vue-router对象 避免bug
         });
       });
-      router.push("/login");
     } else if (code !== 200) {
       ElNotification.error({
         title: res.data.message || res.data.msg || "Error"

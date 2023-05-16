@@ -10,16 +10,16 @@ const useRoleDialog = () => {
   const dialogVisible = ref(false);
   const isEdit = ref(false);
   const title = ref("");
-
   const openDialog = ({ data, isEdit: edit }) => {
+    console.log(data);
     isEdit.value = edit;
     dialogVisible.value = true;
-    title.value = isEdit.value ? "新增角色" : "修改角色";
+    title.value = isEdit.value ? "修改角色" : "新增角色";
   };
 
   const onSubmit = () => {
     formRef?.value.validate(valid => {
-      if(valid) {
+      if (valid) {
         console.log(form, "form");
         ElMessage.success(isEdit.value ? "提交成功" : "修改成功");
         closeDialog();
@@ -31,7 +31,7 @@ const useRoleDialog = () => {
 
   const closeDialog = () => {
     dialogVisible.value = false;
-    formRef.value.resetFields();
+    formRef.value?.resetFields();
   };
 
   return {

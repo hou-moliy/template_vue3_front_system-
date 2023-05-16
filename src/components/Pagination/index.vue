@@ -1,12 +1,20 @@
 <template>
   <div :class="{ hidden: props.hidden }" class="pagination-container mt-25 flx-end">
-    <el-pagination :background="props.background" v-model:current-page="currentPage" v-model:page-size="pageSize"
-      :layout="props.layout" :page-sizes="props.pageSizes" :total="props.total" v-bind="$attrs"
-      @sizeChange="handleSizeChange" @currentChange="handleCurrentChange" />
+    <el-pagination
+      :background="props.background"
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
+      :layout="props.layout"
+      :page-sizes="props.pageSizes"
+      :total="props.total"
+      v-bind="$attrs"
+      @sizeChange="handleSizeChange"
+      @currentChange="handleCurrentChange"
+    />
   </div>
 </template>
 <script setup>
-import { defineProps, computed, defineEmits } from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
   total: {

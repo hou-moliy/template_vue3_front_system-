@@ -186,6 +186,36 @@ export const staticRouter = [
     ]
   },
   {
+    path: "/systemMng",
+    name: "systemMng",
+    meta: {
+      title: "系统管理",
+      isKeepAlive: true,
+      icon: "Briefcase"
+    },
+    component: LayOut,
+    children: [
+      {
+        path: "/systemMng/roleList",
+        name: "roleList",
+        component: () => import("@/views/systemMng/role/index.vue"),
+        meta: {
+          title: "角色管理",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/systemMng/userList",
+        name: "userList",
+        component: () => import("@/views/systemMng/user/index.vue"),
+        meta: {
+          title: "账号管理",
+          isKeepAlive: true
+        }
+      }
+    ]
+  },
+  {
     path: "/assembly",
     name: "assembly",
     redirect: "/assembly/message",
