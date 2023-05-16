@@ -1,4 +1,4 @@
-import { reactive, ref, Ref, nextTick } from "vue";
+import { reactive, ref, Ref } from "vue";
 import type { FormInstance } from "element-plus";
 interface FormValues {
   [key: string]: any;
@@ -7,39 +7,30 @@ interface FormValues {
 interface FormHooks {
   form: FormValues;
   formRef: Ref<FormInstance | null>;
-  resetForm: (successCallback?: () => void) => void;
-  submitForm: (successCallback?: () => void, errorCallback?: () => void) => void;
+  resetForm: () => void;
+  submitForm: () => void;
 }
 
 export function useForm(initialValues: FormValues): FormHooks {
   let form = reactive<FormValues>({ ...initialValues });
   const formRef = ref<FormInstance | null>(null);
-
-  const resetForm = (successCallback?: () => void) => {
+  const resetForm = () => {
     // Object.assign(form, initialValues);
     formRef.value?.resetFields();
-    nextTick(() => {
-      if (typeof successCallback === "function") {
-        successCallback();
-      }
-    });
+    return Promise.resolve();
   };
-  const submitForm = (successCallback?: () => void, errorCallback?: () => void) => {
+
+  const submitForm = () => {
     console.log(initialValues, "initialValues");
-    formRef.value?.validate((valid: boolean) => {
-      if (valid) {
-        // 执行表单提交操作
-
-        if (typeof successCallback === "function") {
-          successCallback();
+    return new Promise((resolve, reject) => {
+      formRef.value?.validate((valid: boolean) => {
+        if (valid) {
+          resolve(true);
+        } else {
+          // 表单校验失败
+          reject(false);
         }
-      } else {
-        // 表单校验失败
-
-        if (typeof errorCallback === "function") {
-          errorCallback();
-        }
-      }
+      });
     });
   };
 

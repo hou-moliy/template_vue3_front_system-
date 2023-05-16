@@ -216,6 +216,45 @@ export const staticRouter = [
     ]
   },
   {
+    path: "/complaintMng",
+    name: "complaintMng",
+    meta: {
+      title: "投诉管理",
+      isKeepAlive: true,
+      icon: "Briefcase"
+    },
+    component: LayOut,
+    children: [
+      {
+        path: "/complaintMng/complaintList",
+        name: "complaintList",
+        component: () => import("@/views/complaintMng/complaintList.vue"),
+        meta: {
+          title: "投诉台账",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/complaintMng/phoneImport",
+        name: "phoneImport",
+        component: () => import("@/views/complaintMng/phoneImport.vue"),
+        meta: {
+          title: "号码导入",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/complaintMng/emailList",
+        name: "emailList",
+        component: () => import("@/views/complaintMng/emailList.vue"),
+        meta: {
+          title: "邮件管理",
+          isKeepAlive: true
+        }
+      }
+    ]
+  },
+  {
     path: "/assembly",
     name: "assembly",
     redirect: "/assembly/message",

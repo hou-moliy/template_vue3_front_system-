@@ -56,7 +56,7 @@ const form = reactive({
 const closeDialog = () => {
   dialogVisible.value = false;
   formRef.value.resetFields();
-  privacyFormRef?.value?.resetForm();
+  privacyFormRef?.value?.onReset();
 };
 defineExpose({ openDialog });
 </script>

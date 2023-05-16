@@ -44,20 +44,17 @@ const initialValues = {
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 
 const handleFormReset = () => {
-  resetForm(() => getList());
+  resetForm().then(getList());
 };
 const handleSubitForm = () => {
-  submitForm(
-    () => {
-      // 成功回调
+  submitForm()
+    .then(() => {
       getList();
       console.log("表单提交成功");
-    },
-    () => {
-      // 失败回调
+    })
+    .catch(() => {
       console.log("表单提交失败");
-    }
-  );
+    });
 };
 const tableData = reactive([
   {
