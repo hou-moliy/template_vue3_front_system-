@@ -7,7 +7,7 @@ import { TitleComponent, ToolboxComponent, TooltipComponent, GridComponent, Lege
 import { LineChart } from "echarts/charts";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
-import { onMounted, defineProps } from "vue";
+import { onMounted, watch, reactive } from "vue";
 import { useEcharts } from "@/hooks/useEcharts";
 echarts.use([
   TitleComponent,
@@ -30,15 +30,14 @@ const props = defineProps({
   },
   xData: {
     type: Array,
-    default: () => ["1", "2", "3", "4", "5", "6", "7"]
+    default: () => []
   },
   seriesData: {
     type: Array,
     default: () => [[]]
   }
 });
-let option;
-option = {
+let option = reactive({
   title: {
     // 标题
     text: props.title
@@ -104,12 +103,27 @@ option = {
       data: [320000, 3320000, 3000001, 330004, 3000090, 200030, 320000]
     }
   ]
-};
-onMounted(() => {
-  let chartDom = document.getElementById("main");
-  let myChart = echarts.init(chartDom);
-  useEcharts(myChart, option);
 });
+onMounted(() => {
+  // let chartDom = document.getElementById("main");
+  // let myChart = echarts.init(chartDom);
+  // useEcharts(myChart, option);
+});
+watch(
+  () => props.xData,
+  newVal => {
+    console.log(newVal, "xData");
+    option.xData = newVal;
+    console.log(option.xData, "xData");
+    let chartDom = document.getElementById("main");
+    let myChart = echarts.init(chartDom);
+    useEcharts(myChart, option);
+  },
+  {
+    immediate: false,
+    deep: true
+  }
+);
 </script>
 <style>
 #main {

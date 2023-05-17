@@ -39,7 +39,7 @@
   </el-form>
   <!-- 统计 -->
   <div class="echarts-map-chian" style="width: 100%; height: 300px">
-    <stackedLine />
+    <stackedLine :xData="xData" />
   </div>
   <!-- 表格 -->
   <el-table border :data="tableData">
@@ -63,10 +63,11 @@
     <el-table-column prop="times" label="录音URL推送成功次数" />
     <el-table-column prop="times" label="录音URL推送成功率" />
   </el-table>
-  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
+    @pagination="getList" />
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
 import { useRegion } from "@/hooks/useRegion.js";
@@ -98,6 +99,7 @@ const tableData = reactive([
   }
 ]);
 const total = ref(tableData.length);
+const xData = ref([]);
 const getList = () => {
   console.log(form, "获取新数据");
 };
@@ -108,4 +110,20 @@ const handleReset = () => {
     getList();
   });
 };
+watch(
+  () => form.date,
+  newVal => {
+    console.log(newVal, "newVal");
+    if(newVal === "day") {
+      xData.value = [1];
+    } else if(newVal === "month") {
+      xData.value = [30];
+    } else if(newVal === "7") {
+      xData.value = [7];
+    }
+  },
+  {
+    deep: true
+  }
+);
 </script>

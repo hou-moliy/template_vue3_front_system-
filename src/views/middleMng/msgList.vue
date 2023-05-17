@@ -74,7 +74,8 @@
       <el-table-column prop="phone" label="其他拦截" />
     </el-table-column>
   </el-table>
-  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
+    @pagination="getList" />
 </template>
 <script setup>
 import { reactive, ref } from "vue";
@@ -92,6 +93,7 @@ const initialValues = {
   pageNum: 1,
   pageSize: 10
 };
+
 const { form, formRef, resetForm } = useForm(initialValues);
 // 地址
 const { address, setAddress } = useRegion(formRef, form);
