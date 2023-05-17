@@ -255,6 +255,90 @@ export const staticRouter = [
     ]
   },
   {
+    path: "/middleMng",
+    name: "middleMng",
+    meta: {
+      title: "中间号统计",
+      isKeepAlive: true,
+      icon: "TrendCharts"
+    },
+    component: LayOut,
+    children: [
+      {
+        path: "/middleMng/orderList",
+        name: "orderList",
+        component: () => import("@/views/middleMng/orderList.vue"),
+        meta: {
+          title: "订单统计",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/middleMng/callList",
+        name: "callList",
+        component: () => import("@/views/middleMng/callList.vue"),
+        meta: {
+          title: "通话统计",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/middleMng/msgList",
+        name: "msgList",
+        component: () => import("@/views/middleMng/msgList.vue"),
+        meta: {
+          title: "短信统计",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/middleMng/phoneList",
+        name: "phoneList",
+        component: () => import("@/views/middleMng/phoneList.vue"),
+        meta: {
+          title: "号码统计",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/middleMng/usePhoneList",
+        name: "usePhoneList",
+        component: () => import("@/views/middleMng/usePhoneList.vue"),
+        meta: {
+          title: "号码使用统计",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/middleMng/dayList",
+        name: "dayList",
+        component: () => import("@/views/middleMng/dayList.vue"),
+        meta: {
+          title: "中间号行为日统计",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/middleMng/monthList",
+        name: "monthList",
+        component: () => import("@/views/middleMng/monthList.vue"),
+        meta: {
+          title: "中间号行为月统计",
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/middleMng/monthBill",
+        name: "monthBill",
+        component: () => import("@/views/middleMng/monthBill.vue"),
+        meta: {
+          title: "中间号月账单",
+          isKeepAlive: true
+        }
+      }
+    ]
+  },
+  {
     path: "/assembly",
     name: "assembly",
     redirect: "/assembly/message",
