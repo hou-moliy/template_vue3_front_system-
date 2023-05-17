@@ -14,7 +14,7 @@
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="resetForm">重置</el-button>
       <el-button type="primary" @click="handleAddEmail">新增</el-button>
-      <el-button type="primary">直接发送企业列表</el-button>
+      <el-button type="primary" @click="handleCmpyList">直接发送企业列表</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -32,13 +32,17 @@
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
   <!-- 新增邮箱 -->
   <addEmail ref="addEmailRef" />
+  <!--直接发送企业列表  -->
+  <cmpyList ref="cmpyListRef" />
 </template>
 <script setup>
 import { ref, reactive } from "vue";
 import useForm from "@/hooks/useForm";
 import addEmail from "./components/addEmail.vue";
 import { ElMessageBox, ElMessage } from "element-plus";
+import cmpyList from "./components/cmpyList.vue";
 const addEmailRef = ref(null);
+const cmpyListRef = ref(null);
 const initialValues = {
   name: "",
   email: "",
@@ -72,5 +76,8 @@ const handleDelEmail = (row, index) => {
     tableData.splice(index, 1);
     ElMessage.success("删除成功");
   });
+};
+const handleCmpyList = () => {
+  cmpyListRef.value?.openDialog();
 };
 </script>
