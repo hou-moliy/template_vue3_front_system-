@@ -16,11 +16,13 @@
       <el-form-item label="号码月租费(15日后开通)" prop="after">
         <el-input v-model="form.after" placeholder="请输入号码月租费(15日后开通)" />
       </el-form-item>
-      <customTable />
-      <el-form-item>
-        <el-button @click="handleResetForm">返回</el-button>
-        <el-button type="primary" @click="handleSubmit">确定</el-button>
-      </el-form-item>
+      <customTable ref="customTableRef" />
+      <div class="btn-wrap flx-center">
+        <el-form-item>
+          <el-button @click="handleResetForm">返回</el-button>
+          <el-button type="primary" @click="handleSubmit">确定</el-button>
+        </el-form-item>
+      </div>
     </el-form>
   </el-dialog>
 </template>
@@ -28,6 +30,7 @@
 import { ref, reactive } from "vue";
 import useForm from "@/hooks/useForm";
 import customTable from "./table.vue";
+const customTableRef = ref(null);
 const titleMap = {
   1: "新增",
   2: "查看",
@@ -72,11 +75,13 @@ const openDialog = ({ data, type }) => {
   // 1新增，2详情，3修改，4复制
   dialogVisible.value = true;
   title.value = `${titleMap[type]}账单公式`;
-  if (type !== 1) {
+  if(type !== 1) {
     Object.assign(form, data);
   }
 };
 const handleSubmit = () => {
+  customTableRef.value?.tableData;
+  console.log(customTableRef.value?.tableData, "ustomTableRef.value?.tableData");
   submitForm()
     .then(() => {
       console.log("校验通过了");
@@ -86,9 +91,16 @@ const handleSubmit = () => {
     });
 };
 const handleResetForm = () => {
+  customTableRef.value?.onResetTable();
   resetForm().then(() => {
     dialogVisible.value = false;
   });
 };
 defineExpose({ openDialog });
 </script>
+<style lang="scss" scoped>
+.btn-wrap {
+  margin-top: 15px;
+  width: 100%;
+}
+</style>

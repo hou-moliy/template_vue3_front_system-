@@ -150,32 +150,37 @@ const openDialog = row => {
 };
 
 // 合并行列
+// const arraySpanMethod = ({ row, column, rowIndex, columnIndex }) => {
+//   if (columnIndex === 0) {
+//     // 判断当前列是否是第一列
+//     const currentRowValue = tableData[rowIndex][column.property]; // 获取当前行的值
+//     let rowspan = 1; // 初始合并行数为1
+
+//     // 遍历下一行开始的连续行，直到值不相等或者超出行数范围
+//     for (let i = rowIndex + 1; i < tableData.length; i++) {
+//       const nextRowValue = tableData[i][column.property]; // 获取下一行的值
+//       if (nextRowValue === currentRowValue) {
+//         rowspan++; // 值相等，合并行数加1
+//       } else {
+//         break; // 值不相等，跳出循环
+//       }
+//     }
+
+//     if (rowspan > 1) {
+//       // 只对第一行进行合并，其余行返回空对象
+//       if (rowIndex === 0) {
+//         return { rowspan: 4, colspan: 1 }; // 返回合并的行数和列数
+//       } else {
+//         return { rowspan: 0, colspan: 0 }; // 返回空对象
+//       }
+//     }
+//   }
+//   return { rowspan: 1, colspan: 1 }; // 其他列不进行合并
+// };
 const arraySpanMethod = ({ row, column, rowIndex, columnIndex }) => {
-  if (columnIndex === 0) {
-    // 判断当前列是否是第一列
-    const currentRowValue = tableData[rowIndex][column.property]; // 获取当前行的值
-    let rowspan = 1; // 初始合并行数为1
-
-    // 遍历下一行开始的连续行，直到值不相等或者超出行数范围
-    for (let i = rowIndex + 1; i < tableData.length; i++) {
-      const nextRowValue = tableData[i][column.property]; // 获取下一行的值
-      if (nextRowValue === currentRowValue) {
-        rowspan++; // 值相等，合并行数加1
-      } else {
-        break; // 值不相等，跳出循环
-      }
-    }
-
-    if (rowspan > 1) {
-      // 只对第一行进行合并，其余行返回空对象
-      if (rowIndex === 0) {
-        return { rowspan: 4, colspan: 1 }; // 返回合并的行数和列数
-      } else {
-        return { rowspan: 0, colspan: 0 }; // 返回空对象
-      }
-    }
+  if(rowIndex === 0 && columnIndex < 7) {
+    return [5, 1];
   }
-  return { rowspan: 1, colspan: 1 }; // 其他列不进行合并
 };
 
 defineExpose({ openDialog });
