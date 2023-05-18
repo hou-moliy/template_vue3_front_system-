@@ -339,6 +339,48 @@ export const staticRouter = [
     ]
   },
   {
+    path: "/billMng",
+    name: "billMng",
+    component: LayOut,
+    meta: {
+      icon: "Briefcase",
+      title: "账单统计",
+      isLink: "",
+      isHide: false,
+      isFull: false,
+      isAffix: false,
+      isKeepAlive: true
+    },
+    children: [
+      {
+        path: "/billMng/monthBillList",
+        name: "monthBillList",
+        component: () => import("@/views/billMng/monthBillList.vue"),
+        meta: {
+          title: "月账单列表",
+          isLink: "",
+          isHide: false,
+          isFull: false,
+          isAffix: false,
+          isKeepAlive: true
+        }
+      },
+      {
+        path: "/billMng/billFormula",
+        name: "billFormula",
+        component: () => import("@/views/billMng/billFormula.vue"),
+        meta: {
+          title: "账单公式",
+          isLink: "",
+          isHide: false,
+          isFull: false,
+          isAffix: false,
+          isKeepAlive: true
+        }
+      }
+    ]
+  },
+  {
     path: "/assembly",
     name: "assembly",
     redirect: "/assembly/message",

@@ -113,8 +113,8 @@ watch(
   () => props.xData,
   newVal => {
     console.log(newVal, "xData");
-    option.xData = newVal;
-    console.log(option.xData, "xData");
+    option.xAxis.data = newVal;
+    console.log(option.xAxis.data, "xData");
     let chartDom = document.getElementById("main");
     let myChart = echarts.init(chartDom);
     useEcharts(myChart, option);

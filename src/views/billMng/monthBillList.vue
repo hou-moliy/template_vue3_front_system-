@@ -25,67 +25,61 @@
         <el-option label="渠道商2" value="beijing" />
       </el-select>
     </el-form-item>
-    <el-form-item label="省份地市">
-      <regionSelect v-model="address" :level="2" />
-    </el-form-item>
-    <el-form-item label="统计周期" prop="date">
-      <statisticalPeriod v-model="form.date" />
+    <el-form-item label="账单月份" prop="month">
+      <el-date-picker v-model="form.month" type="month" placeholder="请选择账单月份" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary">导出</el-button>
+      <el-button type="primary">上传成本账单</el-button>
+      <el-button type="primary">下载成本账单</el-button>
     </el-form-item>
   </el-form>
-  <!-- 统计 -->
-  <div class="echarts-map-chian" style="width: 100%; height: 300px">
-    <stackedLine :xData="xData" />
-  </div>
   <!-- 表格 -->
   <el-table border :data="tableData">
-    <el-table-column prop="createTime" label="时间" />
+    <el-table-column prop="branchCmpy" label="账单月份" />
     <el-table-column prop="branchCmpy" label="分公司" />
     <el-table-column prop="manager" label="客户经理" />
     <el-table-column prop="channel" label="渠道商" />
     <el-table-column prop="cmpy" label="企业客户" />
-    <el-table-column prop="cmpy" label="业务类型" />
-    <el-table-column prop="cmpy" label="省份" />
-    <el-table-column prop="cmpy" label="地市" />
-    <el-table-column prop="cmpy" label="订单量" />
-    <el-table-column prop="cmpy" label="视频通话透传次数" />
-    <el-table-column prop="cmpy" label="呼入平台次数" />
-    <el-table-column prop="cmpy" label="成功通话次数" />
-    <el-table-column prop="phone" label="成功通话分钟数" />
-    <el-table-column prop="times" label="接通率" />
-    <el-table-column prop="times" label="语音话单成功推送次数" />
-    <el-table-column prop="times" label="语音话单推送成功率" />
-    <el-table-column prop="times" label="录音成功率" />
-    <el-table-column prop="times" label="录音URL推送成功次数" />
-    <el-table-column prop="times" label="录音URL推送成功率" />
+    <el-table-column prop="cmpy" label="成本账单金额" />
+    <el-table-column prop="cmpy" label="成本账单详情">
+      <template #default="{ row }">
+        <el-button type="primary" link @click="openDetail('cost', row)">查看</el-button>
+        <el-button type="primary" link>下载</el-button>
+      </template>
+    </el-table-column>
+    <el-table-column prop="cmpy" label="收入账单金额" />
+    <el-table-column prop="cmpy" label="收入账单详情">
+      <template #default="{ row }">
+        <el-button type="primary" link @click="openDetail('income', row)">查看</el-button>
+        <el-button type="primary" link>下载</el-button>
+      </template>
+    </el-table-column>
   </el-table>
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
+  <!-- 成本账单详情 -->
+  <costBillDetail ref="costBillRef" />
+  <!-- 收入账单详情 -->
+  <incomeBillDetail ref="incomeBillRef" />
 </template>
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref } from "vue";
 import useForm from "@/hooks/useForm";
-import regionSelect from "@/components/regionSelect/index.vue";
-import { useRegion } from "@/hooks/useRegion.js";
-import stackedLine from "./components/stackedLine/index.vue";
-import statisticalPeriod from "./components/statisticalPeriod/index.vue";
+import costBillDetail from "./components/costBillDetail.vue";
+import incomeBillDetail from "./components/incomeBillDetail.vue";
+const costBillRef = ref(null);
+const incomeBillRef = ref(null);
 const initialValues = {
   cmpy: "",
   branchCmpy: "",
   manager: "",
   channel: "",
-  province: "",
-  city: "",
-  date: "",
+  month: "",
   pageNum: 1,
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
-// 地址
-const { address, setAddress } = useRegion(formRef, form);
 const tableData = reactive([
   {
     cmpy: "美团",
@@ -98,31 +92,20 @@ const tableData = reactive([
   }
 ]);
 const total = ref(tableData.length);
-const xData = ref([]);
 const getList = () => {
   console.log(form, "获取新数据");
 };
 // 重置
 const handleReset = () => {
-  setAddress([]);
   resetForm().then(() => {
     getList();
   });
 };
-watch(
-  () => form.date,
-  newVal => {
-    console.log(newVal, "newVal");
-    if (newVal === "day") {
-      xData.value = [1];
-    } else if (newVal === "month") {
-      xData.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    } else if (newVal === "7") {
-      xData.value = [1, 2, 3, 4, 5, 6, 7];
-    }
-  },
-  {
-    deep: true
+const openDetail = (type, row) => {
+  if (type === "cost") {
+    costBillRef.value?.openDialog(row);
+  } else {
+    incomeBillRef.value?.openDialog(row);
   }
-);
+};
 </script>
