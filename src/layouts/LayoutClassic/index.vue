@@ -4,7 +4,7 @@
     <el-header>
       <div class="header-lf">
         <div class="logo flx-center">
-          <img src="@/assets/images/logo.svg" alt="logo" />
+          <img src="@/assets/logo/logo.png" alt="logo" />
           <span>{{ APPNAME }}</span>
         </div>
         <ToolBarLeft />
@@ -15,8 +15,15 @@
       <el-aside>
         <div class="menu" :style="{ width: isCollapse ? '65px' : '210px' }">
           <el-scrollbar>
-            <el-menu :default-active="activeMenu" :router="false" :collapse="isCollapse" :collapse-transition="false"
-              :unique-opened="true" background-color="#ffffff" text-color="#303133">
+            <el-menu
+              :default-active="activeMenu"
+              :router="false"
+              :collapse="isCollapse"
+              :collapse-transition="false"
+              :unique-opened="true"
+              background-color="#ffffff"
+              text-color="#303133"
+            >
               <SubMenu :menuList="menuList" />
             </el-menu>
           </el-scrollbar>

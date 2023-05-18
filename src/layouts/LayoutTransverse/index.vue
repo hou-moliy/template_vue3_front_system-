@@ -3,11 +3,18 @@
   <el-container class="layout">
     <el-header>
       <div class="logo flx-center">
-        <img src="@/assets/images/logo.svg" alt="logo" />
+        <img src="@/assets/logo/logo.png" alt="logo" />
         <span>vue-diverse-admin</span>
       </div>
-      <el-menu mode="horizontal" :default-active="activeMenu" :router="false" :unique-opened="true"
-        background-color="#191a20" text-color="#dadada" active-text-color="#ffffff">
+      <el-menu
+        mode="horizontal"
+        :default-active="activeMenu"
+        :router="false"
+        :unique-opened="true"
+        background-color="#191a20"
+        text-color="#dadada"
+        active-text-color="#ffffff"
+      >
         <!-- 只有在这里写 submenu 才能触发 menu 三个点省略 -->
         <template v-for="subItem in menuList" :key="subItem.path">
           <el-sub-menu v-if="subItem.children?.length" :index="subItem.path" :key="subItem.path + 'el-sub-menu'">
@@ -19,8 +26,7 @@
             </template>
             <SubMenu :menuList="subItem.children" />
           </el-sub-menu>
-          <el-menu-item v-else :index="subItem.path" :key="subItem.path + 'el-menu-item'"
-            @click="handleClickMenu(subItem)">
+          <el-menu-item v-else :index="subItem.path" :key="subItem.path + 'el-menu-item'" @click="handleClickMenu(subItem)">
             <el-icon>
               <component :is="subItem.meta.icon"></component>
             </el-icon>
@@ -51,7 +57,7 @@ const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu
 const menuList = computed(() => authStore.showMenuListGet);
 
 const handleClickMenu = subItem => {
-  if(subItem.meta.isLink) return window.open(subItem.meta.isLink, "_blank");
+  if (subItem.meta.isLink) return window.open(subItem.meta.isLink, "_blank");
   router.push(subItem.path);
 };
 </script>
@@ -62,10 +68,8 @@ const handleClickMenu = subItem => {
 
 <style lang="scss">
 .transverse {
-
   // 横向菜单布局
   .el-menu--horizontal {
-
     .el-menu-item,
     .el-sub-menu {
       height: 54px !important;

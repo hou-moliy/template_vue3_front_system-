@@ -1,0 +1,38 @@
+{
+  "code": 200,
+  "permissions": [
+    "*:*:*"
+  ],
+  "roles": [
+    "admin"
+  ],
+  "user": {
+    "admin": true,
+    "avatar": "",
+    "beginTime": null,
+    "createBy": null,
+    "createTime": "2022-12-05 19:07:21",
+    "dataScope": null,
+    "delFlag": "0",
+    "deptId": 100,
+    "email": "admin@ebupt.com",
+    "endTime": null,
+    "loginDate": null,
+    "loginIp": null,
+    "nickName": "admin",
+    "password": "$2a$10$8eBLRBYYiyFO1n0nzutpmutcM/nnAfSiWksgV9PXslMPENVK5xPLC",
+    "phonenumber": "iF0xRzO+8bE1VFVu6siBP4O67jXooeXNShqK4L8weCVODzH6q6mxbvTtw2vY5RqKDsEz3HT7VeVok5ZeuQaQuQ==",
+    "postIds": null,
+    "remark": "超级管理员",
+    "roleIds": null,
+    "salt": null,
+    "searchValue": null,
+    "sex": "0",
+    "status": "0",
+    "updateBy": null,
+    "updateTime": null,
+    "userId": 1,
+    "userName": "admin"
+  },
+  "msg": "成功"
+}

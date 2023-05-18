@@ -14,7 +14,7 @@
         </template>
       </el-input>
     </el-form-item>
-    <el-form-item prop="code">
+    <!-- <el-form-item prop="code">
       <el-input v-model="loginForm.code" auto-complete="off" placeholder="请输入验证码" style="width: 75%">
         <template #prefix>
           <el-icon><Checked /></el-icon>
@@ -23,7 +23,7 @@
       <div class="login-code">
         <img :src="codeUrl" @click="getCode" alt="" />
       </div>
-    </el-form-item>
+    </el-form-item> -->
     <!-- 记住密码 -->
     <el-form-item>
       <el-checkbox v-model="loginForm.remember">记住密码</el-checkbox>
@@ -53,8 +53,8 @@ const emit = defineEmits(["changeForm"]);
 const loginFormRef = ref();
 const loginRules = reactive({
   username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-  code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+  password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+  // code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
 });
 
 const loading = ref(false);
@@ -77,7 +77,7 @@ const login = formEl => {
         duration: 2000
       });
     } catch (error) {
-      getCode();
+      // getCode();
     } finally {
       loading.value = false;
     }
@@ -118,7 +118,7 @@ const getCode = () => {
 };
 
 // 进入页面的初始化操作
-getCode();
+// getCode();
 getCookieInfo();
 
 // 注册
