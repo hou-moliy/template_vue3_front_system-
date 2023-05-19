@@ -22,7 +22,7 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">返回</el-button>
+        <el-button @click="closeDialog">返回</el-button>
         <el-button type="primary" @click="onSubmit" v-if="isEdit"> 提交 </el-button>
       </span>
     </template>

@@ -8,7 +8,7 @@
       </el-select>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="handleSubitForm">搜索</el-button>
+      <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleFormReset">重置</el-button>
       <el-button type="primary" @click="addRole({ isEdit: false })">新增角色</el-button>
     </el-form-item>
@@ -21,8 +21,8 @@
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column fixed="right" label="操作">
       <template #default="{ row, index }">
-        <el-button type="primary" @click="addRole({ data: row, isEdit: true })">修改</el-button>
-        <el-button type="danger" @click="deleteRole(row, index)">删除</el-button>
+        <el-button type="primary" link @click="addRole({ data: row, isEdit: true })">修改</el-button>
+        <el-button type="danger" link @click="deleteRole(row, index)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -31,7 +31,7 @@
   <roleDialog ref="roleDialogRef" />
 </template>
 <script setup>
-import { reactive, ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import roleDialog from "./components/roleDialog.vue";
 import useForm from "@/hooks/useForm";
@@ -41,42 +41,14 @@ const initialValues = {
   pageNum: 1,
   pageSize: 10
 };
-const { form, formRef, resetForm, submitForm } = useForm(initialValues);
+const { form, formRef, resetForm } = useForm(initialValues);
 
 const handleFormReset = () => {
-  resetForm().then(getList());
+  resetForm().then(() => getList());
 };
-const handleSubitForm = () => {
-  submitForm()
-    .then(() => {
-      getList();
-      console.log("表单提交成功");
-    })
-    .catch(() => {
-      console.log("表单提交失败");
-    });
-};
-const tableData = reactive([
-  {
-    role: "角色1",
-    id: 117,
-    description: "描述1",
-    createTime: "2021-08-01 12:00:00"
-  },
-  {
-    role: "角色1",
-    id: 1,
-    description: "描述1",
-    createTime: "2021-08-01 12:00:00"
-  },
-  {
-    role: "角色1",
-    id: 118,
-    description: "描述1",
-    createTime: "2021-08-01 12:00:00"
-  }
-]);
-
+// 表格数据
+const tableData = ref([]);
+const total = computed(() => tableData.value.length);
 // 删除
 const deleteRole = ({ role }, index) => {
   ElMessageBox.confirm(`此操作将永久删除该角色---${role}, 是否继续?`, "提示", {
@@ -85,7 +57,7 @@ const deleteRole = ({ role }, index) => {
     type: "warning"
   }).then(() => {
     // 删除
-    tableData.splice(index, 1);
+    tableData.value.splice(index, 1);
     ElMessage.success("删除成功");
   });
 };
@@ -94,8 +66,30 @@ const roleDialogRef = ref(null);
 const addRole = ({ data, isEdit }) => {
   roleDialogRef?.value?.handleOpenDialog({ data, isEdit });
 };
-const total = computed(() => tableData.value.length);
 const getList = () => {
+  tableData.value = [
+    {
+      role: "角色1",
+      id: 117,
+      description: "描述1",
+      createTime: "2021-08-01 12:00:00"
+    },
+    {
+      role: "角色1",
+      id: 1,
+      description: "描述1",
+      createTime: "2021-08-01 12:00:00"
+    },
+    {
+      role: "角色1",
+      id: 118,
+      description: "描述1",
+      createTime: "2021-08-01 12:00:00"
+    }
+  ];
   console.log("请求接口数据", form);
 };
+onMounted(() => {
+  getList();
+});
 </script>

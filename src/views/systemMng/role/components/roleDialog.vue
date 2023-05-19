@@ -49,10 +49,6 @@ onMounted(() => {
 const handleOpenDialog = async ({ data, isEdit }) => {
   if (isEdit) {
     await getRoleTreeSelect({ roleId: data.id });
-
-    // if (res.code === 200) {
-    //   form.permission = res.menus.map(menu => menu.id);
-    // }
   }
   openDialog({ data, isEdit });
 };

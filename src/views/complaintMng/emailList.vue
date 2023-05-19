@@ -24,8 +24,8 @@
     <el-table-column prop="createTime" label="添加时间" />
     <el-table-column label="操作">
       <template #default="{ row, index }">
-        <el-button type="danger" @click="handleDelEmail(row, index)">删除</el-button>
-        <el-button type="primary" @click="handleAddEmail(row, true)">编辑</el-button>
+        <el-button type="danger" link @click="handleDelEmail(row, index)">删除</el-button>
+        <el-button type="primary" link @click="handleAddEmail(row, true)">编辑</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -36,7 +36,7 @@
   <cmpyList ref="cmpyListRef" />
 </template>
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, computed, onMounted } from "vue";
 import useForm from "@/hooks/useForm";
 import addEmail from "./components/addEmail.vue";
 import { ElMessageBox, ElMessage } from "element-plus";
@@ -51,16 +51,17 @@ const initialValues = {
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
-const tableData = reactive([
-  {
-    id: "34567",
-    name: "美团",
-    email: "xxx",
-    createTime: "2023/5/16"
-  }
-]);
-const total = ref(tableData.length);
+const tableData = ref([]);
+const total = computed(() => tableData.value.length);
 const getList = () => {
+  tableData.value = [
+    {
+      id: "34567",
+      name: "美团",
+      email: "xxx",
+      createTime: "2023/5/16"
+    }
+  ];
   console.log(form, "获取新数据");
 };
 const handleAddEmail = (data, isEdit) => {
@@ -73,11 +74,14 @@ const handleDelEmail = (row, index) => {
     type: "warning"
   }).then(() => {
     console.log(row);
-    tableData.splice(index, 1);
+    tableData.value.splice(index, 1);
     ElMessage.success("删除成功");
   });
 };
 const handleCmpyList = () => {
   cmpyListRef.value?.openDialog();
 };
+onMounted(() => {
+  getList();
+});
 </script>

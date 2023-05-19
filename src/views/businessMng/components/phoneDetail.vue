@@ -1,12 +1,12 @@
 <template>
   <!-- 搜索 -->
-  <el-form ref="detailFormRef" :model="detailForm" :inline="true">
+  <el-form ref="formRef" :model="form" :inline="true">
     <el-form-item label="号码" prop="phone">
-      <el-input v-model="detailForm.phone" placeholder="请输入号码" />
+      <el-input v-model="form.phone" placeholder="请输入号码" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit(detailFormRef)" :loading="loading">搜索</el-button>
-      <el-button @click="resetForm(detailFormRef)">重置</el-button>
+      <el-button type="primary" @click="getList()">搜索</el-button>
+      <el-button @click="handleResetForm">重置</el-button>
       <el-button @click="exportData">导出</el-button>
     </el-form-item>
   </el-form>
@@ -15,50 +15,52 @@
     <el-table-column prop="phone" label="号码" width="180" />
     <el-table-column prop="createTime" label="加入时间" width="180" />
   </el-table>
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-const detailFormRef = ref(null);
+import useForm from "@/hooks/useForm";
 // 审核表单
-const detailForm = reactive({
-  phone: ""
-});
-const tableData = [
-  {
-    phone: "12345678901",
-    createTime: "2021-01-01 12:00:00"
-  },
-  {
-    phone: "12345678901",
-    createTime: "2021-01-01 12:00:00"
-  },
-  {
-    phone: "12345678901",
-    createTime: "2021-01-01 12:00:00"
-  },
-  {
-    phone: "12345678901",
-    createTime: "2021-01-01 12:00:00"
-  }
-];
-// 提交
-const loading = ref(false);
-const onSubmit = formEl => {
-  if (!formEl) return;
-  formEl.validate(async valid => {
-    if (!valid) return;
-    loading.value = true;
-  });
+const initialValues = {
+  phone: "",
+  pageNum: 1,
+  pageSize: 10
+};
+const { form, formRef, resetForm } = useForm(initialValues);
+const tableData = ref([]);
+const total = computed(() => tableData.value.length);
+const getList = () => {
+  tableData.value = [
+    {
+      phone: "12345678901",
+      createTime: "2021-01-01 12:00:00"
+    },
+    {
+      phone: "12345678901",
+      createTime: "2021-01-01 12:00:00"
+    },
+    {
+      phone: "12345678901",
+      createTime: "2021-01-01 12:00:00"
+    },
+    {
+      phone: "12345678901",
+      createTime: "2021-01-01 12:00:00"
+    }
+  ];
 };
 // 重置
-const resetForm = formEl => {
-  if (!formEl) return;
-  formEl.resetFields();
+const handleResetForm = () => {
+  resetForm().then(() => getList());
 };
 // 导出
 const exportData = () => {
   ElMessage.success("导出成功");
 };
+onMounted(() => {
+  getList();
+});
+defineExpose({ handleResetForm });
 </script>

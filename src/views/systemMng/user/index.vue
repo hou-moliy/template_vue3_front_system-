@@ -1,24 +1,24 @@
 <template>
   <!-- 表单 -->
-  <el-form :inline="true" :model="searchForm">
+  <el-form :inline="true" :model="form" ref="formRef">
     <el-form-item label="账号">
-      <el-input v-model="searchForm.account" placeholder="请输入账号" />
+      <el-input v-model="form.account" placeholder="请输入账号" />
     </el-form-item>
     <el-form-item label="角色">
-      <el-select v-model="searchForm.role" placeholder="请输入角色类型">
+      <el-select v-model="form.role" placeholder="请输入角色类型">
         <el-option label="角色1" value="shanghai" />
         <el-option label="角色2" value="beijing" />
       </el-select>
     </el-form-item>
     <el-form-item label="状态">
-      <el-select v-model="searchForm.status" placeholder="请选择状态">
+      <el-select v-model="form.status" placeholder="请选择状态">
         <el-option label="Zone one" value="shanghai" />
         <el-option label="Zone two" value="beijing" />
       </el-select>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary">搜索</el-button>
-      <el-button>重置</el-button>
+      <el-button type="primary" @click="getList">搜索</el-button>
+      <el-button @click="handleFormReset">重置</el-button>
       <el-button type="primary" @click="addAccount(true)">新增账号</el-button>
     </el-form-item>
   </el-form>
@@ -29,82 +29,120 @@
     <el-table-column prop="phone" label="手机号" />
     <el-table-column prop="email" label="邮箱" />
     <el-table-column prop="role" label="角色" />
-    <el-table-column prop="status" label="状态" />
+    <el-table-column prop="status" label="状态">
+      <template #default="{ row }">
+        <el-button text link :type="statusMap[row.status]?.type"> {{ statusMap[row.status]?.value }}</el-button>
+      </template>
+    </el-table-column>
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column fixed="right" label="操作">
       <template #default="{ row, index }">
-        <el-button type="primary" @click="addAccount(false)">修改</el-button>
-        <el-button type="danger" @click="changeBindStatus(row)">{{ showStatusText(row.status) }}</el-button>
-        <el-button type="danger" @click="deleteAccount(row, index)">删除</el-button>
+        <div v-if="row.status != 0">
+          <el-button type="primary" link @click="addAccount(false)">修改</el-button>
+          <el-button :type="actionStatusMap[row.status]?.type" link @click="changeBindStatus(row)">
+            {{ actionStatusMap[row.status]?.value }}
+          </el-button>
+          <el-button type="danger" link @click="deleteAccount(row, index)">删除</el-button>
+        </div>
       </template>
     </el-table-column>
   </el-table>
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
   <!-- 新增或者编辑账号 -->
   <accountDialog ref="accountDialogRef" />
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import accountDialog from "./components/accountDialog.vue";
-// 搜索表单
-const searchForm = reactive({
-  account: "",
-  role: "",
-  status: ""
-});
-const tableData = reactive([
-  {
-    id: "1",
-    account: "admin",
-    name: "张三",
-    phone: "12345678901",
-    email: "",
-    role: "企业客户",
-    status: "1", // 1:正常 2:冻结0:删除
-    createTime: "2021-08-01 12:00:00"
+import useForm from "@/hooks/useForm";
+const statusMap = {
+  1: {
+    value: "正常",
+    type: "primary"
   },
-  {
-    id: "2",
-    account: "admin",
-    name: "张三",
-    phone: "12345678901",
-    email: "",
-    role: "企业客户",
-    status: "0",
-    createTime: "2021-08-01 12:00:00"
+  2: {
+    value: "冻结",
+    type: "warning"
   },
-  {
-    id: "3",
-    account: "admin",
-    name: "张三",
-    phone: "12345678901",
-    email: "",
-    role: "企业客户",
-    status: "2",
-    createTime: "2021-08-01 12:00:00"
-  },
-  {
-    id: "4",
-    account: "admin",
-    name: "张三",
-    phone: "12345678901",
-    email: "",
-    role: "企业客户",
-    status: "1",
-    createTime: "2021-08-01 12:00:00"
-  }
-]);
-
-const showStatusText = status => {
-  if (status == 1) {
-    return "正常";
-  } else if (status == 2) {
-    return "冻结";
-  } else if (status == 0) {
-    return "删除";
+  0: {
+    value: "删除",
+    type: "danger"
   }
 };
-
+const actionStatusMap = {
+  1: {
+    value: "冻结",
+    type: "warning"
+  },
+  2: {
+    value: "解冻",
+    type: "success"
+  },
+  0: {
+    value: "",
+    type: ""
+  }
+};
+// 搜索表单
+const initialValues = {
+  account: "",
+  role: "",
+  status: "",
+  pageNum: 1,
+  pageSize: 10
+};
+const { form, formRef, resetForm } = useForm(initialValues);
+const tableData = ref([]);
+const total = computed(() => tableData.value.length);
+const getList = () => {
+  tableData.value = [
+    {
+      id: "1",
+      account: "admin",
+      name: "张三",
+      phone: "12345678901",
+      email: "",
+      role: "企业客户",
+      status: "1", // 1:正常 2:冻结0:删除
+      createTime: "2021-08-01 12:00:00"
+    },
+    {
+      id: "2",
+      account: "admin",
+      name: "张三",
+      phone: "12345678901",
+      email: "",
+      role: "企业客户",
+      status: "0",
+      createTime: "2021-08-01 12:00:00"
+    },
+    {
+      id: "3",
+      account: "admin",
+      name: "张三",
+      phone: "12345678901",
+      email: "",
+      role: "企业客户",
+      status: "2",
+      createTime: "2021-08-01 12:00:00"
+    },
+    {
+      id: "4",
+      account: "admin",
+      name: "张三",
+      phone: "12345678901",
+      email: "",
+      role: "企业客户",
+      status: "1",
+      createTime: "2021-08-01 12:00:00"
+    }
+  ];
+  console.log("请求接口数据", form);
+};
+const handleFormReset = () => {
+  resetForm().then(() => getList());
+};
 // 修改绑定状态
 const changeBindStatus = row => {
   if (row.status == 1) {
@@ -137,7 +175,7 @@ const deleteAccount = ({ name }, index) => {
     type: "warning"
   }).then(() => {
     // 删除
-    tableData.splice(index, 1);
+    tableData.value.splice(index, 1);
     ElMessage.success("删除成功");
   });
 };
@@ -146,4 +184,7 @@ const accountDialogRef = ref(null);
 const addAccount = isEdit => {
   accountDialogRef?.value?.openDialog({ isEdit });
 };
+onMounted(() => {
+  getList();
+});
 </script>

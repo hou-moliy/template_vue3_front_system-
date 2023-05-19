@@ -28,18 +28,29 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">返回</el-button>
+        <el-button @click="closeDialog">返回</el-button>
         <el-button type="primary" @click="onSubmit" v-if="isEdit"> 提交 </el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 <script setup>
-import { reactive, ref } from "vue";
-
+import { ref } from "vue";
+import useForm from "@/hooks/useForm";
 import { ElMessage } from "element-plus";
 const dialogVisible = ref(false);
-
+// 表单
+const initialValues = {
+  accountName: "",
+  name: "",
+  phone: "",
+  email: "",
+  secondLevel: "",
+  thirdLevel: "",
+  number: "",
+  idCrad: ""
+};
+const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // openDialog
 const isEdit = ref(false);
 let title = ref("");
@@ -49,35 +60,17 @@ const openDialog = ({ data, isEdit: edit }) => {
   dialogVisible.value = true;
   title.value = isEdit.value ? "修改客户经理属性" : "客户经理详情";
 };
-// 表单
-const formRef = ref(null);
-const form = reactive({
-  accountName: "",
-  name: "",
-  phone: "",
-  email: "",
-  secondLevel: "",
-  thirdLevel: "",
-  number: "",
-  idCrad: ""
-});
+
 // 提交表单
 const onSubmit = () => {
-  formRef.value.validate(valid => {
-    if (valid) {
-      console.log(form);
-      dialogVisible.value = false;
-      ElMessage.success("提交成功");
-      formRef.value.resetFields();
-    } else {
-      return false;
-    }
+  submitForm().then(() => {
+    ElMessage.success("提交成功");
+    closeDialog();
   });
 };
 // 关闭弹窗
 const closeDialog = () => {
-  dialogVisible.value = false;
-  formRef.value.resetFields();
+  resetForm().then(() => (dialogVisible.value = false));
 };
 defineExpose({ openDialog });
 </script>

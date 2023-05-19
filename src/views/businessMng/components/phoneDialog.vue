@@ -1,13 +1,13 @@
 <template>
-  <el-dialog v-model="dialogVisible" title="号码列表" width="50%" @close="resetForm(phoneFormRef)">
+  <el-dialog v-model="dialogVisible" title="号码列表" width="50%" @close="handleResetForm">
     <!-- 搜索 -->
-    <el-form ref="phoneFormRef" :model="phoneForm" :inline="true">
+    <el-form ref="formRef" :model="form" :inline="true">
       <el-form-item label="省份地市">
         <regionSelect v-model="address" :level="2" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit(phoneFormRef)" :loading="loading">搜索</el-button>
-        <el-button @click="resetForm(phoneFormRef)">重置</el-button>
+        <el-button type="primary" @click="getList">搜索</el-button>
+        <el-button @click="handleResetForm">重置</el-button>
       </el-form-item>
     </el-form>
     <!-- 表格 -->
@@ -21,72 +21,83 @@
         </template>
       </el-table-column>
     </el-table>
+    <Pagination
+      v-show="total > 0"
+      :total="total"
+      v-model:page="form.pageNum"
+      v-model:limit="form.pageSize"
+      @pagination="getList"
+    />
     <!-- 嵌套的号码详情dialog -->
-    <el-dialog v-model="innerVisible" width="30%" title="号码详情" append-to-body>
-      <phoneDetail />
+    <el-dialog v-model="innerVisible" width="30%" title="号码详情" append-to-body @close="handlePhoneReset">
+      <phoneDetail ref="phoneDetailRef" />
     </el-dialog>
   </el-dialog>
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, onMounted, computed } from "vue";
 import phoneDetail from "./phoneDetail.vue";
 import regionSelect from "@/components/regionSelect/index.vue";
 import { useRegion } from "@/hooks/useRegion.js";
+import useForm from "@/hooks/useForm";
 const dialogVisible = ref(false);
-const phoneFormRef = ref(null);
+const phoneDetailRef = ref(false);
+// 审核表单
+const initialValues = {
+  province: "",
+  city: "",
+  pageNum: 1,
+  pageSize: 10
+};
+const { form, formRef, resetForm } = useForm(initialValues);
+// 地址
+const { address, setAddress } = useRegion(formRef, form);
 // openDialog
 const openDialog = data => {
   console.log(data);
   dialogVisible.value = true;
 };
-
-// 审核表单
-const phoneForm = reactive({
-  province: "",
-  city: ""
-});
-const tableData = [
-  {
-    province: "四川",
-    city: "成都",
-    phone: "100"
-  },
-  {
-    province: "四川",
-    city: "成都",
-    phone: "100"
-  },
-  {
-    province: "四川",
-    city: "成都",
-    phone: "100"
-  },
-  {
-    province: "四川",
-    city: "成都",
-    phone: "100"
-  }
-];
-// 提交
-const loading = ref(false);
-const onSubmit = formEl => {
-  if (!formEl) return;
-  formEl.validate(async valid => {
-    if (!valid) return;
-    loading.value = true;
-  });
+// 表格数据
+const tableData = ref([]);
+const total = computed(() => tableData.value.length);
+const getList = () => {
+  tableData.value = [
+    {
+      province: "四川",
+      city: "成都",
+      phone: "100"
+    },
+    {
+      province: "四川",
+      city: "成都",
+      phone: "100"
+    },
+    {
+      province: "四川",
+      city: "成都",
+      phone: "100"
+    },
+    {
+      province: "四川",
+      city: "成都",
+      phone: "100"
+    }
+  ];
 };
 // 重置
-const resetForm = formEl => {
-  if (!formEl) return;
-  formEl.resetFields();
+const handleResetForm = () => {
+  resetForm();
   setAddress([]);
+};
+// 号码详情重置
+const handlePhoneReset = () => {
+  phoneDetailRef.value?.handleResetForm();
 };
 // 号码详情
 const innerVisible = ref(false);
-
-// 地址
-const { address, setAddress } = useRegion(phoneFormRef, phoneForm);
+onMounted(() => {
+  getList();
+});
 defineExpose({ openDialog });
 </script>

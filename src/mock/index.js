@@ -1,6 +1,8 @@
 import Mock from 'mockjs'
 import DynamicRouter from "@/assets/json/routerList.json";
 import UserInfo from "@/assets/json/userInfo.json";
+import TreeSelect from "@/assets/json/treeSelect.json"
+import RoleTreeSelect from "@/assets/json/roleTreeSelect.json"
 const baseURL = import.meta.env.VITE_BASE_API || "admin";
 
 
@@ -20,8 +22,18 @@ Mock.mock(`${baseURL}/common/login`, () => {
 });
 
 Mock.mock(`${baseURL}/common/getInfo`, () => {
-  console.log(UserInfo)
   {
     return Mock.mock(UserInfo);
+  }
+});
+
+Mock.mock(`${baseURL}/system/menu/treeselect`, () => {
+  {
+    return Mock.mock(TreeSelect);
+  }
+});
+Mock.mock(`${baseURL}/system/menu/roleMenuTreeselect?roleId=117`, () => {
+  {
+    return Mock.mock(RoleTreeSelect);
   }
 });

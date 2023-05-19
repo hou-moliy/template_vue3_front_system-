@@ -55,7 +55,7 @@
   <complainDetail ref="complainDetailRef" />
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import useForm from "@/hooks/useForm";
 import complainDetail from "./components/complainDetail.vue";
 const complainDetailRef = ref(null);
@@ -70,22 +70,26 @@ const initialValues = {
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
-const tableData = reactive([
-  {
-    cmpy: "美团",
-    manager: "美团经理",
-    branchCmpy: "美团分公司",
-    channel: "渠道商",
-    phone: "123",
-    times: "2",
-    createTime: "2023/5/16"
-  }
-]);
-const total = ref(tableData.length);
+const tableData = ref([]);
+const total = computed(() => tableData.value.length);
 const getList = () => {
-  console.log(form, "获取新数据");
+  tableData.value = [
+    {
+      cmpy: "美团",
+      manager: "美团经理",
+      branchCmpy: "美团分公司",
+      channel: "渠道商",
+      phone: "123",
+      times: "2",
+      createTime: "2023/5/16"
+    }
+  ];
+  console.log("请求接口数据", form);
 };
 const openDialog = () => {
   complainDetailRef.value?.openDialog();
 };
+onMounted(() => {
+  getList();
+});
 </script>

@@ -7,7 +7,7 @@
       <el-radio-group v-model="form.type">
         <el-radio label="1">指定号码退订</el-radio>
         <el-radio label="2">指定地市号码退订</el-radio>
-        <el-radio label="2">指定企业客户号码退订</el-radio>
+        <el-radio label="3">指定企业客户号码退订</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item label="文件" prop="file">
@@ -21,27 +21,19 @@
   </el-form>
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import useForm from "@/hooks/useForm";
 // 表单
-const formRef = ref(null);
-const form = reactive({
+const initialValues = {
   title: "",
   type: "",
   file: ""
-});
+};
+const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // 提交表单
 const onSubmit = () => {
-  formRef.value.validate(valid => {
-    if (valid) {
-      ElMessage.success("提交成功");
-      formRef.value.resetFields();
-    } else {
-      return false;
-    }
+  submitForm().then(() => {
+    ElMessage.success("提交成功");
+    resetForm();
   });
-};
-// 重置
-const resetForm = () => {
-  formRef.value.resetFields();
 };
 </script>

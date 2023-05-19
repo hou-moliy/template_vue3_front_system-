@@ -25,34 +25,30 @@
   </el-form>
 </template>
 <script setup>
-import { reactive, ref } from "vue";
 import regionSelect from "@/components/regionSelect/index.vue";
 import { useRegion } from "@/hooks/useRegion.js";
+import useForm from "@/hooks/useForm";
 // 表单
-const formRef = ref(null);
-const form = reactive({
+const initialValues = {
   title: "",
   type: "",
   cmpy: "",
   province: "",
   city: "",
   phoneNum: ""
-});
+};
+const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 const { address, setAddress } = useRegion(formRef, form);
 // 提交表单
 const onSubmit = () => {
-  formRef.value.validate(valid => {
-    if (valid) {
-      ElMessage.success("提交成功");
-      formRef.value.resetFields();
-    } else {
-      return false;
-    }
+  submitForm().then(() => {
+    handleReset();
+    ElMessage.success("提交成功");
   });
 };
 // 重置
-const resetForm = () => {
-  formRef.value.resetFields();
+const handleReset = () => {
+  resetForm();
   setAddress([]);
 };
 </script>

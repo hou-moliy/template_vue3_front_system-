@@ -26,6 +26,12 @@
         </template>
       </privacyForm>
     </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="closeDialog">返回</el-button>
+        <el-button type="primary" @click="onSubmit" v-if="isEdit"> 提交 </el-button>
+      </span>
+    </template>
   </el-dialog>
 </template>
 <script setup>
@@ -41,7 +47,7 @@ const initialValues = {
   platformId: "",
   password: ""
 };
-const { form, formRef, resetForm } = useForm(initialValues);
+const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // openDialog
 const isEdit = ref(false);
 let title = ref("");
@@ -57,6 +63,11 @@ const closeDialog = () => {
   dialogVisible.value = false;
   resetForm();
   privacyFormRef?.value?.onReset();
+};
+const onSubmit = () => {
+  submitForm().then(() => {
+    closeDialog();
+  });
 };
 defineExpose({ openDialog });
 </script>
