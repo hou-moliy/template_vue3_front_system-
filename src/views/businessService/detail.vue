@@ -29,43 +29,46 @@
     <interForm ref="interFormRef" v-if="form.acceptType == 1" :disabled="!isEdit" />
     <el-form-item v-if="isEdit">
       <el-button @click="onReset">重置</el-button>
-      <el-button type="primary" @click="onSubmit(formRef)">提交</el-button>
+      <el-button type="primary" @click="onSubmit">提交</el-button>
       <el-button @click="onReset">取消</el-button>
     </el-form-item>
   </el-form>
 </template>
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, onMounted } from "vue";
 import privacyForm from "./components/privacyForm.vue";
 import interForm from "./components/interForm.vue";
 import useRules from "./hooks/useRules";
 import { useRoute } from "vue-router";
+import useForm from "@/hooks/useForm";
 const route = useRoute();
-const formRef = ref(null);
 const privacyFormRef = ref(null);
 const interFormRef = ref(null);
 const isEdit = ref(true);
-isEdit.value = route.query.isEdit === "true" ? true : false;
-const form = reactive({
+const initialValues = {
   name: "",
   acceptType: "1",
   businessType: ""
-});
+};
+const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 const { commonRules } = useRules();
-
-const onSubmit = formEl => {
-  if (!formEl) return;
-  formEl.validate(async valid => {
-    if (!valid && !privacyFormRef?.value?.onSubmit()) return;
-    // loading.value = true;
-    // privacyFormRef?.value?.onSubmit();
-    console.log(privacyFormRef?.value?.privacyForm);
-  });
+const onSubmit = () => {
+  submitForm()
+    .then(() => {
+      privacyFormRef.value?.onSubmit();
+      // loading.value = true;
+      // privacyFormRef?.value?.onSubmit();
+      console.log(privacyFormRef?.value?.form);
+    })
+    .catch(() => privacyFormRef.value?.onSubmit());
 };
 const onReset = () => {
-  formRef?.value?.resetFields();
+  resetForm();
   privacyFormRef?.value?.onReset();
   interFormRef?.value?.onReset();
 };
+onMounted(() => {
+  isEdit.value = route.query.isEdit === "true" ? true : false;
+});
 </script>
 <style></style>

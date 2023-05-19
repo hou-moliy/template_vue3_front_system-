@@ -29,11 +29,20 @@
   </el-dialog>
 </template>
 <script setup>
-import { reactive, ref } from "vue";
-
+import { ref } from "vue";
+import useForm from "@/hooks/useForm";
 import { ElMessage } from "element-plus";
 const dialogVisible = ref(false);
-
+// 表单
+const initialValues = {
+  cmpyName: "",
+  name: "",
+  idCrad: "",
+  accoutName: "",
+  phone: "",
+  email: ""
+};
+const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // openDialog
 const isEdit = ref(false);
 let title = ref("");
@@ -43,33 +52,18 @@ const openDialog = ({ data, isEdit: edit }) => {
   dialogVisible.value = true;
   title.value = isEdit.value ? "修改渠道商属性" : "渠道商详情";
 };
-// 表单
-const formRef = ref(null);
-const form = reactive({
-  cmpyName: "",
-  name: "",
-  idCrad: "",
-  accoutName: "",
-  phone: "",
-  email: ""
-});
 // 提交表单
 const onSubmit = () => {
-  formRef.value.validate(valid => {
-    if (valid) {
-      console.log(form);
-      dialogVisible.value = false;
-      ElMessage.success("提交成功");
-      formRef.value.resetFields();
-    } else {
-      return false;
-    }
+  submitForm().then(() => {
+    dialogVisible.value = false;
+    ElMessage.success("提交成功");
+    resetForm();
   });
 };
 // 关闭弹窗
 const closeDialog = () => {
   dialogVisible.value = false;
-  formRef.value.resetFields();
+  resetForm();
 };
 defineExpose({ openDialog });
 </script>

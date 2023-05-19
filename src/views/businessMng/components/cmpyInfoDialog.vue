@@ -29,11 +29,19 @@
   </el-dialog>
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import privacyForm from "@/views/businessService/components/privacyForm.vue";
+import useForm from "@/hooks/useForm";
 const dialogVisible = ref(false);
 const privacyFormRef = ref(null);
-
+// 表单
+const initialValues = {
+  businessType: "",
+  number: "",
+  platformId: "",
+  password: ""
+};
+const { form, formRef, resetForm } = useForm(initialValues);
 // openDialog
 const isEdit = ref(false);
 let title = ref("");
@@ -43,19 +51,11 @@ const openDialog = ({ data, isEdit: edit }) => {
   dialogVisible.value = true;
   title.value = isEdit.value ? "编辑企业信息" : "查看企业信息";
 };
-// 表单
-const formRef = ref(null);
-const form = reactive({
-  businessType: "",
-  number: "",
-  platformId: "",
-  password: ""
-});
 
 // 关闭弹窗
 const closeDialog = () => {
   dialogVisible.value = false;
-  formRef.value.resetFields();
+  resetForm();
   privacyFormRef?.value?.onReset();
 };
 defineExpose({ openDialog });

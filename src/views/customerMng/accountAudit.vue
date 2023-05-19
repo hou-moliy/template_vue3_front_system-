@@ -1,23 +1,23 @@
 <template>
   <!-- 表单 -->
-  <el-form :inline="true" :model="searchForm">
-    <el-form-item label="账户类型">
-      <el-select v-model="searchForm.type" placeholder="请选择账户类型" size="large">
+  <el-form :inline="true" :model="form" ref="formRef">
+    <el-form-item label="账户类型" prop="type">
+      <el-select v-model="form.type" placeholder="请选择账户类型" size="large">
         <el-option v-for="item in Roles" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled" />
       </el-select>
     </el-form-item>
-    <el-form-item label="审批状态">
-      <el-select v-model="searchForm.status" placeholder="请选择">
+    <el-form-item label="审批状态" prop="status">
+      <el-select v-model="form.status" placeholder="请选择">
         <el-option label="Zone one" value="shanghai" />
         <el-option label="Zone two" value="beijing" />
       </el-select>
     </el-form-item>
-    <el-form-item label="申请人名称">
-      <el-input v-model="searchForm.name" placeholder="请输入申请人姓名" />
+    <el-form-item label="申请人名称" prop="name">
+      <el-input v-model="form.name" placeholder="请输入申请人姓名" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary">搜索</el-button>
-      <el-button>重置</el-button>
+      <el-button type="primary" @click="handleSubitForm">搜索</el-button>
+      <el-button @click="handleResetForm">重置</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -32,7 +32,7 @@
     </el-table-column>
     <el-table-column prop="type" label="账户类型">
       <template #default="scope">
-        <span>{{ accountType(scope.row.type) }}</span>
+        <span>{{ accountMap[scope.row.type] }}</span>
       </template>
     </el-table-column>
     <el-table-column prop="status" label="审批状态" />
@@ -42,8 +42,8 @@
     <el-table-column prop="remark" label="备注" />
     <el-table-column fixed="right" label="审批操作" width="180">
       <template #default="{ row }">
-        <el-button type="primary" @click="openAuditDialog(row, 1)">通过</el-button>
-        <el-button type="primary" @click="openAuditDialog(row, 0)">不通过</el-button>
+        <el-button type="primary" link @click="openAuditDialog(row, 1)">通过</el-button>
+        <el-button type="danger" link @click="openAuditDialog(row, 0)">不通过</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -52,13 +52,26 @@
 </template>
 <script setup>
 import auditDialog from "./components/auditDialog.vue";
-import { reactive, ref } from "vue";
+import { ref, onMounted } from "vue";
+import useForm from "@/hooks/useForm";
+// 审核弹窗
+const auditDialogRef = ref(null);
+// 表格栏
+let tableData = ref([]);
+const accountMap = {
+  1: "企业客户",
+  2: "客户经理",
+  3: "分公司管理员",
+  4: "渠道商",
+  5: "项目经理"
+};
 // 搜索表单
-const searchForm = reactive({
+const initialValues = {
   type: "",
   status: "",
   name: ""
-});
+};
+const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // 账户类型
 const Roles = [
   {
@@ -83,65 +96,67 @@ const Roles = [
     disabled: true
   }
 ];
-// 表格栏
-const tableData = [
-  {
-    name: "王小虎",
-    phone: "12345678901",
-    createTime: "2016-05-02",
-    file: "查看",
-    type: "1",
-    status: "待审批",
-    auditer: "张三",
-    updateTime: "2016-05-02",
-    result: "通过",
-    remark: "无"
-  },
-  {
-    name: "王小虎",
-    phone: "12345678901",
-    createTime: "2016-05-02",
-    file: "查看",
-    type: "2",
-    status: "待审批",
-    auditer: "张三",
-    updateTime: "2016-05-02",
-    result: "通过",
-    remark: "无"
-  },
-  {
-    name: "王小虎",
-    phone: "12345678901",
-    createTime: "2016-05-02",
-    file: "查看",
-    type: "3",
-    status: "待审批",
-    auditer: "张三",
-    updateTime: "2016-05-02",
-    result: "通过",
-    remark: "无"
-  }
-];
-// 打开审核弹窗
-const auditDialogRef = ref(null);
 
+const handleResetForm = () => {
+  resetForm().then(() => getList());
+};
+const handleSubitForm = () => {
+  submitForm()
+    .then(() => {
+      getList();
+      console.log("表单提交成功");
+    })
+    .catch(() => {
+      console.log("表单提交失败");
+    });
+};
+const getList = () => {
+  console.log("获取表单的方法");
+  tableData.value = [
+    {
+      name: "王小虎",
+      phone: "12345678901",
+      createTime: "2016-05-02",
+      file: "查看",
+      type: "1",
+      status: "待审批",
+      auditer: "张三",
+      updateTime: "2016-05-02",
+      result: "通过",
+      remark: "无"
+    },
+    {
+      name: "王小虎",
+      phone: "12345678901",
+      createTime: "2016-05-02",
+      file: "查看",
+      type: "2",
+      status: "待审批",
+      auditer: "张三",
+      updateTime: "2016-05-02",
+      result: "通过",
+      remark: "无"
+    },
+    {
+      name: "王小虎",
+      phone: "12345678901",
+      createTime: "2016-05-02",
+      file: "查看",
+      type: "3",
+      status: "待审批",
+      auditer: "张三",
+      updateTime: "2016-05-02",
+      result: "通过",
+      remark: "无"
+    }
+  ];
+};
 const openAuditDialog = ({ type }, info) => {
   // info: 1-通过 0-不通过
   auditDialogRef?.value?.openDialog({ type, info });
 };
 
-const accountType = type => {
-  if (type === "1") {
-    return "企业客户";
-  } else if (type === "2") {
-    return "客户经理";
-  } else if (type === "3") {
-    return "分公司管理员";
-  } else if (type === "4") {
-    return "渠道商";
-  } else if (type === "5") {
-    return "项目经理";
-  }
-  return "";
-};
+onMounted(() => {
+  getList();
+});
 </script>

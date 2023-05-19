@@ -31,7 +31,7 @@
   <roleDialog ref="roleDialogRef" />
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, computed } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import roleDialog from "./components/roleDialog.vue";
 import useForm from "@/hooks/useForm";
@@ -94,7 +94,7 @@ const roleDialogRef = ref(null);
 const addRole = ({ data, isEdit }) => {
   roleDialogRef?.value?.handleOpenDialog({ data, isEdit });
 };
-const total = ref(tableData.length);
+const total = computed(() => tableData.value.length);
 const getList = () => {
   console.log("请求接口数据", form);
 };
