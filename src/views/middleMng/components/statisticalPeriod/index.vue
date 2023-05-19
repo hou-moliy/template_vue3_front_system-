@@ -13,20 +13,25 @@
       <span class="sub-label">{{ customMonth }}</span>
     </el-option>
   </el-select>
-  <el-date-picker ref="datePickerRef" v-model="pickerOptions.val" :value-format="pickerOptions.format"
-    :type="pickerOptions.type" @change="onPickerChange" />
+  <el-date-picker
+    ref="datePickerRef"
+    v-model="pickerOptions.val"
+    :value-format="pickerOptions.format"
+    :type="pickerOptions.type"
+    @change="onPickerChange"
+  />
 </template>
 <script setup>
-import { ref, computed, reactive, watch } from "vue";
-const props = defineProps({
+import { ref, computed, reactive } from "vue";
+defineProps({
   modelValue: {
     type: String,
     default: ""
   }
 });
 const emits = defineEmits(["update:modelValue"]);
-const customDate = computed(() => (pickerOptions.type === "date" ? pickerOptions.val : "点击选择"));
-const customMonth = computed(() => (pickerOptions.type === "month" ? pickerOptions.val : "点击选择"));
+const customDate = computed(() => (pickerOptions.type === "date" && pickerOptions.val) || "点击选择");
+const customMonth = computed(() => (pickerOptions.type === "month" && pickerOptions.val) || "点击选择");
 const pickerOptions = reactive({
   val: "点击选择",
   type: "date",
@@ -34,7 +39,10 @@ const pickerOptions = reactive({
 });
 const datePickerRef = ref(null);
 const onChange = e => {
-  emits("update:modelValue", e);
+  pickerOptions.val = "";
+  if (e === "day" || e === "month" || e === "7" || e === "30") {
+    emits("update:modelValue", e);
+  }
 };
 const showPicker = (type, format) => {
   pickerOptions.type = type;
@@ -44,24 +52,6 @@ const showPicker = (type, format) => {
 const onPickerChange = () => {
   emits("update:modelValue", pickerOptions.val);
 };
-const dateList = ref([]);
-watch(
-  () => props.modelValue,
-  newVal => {
-    console.log(newVal, "modelValue");
-    if(newVal === "day") {
-      dateList.value = [1];
-    } else if(newVal === "month") {
-      dateList.value = [30];
-    } else if(newVal === "7") {
-      dateList.value = [7];
-    }
-  },
-  {
-    deep: true
-  }
-);
-defineExpose({ dateList });
 </script>
 <style>
 .el-date-editor {

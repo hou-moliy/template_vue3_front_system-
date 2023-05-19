@@ -29,10 +29,12 @@ const props = defineProps({
     default: () => ["订单量", "呼入平台次数", "成功通话次数", "接通率"]
   },
   xData: {
+    // 横坐标
     type: Array,
     default: () => []
   },
   seriesData: {
+    // 展示的数据值数组
     type: Array,
     default: () => [[]]
   }
@@ -82,39 +84,38 @@ let option = reactive({
       name: "订单量",
       type: "line",
       stack: "Total",
-      data: [12000, 13200000, 101000, 13400, 900000, 13000000, 21000]
+      data: []
     },
     {
       name: "呼入平台次数",
       type: "line",
       stack: "Total",
-      data: [1200, 1320000, 101000, 13400, 900000, 23000000, 21000]
+      data: []
     },
     {
       name: "成功通话次数",
       type: "line",
       stack: "Total",
-      data: [15000, 232000, 200001, 15400, 1900000, 1300000, 4010]
+      data: []
     },
     {
       name: "接通率",
       type: "line",
       stack: "Total",
-      data: [320000, 3320000, 3000001, 330004, 3000090, 200030, 320000]
+      data: []
     }
   ]
 });
 onMounted(() => {
-  // let chartDom = document.getElementById("main");
-  // let myChart = echarts.init(chartDom);
-  // useEcharts(myChart, option);
+  let chartDom = document.getElementById("main");
+  let myChart = echarts.init(chartDom);
+  useEcharts(myChart, option);
 });
 watch(
-  () => props.xData,
+  () => props,
   newVal => {
-    console.log(newVal, "xData");
-    option.xAxis.data = newVal;
-    console.log(option.xAxis.data, "xData");
+    option.xAxis.data = newVal.xData;
+    option.title.text = newVal.title;
     let chartDom = document.getElementById("main");
     let myChart = echarts.init(chartDom);
     useEcharts(myChart, option);

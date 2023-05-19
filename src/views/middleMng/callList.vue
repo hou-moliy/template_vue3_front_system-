@@ -39,7 +39,7 @@
   </el-form>
   <!-- 统计 -->
   <div class="echarts-map-chian" style="width: 100%; height: 300px">
-    <stackedLine :xData="xData" />
+    <stackedLine :xData="LineCharts.xData" :title="LineCharts.title" />
   </div>
   <!-- 表格 -->
   <el-table border :data="tableData">
@@ -66,12 +66,16 @@
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { reactive, watch } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
 import { useRegion } from "@/hooks/useRegion.js";
 import stackedLine from "./components/stackedLine/index.vue";
 import statisticalPeriod from "./components/statisticalPeriod/index.vue";
+import { useTime } from "@/hooks/useTime";
+import useCallTable from "./hooks/useCallTable";
+const { recentDates, getRecentDates, getMonthDates, monthDates } = useTime();
+const { total, getList, tableData } = useCallTable();
 const initialValues = {
   cmpy: "",
   branchCmpy: "",
@@ -86,22 +90,10 @@ const initialValues = {
 const { form, formRef, resetForm } = useForm(initialValues);
 // 地址
 const { address, setAddress } = useRegion(formRef, form);
-const tableData = reactive([
-  {
-    cmpy: "美团",
-    manager: "美团经理",
-    branchCmpy: "美团分公司",
-    channel: "渠道商",
-    phone: "123",
-    times: "2",
-    createTime: "2023/5/16"
-  }
-]);
-const total = ref(tableData.length);
-const xData = ref([]);
-const getList = () => {
-  console.log(form, "获取新数据");
-};
+const LineCharts = reactive({
+  title: "",
+  xData: []
+});
 // 重置
 const handleReset = () => {
   setAddress([]);
@@ -112,13 +104,17 @@ const handleReset = () => {
 watch(
   () => form.date,
   newVal => {
-    console.log(newVal, "newVal");
     if (newVal === "day") {
-      xData.value = [1];
+      LineCharts.title = "日统计";
+      LineCharts.xData = [1];
     } else if (newVal === "month") {
-      xData.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    } else if (newVal === "7") {
-      xData.value = [1, 2, 3, 4, 5, 6, 7];
+      LineCharts.xData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    } else if (newVal === "7" || newVal === "30") {
+      getRecentDates(newVal);
+      LineCharts.xData = recentDates.value;
+    } else {
+      getMonthDates(newVal);
+      LineCharts.xData = monthDates.value;
     }
   },
   {

@@ -11,7 +11,7 @@ interface FormHooks {
   submitForm: () => void;
 }
 
-export function useForm(initialValues: FormValues): FormHooks {
+const useForm = (initialValues: FormValues): FormHooks => {
   let form = reactive<FormValues>({ ...initialValues });
   const formRef = ref<FormInstance | null>(null);
   const resetForm = () => {
@@ -40,5 +40,5 @@ export function useForm(initialValues: FormValues): FormHooks {
     resetForm,
     submitForm
   };
-}
+};
 export default useForm;
