@@ -75,7 +75,7 @@ import stackedLine from "./components/stackedLine/index.vue";
 import statisticalPeriod from "./components/statisticalPeriod/index.vue";
 import { useTime } from "@/hooks/useTime";
 import useCallTable from "./hooks/useCallTable";
-const { getRecentDates, getMonthDates, getCurrentDate } = useTime();
+const { getRecentDates, getMonthDates, getCurrentDate, getDateRange } = useTime();
 const { total, getList, tableData } = useCallTable();
 const statisticalRef = ref(null);
 const initialValues = {
@@ -121,10 +121,11 @@ watch(
         break;
       default:
         if(statisticalRef.value?.type === "date") {
-          console.log(statisticalRef.value?.type, "???");
           LineCharts.xData = [newVal];
         } else if(statisticalRef.value?.type === "month") {
           LineCharts.xData = getMonthDates(newVal);
+        } else if(statisticalRef.value?.type === "daterange") {
+          LineCharts.xData = getDateRange(newVal[0], newVal[1]);
         }
         break;
     }

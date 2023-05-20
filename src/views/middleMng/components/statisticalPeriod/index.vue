@@ -4,7 +4,7 @@
     <el-option label="月统计" value="month" />
     <el-option label="近7日统计" value="7" />
     <el-option label="近30日统计" value="30" />
-    <el-option :value="customDate" @click="showPicker('date', 'YYYY-MM-DD')">
+    <el-option :value="customDate" @click="showPicker('daterange', 'YYYY-MM-DD')">
       <span class="label">自定义日期</span>
       <span class="sub-label">{{ customDate }}</span>
     </el-option>
@@ -31,11 +31,11 @@ defineProps({
   }
 });
 const emits = defineEmits(["update:modelValue"]);
-const customDate = computed(() => (pickerOptions.type === "date" && pickerOptions.val) || "点击选择");
+const customDate = computed(() => (pickerOptions.type === "daterange" && pickerOptions.val) || "点击选择");
 const customMonth = computed(() => (pickerOptions.type === "month" && pickerOptions.val) || "点击选择");
 const pickerOptions = reactive({
   val: "点击选择",
-  type: "date",
+  type: "daterange",
   format: "YYYY-MM-DD",
   title: ""
 });
@@ -59,7 +59,9 @@ const onPickerChange = () => {
 defineExpose({ ...toRefs(pickerOptions) });
 </script>
 <style>
-.el-date-editor {
+.el-date-editor,
+.el-date-editor--daterange,
+.el-range-editor.el-input__wrapper {
   display: none;
   /* 隐藏日期选择器的输入框 */
 }

@@ -1,8 +1,4 @@
 import { ref } from "vue";
-
-/**
- * @description 获取本地时间
- */
 export const useTime = () => {
   const monthDates = ref([]); // 日期数组(月)
   const recentDates = ref([]); // 日期数组(最近)
@@ -62,12 +58,25 @@ export const useTime = () => {
     todayDate.value = formatDate;
     return formattedDate;
   };
+  const getDateRange = (startDate, endDate, format = "yyyy/mm/dd") => {
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+    const dates = [];
+    const currentDate = new Date(startDate);
+    while(currentDate <= endDate) {
+      const formattedDate = formatDate(currentDate, format);
+      dates.push(formattedDate);
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return dates;
+  };
   return {
     getMonthDates,
     monthDates,
     getRecentDates,
     recentDates,
     getCurrentDate,
-    todayDate
+    todayDate,
+    getDateRange
   };
 };
