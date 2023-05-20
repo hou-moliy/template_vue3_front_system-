@@ -29,7 +29,7 @@
       <regionSelect v-model="address" :level="2" />
     </el-form-item>
     <el-form-item label="统计周期" prop="date">
-      <statisticalPeriod v-model="form.date" />
+      <statisticalPeriod ref="statisticalRef" v-model="form.date" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
@@ -63,10 +63,11 @@
     <el-table-column prop="times" label="录音URL推送成功次数" />
     <el-table-column prop="times" label="录音URL推送成功率" />
   </el-table>
-  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
+    @pagination="getList" />
 </template>
 <script setup>
-import { reactive, watch } from "vue";
+import { reactive, watch, ref } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
 import { useRegion } from "@/hooks/useRegion.js";
@@ -74,8 +75,9 @@ import stackedLine from "./components/stackedLine/index.vue";
 import statisticalPeriod from "./components/statisticalPeriod/index.vue";
 import { useTime } from "@/hooks/useTime";
 import useCallTable from "./hooks/useCallTable";
-const { recentDates, getRecentDates, getMonthDates, monthDates } = useTime();
+const { getRecentDates, getMonthDates, getCurrentDate } = useTime();
 const { total, getList, tableData } = useCallTable();
+const statisticalRef = ref(null);
 const initialValues = {
   cmpy: "",
   branchCmpy: "",
@@ -104,21 +106,32 @@ const handleReset = () => {
 watch(
   () => form.date,
   newVal => {
-    if (newVal === "day") {
-      LineCharts.title = "日统计";
-      LineCharts.xData = [1];
-    } else if (newVal === "month") {
-      LineCharts.xData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    } else if (newVal === "7" || newVal === "30") {
-      getRecentDates(newVal);
-      LineCharts.xData = recentDates.value;
-    } else {
-      getMonthDates(newVal);
-      LineCharts.xData = monthDates.value;
+    LineCharts.title = statisticalRef.value?.title ?? "";
+    switch(newVal) {
+      case "day":
+        const today = getCurrentDate();
+        LineCharts.xData = [today];
+        break;
+      case "month":
+        LineCharts.xData = getMonthDates();
+        break;
+      case "7":
+      case "30":
+        LineCharts.xData = getRecentDates(parseInt(newVal));
+        break;
+      default:
+        if(statisticalRef.value?.type === "date") {
+          console.log(statisticalRef.value?.type, "???");
+          LineCharts.xData = [newVal];
+        } else if(statisticalRef.value?.type === "month") {
+          LineCharts.xData = getMonthDates(newVal);
+        }
+        break;
     }
   },
   {
-    deep: true
+    deep: true,
+    immediate: true
   }
 );
 </script>

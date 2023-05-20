@@ -13,16 +13,17 @@
       <span class="sub-label">{{ customMonth }}</span>
     </el-option>
   </el-select>
-  <el-date-picker
-    ref="datePickerRef"
-    v-model="pickerOptions.val"
-    :value-format="pickerOptions.format"
-    :type="pickerOptions.type"
-    @change="onPickerChange"
-  />
+  <el-date-picker ref="datePickerRef" v-model="pickerOptions.val" :value-format="pickerOptions.format"
+    :type="pickerOptions.type" @change="onPickerChange" />
 </template>
 <script setup>
-import { ref, computed, reactive } from "vue";
+import { ref, computed, reactive, toRefs } from "vue";
+const titleMap = {
+  day: "日统计",
+  month: "月统计",
+  7: "近7日统计",
+  30: "近30日统计"
+};
 defineProps({
   modelValue: {
     type: String,
@@ -35,12 +36,14 @@ const customMonth = computed(() => (pickerOptions.type === "month" && pickerOpti
 const pickerOptions = reactive({
   val: "点击选择",
   type: "date",
-  format: "YYYY-MM-DD"
+  format: "YYYY-MM-DD",
+  title: ""
 });
 const datePickerRef = ref(null);
 const onChange = e => {
   pickerOptions.val = "";
-  if (e === "day" || e === "month" || e === "7" || e === "30") {
+  if(e === "day" || e === "month" || e === "7" || e === "30") {
+    pickerOptions.title = titleMap[e];
     emits("update:modelValue", e);
   }
 };
@@ -50,8 +53,10 @@ const showPicker = (type, format) => {
   datePickerRef.value?.handleOpen();
 };
 const onPickerChange = () => {
+  pickerOptions.title = `${pickerOptions.val}统计`;
   emits("update:modelValue", pickerOptions.val);
 };
+defineExpose({ ...toRefs(pickerOptions) });
 </script>
 <style>
 .el-date-editor {
