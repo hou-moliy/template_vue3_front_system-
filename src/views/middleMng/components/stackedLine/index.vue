@@ -7,7 +7,7 @@ import { TitleComponent, ToolboxComponent, TooltipComponent, GridComponent, Lege
 import { LineChart } from "echarts/charts";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
-import { onMounted, watch, reactive } from "vue";
+import { watch, reactive, nextTick } from "vue";
 import { useEcharts } from "@/hooks/useEcharts";
 echarts.use([
   TitleComponent,
@@ -106,22 +106,19 @@ let option = reactive({
     }
   ]
 });
-onMounted(() => {
-  let chartDom = document.getElementById("main");
-  let myChart = echarts.init(chartDom);
-  useEcharts(myChart, option);
-});
 watch(
   () => props,
   newVal => {
-    option.xAxis.data = newVal.xData;
-    option.title.text = newVal.title;
-    let chartDom = document.getElementById("main");
-    let myChart = echarts.init(chartDom);
-    useEcharts(myChart, option);
+    nextTick(() => {
+      option.xAxis.data = newVal.xData;
+      option.title.text = newVal.title;
+      let chartDom = document.getElementById("main");
+      let myChart = echarts.init(chartDom);
+      useEcharts(myChart, option);
+    });
   },
   {
-    immediate: false,
+    immediate: true,
     deep: true
   }
 );

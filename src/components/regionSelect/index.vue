@@ -22,7 +22,7 @@ const props = defineProps({
   // 返回的是code
   showCode: {
     type: Boolean,
-    default: false
+    default: true
   },
   // 几级联动
   level: {
@@ -35,7 +35,7 @@ const props = defineProps({
 });
 
 const options = computed(() => {
-  if(props.level === 2) {
+  if (props.level === 2) {
     return props.showCode ? provinceAndCityData : pcTextArr;
   } else {
     return props.showCode ? regionData : pcaTextArr;

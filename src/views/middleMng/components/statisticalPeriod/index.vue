@@ -13,8 +13,13 @@
       <span class="sub-label">{{ customMonth }}</span>
     </el-option>
   </el-select>
-  <el-date-picker ref="datePickerRef" v-model="pickerOptions.val" :value-format="pickerOptions.format"
-    :type="pickerOptions.type" @change="onPickerChange" />
+  <el-date-picker
+    ref="datePickerRef"
+    v-model="pickerOptions.val"
+    :value-format="pickerOptions.format"
+    :type="pickerOptions.type"
+    @change="onPickerChange"
+  />
 </template>
 <script setup>
 import { ref, computed, reactive, toRefs } from "vue";
@@ -42,7 +47,7 @@ const pickerOptions = reactive({
 const datePickerRef = ref(null);
 const onChange = e => {
   pickerOptions.val = "";
-  if(e === "day" || e === "month" || e === "7" || e === "30") {
+  if (e === "day" || e === "month" || e === "7" || e === "30") {
     pickerOptions.title = titleMap[e];
     emits("update:modelValue", e);
   }

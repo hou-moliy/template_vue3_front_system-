@@ -1,19 +1,38 @@
 import service from "./service.js";
 const baseURL = import.meta.env.VITE_BASE_API || "admin";
 
-export const pageLogin = data => {
+// 登录
+export const login = data => {
   return service({
-    url: "/common/login",
+    url: "/system/user/login",
     method: "post",
     data,
     baseURL
   });
 };
-
-// 获取验证码
-export const getCodeImg = () => {
+// 校验用户是否存在
+export const checkUserName = data => {
   return service({
-    url: "/common/captchaImage",
+    url: "/system/user/checkUserName",
+    method: "get",
+    data,
+    baseURL
+  });
+};
+
+// 注册
+export const register = () => {
+  return service({
+    url: "/system/user/register",
+    method: "post",
+    baseURL
+  });
+};
+
+// 下发验证码
+export const getVerCode = () => {
+  return service({
+    url: "/system/user/getVerCode",
     method: "get",
     baseURL
   });

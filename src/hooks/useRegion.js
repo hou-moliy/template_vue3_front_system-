@@ -1,7 +1,7 @@
 import { reactive, watch, toRefs } from "vue";
 export const useRegion = (formRef, formData) => {
   const state = reactive({
-    address: [formData.province, formData.city]
+    address: [formData.provinceId, formData.cityId]
   });
   const setAddress = newVal => {
     state.address = newVal;
@@ -11,17 +11,17 @@ export const useRegion = (formRef, formData) => {
     () => state.address,
     newVal => {
       if (newVal.length === 0) {
-        formData.province = "";
-        formData.city = "";
+        formData.provinceId = "";
+        formData.cityId = "";
       } else if (newVal.length === 2) {
         // 二级地址
-        formData.province = newVal[0];
-        formData.city = newVal[1];
+        formData.provinceId = newVal[0];
+        formData.cityId = newVal[1];
       } else {
         // 三级地址
-        formData.province = newVal[0];
-        formData.city = newVal[1];
-        formData.area = newVal[2];
+        formData.provinceId = newVal[0];
+        formData.cityId = newVal[1];
+        formData.areaId = newVal[2];
       }
     }
   );

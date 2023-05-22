@@ -12,7 +12,7 @@ Mock.mock(`${baseURL}/common/getRouters`, () => {
   }
 });
 
-Mock.mock(`${baseURL}/common/login`, () => {
+Mock.mock(`${baseURL}/system/user/login`, () => {
   {
     return Mock.mock({
       code: 200,

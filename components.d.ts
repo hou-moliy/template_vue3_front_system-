@@ -33,6 +33,7 @@ declare module 'vue' {
     ElHeader: typeof import('element-plus/es')['ElHeader']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
+    ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
@@ -61,6 +62,8 @@ declare module 'vue' {
     RegionSelect: typeof import('./src/components/regionSelect/index.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
     SwitchDark: typeof import('./src/components/SwitchDark/index.vue')['default']
+    UploadFile: typeof import('./src/components/UploadFile/index.vue')['default']
+    UploadImage: typeof import('./src/components/UploadImage/index.vue')['default']
     WangEditor: typeof import('./src/components/WangEditor/index.vue')['default']
     Webpage: typeof import('./src/components/Webpage/index.vue')['default']
   }

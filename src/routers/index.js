@@ -14,9 +14,9 @@ import NProgress from "@/config/nprogress";
  * @param meta.title ==> 菜单标题
  * @param meta.activeMenu ==> 当前路由为详情页时，需要高亮的菜单
  * @param meta.isLink ==> 是否外链
- * @param meta.isHide ==> 是否隐藏
- * @param meta.isFull ==> 是否全屏(示例：数据大屏页面)
- * @param meta.isAffix ==> 是否固定在 tabs nav
+ * @param meta.isHide ==> 是否隐藏  默认不隐藏
+ * @param meta.isFull ==> 是否全屏(示例：数据大屏页面) 默认不全屏
+ * @param meta.isAffix ==> 是否固定在 tabs nav 默认不固定
  * @param meta.isKeepAlive ==> 是否缓存
  * */
 const router = createRouter({

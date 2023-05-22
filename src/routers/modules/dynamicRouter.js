@@ -16,8 +16,7 @@ export const initDynamicRouter = async () => {
     authStore.flatMenuListGet.forEach(async item => {
       item.children && delete item.children;
       if (item.component && isType(item.component) == "string") {
-        // item.component = () => import(`@/views/${item.component}.vue`).catch(() => import("@/components/ErrorMessage/404.vue"));
-        item.component = modules[`/src/views/${item.component}.vue`] || import("@/components/ErrorMessage/404.vue");
+        item.component = modules[`/src/views${item.component}.vue`] || import("@/components/ErrorMessage/404.vue");
       }
       if (item?.meta?.isFull) {
         // 是否全屏

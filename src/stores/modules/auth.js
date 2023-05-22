@@ -78,7 +78,7 @@ export const AuthStore = defineStore({
       const layoutList = staticRouter.find(item => item.path === "/layout")?.children ?? [];
       const staticList = staticRouter.filter(item => item.path !== "/layout") ?? [];
       // console.log(this.authMenuList);
-      this.allMenuList = [...layoutList, ...staticList];
+      this.allMenuList = [...layoutList, ...staticList, ...this.authMenuList];
     }
   }
 });

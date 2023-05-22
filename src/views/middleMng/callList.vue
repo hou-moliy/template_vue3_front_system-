@@ -63,8 +63,7 @@
     <el-table-column prop="times" label="录音URL推送成功次数" />
     <el-table-column prop="times" label="录音URL推送成功率" />
   </el-table>
-  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
-    @pagination="getList" />
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
 <script setup>
 import { reactive, watch, ref } from "vue";
@@ -107,7 +106,7 @@ watch(
   () => form.date,
   newVal => {
     LineCharts.title = statisticalRef.value?.title ?? "";
-    switch(newVal) {
+    switch (newVal) {
       case "day":
         const today = getCurrentDate();
         LineCharts.xData = [today];
@@ -120,11 +119,11 @@ watch(
         LineCharts.xData = getRecentDates(parseInt(newVal));
         break;
       default:
-        if(statisticalRef.value?.type === "date") {
+        if (statisticalRef.value?.type === "date") {
           LineCharts.xData = [newVal];
-        } else if(statisticalRef.value?.type === "month") {
+        } else if (statisticalRef.value?.type === "month") {
           LineCharts.xData = getMonthDates(newVal);
-        } else if(statisticalRef.value?.type === "daterange") {
+        } else if (statisticalRef.value?.type === "daterange") {
           LineCharts.xData = getDateRange(newVal[0], newVal[1]);
         }
         break;

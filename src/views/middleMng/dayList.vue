@@ -30,7 +30,7 @@
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { ref, computed } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
 import { useRegion } from "@/hooks/useRegion.js";
@@ -48,7 +48,7 @@ const initialValues = {
 const { form, formRef, resetForm } = useForm(initialValues);
 // 地址
 const { address, setAddress } = useRegion(formRef, form);
-const tableData = reactive([
+const tableData = ref([
   {
     cmpy: "美团",
     manager: "美团经理",
@@ -59,7 +59,7 @@ const tableData = reactive([
     createTime: "2023/5/16"
   }
 ]);
-const total = ref(tableData.length);
+const total = computed(() => tableData.value.length);
 const getList = () => {
   console.log(form, "获取新数据");
 };

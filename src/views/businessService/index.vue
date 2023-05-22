@@ -1,19 +1,19 @@
 <template>
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
-    <el-form-item label="申请人名称" prop="name">
-      <el-input v-model="form.name" placeholder="请输入申请人姓名" />
+    <el-form-item label="申请人名称" prop="applicantName">
+      <el-input v-model="form.applicantName" placeholder="请输入申请人姓名" />
     </el-form-item>
-    <el-form-item label="企业名称" prop="type">
-      <el-select v-model="form.type" placeholder="请输入企业名称" size="large">
+    <el-form-item label="企业名称" prop="groupName">
+      <el-select v-model="form.groupName" placeholder="请选择企业名称" size="large">
         <el-option v-for="item in Roles" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled" />
       </el-select>
     </el-form-item>
     <el-form-item label="申请时间" prop="createTime">
       <el-date-picker v-model="form.createTime" type="datetime" placeholder="请选择申请时间" />
     </el-form-item>
-    <el-form-item label="审批状态" prop="status">
-      <el-select v-model="form.status" placeholder="请选择">
+    <el-form-item label="审批状态" prop="auditStatus">
+      <el-select v-model="form.auditStatus" placeholder="请选择">
         <el-option label="Zone one" value="shanghai" />
         <el-option label="Zone two" value="beijing" />
       </el-select>
@@ -26,8 +26,8 @@
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border style="width: 100%">
-    <el-table-column prop="name" label="申请人姓名" />
-    <el-table-column prop="cmpName" label="企业名称" />
+    <el-table-column prop="applicantName" label="申请人姓名" />
+    <el-table-column prop="groupName" label="企业名称" />
     <el-table-column prop="phone" label="联系方式" />
     <el-table-column prop="email" label="邮箱" />
     <el-table-column prop="createTime" label="申请时间" />
@@ -48,13 +48,15 @@
       </template>
     </el-table-column>
   </el-table>
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
   <!-- 审核弹窗 -->
   <auditDialog ref="auditDialogRef" />
 </template>
 <script setup>
+import { handleList } from "@/api/businessService";
 import auditDialog from "./components/auditDialog.vue";
 import { useRouter } from "vue-router";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import useForm from "@/hooks/useForm";
 const router = useRouter();
 const auditStatus = {
@@ -66,10 +68,12 @@ const auditStatus = {
 const auditDialogRef = ref(null);
 // 搜索表单
 const initialValues = {
-  type: "",
-  status: "",
-  name: "",
-  createTime: ""
+  applicantName: "",
+  auditStatus: "",
+  groupName: "",
+  createTime: "",
+  pageNum: 1,
+  pageSize: 10
 };
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // 表格栏
@@ -98,53 +102,16 @@ const Roles = [
     disabled: true
   }
 ];
-
+const total = computed(() => tableData.value.length);
 const getList = () => {
-  tableData.value = [
-    {
-      name: "王小虎",
-      cmpName: "上海公司",
-      phone: "123456789",
-      email: "xxx@qq.com",
-      createTime: "2021-08-01 12:00:00",
-      title: "申请标题",
-      status: "1",
-      reason: "原因"
-    },
-    {
-      name: "王小虎",
-      cmpName: "上海公司",
-      phone: "123456789",
-      email: "xxx@qq.com",
-      createTime: "2021-08-01 12:00:00",
-      title: "申请标题",
-      status: "2",
-      reason: "原因"
-    },
-    {
-      name: "王小虎",
-      cmpName: "上海公司",
-      phone: "123456789",
-      email: "xxx@qq.com",
-      createTime: "2021-08-01 12:00:00",
-      title: "申请标题",
-      status: "3",
-      reason: "原因"
-    },
-    {
-      name: "王小虎",
-      cmpName: "上海公司",
-      phone: "123456789",
-      email: "xxx@qq.com",
-      createTime: "2021-08-01 12:00:00",
-      title: "申请标题",
-      status: "2",
-      reason: "原因"
+  handleList().then(res => {
+    if (res.code === 200) {
+      tableData.value = res.data.list;
     }
-  ];
+  });
 };
 const handleFormReset = () => {
-  resetForm().then(getList());
+  resetForm().then(() => getList());
 };
 const handleSubitForm = () => {
   submitForm()
