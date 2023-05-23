@@ -1,8 +1,8 @@
 <template>
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
-    <el-form-item label="客户经理名称" prop="name">
-      <el-input v-model="form.name" placeholder="请输入客户经理名称" />
+    <el-form-item label="客户经理名称" prop="userName">
+      <el-input v-model="form.userName" placeholder="请输入客户经理名称" />
     </el-form-item>
     <el-form-item label="创建时间" prop="createTime">
       <el-date-picker v-model="form.createTime" type="datetime" placeholder="请选择创建时间" />
@@ -14,7 +14,7 @@
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border>
-    <el-table-column prop="name" label="客户经理名称" />
+    <el-table-column prop="userName" label="客户经理名称" />
     <el-table-column prop="secondLevel" label="二级部门" />
     <el-table-column prop="thirdLevel" label="三级部门" />
     <el-table-column prop="createTime" label="创建时间" />
@@ -28,7 +28,8 @@
       </template>
     </el-table-column>
   </el-table>
-  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
+    @pagination="getList" />
   <!-- 企业客户列表 -->
   <cmpyListDialog ref="cmpyListDialogRef" />
   <!-- 编辑、详情 -->
@@ -40,9 +41,10 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import channelDetail from "./components/channelDetail.vue";
 import cmpyListDialog from "./components/cmpyListDialog.vue";
 import useForm from "@/hooks/useForm";
+import { managerList, managerDelete } from "@/api/manager";
 // 搜索表单
 const initialValues = {
-  name: "",
+  userName: "",
   createTime: "",
   pageNum: 1,
   pageSize: 10
@@ -54,40 +56,30 @@ const total = computed(() => tableData.value.length);
 const getList = () => {
   tableData.value = [
     {
-      id: 1,
-      name: "客户经理1",
-      secondLevel: "城一分公司",
-      thirdLevel: "客户部",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 2,
-      name: "客户经理2",
-      secondLevel: "城一分公司",
-      thirdLevel: "客户部",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 3,
-      name: "客户经理3",
-      secondLevel: "城一分公司",
-      thirdLevel: "客户部",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 4,
-      name: "客户经理4",
-      secondLevel: "城一分公司",
-      thirdLevel: "客户部",
+      userId: 1,
+      userName: "客户经理1",
+      cardId: "",
+      deptId: 0,
+      email: "",
+      id: "",
+      phoneNumber: "",
+      tdName: "",
+      userId: "",
+      userName: "",
       createTime: "2021-08-09 12:00:00"
     }
   ];
+  managerList().then(res => {
+    if(res.code === 200) {
+      tableData.value = res.data.list;
+    }
+  });
 };
 const handleResetForm = () => {
   resetForm().then(() => getList());
 };
 // 删除
-const deleteRow = (index, row) => {
+const deleteRow = (index, { userId }) => {
   console.log(index, row);
   ElMessageBox.confirm("是否确定删除该客户经理？？？", "删除提示", {
     confirmButtonText: "确认",
@@ -95,9 +87,10 @@ const deleteRow = (index, row) => {
     type: "warning"
   }).then(() => {
     tableData.value.splice(index, 1);
-    ElMessage({
-      type: "success",
-      message: "删除成功"
+    managerDelete({ userId }).then(res => {
+      if(res.code === 200) {
+        ElMessage.success("删除成功");
+      }
     });
   });
 };

@@ -58,6 +58,7 @@ declare module 'vue' {
     LockScreen: typeof import('./src/components/LockScreen/src/LockScreen.vue')['default']
     Message: typeof import('./src/components/Message/src/Message.vue')['default']
     MessageBox: typeof import('./src/components/MessageBox/src/MessageBox.vue')['default']
+    ModelSelect: typeof import('./src/components/ModelSelect/index.vue')['default']
     Pagination: typeof import('./src/components/Pagination/index.vue')['default']
     RegionSelect: typeof import('./src/components/regionSelect/index.vue')['default']
     SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']

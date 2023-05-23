@@ -4,11 +4,11 @@
     <el-form-item label="客户名称">
       <el-input v-model="form.groupName" placeholder="请输入客户名称" />
     </el-form-item>
-    <!-- <el-form-item label="业务模式" prop="bindingType" v-if="dictList.length">
-      <el-select v-model="form.bindingType" placeholder="请选择业务模式">
-        <el-option v-for="(item, index) in dictList" :label="item.label" :value="label.value" :key="index" />
+    <el-form-item label="业务模式" prop="bindingType">
+      <el-select v-model="form.bindingType" placeholder="请选择业务模式" v-if="dictList.length">
+        <el-option v-for="(item, index) in dictList" :label="item.label" :value="item.value" :key="index" />
       </el-select>
-    </el-form-item> -->
+    </el-form-item>
     <el-form-item label="创建时间" prop="createTime">
       <el-date-picker v-model="form.createTime" type="datetime" placeholder="请选择创建时间" />
     </el-form-item>
@@ -32,7 +32,8 @@
       </template>
     </el-table-column>
   </el-table>
-  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
+    @pagination="getList" />
 
   <!-- 号码列表 -->
   <phoneDialog ref="phoneDialogRef" />
@@ -46,7 +47,7 @@ import phoneDialog from "./components/phoneDialog.vue";
 import cmpyInfoDialog from "./components/cmpyInfoDialog.vue";
 import useForm from "@/hooks/useForm";
 import { handleList, deleteInfo } from "@/api/businessCustomer";
-// import useDictTypes from "@/hooks/useDictTypes";
+import useDictTypes from "@/hooks/useDictTypes";
 const phoneDialogRef = ref(null);
 const cmpyInfoDialogRef = ref(null);
 // 搜索表单
@@ -58,11 +59,12 @@ const initialValues = {
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
-// const { dictList, getTypeList } = useDictTypes(1);
+const { dictList, getTypeList } = useDictTypes(1);
 // 表格数据
 const tableData = ref([]);
 const total = computed(() => tableData.value.length);
 const getList = () => {
+  tableData.value = [{ groupId: 1, groupName: "xxx", bindingType: "Ax", createTime: "2023-5-23" }];
   handleList(form).then(res => {
     tableData.value = res.data;
   });
@@ -93,5 +95,6 @@ const showCmpyInfoDialog = (data, isEdit) => {
 };
 onMounted(() => {
   getList();
+  getTypeList();
 });
 </script>

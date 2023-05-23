@@ -16,12 +16,13 @@
           <el-input v-model="form.channelName" placeholder="请输入集成商名称" />
         </el-form-item>
         <el-form-item label="业务模式" prop="bindingType">
-          <el-select v-model="form.bindingType" placeholder="请选择业务模式">
+          <!-- <el-select v-model="form.bindingType" placeholder="请选择业务模式">
             <el-option label="AXB模式" value="AXB" />
             <el-option label="AXYB模式" value="AXYB" />
             <el-option label="AX模式" value="AX" />
             <el-option label="GXB模式" value="GXB" />
-          </el-select>
+          </el-select> -->
+          <modelSelect v-model="form.bindingType" dictType="1" placeholder="请选择业务模式" />
         </el-form-item>
       </div>
       <div class="form-item-wrap">

@@ -17,23 +17,23 @@
       <el-switch v-model="form.smsMode" />
     </el-form-item>
     <el-form-item label="是否接收呼叫起始事件" prop="startCallUrl">
-      <el-switch v-model="switchForm.start" />
+      <el-switch v-model="switchForm.start" @change="onSwitchChange('startCallUrl')" />
       <el-input v-model="form.startCallUrl" />
     </el-form-item>
     <el-form-item label="是否接收呼叫振铃事件" prop="ringingUrl">
-      <el-switch v-model="switchForm.ring" />
+      <el-switch v-model="switchForm.ring" @change="onSwitchChange('ringingUrl')" />
       <el-input v-model="form.ringingUrl" />
     </el-form-item>
     <el-form-item label="是否接收呼叫接听事件" prop="connectUrl">
-      <el-switch v-model="switchForm.connect" />
+      <el-switch v-model="switchForm.connect" @change="onSwitchChange('connectUrl')" />
       <el-input v-model="form.connectUrl" />
     </el-form-item>
     <el-form-item label="是否接收呼叫结束事件" prop="endCallUrl">
-      <el-switch v-model="switchForm.end" />
+      <el-switch v-model="switchForm.end" @change="onSwitchChange('endCallUrl')" />
       <el-input v-model="form.endCallUrl" />
     </el-form-item>
     <el-form-item label="是否接收短信转发事件" prop="smsUrl">
-      <el-switch v-model="switchForm.sms" />
+      <el-switch v-model="switchForm.sms" @change="onSwitchChange('smsUrl')" />
       <el-input v-model="form.smsUrl" />
     </el-form-item>
     <el-form-item label="企业ip白名单列表" prop="ipList">
@@ -43,6 +43,7 @@
   </el-form>
 </template>
 <script setup>
+import { watch } from "vue";
 import { useRegion } from "@/hooks/useRegion.js";
 import useRules from "../hooks/useRules";
 import useBusiness from "../hooks/useBusiness";
@@ -74,6 +75,21 @@ const { rules, switchForm } = useRules();
 const onReset = () => {
   resetForm();
   setAddress([]);
+};
+watch(
+  [() => form.startCallUrl, () => form.ringingUrl, () => form.connectUrl, () => form.endCallUrl, () => form.smsUrl],
+  ([startCallUrl, ringingUrl, connectUrl, endCallUrl, smsUrl]) => {
+    switchForm.value.start = startCallUrl !== "";
+    switchForm.value.ring = ringingUrl !== "";
+    switchForm.value.connect = connectUrl !== "";
+    switchForm.value.end = endCallUrl !== "";
+    switchForm.value.sms = smsUrl !== "";
+  }
+);
+const onSwitchChange = type => {
+  if(!switchForm.value[type]) {
+    form[type] = ""; // 清空对应的输入框值
+  }
 };
 defineExpose({ form, onSubmit, onReset });
 </script>

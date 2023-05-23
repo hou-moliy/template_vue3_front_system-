@@ -1,6 +1,6 @@
 <template>
   <!-- 搜索 -->
-  <el-form ref="formRef" :model="form" :inline="true">
+  <el-form ref="formRef" :model="form" :inline="true" width="80%">
     <el-form-item label="号码" prop="phone">
       <el-input v-model="form.phone" placeholder="请输入号码" />
     </el-form-item>
@@ -15,7 +15,8 @@
     <el-table-column prop="phone" label="号码" width="180" />
     <el-table-column prop="createTime" label="加入时间" width="180" />
   </el-table>
-  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
+    @pagination="getList" />
 </template>
 
 <script setup>

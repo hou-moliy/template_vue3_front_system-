@@ -55,7 +55,7 @@ let { form, formRef, resetForm, submitForm } = useForm(initialValues);
 const isEdit = ref(false);
 let title = ref("");
 const openDialog = ({ data, isEdit: edit }) => {
-  form.id = data.id;
+  form.groupId = data.groupId;
   isEdit.value = edit;
   dialogVisible.value = true;
   title.value = isEdit.value ? "编辑企业信息" : "查看企业信息";
@@ -79,13 +79,13 @@ const onSubmit = () => {
 };
 
 const getInfoData = async () => {
-  getInfo({ groupId: form.id }).then(res => {
+  getInfo({ groupId: form.groupId }).then(res => {
     form = res.data;
   });
 };
 const handleUpdateInfo = data => {
   updateInfo(data).then(res => {
-    if (res.code === 200) {
+    if(res.code === 200) {
       ElMessage.success("修改成功");
       closeDialog();
     }

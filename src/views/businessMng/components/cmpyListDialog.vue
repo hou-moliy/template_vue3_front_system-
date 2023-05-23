@@ -2,11 +2,11 @@
   <el-dialog title="企业客户列表" v-model="dialogVisible" width="80%">
     <!-- 表单 -->
     <el-form :inline="true" :model="form" ref="formRef">
-      <el-form-item label="企业名称" prop="name">
-        <el-input v-model="form.name" placeholder="请输入企业名称" />
+      <el-form-item label="企业名称" prop="groupName">
+        <el-input v-model="form.groupName" placeholder="请输入企业名称" />
       </el-form-item>
-      <el-form-item label="业务模式" prop="businessType">
-        <el-select v-model="form.businessType" placeholder="请选择业务模式">
+      <el-form-item label="业务模式" prop="bindingType">
+        <el-select v-model="form.bindingType" placeholder="请选择业务模式">
           <el-option label="AXB模式" value="AXB" />
           <el-option label="AXYB模式" value="AXYB" />
           <el-option label="AX模式" value="AX" />
@@ -19,7 +19,8 @@
       <el-form-item>
         <el-button type="primary" @click="getList">搜索</el-button>
         <el-button @click="handleResetForm">重置</el-button>
-        <el-button @click="innerVisible = true" v-hasPermi="['channel']">添加</el-button>
+        <!-- v-hasPermi="['channel']" -->
+        <el-button type="primary" @click="handleAdd">添加</el-button>
       </el-form-item>
     </el-form>
     <!-- 表格 -->
@@ -27,29 +28,27 @@
       <el-table-column prop="name" label="客户名称" />
       <el-table-column prop="businessType" label="业务模式" />
       <el-table-column prop="createTime" label="创建时间" />
-      <el-table-column prop="operation" label="操作" v-hasPermi="['channel']">
+      <!-- v-hasPermi="['channel']" -->
+      <el-table-column prop="operation" label="操作">
         <template #default="{ row, $index }">
           <el-button type="danger" link @click="deleteRow($index, row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <Pagination
-      v-show="total > 0"
-      :total="total"
-      v-model:page="form.pageNum"
-      v-model:limit="form.pageSize"
-      @pagination="getList"
-    />
-
+    <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
+      @pagination="getList" />
     <!-- 嵌套的新增企业客户dialog -->
-    <el-dialog v-model="innerVisible" width="30%" title="新增企业客户" append-to-body> 对这里表单有疑问 </el-dialog>
+    <addCmpyDialog ref="addCmpyRef" />
   </el-dialog>
 </template>
 <script setup>
-import { onMounted, ref, computed } from "vue";
+import { ref, computed } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import useForm from "@/hooks/useForm";
+import { groupList, deleteGroup } from "@/api/channel";
+import addCmpyDialog from "./addCmpyDialog.vue";
 const dialogVisible = ref(false);
+const addCmpyRef = ref(null);
 // 搜索表单
 const initialValues = {
   name: "",
@@ -89,33 +88,40 @@ const getList = () => {
       createTime: "2021-08-09 12:00:00"
     }
   ];
+  groupList().then(res => {
+    if(res.code === 200) {
+      tableData.value = res.data.list;
+    }
+  });
 };
 const handleResetForm = () => {
   resetForm().then(() => getList());
 };
 // 删除
-const deleteRow = (index, row) => {
-  console.log(index, row);
+const deleteRow = (index, { groupId }) => {
   ElMessageBox.confirm("是否确定删除渠道商下该企业客户？？？", "删除提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
     tableData.value.splice(index, 1);
-    ElMessage({
-      type: "success",
-      message: "删除成功"
+    deleteGroup({ groupId }).then(res => {
+      if(res.code === 200) {
+        ElMessage.success("删除成功");
+      }
     });
   });
+};
+// 新增
+const handleAdd = () => {
+  addCmpyRef.value?.openDialog();
 };
 // openDialog
 const openDialog = () => {
   dialogVisible.value = true;
+  getList();
 };
 // 新增
 const innerVisible = ref(false);
-onMounted(() => {
-  getList();
-});
 defineExpose({ openDialog });
 </script>
