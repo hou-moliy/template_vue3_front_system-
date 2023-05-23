@@ -3,6 +3,8 @@ import DynamicRouter from "@/assets/json/routerList.json";
 import UserInfo from "@/assets/json/userInfo.json";
 import TreeSelect from "@/assets/json/treeSelect.json"
 import RoleTreeSelect from "@/assets/json/roleTreeSelect.json"
+import BusinessCustomer from "@/assets/json/customerList.json"
+import DictData from "@/assets/json/dict.json"
 const baseURL = import.meta.env.VITE_BASE_API || "admin";
 
 
@@ -35,5 +37,15 @@ Mock.mock(`${baseURL}/system/menu/treeselect`, () => {
 Mock.mock(`${baseURL}/system/menu/roleMenuTreeselect?roleId=117`, () => {
   {
     return Mock.mock(RoleTreeSelect);
+  }
+});
+Mock.mock(`${baseURL}/businessCustomer/list`, () => {
+  {
+    return Mock.mock(BusinessCustomer);
+  }
+});
+Mock.mock(`${baseURL}/system/dict/data/dictTypes/1`, () => {
+  {
+    return Mock.mock(DictData);
   }
 });

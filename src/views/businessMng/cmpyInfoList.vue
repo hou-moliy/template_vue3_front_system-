@@ -2,16 +2,13 @@
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
     <el-form-item label="客户名称">
-      <el-input v-model="form.name" placeholder="请输入客户名称" />
+      <el-input v-model="form.groupName" placeholder="请输入客户名称" />
     </el-form-item>
-    <el-form-item label="业务模式" prop="businessType">
-      <el-select v-model="form.businessType" placeholder="请选择业务模式">
-        <el-option label="AXB模式" value="AXB" />
-        <el-option label="AXYB模式" value="AXYB" />
-        <el-option label="AX模式" value="AX" />
-        <el-option label="GXB模式" value="GXB" />
+    <!-- <el-form-item label="业务模式" prop="bindingType" v-if="dictList.length">
+      <el-select v-model="form.bindingType" placeholder="请选择业务模式">
+        <el-option v-for="(item, index) in dictList" :label="item.label" :value="label.value" :key="index" />
       </el-select>
-    </el-form-item>
+    </el-form-item> -->
     <el-form-item label="创建时间" prop="createTime">
       <el-date-picker v-model="form.createTime" type="datetime" placeholder="请选择创建时间" />
     </el-form-item>
@@ -22,8 +19,8 @@
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border>
-    <el-table-column prop="name" label="客户名称" />
-    <el-table-column prop="businessType" label="业务模式" />
+    <el-table-column prop="groupName" label="客户名称" />
+    <el-table-column prop="bindingType" label="业务模式" />
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column prop="operation" label="操作">
       <template #default="{ row, $index }">
@@ -48,63 +45,41 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import phoneDialog from "./components/phoneDialog.vue";
 import cmpyInfoDialog from "./components/cmpyInfoDialog.vue";
 import useForm from "@/hooks/useForm";
+import { handleList, deleteInfo } from "@/api/businessCustomer";
+// import useDictTypes from "@/hooks/useDictTypes";
 const phoneDialogRef = ref(null);
 const cmpyInfoDialogRef = ref(null);
 // 搜索表单
 const initialValues = {
-  name: "",
-  businessType: "",
+  groupName: "",
+  bindingType: "",
   createTime: "",
   pageNum: 1,
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
+// const { dictList, getTypeList } = useDictTypes(1);
 // 表格数据
 const tableData = ref([]);
 const total = computed(() => tableData.value.length);
 const getList = () => {
-  tableData.value = [
-    {
-      id: 1,
-      name: "头条",
-      businessType: "AXB模式",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 2,
-      name: "美团",
-      businessType: "AXB模式",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 3,
-      name: "饿了么",
-      businessType: "AXB模式",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 4,
-      name: "百度",
-      businessType: "AXB模式",
-      createTime: "2021-08-09 12:00:00"
-    }
-  ];
+  handleList(form).then(res => {
+    tableData.value = res.data;
+  });
 };
 const handleResetForm = () => {
   resetForm().then(() => getList());
 };
 // 删除
-const deleteRow = (index, row) => {
-  ElMessageBox.confirm("是否确定删除该企业？？？", "删除提示", {
+const deleteRow = (index, { groupName, groupId }) => {
+  ElMessageBox.confirm(`是否确定删除【${groupName}】企业？？？`, "删除提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
-    console.log(row);
-    tableData.value.splice(index, 1);
-    ElMessage({
-      type: "success",
-      message: "删除成功"
+    deleteInfo({ groupId }).then(() => {
+      getList();
+      ElMessage.success("删除成功");
     });
   });
 };

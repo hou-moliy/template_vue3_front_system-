@@ -1,8 +1,8 @@
 <template>
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
-    <el-form-item label="渠道商名称" prop="name">
-      <el-input v-model="form.name" placeholder="请输入渠道商名称" />
+    <el-form-item label="渠道商名称" prop="userName">
+      <el-input v-model="form.userName" placeholder="请输入渠道商名称" />
     </el-form-item>
     <el-form-item label="创建时间" prop="createTime">
       <el-date-picker v-model="form.createTime" type="datetime" placeholder="请选择创建时间" />
@@ -17,10 +17,10 @@
     <el-table-column prop="name" label="渠道商名称" />
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column prop="operation" label="操作">
-      <template #default="{ row, $index }">
+      <template #default="{ row }">
         <el-button type="primary" link @click="showChannelDetailDialog(row, false)">详情</el-button>
         <el-button type="primary" link @click="showChannelDetailDialog(row, true)">编辑</el-button>
-        <el-button type="danger" link @click="deleteRow($index, row)">删除</el-button>
+        <el-button type="danger" link @click="deleteRow(row)">删除</el-button>
         <el-button type="primary" link @click="showCmpyListDialog(row)">查看客户列表</el-button>
         <el-button type="primary" link>下载附件</el-button>
       </template>
@@ -39,6 +39,7 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import channelDetail from "./components/channelDetail.vue";
 import cmpyListDialog from "./components/cmpyListDialog.vue";
 import useForm from "@/hooks/useForm";
+import { channelList, deleteInfo } from "@/api/channel";
 const channelDetailRef = ref(null);
 const cmpyListDialogRef = ref(null);
 // 搜索表单
@@ -57,6 +58,7 @@ const getList = () => {
     {
       id: 1,
       name: "头条",
+      groupName: "h哈哈哈",
       createTime: "2021-08-09 12:00:00"
     },
     {
@@ -75,22 +77,31 @@ const getList = () => {
       createTime: "2021-08-09 12:00:00"
     }
   ];
+  channelList(form).then(res => {
+    if (res.code === 200) {
+      tableData.value = res.data.list;
+    } else {
+      ElMessage.error(res.msg);
+    }
+  });
 };
 const handleResetForm = () => {
   resetForm().then(() => getList());
 };
 // 删除
-const deleteRow = (index, row) => {
-  console.log(index, row);
+const deleteRow = ({ userId }) => {
   ElMessageBox.confirm("是否确定删除该渠道商？？？", "删除提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
-    tableData.value.splice(index, 1);
-    ElMessage({
-      type: "success",
-      message: "删除成功"
+    deleteInfo({ userId }).then(res => {
+      if (res.code === 200) {
+        getList();
+        ElMessage.success("删除成功");
+      } else {
+        ElMessage.error(res.msg);
+      }
     });
   });
 };

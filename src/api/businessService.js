@@ -3,11 +3,11 @@ import service from "./service.js";
 const baseURL = import.meta.env.VITE_BASE_API || "admin";
 
 // 业务办理列表
-export const handleList = data => {
+export const handleList = params => {
   return service({
     url: "/businessRegister/handleList",
     method: "get",
-    data,
+    params,
     baseURL
   });
 };
