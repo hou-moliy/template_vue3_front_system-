@@ -128,7 +128,7 @@ const openAuditDialog = data => {
   auditDialogRef?.value?.openDialog(data);
 };
 const addService = isEdit => {
-  router.push(`/businessService/businessDetail?isEdit=${isEdit}`);
+  router.push(`/businessService/businessDetail?isEdit=${isEdit}&isAdd=true`);
 };
 onMounted(() => {
   getList();

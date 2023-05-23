@@ -14,32 +14,51 @@ import baseInfo from "./baseInfo.vue";
 import contactInfo from "./contactInfo.vue";
 import cityCallNums from "./cityCallNums.vue";
 import businessRule from "./businessRule.vue";
-defineProps({
+import useBusiness from "../hooks/useBusiness";
+const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  commonForm: {
+    type: Object,
+    default: () => ({})
   }
 });
 const baseInfoRef = ref(null);
 const contactInfoRef = ref(null);
 const cityCallNumsRef = ref(null);
 const businessRuleRef = ref(null);
-let interForm = reactive({});
-const onSubmit = callBack => {
-  baseInfoRef.value?.submitForm().then(() => callBack());
+let interForm = reactive({ baseInfo: null, contactInfo: null, cityCallNums: null, businessRule: null });
+const { handleAdd, handleUpdate } = useBusiness();
+const onSubmit = isAdd => {
+  baseInfoRef.value?.submitForm().then(() => {
+    const form = {
+      ...props.commonForm,
+      ...interForm,
+      bindingType: interForm.baseInfo.bindingType,
+      provinceId: interForm.baseInfo.provinceId,
+      cityId: interForm.baseInfo.cityId,
+      recordMode: interForm.baseInfo.recordMode
+    };
+    if (isAdd) {
+      handleAdd(form);
+    } else {
+      handleUpdate(form);
+    }
+  });
 };
-const onReset = () => {};
+const onReset = () => {
+  baseInfoRef.value?.onReset();
+  contactInfoRef.value?.resetForm();
+  cityCallNumsRef.value?.resetForm();
+  businessRuleRef.value?.resetForm();
+};
 onMounted(() => {
-  interForm = {
-    baseInfo: baseInfoRef.value?.form,
-    contactInfo: contactInfoRef.value?.form,
-    cityCallNums: cityCallNumsRef.value?.form,
-    businessRule: businessRuleRef.value?.form
-    // cityId,
-    // provinceId,
-    // bindingType,
-  };
+  interForm.baseInfo = baseInfoRef.value?.form;
+  interForm.contactInfo = contactInfoRef.value?.form;
+  interForm.cityCallNums = cityCallNumsRef.value?.form;
+  interForm.businessRule = businessRuleRef.value?.form;
 });
 defineExpose({ onSubmit, onReset, ...toRefs(interForm) });
 </script>
-<style scoped lang="scss"></style>

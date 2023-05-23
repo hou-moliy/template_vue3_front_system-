@@ -119,7 +119,8 @@ const initialValues = {
   traffic: "",
   bindingType: "",
   provinceId: "",
-  cityId: ""
+  cityId: "",
+  recordMode: false
 };
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 const channel = ref(false);

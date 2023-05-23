@@ -7,7 +7,8 @@
       <SearchMenu id="searchMenu" v-if="MENU_SEARCH" />
       <ThemeSetting id="themeSetting" v-if="THEME" />
     </div>
-    欢迎登录<span class="line">|</span><span class="username">{{ authStore.name }}</span><span class="line">|</span>
+    欢迎登录<span class="line">|</span><span class="username">{{ authStore.userName }}</span
+    ><span class="line">|</span>
     <router-link :to="HOME_URL"> 回到首页 </router-link>
     <span class="line">|</span>
     <Avatar />
@@ -58,4 +59,5 @@ const authStore = AuthStore();
 a {
   text-decoration: none;
   color: $primary-color;
-}</style>
+}
+</style>

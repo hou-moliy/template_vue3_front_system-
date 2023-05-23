@@ -17,16 +17,18 @@
         <el-radio label="2">接入北京融昱隐私号</el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="业务模式" prop="bindingType">
-      <el-select v-model="form.bindingType" placeholder="请选择业务模式">
-        <el-option label="AXB模式" value="AXB" />
-        <el-option label="AXYB模式" value="AXYB" />
-        <el-option label="AX模式" value="AX" />
-        <el-option label="GXB模式" value="GXB" />
-      </el-select>
-    </el-form-item>
-    <privacyForm ref="privacyFormRef" v-if="form.type == 2" :disabled="!isEdit" />
-    <interForm ref="interFormRef" v-if="form.type == 1" :disabled="!isEdit" />
+    <template v-if="form.type == 2">
+      <el-form-item label="业务模式" prop="bindingType">
+        <el-select v-model="form.bindingType" placeholder="请选择业务模式">
+          <el-option label="AXB模式" value="AXB" />
+          <el-option label="AXYB模式" value="AXYB" />
+          <el-option label="AX模式" value="AX" />
+          <el-option label="GXB模式" value="GXB" />
+        </el-select>
+      </el-form-item>
+      <privacyForm ref="privacyFormRef" :disabled="!isEdit" :commonForm="form" />
+    </template>
+    <interForm ref="interFormRef" v-if="form.type == 1" :disabled="!isEdit" :commonForm="form" />
     <el-form-item v-if="isEdit">
       <el-button @click="onReset">重置</el-button>
       <el-button type="primary" @click="onSubmit">提交</el-button>
@@ -44,6 +46,7 @@ const route = useRoute();
 const privacyFormRef = ref(null);
 const interFormRef = ref(null);
 const isEdit = ref(true);
+const isAdd = ref(true);
 const initialValues = {
   title: "",
   type: "1",
@@ -76,21 +79,11 @@ const rules = reactive({
 const onSubmit = () => {
   submitForm().then(() => {
     if (form.type == 1) {
-      interFormRef?.value?.onSubmit(handleInter);
+      interFormRef?.value?.onSubmit(isAdd);
     } else {
-      privacyFormRef.value?.onSubmit();
+      privacyFormRef.value?.onSubmit(isAdd);
     }
   });
-};
-
-// 处理接入中移
-const handleInter = () => {
-  console.log("新增中移动");
-};
-
-// 处理隐私号
-const handlePrivacy = () => {
-  console.log("新增隐私号");
 };
 const onReset = () => {
   resetForm();
@@ -99,6 +92,7 @@ const onReset = () => {
 };
 onMounted(() => {
   isEdit.value = route.query.isEdit === "true" ? true : false;
+  isAdd.value = route.query.isAdd === "true" ? true : false;
 });
 </script>
 <style></style>

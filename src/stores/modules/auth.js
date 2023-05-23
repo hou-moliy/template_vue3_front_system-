@@ -15,7 +15,8 @@ export const AuthStore = defineStore({
     roles: [], // 用户角色
     avatar: "", // 用户头像
     permissions: [], // 用户按钮权限列表
-    name: "" // 用户名
+    userName: "", // 用户名
+    userId: "" // 用户id
   }),
   getters: {
     // 后端返回的菜单列表 ==> 这里没有经过任何处理
@@ -51,7 +52,8 @@ export const AuthStore = defineStore({
               } else {
                 this.roles = ["ROLE_DEFAULT"];
               }
-              this.name = user.userName;
+              this.userName = user.userName;
+              this.userId = user.userId;
               this.avatar = avatar;
               resolve(res);
             } else {

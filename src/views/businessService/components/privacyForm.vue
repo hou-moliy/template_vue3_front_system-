@@ -43,91 +43,37 @@
   </el-form>
 </template>
 <script setup>
-import useRules from "../hooks/useRules.ts";
-import { reactive } from "vue";
 import { useRegion } from "@/hooks/useRegion.js";
-import useForm from "@/hooks/useForm";
-defineProps({
+import useRules from "../hooks/useRules";
+import useBusiness from "../hooks/useBusiness";
+const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  commonForm: {
+    type: Object,
+    default: () => ({})
   }
 });
 const initialValues = {
   groupName: "",
   recordMode: "",
   smsMode: "",
-  endCallUrl: ""
+  startCallUrl: "",
+  ringingUrl: "",
+  connectUrl: "",
+  endCallUrl: "",
+  smsUrl: "",
+  ipList: ""
 };
-const { form, formRef, resetForm, submitForm } = useForm(initialValues);
+const { onSubmit, form, formRef, resetForm } = useBusiness(initialValues, props.commonForm);
 // 地址
 const { address, setAddress } = useRegion(formRef, form);
-// const { privacyRules } = useRules(form);
-const switchForm = reactive({
-  start: false,
-  ring: false,
-  connect: false,
-  end: false,
-  sms: false
-});
-const rules = reactive({
-  groupName: [
-    {
-      required: true,
-      message: "请输入标题",
-      trigger: "blur"
-    }
-  ],
-  recordMode: [
-    {
-      required: true,
-      message: "请选择接入方式",
-      trigger: "blur"
-    }
-  ],
-  startCallUrl: [
-    {
-      required: switchForm.start,
-      message: "请选择业务模式",
-      trigger: "blur"
-    }
-  ],
-  ringingUrl: [
-    {
-      required: switchForm.ring,
-      message: "请选择业务模式",
-      trigger: "blur"
-    }
-  ],
-  connectUrl: [
-    {
-      required: switchForm.connect,
-      message: "请选择业务模式",
-      trigger: "blur"
-    }
-  ],
-  endCallUrl: [
-    {
-      required: switchForm.end,
-      message: "请选择业务模式",
-      trigger: "blur"
-    }
-  ],
-  smsUrl: [
-    {
-      required: switchForm.sms,
-      message: "请选择业务模式",
-      trigger: "blur"
-    }
-  ]
-});
-const onSubmit = () => {
-  submitForm().then(() => {});
-};
+const { rules, switchForm } = useRules();
 const onReset = () => {
   resetForm();
   setAddress([]);
 };
 defineExpose({ form, onSubmit, onReset });
 </script>
-<style></style>
