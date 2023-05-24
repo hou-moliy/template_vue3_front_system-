@@ -38,10 +38,42 @@ export const getVerCode = () => {
   });
 };
 
-// 获取用户信息
-export const getUserInfoApi = () => {
+// 账号审批
+export const auditUser = () => {
   return service({
-    url: "/common/getInfo",
+    url: "/system/user/auditUser",
+    method: "get",
+    baseURL
+  });
+};
+// 获取用户列表
+export const userList = () => {
+  return service({
+    url: "/system/user/list",
+    method: "get",
+    baseURL
+  });
+};
+// 重置密码
+export const resetPassword = () => {
+  return service({
+    url: "/system/user/resetPassword",
+    method: "get",
+    baseURL
+  });
+};
+// 修改用户信息
+export const updateUserInfo = () => {
+  return service({
+    url: "/system/user/updateUserInfo",
+    method: "get",
+    baseURL
+  });
+};
+// 修改用户状态
+export const updateUserStatus = () => {
+  return service({
+    url: "​/system​/user​/updateUserStatus",
     method: "get",
     baseURL
   });

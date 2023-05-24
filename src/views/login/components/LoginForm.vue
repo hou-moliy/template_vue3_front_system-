@@ -31,7 +31,7 @@ import { useRouter } from "vue-router";
 import { ElNotification } from "element-plus";
 import { TabsStore } from "@/stores/modules/tabs";
 import { HOME_URL, APP_NAME } from "@/config/config";
-import { login } from "@/api/login";
+import { login } from "@/api/user";
 import { setToken } from "@/utils/auth";
 import { getCookie, setCookie } from "@/utils/cookie";
 import { encode, decode } from "js-base64";

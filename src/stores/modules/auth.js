@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { getFlatArr } from "@/utils/util";
 import { getShowMenuList, getAllBreadcrumbList, getAssetsImages } from "@/utils/util.js";
 import { routerList } from "@/api/menu.js";
-import { getUserInfoApi } from "@/api/login.js";
+import { getUserInfoApi } from "@/api/system.js";
 import { removeToken } from "@/utils/auth";
 import { staticRouter } from "@/routers/modules/staticRouter";
 // AuthStore
@@ -30,16 +30,16 @@ export const AuthStore = defineStore({
   },
   actions: {
     // getAuthMenuList
-    async getAuthMenuList () {
+    async getAuthMenuList() {
       const res = await routerList();
       this.authMenuList = res.data;
     },
     // setRouteName
-    async setRouteName (name) {
+    async setRouteName(name) {
       this.routeName = name;
     },
     // 获取用户信息
-    getUserInfo () {
+    getUserInfo() {
       return new Promise((resolve, reject) => {
         getUserInfoApi()
           .then(res => {
@@ -66,7 +66,7 @@ export const AuthStore = defineStore({
       });
     },
     // 退出登录
-    logout () {
+    logout() {
       return new Promise(resolve => {
         removeToken();
         this.roles = [];
@@ -76,7 +76,7 @@ export const AuthStore = defineStore({
         resolve();
       });
     },
-    setAllMenuList () {
+    setAllMenuList() {
       const layoutList = staticRouter.find(item => item.path === "/layout")?.children ?? [];
       const staticList = staticRouter.filter(item => item.path !== "/layout") ?? [];
       // console.log(this.authMenuList);

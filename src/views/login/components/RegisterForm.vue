@@ -95,7 +95,7 @@
 import { ref, reactive } from "vue";
 import { ElMessage, ElNotification } from "element-plus";
 import { TabsStore } from "@/stores/modules/tabs";
-import { register, getVerCode, checkUserName } from "@/api/login";
+import { register, getVerCode, checkUserName } from "@/api/user";
 import UploadFile from "@/components/UploadFile/index.vue";
 import useValidator from "@/hooks/useValidator";
 import useForm from "@/hooks/useForm";

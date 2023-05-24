@@ -28,8 +28,7 @@
       </template>
     </el-table-column>
   </el-table>
-  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
-    @pagination="getList" />
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
   <!-- 企业客户列表 -->
   <cmpyListDialog ref="cmpyListDialogRef" />
   <!-- 编辑、详情 -->
@@ -64,13 +63,11 @@ const getList = () => {
       id: "",
       phoneNumber: "",
       tdName: "",
-      userId: "",
-      userName: "",
       createTime: "2021-08-09 12:00:00"
     }
   ];
   managerList().then(res => {
-    if(res.code === 200) {
+    if (res.code === 200) {
       tableData.value = res.data.list;
     }
   });
@@ -80,7 +77,6 @@ const handleResetForm = () => {
 };
 // 删除
 const deleteRow = (index, { userId }) => {
-  console.log(index, row);
   ElMessageBox.confirm("是否确定删除该客户经理？？？", "删除提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",
@@ -88,7 +84,7 @@ const deleteRow = (index, { userId }) => {
   }).then(() => {
     tableData.value.splice(index, 1);
     managerDelete({ userId }).then(res => {
-      if(res.code === 200) {
+      if (res.code === 200) {
         ElMessage.success("删除成功");
       }
     });

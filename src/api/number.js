@@ -30,11 +30,3 @@ export const remainingNum = data => {
     baseURL
   });
 };
-export const channelList = params => {
-  return service({
-    url: "/number/import",
-    method: "get",
-    params,
-    baseURL
-  });
-};
