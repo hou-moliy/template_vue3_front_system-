@@ -15,8 +15,7 @@
     <el-table-column label="任务编号" prop="id" />
     <el-table-column label="任务名称" prop="taskName" />
     <el-table-column label="创建时间" prop="createTime" />
-    <el-table-column label="企业名称" prop="groupName" />
-    <el-table-column label="类型" prop="type" />
+    <el-table-column label="实际导入号码量" prop="phoneNum" />
     <el-table-column label="导入状态" prop="status" />
     <el-table-column label="详情">
       <template #default="{ row }">
@@ -34,8 +33,8 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import useForm from "@/hooks/useForm";
-import addTask from "./components/addOrderTask.vue";
-import taskResult from "./components/orderResult.vue";
+import addTask from "./components/addImportTask.vue";
+import taskResult from "./components/importResult.vue";
 // 表单
 const initialValues = {
   taskName: "",
@@ -50,21 +49,17 @@ const getList = () => {
   tableData.value = [
     {
       id: 1,
-      groupName: "企业1",
       taskName: "任务1",
       createTime: "2021-08-01",
       phoneNum: 100,
-      status: "1",
-      type: "1"
+      status: "成功"
     },
     {
       id: 2,
-      groupName: "企业2",
       taskName: "任务2",
       createTime: "2021-08-02",
       phoneNum: 200,
-      status: "0",
-      type: "2"
+      status: "失败"
     }
   ];
 };

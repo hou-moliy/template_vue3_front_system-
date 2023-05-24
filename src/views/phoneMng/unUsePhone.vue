@@ -7,8 +7,6 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary">上传号码清单</el-button>
-      <el-button type="primary">下载号码清单样例</el-button>
       <el-button type="primary">导出</el-button>
     </el-form-item>
   </el-form>
@@ -18,7 +16,7 @@
     <el-table-column label="地市" prop="city" />
     <el-table-column label="号码量" prop="phoneNum" />
     <el-table-column label="操作">
-      <template #default="scope">
+      <template #default>
         <el-button type="primary" link>导出号码详情</el-button>
       </template>
     </el-table-column>

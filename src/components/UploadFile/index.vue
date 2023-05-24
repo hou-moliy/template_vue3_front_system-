@@ -17,6 +17,7 @@
         <el-icon><Upload /></el-icon>
         <span>上传文件</span>
       </div>
+      <div @click.stop="() => {}"><slot name="default"></slot></div>
     </el-upload>
     <div class="template_list">
       <div class="template" v-for="(item, index) in waitFileList" :key="index">
@@ -198,7 +199,7 @@ const handleUpload = (rawFile: any) => {
 .upload_wrap {
   text-align: left;
   .upload {
-    min-width: 468px;
+    // min-width: 468px;
     padding-bottom: 10px;
   }
   .tips {
@@ -219,6 +220,7 @@ const handleUpload = (rawFile: any) => {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 5px;
+  margin-right: 10px;
   img {
     display: block;
     width: 14px;

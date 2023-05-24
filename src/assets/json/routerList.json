@@ -97,6 +97,14 @@
 			},
 			"children": [
 				{
+					"path": "/phoneMng/unUserPhoneTask",
+					"name": "unUserPhoneTask",
+					"component": "/phoneMng/unUserPhoneTask",
+					"meta": {
+						"title": "未用号码资源导入任务列表"
+					}
+				},
+				{
 					"path": "/phoneMng/unUsePhone",
 					"name": "unUsePhone",
 					"component": "/phoneMng/unUsePhone",
