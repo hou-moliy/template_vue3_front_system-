@@ -1,6 +1,6 @@
 import { onActivated, onDeactivated, onBeforeUnmount } from "vue";
 // import echarts from "@/plugins/echarts";
-export const useEcharts = (myChart, options) => {
+const useEcharts = (myChart, options) => {
   if (options && typeof options === "object") {
     myChart.setOption(options);
   }
@@ -22,3 +22,4 @@ export const useEcharts = (myChart, options) => {
     window.removeEventListener("resize", echartsResize);
   });
 };
+export default useEcharts;

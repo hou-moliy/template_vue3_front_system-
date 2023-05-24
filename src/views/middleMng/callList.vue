@@ -69,10 +69,10 @@
 import { reactive, watch, ref } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
-import { useRegion } from "@/hooks/useRegion.js";
+import useRegion from "@/hooks/useRegion.js";
 import stackedLine from "./components/stackedLine/index.vue";
 import statisticalPeriod from "./components/statisticalPeriod/index.vue";
-import { useTime } from "@/hooks/useTime";
+import useTime from "@/hooks/useTime";
 import useCallTable from "./hooks/useCallTable";
 const { getRecentDates, getMonthDates, getCurrentDate, getDateRange } = useTime();
 const { total, getList, tableData } = useCallTable();

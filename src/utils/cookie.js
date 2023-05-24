@@ -1,12 +1,12 @@
 import Cookies from "js-cookie";
-export function getCookie (key) {
+export function getCookie(key) {
   return Cookies.get(key);
 }
 
-export function setCookie (key, value) {
+export function setCookie(key, value) {
   return Cookies.set(key, value);
 }
 
-export function removeCookie () {
+export function removeCookie() {
   return Cookies.remove(key);
 }

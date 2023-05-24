@@ -39,7 +39,7 @@
 import { ref, onMounted, computed } from "vue";
 import phoneDetail from "./phoneDetail.vue";
 import regionSelect from "@/components/regionSelect/index.vue";
-import { useRegion } from "@/hooks/useRegion.js";
+import useRegion from "@/hooks/useRegion.js";
 import useForm from "@/hooks/useForm";
 const dialogVisible = ref(false);
 const phoneDetailRef = ref(false);

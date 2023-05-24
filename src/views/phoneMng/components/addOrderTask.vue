@@ -36,7 +36,7 @@
 </template>
 <script setup>
 import { ref, reactive } from "vue";
-import { useRegion } from "@/hooks/useRegion.js";
+import useRegion from "@/hooks/useRegion.js";
 import useForm from "@/hooks/useForm";
 import { remainingNum } from "@/api/number.js";
 const dialogVisible = ref(false);

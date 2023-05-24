@@ -3,10 +3,10 @@ const useTable = () => {
   const rowSpanNumObject = reactive({});
   const rowSpanArray = ref([]);
   // 合并行
-  const spanMethod = ({ row, column, rowIndex, columnIndex }) => {
-    if(rowSpanArray.value.includes(column["property"])) {
+  const spanMethod = ({ column, rowIndex }) => {
+    if (rowSpanArray.value.includes(column["property"])) {
       const rowspan = rowSpanNumObject[column["property"]][rowIndex];
-      if(rowspan > 0) {
+      if (rowspan > 0) {
         return { rowspan: rowspan, colspan: 1 };
       }
       return { rowspan: 0, colspan: 0 };
@@ -22,10 +22,10 @@ const useTable = () => {
       rowSpanNumObject[`${item}-index`] = 0;
     });
     // 计算相关的合并信息
-    for(let i = 1; i < data.length; i++) {
+    for (let i = 1; i < data.length; i++) {
       rowSpanArray.value.forEach(key => {
         const index = rowSpanNumObject[`${key}-index`];
-        if(data[i][key] === data[i - 1][key]) {
+        if (data[i][key] === data[i - 1][key]) {
           rowSpanNumObject[key][index]++;
           rowSpanNumObject[key][i] = 0;
         } else {

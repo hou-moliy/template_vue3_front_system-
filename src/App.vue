@@ -7,7 +7,7 @@
 <script setup>
 import { reactive, computed } from "vue";
 import { GlobalStore } from "@/stores";
-import { useTheme } from "@/hooks/useTheme";
+import useTheme from "@/hooks/useTheme";
 import { getBrowserLang } from "@/utils/util";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 import en from "element-plus/es/locale/lang/en";
@@ -22,8 +22,8 @@ const config = reactive({
 
 // element 语言配置
 const i18nLocale = computed(() => {
-  if(globalStore.language && globalStore.language == "zh") return zhCn;
-  if(globalStore.language == "en") return en;
+  if (globalStore.language && globalStore.language == "zh") return zhCn;
+  if (globalStore.language == "en") return en;
   return getBrowserLang() == "zh" ? zhCn : en;
 });
 

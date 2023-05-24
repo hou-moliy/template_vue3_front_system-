@@ -2,9 +2,9 @@
   <transition name="message-fade">
     <div v-show="visible" :class="styleClass" :style="{ top: top + 'px' }">
       <div class="message-item">
-        <img v-if="type == 'success'" src="./image/success.png" class="type-icon" />
-        <img v-if="type == 'warning'" src="./image/warning.png" class="type-icon" />
-        <img v-if="type == 'error'" src="./image/error.png" class="type-icon" />
+        <img v-if="type == 'success'" src="./image/success.png" class="type-icon" alt="" />
+        <img v-if="type == 'warning'" src="./image/warning.png" class="type-icon" alt="" />
+        <img v-if="type == 'error'" src="./image/error.png" class="type-icon" alt="" />
         <span>{{ message }}</span>
       </div>
     </div>

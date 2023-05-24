@@ -95,7 +95,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import useForm from "@/hooks/useForm";
-import { useRegion } from "@/hooks/useRegion.js";
+import useRegion from "@/hooks/useRegion.js";
 defineProps({
   disabled: {
     type: Boolean,

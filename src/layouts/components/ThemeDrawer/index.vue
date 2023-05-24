@@ -9,8 +9,10 @@
     </el-divider>
     <div class="layout-box">
       <el-tooltip effect="dark" content="纵向" placement="top" :show-after="200">
-        <div :class="['layout-item layout-vertical', themeConfig.layout == 'vertical' ? 'is-active' : '']"
-          @click="changeLayout('vertical')">
+        <div
+          :class="['layout-item layout-vertical', themeConfig.layout == 'vertical' ? 'is-active' : '']"
+          @click="changeLayout('vertical')"
+        >
           <div class="layout-dark"></div>
           <div class="layout-container">
             <div class="layout-light"></div>
@@ -22,8 +24,10 @@
         </div>
       </el-tooltip>
       <el-tooltip effect="dark" content="经典" placement="top" :show-after="200">
-        <div :class="['layout-item layout-classic', themeConfig.layout == 'classic' ? 'is-active' : '']"
-          @click="changeLayout('classic')">
+        <div
+          :class="['layout-item layout-classic', themeConfig.layout == 'classic' ? 'is-active' : '']"
+          @click="changeLayout('classic')"
+        >
           <div class="layout-dark"></div>
           <div class="layout-container">
             <div class="layout-light"></div>
@@ -35,8 +39,10 @@
         </div>
       </el-tooltip>
       <el-tooltip effect="dark" content="横向" placement="top" :show-after="200">
-        <div :class="['layout-item layout-transverse', themeConfig.layout == 'transverse' ? 'is-active' : '']"
-          @click="changeLayout('transverse')">
+        <div
+          :class="['layout-item layout-transverse', themeConfig.layout == 'transverse' ? 'is-active' : '']"
+          @click="changeLayout('transverse')"
+        >
           <div class="layout-dark"></div>
           <div class="layout-content"></div>
           <el-icon v-if="themeConfig.layout == 'transverse'">
@@ -45,8 +51,10 @@
         </div>
       </el-tooltip>
       <el-tooltip effect="dark" content="分栏" placement="top" :show-after="200">
-        <div :class="['layout-item layout-columns', themeConfig.layout == 'columns' ? 'is-active' : '']"
-          @click="changeLayout('columns')">
+        <div
+          :class="['layout-item layout-columns', themeConfig.layout == 'columns' ? 'is-active' : '']"
+          @click="changeLayout('columns')"
+        >
           <div class="layout-dark"></div>
           <div class="layout-light"></div>
           <div class="layout-content"></div>
@@ -107,7 +115,7 @@
 
 <script setup>
 import { ref, computed, watch } from "vue";
-import { useTheme } from "@/hooks/useTheme";
+import useTheme from "@/hooks/useTheme";
 import { GlobalStore } from "@/stores";
 import { DEFAULT_PRIMARY } from "@/config/config";
 // import SwitchDark from "@/components/SwitchDark/index.vue";
@@ -152,4 +160,6 @@ const drawerVisible = ref(false);
 mittBus.on("openThemeDrawer", () => (drawerVisible.value = true));
 </script>
 
-<style scoped lang="scss">@import "./index.scss";</style>
+<style scoped lang="scss">
+@import "./index.scss";
+</style>

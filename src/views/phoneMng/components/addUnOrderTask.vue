@@ -32,7 +32,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import useForm from "@/hooks/useForm";
-import { useRegion } from "@/hooks/useRegion.js";
+import useRegion from "@/hooks/useRegion.js";
 // 表单
 const initialValues = {
   title: "",

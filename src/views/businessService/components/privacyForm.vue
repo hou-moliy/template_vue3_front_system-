@@ -44,7 +44,7 @@
 </template>
 <script setup>
 import { watch } from "vue";
-import { useRegion } from "@/hooks/useRegion.js";
+import useRegion from "@/hooks/useRegion.js";
 import useRules from "../hooks/useRules";
 import useBusiness from "../hooks/useBusiness";
 const props = defineProps({
@@ -87,7 +87,7 @@ watch(
   }
 );
 const onSwitchChange = type => {
-  if(!switchForm.value[type]) {
+  if (!switchForm.value[type]) {
     form[type] = ""; // 清空对应的输入框值
   }
 };

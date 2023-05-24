@@ -6,7 +6,7 @@ export function localGet(key) {
   const value = window.localStorage.getItem(key);
   try {
     return JSON.parse(window.localStorage.getItem(key));
-  } catch(error) {
+  } catch (error) {
     return value;
   }
 }
@@ -40,8 +40,8 @@ export function localClear() {
  * @param {Any} val 需要判断类型的数据
  */
 export function isType(val) {
-  if(val === null) return "null";
-  if(typeof val !== "object") return typeof val;
+  if (val === null) return "null";
+  if (typeof val !== "object") return typeof val;
   else return Object.prototype.toString.call(val).slice(8, -1).toLocaleLowerCase();
 }
 
@@ -54,11 +54,11 @@ export function getTimeState() {
   // 获取当前小时
   let hours = timeNow.getHours();
   // 判断当前时间段
-  if(hours >= 6 && hours <= 12) return `早上好 ⛅`;
-  if(hours >= 12 && hours <= 13) return `中午好 🌞`;
-  if(hours >= 13 && hours <= 18) return `下午好 🌞`;
-  if(hours >= 18 && hours <= 24) return `晚上好 🌛`;
-  if(hours >= 0 && hours <= 6) return `凌晨好 🌛`;
+  if (hours >= 6 && hours <= 12) return `早上好 ⛅`;
+  if (hours >= 12 && hours <= 13) return `中午好 🌞`;
+  if (hours >= 13 && hours <= 18) return `下午好 🌞`;
+  if (hours >= 18 && hours <= 24) return `晚上好 🌛`;
+  if (hours >= 0 && hours <= 6) return `凌晨好 🌛`;
 }
 
 /**
@@ -75,11 +75,11 @@ export function getTime(type) {
   let mySecond = myDate.getSeconds();
   let week = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
   let nowTime;
-  if(type === 1) {
+  if (type === 1) {
     nowTime = myYear + "年" + fillZero(myMonth) + "月" + fillZero(myToday) + "日";
-  } else if(type === 2) {
+  } else if (type === 2) {
     nowTime = fillZero(myHour) + ":" + fillZero(myMinute) + ":" + fillZero(mySecond);
-  } else if(type === 3) {
+  } else if (type === 3) {
     nowTime = week[myDay];
   } else {
     nowTime =
@@ -102,7 +102,7 @@ export function getTime(type) {
   }
   function fillZero(str) {
     let realNum;
-    if(str < 10) {
+    if (str < 10) {
       realNum = "0" + str;
     } else {
       realNum = str;
@@ -118,7 +118,7 @@ export function getTime(type) {
 export function getBrowserLang() {
   let browserLang = navigator.language ? navigator.language : navigator.browserLanguage;
   let defaultBrowserLang = "";
-  if(browserLang.toLowerCase() === "cn" || browserLang.toLowerCase() === "zh" || browserLang.toLowerCase() === "zh-cn") {
+  if (browserLang.toLowerCase() === "cn" || browserLang.toLowerCase() === "zh" || browserLang.toLowerCase() === "zh-cn") {
     defaultBrowserLang = "zh";
   } else {
     defaultBrowserLang = "en";
@@ -134,7 +134,7 @@ export function getFlatArr(menuList) {
   let newMenuList = JSON.parse(JSON.stringify(menuList));
   return newMenuList.reduce((pre, current) => {
     let flatArr = [...pre, current];
-    if(current.children) flatArr = [...flatArr, ...getFlatArr(current.children)];
+    if (current.children) flatArr = [...flatArr, ...getFlatArr(current.children)];
     return flatArr;
   }, []);
 }
@@ -158,9 +158,9 @@ export function getShowMenuList(menuList) {
  * @param {String} path 当前递归的路径
  */
 export const getAllBreadcrumbList = (menuList, result = { key: "" }, path = []) => {
-  for(const item of menuList) {
+  for (const item of menuList) {
     result[item.path] = [...path, item];
-    if(item.children) getAllBreadcrumbList(item.children, result, result[item.path]);
+    if (item.children) getAllBreadcrumbList(item.children, result, result[item.path]);
   }
   return result;
 };

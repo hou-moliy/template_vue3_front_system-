@@ -1,5 +1,5 @@
 import { reactive, watch, toRefs } from "vue";
-export const useRegion = (formRef, formData) => {
+const useRegion = (formRef, formData) => {
   const state = reactive({
     address: [formData.provinceId, formData.cityId]
   });
@@ -30,3 +30,4 @@ export const useRegion = (formRef, formData) => {
     setAddress
   };
 };
+export default useRegion;

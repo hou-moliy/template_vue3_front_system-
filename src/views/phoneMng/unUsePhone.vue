@@ -26,7 +26,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import regionSelect from "@/components/regionSelect/index.vue";
-import { useRegion } from "@/hooks/useRegion.js";
+import useRegion from "@/hooks/useRegion.js";
 import useForm from "@/hooks/useForm";
 // 表单
 const initialValues = {

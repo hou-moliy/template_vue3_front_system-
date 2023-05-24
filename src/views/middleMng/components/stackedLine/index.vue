@@ -8,7 +8,7 @@ import { LineChart } from "echarts/charts";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import { watch, reactive, nextTick } from "vue";
-import { useEcharts } from "@/hooks/useEcharts";
+import useEcharts from "@/hooks/useEcharts";
 echarts.use([
   TitleComponent,
   ToolboxComponent,

@@ -33,7 +33,7 @@
 import { ref, computed } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
-import { useRegion } from "@/hooks/useRegion.js";
+import useRegion from "@/hooks/useRegion.js";
 const initialValues = {
   cmpy: "",
   branchCmpy: "",

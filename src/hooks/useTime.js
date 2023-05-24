@@ -1,5 +1,5 @@
 import { ref } from "vue";
-export const useTime = () => {
+const useTime = () => {
   const monthDates = ref([]); // 日期数组(月)
   const recentDates = ref([]); // 日期数组(最近)
   const todayDate = ref(""); // 今日日期
@@ -16,11 +16,11 @@ export const useTime = () => {
 
   // 获取某个月的所有日期
   const getMonthDates = (selectedMonth, format = "yyyy/mm/dd") => {
-    if(!selectedMonth) selectedMonth = getCurrentDate();
+    if (!selectedMonth) selectedMonth = getCurrentDate();
     const [year, month] = selectedMonth.split("-");
     const numDays = new Date(year, month, 0).getDate();
     const dates = [];
-    for(let i = 1; i <= numDays; i++) {
+    for (let i = 1; i <= numDays; i++) {
       const date = new Date(year, month - 1, i);
       const formattedDate = date.toLocaleDateString("zh-CN", {
         year: "numeric",
@@ -36,7 +36,7 @@ export const useTime = () => {
   const getRecentDates = (days, format = "yyyy/mm/dd") => {
     const today = new Date();
     const dates = [];
-    for(let i = -days; i <= 0; i++) {
+    for (let i = -days; i <= 0; i++) {
       const currentDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
       const formattedDate = currentDate.toLocaleDateString("zh-CN", {
         year: "numeric",
@@ -63,7 +63,7 @@ export const useTime = () => {
     endDate = new Date(endDate);
     const dates = [];
     const currentDate = new Date(startDate);
-    while(currentDate <= endDate) {
+    while (currentDate <= endDate) {
       const formattedDate = formatDate(currentDate, format);
       dates.push(formattedDate);
       currentDate.setDate(currentDate.getDate() + 1);
@@ -80,3 +80,4 @@ export const useTime = () => {
     getDateRange
   };
 };
+export default useTime;
