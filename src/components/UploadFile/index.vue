@@ -1,17 +1,19 @@
 <template>
   <div class="upload_wrap">
     <el-upload
-      v-if="!props.isDisableUpload"
+      v-if="!isDisableUpload"
       class="upload"
       ref="uploadRef"
       :file-list="waitFileList"
-      :multiple="props.isMultiple"
-      :limit="props.limitNum"
-      :accept="props.acceptType"
+      :multiple="isMultiple"
+      :limit="limitNum"
+      :accept="acceptType"
       :auto-upload="false"
       :show-file-list="false"
-      :disabled="props.isDisableUpload"
+      :disabled="isDisableUpload"
       :on-change="handleChange"
+      :on-exceed="handleExceed"
+      :on-remove="removeFile"
     >
       <div class="el-upload__text">
         <el-icon><Upload /></el-icon>
@@ -28,7 +30,7 @@
         <span v-if="!props.isDisableUpload">
           <el-icon color="#000000a6" size="16" @click="removeFile(item)"><Close /></el-icon>
         </span>
-        <span v-if="isDownLoad" style="paddingleft: 5px">
+        <span v-if="isDownLoad" class="downLoad">
           <el-icon @click="handleDownLoad(item)"><Download /></el-icon>
         </span>
       </div>
@@ -38,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
+import { ref, watch, toRefs } from "vue";
 import { ElLoading, ElMessage } from "element-plus";
 import { uploadIdsFile } from "@/api/upload";
 import { Close } from "@element-plus/icons-vue";
@@ -58,17 +60,18 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   acceptType: "", //.xls,.doc
   acceptTypeDesc: "doc/xls",
-  isMultiple: true,
-  limitNum: 10,
+  isMultiple: false,
+  limitNum: 1,
   isDisableUpload: false,
   maxFileSize: 10,
-  action: "/activity/resource/uploadFile",
+  action: "",
   fileList: [],
   isDownLoad: false
 });
-let waitFileList = ref<any[]>([]);
 
-waitFileList.value = props.fileList;
+let waitFileList = ref<any[]>([]);
+const { fileList } = toRefs(props);
+waitFileList.value = fileList.value;
 waitFileList.value?.forEach((item: any) => {
   item.name = item.original;
 });
@@ -152,7 +155,9 @@ const removeFile = (file: any) => {
   waitFileList.value = arr.filter((its: any) => {
     return its.id != file.id;
   });
+
   emits("fileRemove", waitFileList.value);
+  console.log("waitFileList.value====>", waitFileList.value);
 };
 
 // 点击下载
@@ -164,6 +169,12 @@ const handleDownLoad = (row: { ossFile: string }) => {
 
 // 上传方法
 const handleUpload = (rawFile: any) => {
+  // 上传到服务器上面
+  const requestURL: string = props.action;
+  if (!requestURL) {
+    emits("fileSuccess", rawFile);
+    return;
+  }
   let formData = new FormData();
   formData.append("file", rawFile);
   formData.append("fileType", "2");
@@ -171,8 +182,6 @@ const handleUpload = (rawFile: any) => {
     text: "正在上传",
     background: "rgba(0,0,0,.2)"
   });
-  // 上传到服务器上面
-  const requestURL: string = props.action;
   uploadIdsFile({ url: requestURL, data: formData })
     .then(async (res: any) => {
       console.log(res);
@@ -190,8 +199,13 @@ const handleUpload = (rawFile: any) => {
     })
     .catch(() => {
       loadingInstance.close();
-      // ElMessage.warning(`文件上传失败`);
+      ElMessage.warning(`文件上传失败`);
     });
+};
+
+// 超出限制执行的方法
+const handleExceed = (files: any, fileList: any[]) => {
+  ElMessage.warning(`当前限制选择 ${props.limitNum} 个文件`);
 };
 </script>
 
@@ -256,5 +270,8 @@ const handleUpload = (rawFile: any) => {
     font-size: 14px;
     color: rgba(0, 0, 0, 0.65);
   }
+}
+.downLoad {
+  padding-left: 5px;
 }
 </style>

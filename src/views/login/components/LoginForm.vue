@@ -76,21 +76,21 @@ const setUserInfo = () => {
   // 判断用户是否勾选记住密码，如果勾选，向cookie中储存登录信息，
   // 如果没有勾选，储存的信息为空
   if (loginForm.remember) {
-    setCookie("username", loginForm.username);
+    setCookie("loginName", loginForm.loginName);
     // 加密密码存储
     setCookie("password", encode(loginForm.password));
   } else {
-    setCookie("username", "");
+    setCookie("loginName", "");
     setCookie("password", "");
   }
 };
 
 // 获取登录信息的cookie
 const getCookieInfo = () => {
-  const username = getCookie("username");
+  const loginName = getCookie("loginName");
   const password = getCookie("password");
-  if (username && password) {
-    loginForm.username = username;
+  if (loginName && password) {
+    loginForm.loginName = loginName;
     loginForm.password = decode(password, "base64");
     loginForm.remember = true;
   }

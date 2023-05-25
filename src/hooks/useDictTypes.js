@@ -5,14 +5,18 @@ const useDictTypes = dictTypes => {
   const dictList = ref([]);
   const { setDictTypes, getDictTypes } = DictTypesStore();
   const getTypeList = () => {
-    dictList.value = getDictTypes(dictTypes);
-    getDict({ dictTypes }).then(res => {
-      if (res.code === 200) {
-        // dictList.value = res.data;
-        setDictTypes(dictTypes, res.data);
-        dictList.value = getDictTypes(dictTypes);
-      }
-    });
+    const list = getDictTypes(dictTypes);
+    if (list.length > 0) {
+      dictList.value = getDictTypes(dictTypes);
+    } else {
+      getDict({ dictTypes }).then(res => {
+        if (res.code === 200) {
+          // dictList.value = res.data;
+          setDictTypes(dictTypes, res.data);
+          dictList.value = getDictTypes(dictTypes);
+        }
+      });
+    }
   };
   return {
     dictList,

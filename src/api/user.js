@@ -11,29 +11,31 @@ export const login = data => {
   });
 };
 // 校验用户是否存在
-export const checkUserName = data => {
+export const checkUserName = params => {
   return service({
     url: "/system/user/checkUserName",
     method: "get",
-    data,
+    params,
     baseURL
   });
 };
 
 // 注册
-export const register = () => {
+export const register = data => {
   return service({
     url: "/system/user/register",
     method: "post",
+    data,
     baseURL
   });
 };
 
 // 下发验证码
-export const getVerCode = () => {
+export const getVerCode = params => {
   return service({
     url: "/system/user/getVerCode",
     method: "get",
+    params,
     baseURL
   });
 };

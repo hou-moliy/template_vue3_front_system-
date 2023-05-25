@@ -7,8 +7,8 @@
         <el-option label="企业客户2" value="beijing" />
       </el-select>
     </el-form-item>
-    <el-form-item label="分公司" prop="branchCmpy">
-      <el-select v-model="form.branchCmpy" placeholder="请选择分公司">
+    <el-form-item label="分公司" prop="midGroupId">
+      <el-select v-model="form.midGroupId" placeholder="请选择分公司">
         <el-option label="分公司1" value="shanghai" />
         <el-option label="分公司2" value="beijing" />
       </el-select>
@@ -65,13 +65,14 @@ import { reactive, ref } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
 import useRegion from "@/hooks/useRegion.js";
+import { orderList } from "@/api/stats";
 const initialValues = {
   cmpy: "",
   branchCmpy: "",
   manager: "",
   channel: "",
-  province: "",
-  city: "",
+  provinceId: "",
+  cityId: "",
   date: "",
   pageNum: 1,
   pageSize: 10
@@ -79,20 +80,25 @@ const initialValues = {
 const { form, formRef, resetForm } = useForm(initialValues);
 // 地址
 const { address, setAddress } = useRegion(formRef, form);
-const tableData = reactive([
-  {
-    cmpy: "美团",
-    manager: "美团经理",
-    branchCmpy: "美团分公司",
-    channel: "渠道商",
-    phone: "123",
-    times: "2",
-    createTime: "2023/5/16"
-  }
-]);
-const total = ref(tableData.length);
+const tableData = ref([]);
+const total = ref(tableData.value.length);
 const getList = () => {
-  console.log(form, "获取新数据");
+  tableData.value = [
+    {
+      cmpy: "美团",
+      manager: "美团经理",
+      branchCmpy: "美团分公司",
+      channel: "渠道商",
+      phone: "123",
+      times: "2",
+      createTime: "2023/5/16"
+    }
+  ];
+  orderList(form).then(res => {
+    if (res.code === 200) {
+      tableData.value = res.data.list;
+    }
+  });
 };
 // 重置
 const handleReset = () => {

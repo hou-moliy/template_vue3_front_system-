@@ -6,15 +6,7 @@
     <div class="register-wrap">
       <el-form ref="formRef" :model="form" :rules="rules" size="large">
         <el-form-item prop="userType" label="账户类型">
-          <el-select v-model="form.userType" placeholder="请选择账户类型" size="large">
-            <el-option
-              v-for="item in Roles"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-              :disabled="item.disabled"
-            />
-          </el-select>
+          <model-select v-model="form.userType" dictType="userTypes" placeholder="请选择账户类型" />
         </el-form-item>
         <el-form-item prop="loginName" label="用户名">
           <el-input v-model="form.loginName" placeholder="请输入用户名"> </el-input>
@@ -75,7 +67,7 @@
           </el-form-item>
         </div>
         <el-form-item prop="file" label="上传附件">
-          <UploadFile />
+          <UploadFile :fileList="fileList" @fileSuccess="fileSuccess" @fileRemove="fileRemove" />
         </el-form-item>
         <el-form-item prop="verCode" label="验证码">
           <el-input v-model="form.verCode" auto-complete="off" placeholder="请输入验证码"> </el-input>
@@ -99,6 +91,9 @@ import { register, getVerCode, checkUserName } from "@/api/user";
 import UploadFile from "@/components/UploadFile/index.vue";
 import useValidator from "@/hooks/useValidator";
 import useForm from "@/hooks/useForm";
+import { getFormData } from "@/utils/util";
+import useUpload from "@/hooks/useUpload";
+
 const tabsStore = TabsStore();
 const emit = defineEmits(["changeForm"]);
 const initialValues = {
@@ -110,14 +105,17 @@ const initialValues = {
   realName: "",
   deptId: "",
   id: "",
-  userType: "",
-  verCode: ""
+  userType: "1",
+  verCode: "",
+  file: null
 };
 const { form, formRef, submitForm } = useForm(initialValues);
 const { validateCardId, validateLoginName, validateRealName, validateVerCode, validatePhone, validateEmail } = useValidator(
   formRef,
   form
 );
+const { fileList, fileSuccess, fileRemove } = useUpload(form);
+
 // 定义 formRef（校验规则）
 const rules = reactive({
   loginName: [
@@ -172,11 +170,10 @@ const rules = reactive({
 const loading = ref(false);
 const onSubmit = () => {
   submitForm().then(async () => {
-    console.log(form, "值");
     const check = await checkName();
     if (check) {
       loading.value = true;
-      register(form)
+      register(getFormData(form))
         .then(res => {
           if (res.code === 200) {
             tabsStore.closeMultipleTab();
@@ -229,31 +226,6 @@ const getCode = () => {
 // 返回登录表单
 const goBack = () => emit("changeForm", "login");
 const dialogVisible = ref(true);
-
-// 账户类型
-const Roles = [
-  {
-    value: "1",
-    label: "企业客户"
-  },
-  {
-    value: "2",
-    label: "客户经理"
-  },
-  {
-    value: "3",
-    label: "分公司管理员"
-  },
-  {
-    value: "4",
-    label: "渠道商"
-  },
-  {
-    value: "5",
-    label: "项目经理",
-    disabled: true
-  }
-];
 </script>
 
 <style lang="scss" scoped>
