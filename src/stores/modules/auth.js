@@ -7,7 +7,7 @@ import { removeToken } from "@/utils/auth";
 import { staticRouter } from "@/routers/modules/staticRouter";
 // AuthStore
 export const AuthStore = defineStore({
-  id: "AuthState",
+  id: "AuthStore",
   state: () => ({
     routeName: "", // 当前页面的 router name，用来做按钮权限筛选
     authMenuList: [], // 菜单权限列表

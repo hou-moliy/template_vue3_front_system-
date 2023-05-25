@@ -13,10 +13,7 @@
       <el-date-picker v-model="form.createTime" type="datetime" placeholder="请选择申请时间" />
     </el-form-item>
     <el-form-item label="审批状态" prop="auditStatus">
-      <el-select v-model="form.auditStatus" placeholder="请选择">
-        <el-option label="Zone one" value="shanghai" />
-        <el-option label="Zone two" value="beijing" />
-      </el-select>
+      <model-select v-model="form.auditStatus" dictType="auditStatus" placeholder="请选择审批状态" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="handleSubitForm">搜索</el-button>

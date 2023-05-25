@@ -44,15 +44,15 @@ export const GlobalStore = defineStore({
   getters: {},
   actions: {
     // setAssemblySizeSize
-    setAssemblySizeSize (assemblySize) {
+    setAssemblySizeSize(assemblySize) {
       this.assemblySize = assemblySize;
     },
     // updateLanguage
-    updateLanguage (language) {
+    updateLanguage(language) {
       this.language = language;
     },
     // setThemeConfig
-    setThemeConfig (themeConfig) {
+    setThemeConfig(themeConfig) {
       this.themeConfig = themeConfig;
     }
   },

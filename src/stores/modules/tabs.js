@@ -12,14 +12,14 @@ export const TabsStore = defineStore({
   getters: {},
   actions: {
     // Add Tabs
-    async addTabs (tabItem) {
+    async addTabs(tabItem) {
       if (TABS_WHITE_LIST.includes(tabItem.path)) return;
       if (this.tabsMenuList.every(item => item.path !== tabItem.path)) {
         this.tabsMenuList.push(tabItem);
       }
     },
     // Remove Tabs
-    async removeTabs (tabPath, isCurrent = true) {
+    async removeTabs(tabPath, isCurrent = true) {
       const tabsMenuList = this.tabsMenuList;
       if (isCurrent) {
         tabsMenuList.forEach((item, index) => {
@@ -32,23 +32,23 @@ export const TabsStore = defineStore({
       this.tabsMenuList = tabsMenuList.filter(item => item.fullPath !== tabPath);
     },
     // Close MultipleTab
-    async closeMultipleTab (tabsMenuValue) {
+    async closeMultipleTab(tabsMenuValue) {
       this.tabsMenuList = this.tabsMenuList.filter(item => {
         return item.fullPath === tabsMenuValue || !item.close;
       });
     },
     // Set Tabs
-    async setTabs (tabsMenuList) {
+    async setTabs(tabsMenuList) {
       this.tabsMenuList = tabsMenuList;
     },
     // Set Tabs Title
-    async setTabsTitle (title) {
+    async setTabsTitle(title) {
       const nowFullPath = location.hash.substring(1);
       this.tabsMenuList.forEach(item => {
         if (item.path == nowFullPath) item.title = title;
       });
     },
-    updateTabs (tabItem) {
+    updateTabs(tabItem) {
       const tabsMenuList = this.tabsMenuList;
       tabsMenuList.forEach(item => {
         if (item.path === tabItem.path) {

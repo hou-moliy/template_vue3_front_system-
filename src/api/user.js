@@ -39,42 +39,47 @@ export const getVerCode = () => {
 };
 
 // 账号审批
-export const auditUser = () => {
+export const auditUser = data => {
   return service({
     url: "/system/user/auditUser",
-    method: "get",
+    method: "post",
+    data,
     baseURL
   });
 };
 // 获取用户列表
-export const userList = () => {
+export const userList = params => {
   return service({
     url: "/system/user/list",
     method: "get",
+    params,
     baseURL
   });
 };
 // 重置密码
-export const resetPassword = () => {
+export const resetPassword = data => {
   return service({
     url: "/system/user/resetPassword",
-    method: "get",
+    method: "post",
+    data,
     baseURL
   });
 };
 // 修改用户信息
-export const updateUserInfo = () => {
+export const updateUserInfo = data => {
   return service({
     url: "/system/user/updateUserInfo",
-    method: "get",
+    method: "post",
+    data,
     baseURL
   });
 };
 // 修改用户状态
-export const updateUserStatus = () => {
+export const updateUserStatus = params => {
   return service({
     url: "​/system​/user​/updateUserStatus",
     method: "get",
+    params,
     baseURL
   });
 };
