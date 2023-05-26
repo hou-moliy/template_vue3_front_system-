@@ -1,5 +1,6 @@
 import { ref, computed, onMounted } from "vue";
-export default function () {
+import { callList } from "@/api/stats";
+export default function (form) {
   const tableData = ref([]);
   const total = computed(() => tableData.value.length);
   const getList = () => {
@@ -14,6 +15,11 @@ export default function () {
         createTime: "2023/5/16"
       }
     ];
+    callList(form).then(res => {
+      if (res.code === 200) {
+        tableData.value = res.data;
+      }
+    });
   };
   onMounted(() => {
     getList();

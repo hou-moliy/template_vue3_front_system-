@@ -10,10 +10,10 @@ const useDictTypes = dictTypes => {
       dictList.value = getDictTypes(dictTypes);
     } else {
       getDict({ dictTypes }).then(res => {
-        if (res.code === 200) {
-          // dictList.value = res.data;
-          setDictTypes(dictTypes, res.data);
-          dictList.value = getDictTypes(dictTypes);
+        if (res.code === "0000") {
+          dictList.value = res.data?.roleType || [];
+          setDictTypes(dictTypes, dictList.value);
+          // dictList.value = getDictTypes(dictTypes);
         }
       });
     }

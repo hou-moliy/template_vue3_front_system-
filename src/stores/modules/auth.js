@@ -43,7 +43,7 @@ export const AuthStore = defineStore({
       return new Promise((resolve, reject) => {
         getUserInfoApi()
           .then(res => {
-            if (res?.code === 200) {
+            if (res?.code == "0000") {
               const user = res.user;
               const avatar = !user.avatar ? getAssetsImages("/src/assets/images/profile.jpg") : user.avatar;
               if (res.roles && res.roles.length > 0) {

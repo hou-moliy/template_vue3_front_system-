@@ -2,7 +2,7 @@
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
     <el-form-item label="账户类型" prop="userType">
-      <model-select v-model="form.userType" dictType="userTypes" placeholder="请选择账户类型" />
+      <model-select v-model="form.userType" dictType="roleType" placeholder="请选择账户类型" />
     </el-form-item>
     <el-form-item label="审批状态" prop="auditStatus">
       <model-select v-model="form.auditStatus" dictType="auditStatus" placeholder="请选择审批状态" />

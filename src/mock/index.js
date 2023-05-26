@@ -5,18 +5,18 @@ import TreeSelect from "@/assets/json/treeSelect.json";
 import RoleTreeSelect from "@/assets/json/roleTreeSelect.json";
 import BusinessCustomer from "@/assets/json/customerList.json";
 import DictData from "@/assets/json/dict.json";
-const baseURL = import.meta.env.VITE_BASE_API || "admin";
+const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
-Mock.mock(`${baseURL}/common/getRouters`, () => {
+Mock.mock(`/mock${baseURL}/system/menu/list`, () => {
   {
     return Mock.mock(DynamicRouter);
   }
 });
 
-Mock.mock(`${baseURL}/system/user/login`, () => {
+Mock.mock(`/mock${baseURL}/system/user/login`, () => {
   {
     return Mock.mock({
-      code: 200,
+      code: "0000",
       token:
         "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODQ4MjUxNDgsImxvZ2luX3VzZXJfa2V5IjoiMDQ2ZDIzYTUtNWVlNC00MTMyLWJjMTYtMjhlNDQ2MjU4MmFhIn0.GatpTz_TTHJoP1DHj0j_h21CZekZMDbCmREwe6AdVeWPCM5TobwZD6odS8-bZ1LmK3RDmdsei-5yxnraKZaW3g"
     });

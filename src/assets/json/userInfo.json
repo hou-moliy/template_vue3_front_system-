@@ -1,11 +1,7 @@
 {
-  "code": 200,
-  "permissions": [
-    "*:*:*"
-  ],
-  "roles": [
-    "admin"
-  ],
+  "code": "0000",
+  "permissions": ["*:*:*"],
+  "roles": ["admin"],
   "user": {
     "admin": true,
     "avatar": "",

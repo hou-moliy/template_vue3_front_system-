@@ -1,6 +1,6 @@
 // 号码管理相关接口
 import service from "./service.js";
-const baseURL = import.meta.env.VITE_BASE_API || "admin";
+const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
 // 导入未用号码资源
 export const importPhone = params => {

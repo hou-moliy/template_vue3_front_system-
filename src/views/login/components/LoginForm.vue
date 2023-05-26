@@ -54,20 +54,20 @@ const loginClick = formEl => {
   formEl.validate(async valid => {
     if (!valid) return;
     loading.value = true;
-    try {
-      const { token } = await login(loginForm);
-      setToken(token);
-      setUserInfo();
-      tabsStore.closeMultipleTab();
-      router.push(HOME_URL);
-      ElNotification({
-        message: `欢迎使用${APP_NAME}`,
-        type: "success",
-        duration: 2000
-      });
-    } finally {
-      loading.value = false;
-    }
+    // try {
+    const { token } = await login(loginForm);
+    setToken(token);
+    setUserInfo();
+    tabsStore.closeMultipleTab();
+    router.push(HOME_URL);
+    ElNotification({
+      message: `欢迎使用${APP_NAME}`,
+      type: "success",
+      duration: 2000
+    });
+    // } finally {
+    //   loading.value = false;
+    // }
   });
 };
 

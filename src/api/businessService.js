@@ -1,6 +1,6 @@
 // 业务办理相关接口
 import service from "./service.js";
-const baseURL = import.meta.env.VITE_BASE_API || "admin";
+const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
 // 业务办理列表
 export const handleList = params => {

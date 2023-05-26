@@ -1,6 +1,6 @@
 // 渠道商账户信息管理相关接口
 import service from "./service.js";
-const baseURL = import.meta.env.VITE_BASE_API || "admin";
+const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
 // 获取渠道商列表
 export const channelList = params => {

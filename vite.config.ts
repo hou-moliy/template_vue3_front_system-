@@ -42,8 +42,17 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       cors: true,
       // 跨域代理配置
       proxy: {
-        [viteEnv.VITE_BASE_API]: {
+        ["/mock" + viteEnv.VITE_BASE_API]: {
           target: "https://gitee.com", // easymock
+          // target: "http://10.4.5.40:9111/bjxh", // yhw
+          // target: "http://10.1.35.207:8180/admin", //
+          // target: "http://10.1.61.13:9501/admin/api",
+          changeOrigin: true,
+          rewrite: path => path.replace(viteEnv.VITE_BASE_API, "")
+        },
+        [viteEnv.VITE_BASE_API]: {
+          // target: "https://gitee.com", // easymock
+          target: "http://10.4.5.40:9111/bjxh", // yhw
           // target: "http://10.1.35.207:8180/admin", //
           // target: "http://10.1.61.13:9501/admin/api",
           changeOrigin: true,

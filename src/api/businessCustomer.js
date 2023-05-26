@@ -1,6 +1,6 @@
 // 企业客户账户信息管理相关接口
 import service from "./service.js";
-const baseURL = import.meta.env.VITE_BASE_API || "admin";
+const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
 // 获取企业客户账户列表
 export const handleList = params => {

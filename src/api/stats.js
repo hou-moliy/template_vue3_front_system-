@@ -1,3 +1,4 @@
+// 小号统计相关接口
 import service from "./service.js";
 const baseURL = import.meta.env.VITE_BASE_API || "admin";
 // 小号通话详情

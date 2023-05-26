@@ -37,7 +37,7 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary">导出</el-button>
+      <el-button type="primary" @click="handleExport">导出</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -61,11 +61,12 @@
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
 import useRegion from "@/hooks/useRegion.js";
-import { orderList } from "@/api/stats";
+import { orderList, exportOrderList } from "@/api/stats";
+import { ElMessage } from "element-plus";
 const initialValues = {
   cmpy: "",
   branchCmpy: "",
@@ -105,6 +106,14 @@ const handleReset = () => {
   setAddress([]);
   resetForm().then(() => {
     getList();
+  });
+};
+// 导出
+const handleExport = () => {
+  exportOrderList(form).then(res => {
+    if (res.code === 200) {
+      ElMessage.success("导出成功");
+    }
   });
 };
 </script>

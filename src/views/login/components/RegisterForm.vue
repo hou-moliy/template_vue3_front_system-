@@ -6,13 +6,13 @@
     <div class="register-wrap">
       <el-form ref="formRef" :model="form" :rules="rules" size="large">
         <el-form-item prop="userType" label="账户类型">
-          <model-select v-model="form.userType" dictType="userTypes" placeholder="请选择账户类型" />
+          <model-select v-model="form.userType" dictType="roleType" placeholder="请选择账户类型" />
         </el-form-item>
         <el-form-item prop="loginName" label="用户名">
           <el-input v-model="form.loginName" placeholder="请输入用户名"> </el-input>
         </el-form-item>
-        <!-- 企业客户 1  渠道商 4-->
-        <div class="" v-if="form.userType === '1' || form.userType === '4'">
+        <!-- 企业客户 6  渠道商 5-->
+        <div class="" v-if="form.userType === '6' || form.userType === '5'">
           <el-form-item prop="groupName" label="企业名称">
             <el-input v-model="form.groupName" placeholder="请输入企业名称"> </el-input>
           </el-form-item>
@@ -37,12 +37,12 @@
             </div>
           </el-form-item>
         </div>
-        <!-- 客户经理 2 分公司管理员 3-->
-        <div class="" v-if="form.userType === '2' || form.userType === '3'">
-          <el-form-item prop="realName" label="姓名" v-if="form.userType === '2'">
+        <!-- 项目经理 2 分公司 3-->
+        <div class="" v-if="form.userType == '2' || form.userType == '3'">
+          <el-form-item prop="realName" label="姓名" v-if="form.userType == '2'">
             <el-input v-model="form.realName" placeholder="请输入姓名"> </el-input>
           </el-form-item>
-          <el-form-item prop="contactPhone" label="手机号" v-if="form.userType === '2'">
+          <el-form-item prop="contactPhone" label="手机号" v-if="form.userType == '2'">
             <el-input v-model="form.contactPhone" placeholder="请输入手机号"> </el-input>
           </el-form-item>
           <el-form-item prop="email" label="邮箱">
@@ -97,17 +97,19 @@ import useUpload from "@/hooks/useUpload";
 const tabsStore = TabsStore();
 const emit = defineEmits(["changeForm"]);
 const initialValues = {
-  loginName: "",
-  groupName: "",
-  cardId: "",
-  contactPhone: "",
-  email: "",
-  realName: "",
+  loginName: "houyuanzhen",
+  groupName: "东信北邮",
+  cardId: "510823199711177069",
+  contactPhone: "13006463385",
+  email: "1337312569@qq.com",
+  realName: "张三",
+  legalName: "张三",
   deptId: "",
   id: "",
-  userType: "1",
+  userType: "",
   verCode: "",
-  file: null
+  file: null,
+  tdName: ""
 };
 const { form, formRef, submitForm } = useForm(initialValues);
 const { validateCardId, validateLoginName, validateRealName, validateVerCode, validatePhone, validateEmail } = useValidator(
@@ -175,7 +177,7 @@ const onSubmit = () => {
       loading.value = true;
       register(getFormData(form))
         .then(res => {
-          if (res.code === 200) {
+          if (res.code == "0000") {
             tabsStore.closeMultipleTab();
             ElNotification({
               message: "注册成功",

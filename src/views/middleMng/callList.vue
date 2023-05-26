@@ -7,8 +7,8 @@
         <el-option label="企业客户2" value="beijing" />
       </el-select>
     </el-form-item>
-    <el-form-item label="分公司" prop="branchCmpy">
-      <el-select v-model="form.branchCmpy" placeholder="请选择分公司">
+    <el-form-item label="分公司" prop="midGroupId">
+      <el-select v-model="form.midGroupId" placeholder="请选择分公司">
         <el-option label="分公司1" value="shanghai" />
         <el-option label="分公司2" value="beijing" />
       </el-select>
@@ -75,7 +75,6 @@ import statisticalPeriod from "./components/statisticalPeriod/index.vue";
 import useTime from "@/hooks/useTime";
 import useCallTable from "./hooks/useCallTable";
 const { getRecentDates, getMonthDates, getCurrentDate, getDateRange } = useTime();
-const { total, getList, tableData } = useCallTable();
 const statisticalRef = ref(null);
 const initialValues = {
   cmpy: "",
@@ -89,6 +88,7 @@ const initialValues = {
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
+const { total, getList, tableData } = useCallTable(form);
 // 地址
 const { address, setAddress } = useRegion(formRef, form);
 const LineCharts = reactive({

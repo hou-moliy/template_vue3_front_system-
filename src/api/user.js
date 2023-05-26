@@ -1,5 +1,5 @@
 import service from "./service.js";
-const baseURL = import.meta.env.VITE_BASE_API || "admin";
+const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
 // 登录
 export const login = data => {
@@ -7,7 +7,7 @@ export const login = data => {
     url: "/system/user/login",
     method: "post",
     data,
-    baseURL
+    baseURL: `/mock${baseURL}`
   });
 };
 // 校验用户是否存在
@@ -32,6 +32,7 @@ export const register = data => {
 
 // 下发验证码
 export const getVerCode = params => {
+  console.log(params);
   return service({
     url: "/system/user/getVerCode",
     method: "get",

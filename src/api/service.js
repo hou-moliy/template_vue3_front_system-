@@ -36,7 +36,7 @@ service.interceptors.response.use(
           location.reload(); // 为了重新实例化vue-router对象 避免bug
         });
       });
-    } else if (code !== 200) {
+    } else if (code !== "0000") {
       ElNotification.error({
         title: res.data.message || res.data.msg || "Error"
       });

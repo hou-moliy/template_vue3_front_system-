@@ -1,6 +1,6 @@
 // 客户经理账户信息管理相关接口
 import service from "./service.js";
-const baseURL = import.meta.env.VITE_BASE_API || "admin";
+const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
 // 获取客户经理列表
 export const managerList = params => {
