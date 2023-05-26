@@ -3,7 +3,7 @@ const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 // 获取角色列表
 export const roleList = params => {
   return service({
-    url: "/system/role/list",
+    url: "/system/role/listSysRole",
     method: "get",
     params,
     baseURL

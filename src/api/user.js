@@ -58,7 +58,7 @@ export const auditUser = data => {
 // 获取用户列表
 export const userList = params => {
   return service({
-    url: "/system/user/list",
+    url: "/system/user/listSysUsers",
     method: "get",
     params,
     baseURL
@@ -69,7 +69,10 @@ export const resetPassword = data => {
   return service({
     url: "/system/user/resetPassword",
     method: "post",
-    data,
+    data: {
+      ...data,
+      password: Encrypt(data.password)
+    },
     baseURL
   });
 };
@@ -92,12 +95,38 @@ export const updateUserStatus = params => {
   });
 };
 
-// 删除用户
-export const deleteUser = params => {
+// 删除账号
+export const deleteSysUser = ({ userId }) => {
   return service({
-    url: "/system/delUser",
+    url: `/system/user/deleteSysUser/${userId}`,
+    method: "delete",
+    data,
+    baseURL
+  });
+};
+// 新增账号
+export const insertSysUser = data => {
+  return service({
+    url: "/system/user/insertSysUser",
     method: "post",
-    params,
+    data: {
+      ...data,
+      password: Encrypt(data.password),
+      password2: Encrypt(data.password2)
+    },
+    baseURL
+  });
+};
+// 修改账号
+export const updateSysUser = data => {
+  return service({
+    url: "/system/user/updateSysUser",
+    method: "put",
+    data: {
+      ...data,
+      password: Encrypt(data.password),
+      password2: Encrypt(data.password2)
+    },
     baseURL
   });
 };

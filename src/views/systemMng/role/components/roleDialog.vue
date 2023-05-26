@@ -32,13 +32,11 @@
 import useTree from "../hooks/useTree";
 import useRoleDialog from "../hooks/useRoleDialog";
 import { onMounted } from "vue";
-
 const { formRef, rules, form, dialogVisible, isEdit, title, openDialog, onSubmit, closeDialog } = useRoleDialog();
 const { treeData, treeRef, defaultChecked, defaultProps, resetChecked, getRoleTreeSelect } = useTree();
 const handleCheckChange = () => {
   const list = treeRef.value.getCheckedNodes();
   form.menuIds = list.map(item => item.id);
-  console.log(form.menuIds);
 };
 const handleColse = () => {
   closeDialog();
@@ -49,7 +47,7 @@ onMounted(() => {
 });
 const handleOpenDialog = async ({ data, isEdit }) => {
   if (isEdit) {
-    await getRoleTreeSelect({ roleId: data.id });
+    await getRoleTreeSelect({ roleId: data.roleId });
   }
   openDialog({ data, isEdit });
 };

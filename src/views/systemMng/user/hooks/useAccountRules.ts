@@ -59,21 +59,21 @@ export default function useAccountRules(ruleFormRef: Ref<FormInstance>, ruleForm
   };
 
   const rules = reactive<FormRules>({
-    accountName: [
+    loginName: [
       {
         required: true,
         message: "请输入账户名",
         trigger: "blur"
       }
     ],
-    name: [
+    userName: [
       {
         required: true,
         message: "请输入姓名",
         trigger: "blur"
       }
     ],
-    phone: [
+    phoneNumber: [
       {
         required: true,
         validator: validatePhone,

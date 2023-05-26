@@ -1,14 +1,14 @@
 <template>
   <el-dialog v-model="dialogVisible" :title="title" @close="closeDialog">
     <el-form :model="form" ref="formRef" label-width="120px" label-position="left" :rules="rules">
-      <el-form-item label="账户名" prop="accountName">
-        <el-input v-model="form.accountName" :disabled="!isEdit" placeholder="请输入账户名" />
+      <el-form-item label="账户名" prop="loginName">
+        <el-input v-model="form.loginName" :disabled="isEdit" placeholder="请输入账户名" />
       </el-form-item>
-      <el-form-item label="姓名" prop="name">
-        <el-input v-model="form.name" placeholder="请输入姓名" />
+      <el-form-item label="姓名" prop="userName">
+        <el-input v-model="form.userName" placeholder="请输入姓名" />
       </el-form-item>
-      <el-form-item label="手机号" prop="phone">
-        <el-input v-model="form.phone" placeholder="请输入手机号" />
+      <el-form-item label="手机号" prop="phoneNumber">
+        <el-input v-model="form.phoneNumber" placeholder="请输入手机号" />
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email" placeholder="请输入邮箱" />
@@ -32,12 +32,13 @@
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import useAccountRules from "../hooks/useAccountRules";
+import { insertSysUser, updateSysUser } from "@/api/user";
 const formRef = ref(null);
 // 表单
 const form = reactive({
-  accountName: "",
-  name: "",
-  phone: "",
+  loginName: "",
+  userName: "",
+  phoneNumber: "",
   email: "",
   password: "",
   password2: ""
@@ -59,11 +60,27 @@ const openDialog = ({ data, isEdit: edit }) => {
 const onSubmit = () => {
   formRef?.value.validate(valid => {
     if (valid) {
-      console.log(form);
-      ElMessage.success(isEdit.value ? "提交成功" : "修改成功");
-      closeDialog();
+      isEdit.value ? handleUpdate() : handleAdd();
     } else {
       return false;
+    }
+  });
+};
+
+const handleAdd = () => {
+  insertSysUser(form).then(res => {
+    if (res.code === "0000") {
+      ElMessage.success("新增成功");
+      closeDialog();
+    }
+  });
+};
+
+const handleUpdate = () => {
+  updateSysUser(form).then(res => {
+    if (res.code === "0000") {
+      ElMessage.success("修改成功");
+      closeDialog();
     }
   });
 };

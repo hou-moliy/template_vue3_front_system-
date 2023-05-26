@@ -12,9 +12,9 @@
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border>
-    <el-table-column prop="roleId" label="序号" />
-    <el-table-column prop="roleName" label="角色" />
-    <el-table-column prop="roleDesc" label="描述" />
+    <el-table-column prop="roleId" label="角色编号" />
+    <el-table-column prop="roleName" label="角色名称" />
+    <el-table-column prop="roleDesc" label="角色描述" />
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column fixed="right" label="操作">
       <template #default="{ row }">
@@ -25,7 +25,7 @@
   </el-table>
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
   <!-- 新增或者编辑角色 -->
-  <roleDialog ref="roleDialogRef" />
+  <roleDialog ref="roleDialogRef" @submit="getList" />
 </template>
 <script setup>
 import { ref, computed, onMounted } from "vue";
@@ -35,7 +35,7 @@ import useForm from "@/hooks/useForm";
 import { deleteRole, roleList } from "@/api/role";
 // 搜索表单
 const initialValues = {
-  role: "",
+  roleId: 0,
   pageNum: 1,
   pageSize: 10
 };
@@ -70,7 +70,7 @@ const addRole = ({ data, isEdit }) => {
 const getList = () => {
   roleList(form).then(res => {
     if (res.code == "0000") {
-      tableData.value = res.data.list;
+      tableData.value = res.rows;
     }
   });
 };

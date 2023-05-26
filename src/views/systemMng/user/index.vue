@@ -8,19 +8,19 @@
       <model-select v-model="form.roleId" dictType="roleType" placeholder="请输入角色类型" />
     </el-form-item>
     <el-form-item label="状态">
-      <model-select v-model="form.status" dictType="status" placeholder="请选择状态" />
+      <model-select v-model="form.status" dictType="statusType" placeholder="请选择状态" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleFormReset">重置</el-button>
-      <el-button type="primary" @click="addAccount(true)">新增账号</el-button>
+      <el-button type="primary" @click="addAccount(false)">新增账号</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border>
     <el-table-column prop="loginName" label="账号" />
     <el-table-column prop="userName" label="姓名" />
-    <el-table-column prop="phone" label="手机号" />
+    <el-table-column prop="phoneNumber" label="手机号" />
     <el-table-column prop="email" label="邮箱" />
     <el-table-column prop="roleName" label="角色" />
     <el-table-column prop="status" label="状态">
@@ -32,7 +32,7 @@
     <el-table-column fixed="right" label="操作">
       <template #default="{ row, index }">
         <div v-if="row.status != 0">
-          <el-button type="primary" link @click="addAccount(false)">修改</el-button>
+          <el-button type="primary" link @click="addAccount(true)">修改</el-button>
           <el-button :type="actionStatusMap[row.status]?.type" link @click="changeBindStatus(row)">
             {{ actionStatusMap[row.status]?.value }}
           </el-button>
@@ -50,7 +50,7 @@ import { ref, computed, onMounted } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import accountDialog from "./components/accountDialog.vue";
 import useForm from "@/hooks/useForm";
-import { userList, updateUserStatus, deleteUser } from "@/api/user";
+import { userList, updateUserStatus, deleteSysUser } from "@/api/user";
 const statusMap = {
   1: {
     value: "正常",
@@ -81,8 +81,8 @@ const actionStatusMap = {
 };
 // 搜索表单
 const initialValues = {
-  account: "",
-  role: "",
+  loginName: "",
+  roleId: "",
   status: "",
   pageNum: 1,
   pageSize: 10
@@ -91,51 +91,9 @@ const { form, formRef, resetForm } = useForm(initialValues);
 const tableData = ref([]);
 const total = computed(() => tableData.value.length);
 const getList = () => {
-  tableData.value = [
-    {
-      id: "1",
-      account: "admin",
-      name: "张三",
-      phone: "12345678901",
-      email: "",
-      role: "企业客户",
-      status: "1", // 1:正常 2:冻结0:删除
-      createTime: "2021-08-01 12:00:00"
-    },
-    {
-      id: "2",
-      account: "admin",
-      name: "张三",
-      phone: "12345678901",
-      email: "",
-      role: "企业客户",
-      status: "0",
-      createTime: "2021-08-01 12:00:00"
-    },
-    {
-      id: "3",
-      account: "admin",
-      name: "张三",
-      phone: "12345678901",
-      email: "",
-      role: "企业客户",
-      status: "2",
-      createTime: "2021-08-01 12:00:00"
-    },
-    {
-      id: "4",
-      account: "admin",
-      name: "张三",
-      phone: "12345678901",
-      email: "",
-      role: "企业客户",
-      status: "1",
-      createTime: "2021-08-01 12:00:00"
-    }
-  ];
   userList(form).then(res => {
     if (res.code == "0000") {
-      tableData.value = res.data.list;
+      tableData.value = res.rows;
     }
   });
 };
@@ -183,7 +141,7 @@ const deleteAccount = ({ userName, userId }) => {
     type: "warning"
   }).then(() => {
     // 删除
-    deleteUser({ userId }).then(res => {
+    deleteSysUser({ userId }).then(res => {
       if (res.code == "0000") {
         ElMessage.success("删除成功");
         getList();

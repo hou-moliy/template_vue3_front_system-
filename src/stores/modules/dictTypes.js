@@ -9,13 +9,21 @@ const DictTypesStore = defineStore({
       { label: "审核通过", value: "1" },
       { label: "审核不通过", value: "2" }
     ], // 审核状态
-    roleType: [
-      // { label: "企业客户", value: "1" },
-      // { label: "客户经理", value: "2" },
-      // { label: "分公司管理员", value: "3" },
-      // { label: "渠道商", value: "4" },
-      // { label: "项目经理", value: "5" }
-    ] // 用户类型
+    roleType: [], // 用户类型
+    statusType: [
+      {
+        label: "正常",
+        value: "0"
+      },
+      {
+        label: "冷冻",
+        value: "1"
+      },
+      {
+        label: "删除",
+        value: "2"
+      }
+    ] //
   }),
   getters: {},
   actions: {
