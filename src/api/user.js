@@ -1,13 +1,18 @@
 import service from "./service.js";
+import { Encrypt } from "@/utils/secret";
 const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
 // 登录
-export const login = data => {
+export const login = ({ loginName, password }) => {
   return service({
-    url: "/system/user/login",
+    url: "/system/login",
     method: "post",
-    data,
-    baseURL: `/mock${baseURL}`
+    data: {
+      loginName: loginName,
+      password: Encrypt(password)
+    },
+    baseURL
+    // baseURL: `/mock${baseURL}`
   });
 };
 // 校验用户是否存在
@@ -82,6 +87,16 @@ export const updateUserStatus = params => {
   return service({
     url: "​/system​/user​/updateUserStatus",
     method: "get",
+    params,
+    baseURL
+  });
+};
+
+// 删除用户
+export const deleteUser = params => {
+  return service({
+    url: "/system/delUser",
+    method: "post",
     params,
     baseURL
   });

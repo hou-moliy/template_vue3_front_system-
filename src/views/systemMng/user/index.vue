@@ -2,19 +2,13 @@
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
     <el-form-item label="账号">
-      <el-input v-model="form.account" placeholder="请输入账号" />
+      <el-input v-model="form.loginName" placeholder="请输入账号" />
     </el-form-item>
     <el-form-item label="角色">
-      <el-select v-model="form.role" placeholder="请输入角色类型">
-        <el-option label="角色1" value="shanghai" />
-        <el-option label="角色2" value="beijing" />
-      </el-select>
+      <model-select v-model="form.roleId" dictType="roleType" placeholder="请输入角色类型" />
     </el-form-item>
     <el-form-item label="状态">
-      <el-select v-model="form.status" placeholder="请选择状态">
-        <el-option label="Zone one" value="shanghai" />
-        <el-option label="Zone two" value="beijing" />
-      </el-select>
+      <model-select v-model="form.status" dictType="status" placeholder="请选择状态" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
@@ -24,11 +18,11 @@
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border>
-    <el-table-column prop="account" label="账号" />
-    <el-table-column prop="name" label="姓名" />
+    <el-table-column prop="loginName" label="账号" />
+    <el-table-column prop="userName" label="姓名" />
     <el-table-column prop="phone" label="手机号" />
     <el-table-column prop="email" label="邮箱" />
-    <el-table-column prop="role" label="角色" />
+    <el-table-column prop="roleName" label="角色" />
     <el-table-column prop="status" label="状态">
       <template #default="{ row }">
         <el-button text link :type="statusMap[row.status]?.type"> {{ statusMap[row.status]?.value }}</el-button>
@@ -56,6 +50,7 @@ import { ref, computed, onMounted } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import accountDialog from "./components/accountDialog.vue";
 import useForm from "@/hooks/useForm";
+import { userList, updateUserStatus, deleteUser } from "@/api/user";
 const statusMap = {
   1: {
     value: "正常",
@@ -138,7 +133,11 @@ const getList = () => {
       createTime: "2021-08-01 12:00:00"
     }
   ];
-  console.log("请求接口数据", form);
+  userList(form).then(res => {
+    if (res.code == "0000") {
+      tableData.value = res.data.list;
+    }
+  });
 };
 const handleFormReset = () => {
   resetForm().then(() => getList());
@@ -152,8 +151,7 @@ const changeBindStatus = row => {
       type: "warning"
     }).then(() => {
       // 冻结
-      row.status = 2;
-      ElMessage.success("冻结成功");
+      handleUpdateStatus(row);
     });
   } else if (row.status == 2) {
     ElMessageBox.confirm("此操作将永久解冻该账号, 是否继续?", "提示", {
@@ -162,21 +160,35 @@ const changeBindStatus = row => {
       type: "warning"
     }).then(() => {
       // 解冻
-      row.status = 1;
-      ElMessage.success("解冻成功");
+      handleUpdateStatus(row);
     });
   }
 };
+const handleUpdateStatus = ({ userId, status }) => {
+  updateUserStatus({ userId, status }).then(res => {
+    if (res.code == "0000") {
+      if (status == 1) {
+        ElMessage.success("冻结成功");
+      } else if (status == 2) {
+        ElMessage.success("解冻成功");
+      }
+    }
+  });
+};
 // 删除
-const deleteAccount = ({ name }, index) => {
-  ElMessageBox.confirm(`此操作将永久删除该账号---${name}, 是否继续?`, "提示", {
+const deleteAccount = ({ userName, userId }) => {
+  ElMessageBox.confirm(`此操作将永久删除该账号---${userName}, 是否继续?`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
     // 删除
-    tableData.value.splice(index, 1);
-    ElMessage.success("删除成功");
+    deleteUser({ userId }).then(res => {
+      if (res.code == "0000") {
+        ElMessage.success("删除成功");
+        getList();
+      }
+    });
   });
 };
 // 新增或者编辑账号

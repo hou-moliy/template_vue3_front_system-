@@ -175,20 +175,21 @@ const onSubmit = () => {
     const check = await checkName();
     if (check) {
       loading.value = true;
-      register(getFormData(form))
-        .then(res => {
-          if (res.code == "0000") {
-            tabsStore.closeMultipleTab();
-            ElNotification({
-              message: "注册成功",
-              type: "success",
-              duration: 1000
-            });
-            goBack();
-          }
-          loading.value = false;
-        })
-        .catch(() => (loading.value = false));
+      const res = await register(getFormData(form));
+      try {
+        if (res.code == "0000") {
+          tabsStore.closeMultipleTab();
+          ElNotification({
+            message: "注册成功",
+            type: "success",
+            duration: 1000
+          });
+          goBack();
+        }
+        loading.value = false;
+      } finally {
+        loading.value = false;
+      }
     }
   });
 };

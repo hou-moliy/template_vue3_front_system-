@@ -13,7 +13,7 @@ Mock.mock(`/mock${baseURL}/system/menu/list`, () => {
   }
 });
 
-Mock.mock(`/mock${baseURL}/system/user/login`, () => {
+Mock.mock(`/mock${baseURL}/system/login`, () => {
   {
     return Mock.mock({
       code: "0000",
@@ -23,28 +23,28 @@ Mock.mock(`/mock${baseURL}/system/user/login`, () => {
   }
 });
 
-Mock.mock(`${baseURL}/system/getInfo`, () => {
+Mock.mock(`/mock${baseURL}/system/getInfo`, () => {
   {
     return Mock.mock(UserInfo);
   }
 });
 
-Mock.mock(`${baseURL}/system/menu/treeselect`, () => {
+Mock.mock(`/mock${baseURL}/system/menu/treeselect`, () => {
   {
     return Mock.mock(TreeSelect);
   }
 });
-Mock.mock(`${baseURL}/system/menu/roleMenuTreeselect?roleId=117`, () => {
+Mock.mock(`/mock${baseURL}/system/menu/roleMenuTreeselect?roleId=117`, () => {
   {
     return Mock.mock(RoleTreeSelect);
   }
 });
-Mock.mock(`${baseURL}/businessCustomer/list`, () => {
+Mock.mock(`/mock${baseURL}/businessCustomer/list`, () => {
   {
     return Mock.mock(BusinessCustomer);
   }
 });
-Mock.mock(`${baseURL}/system/dict/data/dictTypes/1`, () => {
+Mock.mock(`/mock${baseURL}/system/dict/data/dictTypes/1`, () => {
   {
     return Mock.mock(DictData);
   }

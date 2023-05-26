@@ -34,7 +34,7 @@ import { HOME_URL, APP_NAME } from "@/config/config";
 import { login } from "@/api/user";
 import { setToken } from "@/utils/auth";
 import { getCookie, setCookie } from "@/utils/cookie";
-import { encode, decode } from "js-base64";
+import { Encrypt, Decrypt } from "@/utils/secret";
 const router = useRouter();
 const tabsStore = TabsStore();
 const emit = defineEmits(["changeForm"]);
@@ -54,20 +54,16 @@ const loginClick = formEl => {
   formEl.validate(async valid => {
     if (!valid) return;
     loading.value = true;
-    // try {
-    const { token } = await login(loginForm);
-    setToken(token);
     setUserInfo();
-    tabsStore.closeMultipleTab();
-    router.push(HOME_URL);
-    ElNotification({
-      message: `欢迎使用${APP_NAME}`,
-      type: "success",
-      duration: 2000
-    });
-    // } finally {
-    //   loading.value = false;
-    // }
+    try {
+      const { token } = await login(loginForm);
+      setToken(token);
+      tabsStore.closeMultipleTab();
+      router.push(HOME_URL);
+      ElNotification.success(`欢迎使用${APP_NAME}`);
+    } finally {
+      loading.value = false;
+    }
   });
 };
 
@@ -78,7 +74,7 @@ const setUserInfo = () => {
   if (loginForm.remember) {
     setCookie("loginName", loginForm.loginName);
     // 加密密码存储
-    setCookie("password", encode(loginForm.password));
+    setCookie("password", Encrypt(loginForm.password));
   } else {
     setCookie("loginName", "");
     setCookie("password", "");
@@ -91,7 +87,7 @@ const getCookieInfo = () => {
   const password = getCookie("password");
   if (loginName && password) {
     loginForm.loginName = loginName;
-    loginForm.password = decode(password, "base64");
+    loginForm.password = Decrypt(password);
     loginForm.remember = true;
   }
 };

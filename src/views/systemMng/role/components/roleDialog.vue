@@ -1,13 +1,13 @@
 <template>
   <el-dialog v-model="dialogVisible" :title="title" @close="handleColse">
-    <el-form :model="form" ref="formRef" label-width="120px" label-position="left">
-      <el-form-item label="角色名称" prop="role">
-        <el-input v-model="form.role" :disabled="isEdit" placeholder="请输入角色名称" />
+    <el-form :model="form" ref="formRef" label-width="120px" label-position="left" :rules="rules">
+      <el-form-item label="角色名称" prop="roleName">
+        <el-input v-model="form.roleName" :disabled="isEdit" placeholder="请输入角色名称" />
       </el-form-item>
-      <el-form-item label="角色描述" prop="desc">
-        <el-input v-model="form.desc" placeholder="请输入角色描述" />
+      <el-form-item label="角色描述" prop="roleDesc">
+        <el-input v-model="form.roleDesc" placeholder="请输入角色描述" />
       </el-form-item>
-      <el-form-item label="菜单权限" prop="permission">
+      <el-form-item label="菜单权限" prop="menuIds">
         <el-tree
           :data="treeData"
           ref="treeRef"
@@ -16,6 +16,7 @@
           show-checkbox
           :props="defaultProps"
           @check="handleCheckChange"
+          empty-text="暂无数据"
         />
       </el-form-item>
     </el-form>
@@ -32,19 +33,19 @@ import useTree from "../hooks/useTree";
 import useRoleDialog from "../hooks/useRoleDialog";
 import { onMounted } from "vue";
 
-const { formRef, form, dialogVisible, isEdit, title, openDialog, onSubmit, closeDialog } = useRoleDialog();
+const { formRef, rules, form, dialogVisible, isEdit, title, openDialog, onSubmit, closeDialog } = useRoleDialog();
 const { treeData, treeRef, defaultChecked, defaultProps, resetChecked, getRoleTreeSelect } = useTree();
 const handleCheckChange = () => {
   const list = treeRef.value.getCheckedNodes();
-  form.permission = list.map(item => item.id);
-  console.log(form.permission);
+  form.menuIds = list.map(item => item.id);
+  console.log(form.menuIds);
 };
 const handleColse = () => {
   closeDialog();
   resetChecked();
 };
 onMounted(() => {
-  form.permission = defaultChecked.value;
+  form.menuIds = defaultChecked.value;
 });
 const handleOpenDialog = async ({ data, isEdit }) => {
   if (isEdit) {
