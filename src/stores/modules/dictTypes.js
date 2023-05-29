@@ -13,17 +13,21 @@ const DictTypesStore = defineStore({
     statusType: [
       {
         label: "正常",
-        value: "0"
+        value: "0",
+        type: "success"
       },
       {
         label: "冷冻",
-        value: "1"
+        value: "1",
+        type: "warning"
       },
       {
         label: "删除",
-        value: "2"
+        value: "2",
+        type: "danger"
       }
-    ] //
+    ], // 账号状态
+    userType: []
   }),
   getters: {},
   actions: {
@@ -42,13 +46,13 @@ const DictTypesStore = defineStore({
     getDictTypeValue(dictType, dictKey) {
       // 枚举值对象，用于数值转换
       const statusEnumObj = createEnumObject(this.getDictTypes(dictType));
-      return statusEnumObj.getValue(dictKey);
+      return statusEnumObj.getLabel(dictKey);
     },
     // 获取枚举对象中的某个枚举值(根据label获取value)
     getDictTypeLabel(dictType, dictValue) {
       // 枚举值对象，用于数值转换
       const statusEnumObj = createEnumObject(this.getDictTypes(dictType));
-      return statusEnumObj.getLabel(dictValue);
+      return statusEnumObj.getValue(dictValue);
     },
     // 获取枚举对象中的某个枚举值(根据value或label获取对象)
     getDictTypeItem(dictType, dictValueOrLabel) {
@@ -56,13 +60,13 @@ const DictTypesStore = defineStore({
       const statusEnumObj = createEnumObject(this.getDictTypes(dictType));
       return statusEnumObj.getItem(dictValueOrLabel);
     },
-    // 获取枚举对象的所以label
+    // 获取枚举对象的所有label
     getDictTypeList(dictType) {
       // 枚举值对象，用于数值转换
       const statusEnumObj = createEnumObject(this.getDictTypes(dictType));
       return statusEnumObj.getLabels();
     },
-    // 获取枚举对象的所以value
+    // 获取枚举对象的所有value
     getDictTypeValues(dictType) {
       // 枚举值对象，用于数值转换
       const statusEnumObj = createEnumObject(this.getDictTypes(dictType));

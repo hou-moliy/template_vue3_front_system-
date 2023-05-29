@@ -22,19 +22,23 @@
     <el-table-column prop="userName" label="姓名" />
     <el-table-column prop="phoneNumber" label="手机号" />
     <el-table-column prop="email" label="邮箱" />
-    <el-table-column prop="roleName" label="角色" />
+    <el-table-column prop="roleId" label="角色">
+      <template #default="{ row }">
+        <el-button text link>{{ getRoleName(row.roleId) }}</el-button>
+      </template>
+    </el-table-column>
     <el-table-column prop="status" label="状态">
       <template #default="{ row }">
-        <el-button text link :type="statusMap[row.status]?.type"> {{ statusMap[row.status]?.value }}</el-button>
+        <el-button text link :type="getStatusItem(row.status)?.type"> {{ getStatusItem(row.status)?.label }}</el-button>
       </template>
     </el-table-column>
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column fixed="right" label="操作">
       <template #default="{ row, index }">
-        <div v-if="row.status != 0">
-          <el-button type="primary" link @click="addAccount(true)">修改</el-button>
-          <el-button :type="actionStatusMap[row.status]?.type" link @click="changeBindStatus(row)">
-            {{ actionStatusMap[row.status]?.value }}
+        <div v-if="row.status != 2">
+          <el-button type="primary" link @click="addAccount(row, true)">修改</el-button>
+          <el-button link :type="row.status != 1 ? 'warning' : 'success'" @click="changeBindStatus(row)">
+            {{ row.status != 1 ? "冻结" : "解冻" }}
           </el-button>
           <el-button type="danger" link @click="deleteAccount(row, index)">删除</el-button>
         </div>
@@ -50,35 +54,10 @@ import { ref, computed, onMounted } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import accountDialog from "./components/accountDialog.vue";
 import useForm from "@/hooks/useForm";
-import { userList, updateUserStatus, deleteSysUser } from "@/api/user";
-const statusMap = {
-  1: {
-    value: "正常",
-    type: "primary"
-  },
-  2: {
-    value: "冻结",
-    type: "warning"
-  },
-  0: {
-    value: "删除",
-    type: "danger"
-  }
-};
-const actionStatusMap = {
-  1: {
-    value: "冻结",
-    type: "warning"
-  },
-  2: {
-    value: "解冻",
-    type: "success"
-  },
-  0: {
-    value: "",
-    type: ""
-  }
-};
+import { userList, updateSysUser, deleteSysUser } from "@/api/user";
+import mittBus from "@/utils/mittBus";
+import DictTypesStore from "@/stores/modules/dictTypes";
+const { getDictTypeValue, getDictTypeItem } = DictTypesStore();
 // 搜索表单
 const initialValues = {
   loginName: "",
@@ -102,32 +81,34 @@ const handleFormReset = () => {
 };
 // 修改绑定状态
 const changeBindStatus = row => {
-  if (row.status == 1) {
+  if (row.status == 0) {
     ElMessageBox.confirm("此操作将永久冻结该账号, 是否继续?", "提示", {
       confirmButtonText: "确定",
       cancelButtonText: "取消",
       type: "warning"
     }).then(() => {
       // 冻结
+      row.status = 1;
       handleUpdateStatus(row);
     });
-  } else if (row.status == 2) {
+  } else if (row.status == 1) {
     ElMessageBox.confirm("此操作将永久解冻该账号, 是否继续?", "提示", {
       confirmButtonText: "确定",
       cancelButtonText: "取消",
       type: "warning"
     }).then(() => {
+      row.status = 0;
       // 解冻
       handleUpdateStatus(row);
     });
   }
 };
-const handleUpdateStatus = ({ userId, status }) => {
-  updateUserStatus({ userId, status }).then(res => {
+const handleUpdateStatus = row => {
+  updateSysUser(row).then(res => {
     if (res.code == "0000") {
-      if (status == 1) {
+      if (row.status == 1) {
         ElMessage.success("冻结成功");
-      } else if (status == 2) {
+      } else if (row.status == 0) {
         ElMessage.success("解冻成功");
       }
     }
@@ -151,10 +132,19 @@ const deleteAccount = ({ userName, userId }) => {
 };
 // 新增或者编辑账号
 const accountDialogRef = ref(null);
-const addAccount = isEdit => {
-  accountDialogRef?.value?.openDialog({ isEdit });
+const addAccount = (data, isEdit) => {
+  accountDialogRef?.value?.openDialog({ data, isEdit });
+};
+const getRoleName = roleId => {
+  return getDictTypeValue("roleType", String(roleId));
+};
+const getStatusItem = status => {
+  return getDictTypeItem("statusType", String(status));
 };
 onMounted(() => {
   getList();
+  mittBus.on("refreshTable", () => {
+    getList();
+  });
 });
 </script>

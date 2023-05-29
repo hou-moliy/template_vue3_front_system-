@@ -15,6 +15,16 @@ export const login = ({ loginName, password }) => {
     // baseURL: `/mock${baseURL}`
   });
 };
+
+// 获取用户信息
+export const getUserInfoApi = () => {
+  return service({
+    url: "/system/getInfo",
+    method: "get",
+    baseURL
+    // baseURL: `/mock${baseURL}`
+  });
+};
 // 校验用户是否存在
 export const checkUserName = params => {
   return service({

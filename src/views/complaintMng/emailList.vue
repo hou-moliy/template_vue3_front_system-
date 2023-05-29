@@ -4,8 +4,8 @@
     <el-form-item label="邮箱" prop="email">
       <el-input v-model="form.email" placeholder="请输入邮箱" />
     </el-form-item>
-    <el-form-item label="收件人" prop="name">
-      <el-input v-model="form.name" placeholder="请输入收件人" />
+    <el-form-item label="收件人" prop="recipient">
+      <el-input v-model="form.recipient" placeholder="请输入收件人" />
     </el-form-item>
     <el-form-item label="添加日期" prop="createTime">
       <el-date-picker v-model="form.createTime" type="datetime" placeholder="请选择添加日期" />
@@ -19,12 +19,12 @@
   </el-form>
   <!-- 表格 -->
   <el-table border :data="tableData">
-    <el-table-column prop="name" label="收件人" />
+    <el-table-column prop="recipient" label="收件人" />
     <el-table-column prop="email" label="邮箱" />
     <el-table-column prop="createTime" label="添加时间" />
     <el-table-column label="操作">
-      <template #default="{ row, index }">
-        <el-button type="danger" link @click="handleDelEmail(row, index)">删除</el-button>
+      <template #default="{ row }">
+        <el-button type="danger" link @click="handleDelEmail(row)">删除</el-button>
         <el-button type="primary" link @click="handleAddEmail(row, true)">编辑</el-button>
       </template>
     </el-table-column>
@@ -41,10 +41,11 @@ import useForm from "@/hooks/useForm";
 import addEmail from "./components/addEmail.vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import cmpyList from "./components/cmpyList.vue";
+import { listMails, deleteMail } from "@/api/complaint";
 const addEmailRef = ref(null);
 const cmpyListRef = ref(null);
 const initialValues = {
-  name: "",
+  recipient: "",
   email: "",
   createTime: "",
   pageNum: 1,
@@ -62,20 +63,27 @@ const getList = () => {
       createTime: "2023/5/16"
     }
   ];
-  console.log(form, "获取新数据");
+  listMails(form).then(res => {
+    if (res.code == "0000") {
+      tableData.value = res.data.list;
+    }
+  });
 };
 const handleAddEmail = (data, isEdit) => {
   addEmailRef.value?.openDialog(data, isEdit);
 };
-const handleDelEmail = (row, index) => {
+const handleDelEmail = ({ streamNumber }) => {
   ElMessageBox.confirm("是否确定删除该收件人邮箱？？？", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
-    console.log(row);
-    tableData.value.splice(index, 1);
-    ElMessage.success("删除成功");
+    deleteMail({ streamNumber }).then(res => {
+      if (res.code == "0000") {
+        ElMessage.success("删除成功");
+        getList();
+      }
+    });
   });
 };
 const handleCmpyList = () => {

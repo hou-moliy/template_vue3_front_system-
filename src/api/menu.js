@@ -5,6 +5,7 @@ export const routerList = () => {
   return service({
     url: "/system/menu/list",
     method: "get",
+    // baseURL,
     baseURL: `/mock${baseURL}`
   });
 };

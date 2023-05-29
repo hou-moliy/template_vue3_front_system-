@@ -1,8 +1,8 @@
-import { ref, reactive, computed, defineEmits } from "vue";
+import { ref, reactive, computed } from "vue";
 import { ElMessage } from "element-plus";
 import { addRole, updateRole } from "@/api/role";
+import mittBus from "@/utils/mittBus";
 const useRoleDialog = () => {
-  const emits = defineEmits(["update:modelValue"]);
   const formRef = ref(null);
   const form = reactive({
     roleName: "",
@@ -37,8 +37,7 @@ const useRoleDialog = () => {
     updateRole(form).then(res => {
       if (res.code == "0000") {
         ElMessage.success("修改成功");
-        emits("submit");
-
+        mittBus.emit("refreshTable");
         closeDialog();
       }
     });
@@ -47,7 +46,7 @@ const useRoleDialog = () => {
     addRole(form).then(res => {
       if (res.code == "0000") {
         ElMessage.success("新增成功");
-        emits("submit");
+        mittBus.emit("refreshTable");
         closeDialog();
       }
     });

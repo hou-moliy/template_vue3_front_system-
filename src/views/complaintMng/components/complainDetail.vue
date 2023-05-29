@@ -43,26 +43,23 @@
   </el-dialog>
 </template>
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, onMounted } from "vue";
 import cmpyInfoDialog from "@/views/businessMng/components/cmpyInfoDialog.vue";
 import branchDetailDialog from "@/views/businessMng/components/branchDetailDialog.vue";
 import customInfoDialog from "@/views/businessMng/components/customInfoDialog.vue";
+import { listComplaints } from "@/api/complaint";
 const cmpyInfoRef = ref(null);
 const branchDetailRef = ref(null);
 const customInfoRef = ref(null);
 const dialogVisible = ref(false);
-const tableData = reactive([
-  {
-    id: "34567",
-    cmpy: "美团",
-    manager: "美团经理",
-    branchCmpy: "美团分公司",
-    channel: "渠道商",
-    phone: "123",
-    times: "2",
-    createTime: "2023/5/16"
-  }
-]);
+const tableData = ref([]);
+const getDetail = async () => {
+  listComplaints().then(res => {
+    if (res.code == "0000") {
+      tableData.value = res.data;
+    }
+  });
+};
 const openDialog = () => {
   dialogVisible.value = true;
 };
@@ -70,5 +67,9 @@ const handleNav = (row, formRefEl) => {
   console.log(row);
   formRefEl?.openDialog({ data: row, isEdit: false });
 };
+
+onMounted(() => {
+  getDetail();
+});
 defineExpose({ openDialog });
 </script>

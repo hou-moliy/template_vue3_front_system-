@@ -52,7 +52,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         },
         [viteEnv.VITE_BASE_API]: {
           // target: "https://gitee.com", // easymock
-          target: "http://10.4.5.40:9111/bjxh", // yhw
+          // target: "http://10.4.5.40:9111/bjxh", // yhw
+          target: "http://10.4.4.133:9111/bjxh", // pp
           // target: "http://10.1.35.207:8180/admin", //
           // target: "http://10.1.61.13:9501/admin/api",
           changeOrigin: true,

@@ -33,6 +33,7 @@ import { ElMessageBox, ElMessage } from "element-plus";
 import roleDialog from "./components/roleDialog.vue";
 import useForm from "@/hooks/useForm";
 import { deleteRole, roleList } from "@/api/role";
+import mittBus from "@/utils/mittBus";
 // 搜索表单
 const initialValues = {
   roleId: 0,
@@ -76,5 +77,8 @@ const getList = () => {
 };
 onMounted(() => {
   getList();
+  mittBus.on("refreshTable", () => {
+    getList();
+  });
 });
 </script>

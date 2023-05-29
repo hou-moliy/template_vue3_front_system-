@@ -15,7 +15,7 @@ import useDictTypes from "@/hooks/useDictTypes";
 import { onMounted } from "vue";
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: "",
     required: true
   },

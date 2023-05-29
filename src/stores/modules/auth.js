@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { getFlatArr } from "@/utils/util";
 import { getShowMenuList, getAllBreadcrumbList, getAssetsImages } from "@/utils/util.js";
 import { routerList } from "@/api/menu.js";
-import { getUserInfoApi } from "@/api/system.js";
+import { getUserInfoApi } from "@/api/user.js";
 import { removeToken } from "@/utils/auth";
 import { staticRouter } from "@/routers/modules/staticRouter";
 // AuthStore

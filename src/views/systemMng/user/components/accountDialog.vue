@@ -13,12 +13,14 @@
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email" placeholder="请输入邮箱" />
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="form.password" type="password" placeholder="请输入密码" show-password />
-      </el-form-item>
-      <el-form-item label="确认密码" prop="password2">
-        <el-input v-model="form.password2" type="password" placeholder="请再次确认密码" show-password />
-      </el-form-item>
+      <template v-if="!isEdit">
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="form.password" type="password" placeholder="请输入密码" show-password />
+        </el-form-item>
+        <el-form-item label="确认密码" prop="password2">
+          <el-input v-model="form.password2" type="password" placeholder="请再次确认密码" show-password />
+        </el-form-item>
+      </template>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -33,6 +35,7 @@ import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import useAccountRules from "../hooks/useAccountRules";
 import { insertSysUser, updateSysUser } from "@/api/user";
+import mittBus from "@/utils/mittBus";
 const formRef = ref(null);
 // 表单
 const form = reactive({
@@ -50,7 +53,9 @@ const dialogVisible = ref(false);
 const isEdit = ref(false);
 let title = ref("");
 const openDialog = ({ data, isEdit: edit }) => {
-  console.log(data, edit);
+  if (edit) {
+    Object.assign(form, data);
+  }
   isEdit.value = edit;
   dialogVisible.value = true;
   title.value = isEdit.value ? "新增项目经理账号" : "修改账号信息";
@@ -71,6 +76,7 @@ const handleAdd = () => {
   insertSysUser(form).then(res => {
     if (res.code === "0000") {
       ElMessage.success("新增成功");
+      mittBus.emit("refreshTable");
       closeDialog();
     }
   });
@@ -80,6 +86,7 @@ const handleUpdate = () => {
   updateSysUser(form).then(res => {
     if (res.code === "0000") {
       ElMessage.success("修改成功");
+      mittBus.emit("refreshTable");
       closeDialog();
     }
   });
