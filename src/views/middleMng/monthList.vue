@@ -1,13 +1,10 @@
 <template>
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
-    <el-form-item label="企业客户" prop="cmpy">
-      <el-select v-model="form.cmpy" placeholder="请选择企业客户">
-        <el-option label="企业客户1" value="shanghai" />
-        <el-option label="企业客户2" value="beijing" />
-      </el-select>
+    <el-form-item label="企业客户" prop="userId">
+      <model-select v-model="form.userId" dictType="userType" placeholder="请选择企业客户" />
     </el-form-item>
-    <el-form-item label="省份地市">
+    <el-form-item label="省份地市" prop="provinceId">
       <regionSelect v-model="address" :level="2" />
     </el-form-item>
     <el-form-item label="时间范围" prop="date">
@@ -30,17 +27,15 @@
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
 import useRegion from "@/hooks/useRegion.js";
+import { numberActList } from "@/api/stats";
 const initialValues = {
-  cmpy: "",
-  branchCmpy: "",
-  manager: "",
-  channel: "",
-  province: "",
-  city: "",
+  userId: "",
+  provinceId: "",
+  cityId: "",
   date: "",
   pageNum: 1,
   pageSize: 10
@@ -48,20 +43,15 @@ const initialValues = {
 const { form, formRef, resetForm } = useForm(initialValues);
 // 地址
 const { address, setAddress } = useRegion(formRef, form);
-const tableData = reactive([
-  {
-    cmpy: "美团",
-    manager: "美团经理",
-    branchCmpy: "美团分公司",
-    channel: "渠道商",
-    phone: "123",
-    times: "2",
-    createTime: "2023/5/16"
-  }
-]);
-const total = ref(tableData.length);
+const tableData = ref([]);
+const total = ref(0);
 const getList = () => {
-  console.log(form, "获取新数据");
+  numberActList(form).then(res => {
+    if (res.code == "0000") {
+      tableData.value = res.data.list;
+      total.value = res.data.total;
+    }
+  });
 };
 // 重置
 const handleReset = () => {

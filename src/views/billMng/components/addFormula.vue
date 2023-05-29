@@ -2,19 +2,17 @@
   <el-dialog v-model="dialogVisible" :title="title" @close="handleResetForm">
     <!-- 表单 -->
     <el-form :inline="true" :model="form" ref="formRef" :rules="rules">
-      <el-form-item label="公式名称" prop="name">
-        <el-input v-model="form.name" placeholder="请输入公式名称" />
+      <el-form-item label="公式名称" prop="formulaName">
+        <el-input v-model="form.formulaName" placeholder="请输入公式名称" />
       </el-form-item>
-      <el-form-item label="账单方式" prop="type">
-        <el-select v-model="form.type" multiple placeholder="请选择账单方式">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
+      <el-form-item label="账单方式" prop="billingMode">
+        <model-select v-model="form.billingMode" dictType="billingType" placeholder="请选择账单方式" />
       </el-form-item>
-      <el-form-item label="号码月租费(15日前开通)" prop="before">
-        <el-input v-model="form.before" placeholder="请输入号码月租费(15日前开通)" />
+      <el-form-item label="号码月租费(15日前开通)" prop="before15thRent">
+        <el-input v-model="form.before15thRent" placeholder="请输入号码月租费(15日前开通)" />
       </el-form-item>
-      <el-form-item label="号码月租费(15日后开通)" prop="after">
-        <el-input v-model="form.after" placeholder="请输入号码月租费(15日后开通)" />
+      <el-form-item label="号码月租费(15日后开通)" prop="after15thRent">
+        <el-input v-model="form.after15thRent" placeholder="请输入号码月租费(15日后开通)" />
       </el-form-item>
       <customTable ref="customTableRef" />
       <div class="btn-wrap flx-center">
@@ -30,6 +28,7 @@
 import { ref, reactive } from "vue";
 import useForm from "@/hooks/useForm";
 import customTable from "./table.vue";
+import { getBillingFormula } from "@/api/bill";
 const customTableRef = ref(null);
 const titleMap = {
   1: "新增",
@@ -39,8 +38,8 @@ const titleMap = {
 };
 const dialogVisible = ref(false);
 const initialValues = {
-  name: "",
-  type: "",
+  formulaName: "",
+  billingMode: "",
   before: "",
   after: ""
 };
@@ -52,36 +51,25 @@ const rules = reactive({
   after: [{ required: true, message: "请输入号码月租费(15日后开通)", trigger: "blur" }]
 });
 const title = ref("新建账单公式");
-const options = [
-  {
-    value: "Option1",
-    label: "月租费+按分钟计费"
-  },
-  {
-    value: "Option2",
-    label: "月租费+按绑定次数计费"
-  },
-  {
-    value: "Option3",
-    label: "低消+按分钟计费"
-  },
-  {
-    value: "Option4",
-    label: "低消+按绑定次数计费"
-  }
-];
-
-const openDialog = ({ data, type }) => {
+const openDialog = ({ streamNumber, type }) => {
   // 1新增，2详情，3修改，4复制
   dialogVisible.value = true;
   title.value = `${titleMap[type]}账单公式`;
-  if(type !== 1) {
-    Object.assign(form, data);
+  if (type !== 1) {
+    getDetail(streamNumber);
   }
 };
+// 获取详情
+const getDetail = streamNumber => {
+  getBillingFormula({ streamNumber }).then(res => {
+    if (res.code == "0000") {
+      Object.assign(form, res.data);
+    }
+  });
+};
 const handleSubmit = () => {
-  customTableRef.value?.tableData;
-  console.log(customTableRef.value?.tableData, "ustomTableRef.value?.tableData");
+  // customTableRef.value?.tableData;
+  // console.log(customTableRef.value?.tableData, "ustomTableRef.value?.tableData");
   submitForm()
     .then(() => {
       console.log("校验通过了");

@@ -27,7 +27,64 @@ const DictTypesStore = defineStore({
         type: "danger"
       }
     ], // 账号状态
-    userType: []
+    userType: [
+      {
+        label: "企业客户1",
+        value: "1"
+      },
+      {
+        label: "企业客户2",
+        value: "2"
+      }
+    ], // 企业客户
+    channelType: [
+      {
+        label: "渠道1",
+        value: "1"
+      },
+      {
+        label: "渠道2",
+        value: "2"
+      }
+    ], // 渠道
+    managerType: [
+      {
+        label: "客户经理1",
+        value: "1"
+      },
+      {
+        label: "客户经理2",
+        value: "2"
+      }
+    ], // 客户经理类型
+    branchType: [
+      {
+        label: "分公司1",
+        value: "1"
+      },
+      {
+        label: "分公司2",
+        value: "2"
+      }
+    ], // 分公司类型
+    billingType: [
+      {
+        label: "月租费+按分钟计费",
+        value: "0"
+      },
+      {
+        label: "月租费+按绑定次数计费",
+        value: "1"
+      },
+      {
+        label: "低消+按分钟计费",
+        value: "2"
+      },
+      {
+        label: "低消+按绑定次数计费",
+        value: "3"
+      }
+    ] // 账单方式
   }),
   getters: {},
   actions: {

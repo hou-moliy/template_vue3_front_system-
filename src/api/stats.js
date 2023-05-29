@@ -74,3 +74,40 @@ export const exportSmsList = data => {
     baseURL
   });
 };
+
+// 获取中间号行为日、月统计数据
+export const numberActList = params => {
+  return service({
+    url: "/stats/numberActList",
+    method: "get",
+    params,
+    baseURL
+  });
+};
+// 获取中间号月账单统计数据
+export const monthBillList = params => {
+  return service({
+    url: "/stats/monthBillList",
+    method: "get",
+    params,
+    baseURL
+  });
+};
+// 获取号码统计数据
+export const numberList = params => {
+  return service({
+    url: "/stats/numberList",
+    method: "get",
+    params,
+    baseURL
+  });
+};
+// 获取号码使用统计数据
+export const numberUseList = params => {
+  return service({
+    url: "/stats/numberUseList",
+    method: "get",
+    params,
+    baseURL
+  });
+};

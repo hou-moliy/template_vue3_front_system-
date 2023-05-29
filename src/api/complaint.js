@@ -1,9 +1,10 @@
+// 投诉管理相关接口
 import service from "./service.js";
 const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 // 投诉台账邮件通知
 export const emailNotifyComplaints = data => {
   return service({
-    url: "/bjxh/complaintManager/emailNotifyComplaints",
+    url: "/complaintManager/emailNotifyComplaints",
     method: "post",
     data,
     baseURL
@@ -12,7 +13,7 @@ export const emailNotifyComplaints = data => {
 // 投诉台账导出
 export const exportComplaints = params => {
   return service({
-    url: "/bjxh/complaintManager/exportComplaints",
+    url: "/complaintManager/exportComplaints",
     method: "get",
     params,
     baseURL
@@ -21,7 +22,7 @@ export const exportComplaints = params => {
 // 导入投诉号码
 export const importComplaintFile = data => {
   return service({
-    url: "/bjxh/complaintManager/importComplaintFile",
+    url: "/complaintManager/importComplaintFile",
     method: "post",
     data,
     baseURL
@@ -30,7 +31,7 @@ export const importComplaintFile = data => {
 // 投诉台账列表
 export const listComplaintLedgers = params => {
   return service({
-    url: "/bjxh/complaintManager/listComplaintLedgers",
+    url: "/complaintManager/listComplaintLedgers",
     method: "get",
     params,
     baseURL
@@ -39,7 +40,7 @@ export const listComplaintLedgers = params => {
 // 投诉台账详情
 export const listComplaints = params => {
   return service({
-    url: "/bjxh/complaintManager/listComplaints",
+    url: "/complaintManager/listComplaints",
     method: "get",
     params,
     baseURL
@@ -48,7 +49,7 @@ export const listComplaints = params => {
 // 直接发送企业删除
 export const deleteEnterpriseCsMail = ({ userId }) => {
   return service({
-    url: `​/bjxh​/mailManager​/deleteEnterpriseCsMail/${userId}`,
+    url: `​​/mailManager​/deleteEnterpriseCsMail/${userId}`,
     method: "delete",
     baseURL
   });
@@ -56,7 +57,7 @@ export const deleteEnterpriseCsMail = ({ userId }) => {
 // 邮箱删除
 export const deleteMail = ({ streamNumber }) => {
   return service({
-    url: `/bjxh/mailManager/deleteMail/${streamNumber}`,
+    url: `/mailManager/deleteMail/${streamNumber}`,
     method: "delete",
     baseURL
   });
@@ -64,7 +65,7 @@ export const deleteMail = ({ streamNumber }) => {
 // 直接发送企业新增
 export const insertEnterpriseCsMail = ({ userId }) => {
   return service({
-    url: `/bjxh/mailManager/insertEnterpriseCsMail/${userId}`,
+    url: `/mailManager/insertEnterpriseCsMail/${userId}`,
     method: "post",
     baseURL
   });
@@ -72,7 +73,7 @@ export const insertEnterpriseCsMail = ({ userId }) => {
 // 邮箱新增
 export const insertMail = data => {
   return service({
-    url: "/bjxh/mailManager/insertMail",
+    url: "/mailManager/insertMail",
     method: "post",
     data,
     baseURL
@@ -81,7 +82,7 @@ export const insertMail = data => {
 // 直接发送企业查询
 export const listEnterpriseCsMails = ({ userId }) => {
   return service({
-    url: `/bjxh/mailManager/listEnterpriseCsMails/${userId}`,
+    url: `/mailManager/listEnterpriseCsMails/${userId}`,
     method: "get",
     baseURL
   });
@@ -89,7 +90,7 @@ export const listEnterpriseCsMails = ({ userId }) => {
 //邮箱查询
 export const listMails = params => {
   return service({
-    url: "/bjxh/mailManager/listMails",
+    url: "/mailManager/listMails",
     method: "get",
     params,
     baseURL
@@ -98,7 +99,7 @@ export const listMails = params => {
 // 邮箱修改
 export const updateMail = data => {
   return service({
-    url: "/bjxh/mailManager/updateMail",
+    url: "/mailManager/updateMail",
     method: "put",
     data,
     baseURL
