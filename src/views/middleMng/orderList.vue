@@ -35,8 +35,16 @@
     <el-table-column prop="manager" label="客户经理" />
     <el-table-column prop="channel" label="渠道商" />
     <el-table-column prop="cmpy" label="企业客户" />
-    <el-table-column prop="cmpy" label="省份" />
-    <el-table-column prop="cmpy" label="地市" />
+    <el-table-column prop="provinceId" label="省份">
+      <template #default="{ row }">
+        <span>{{ getAddress(row.provinceId) }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column prop="cityId" label="地市">
+      <template #default="{ row }">
+        <span>{{ getAddress(row.cityId) }}</span>
+      </template>
+    </el-table-column>
     <el-table-column prop="cmpy" label="在绑订单量" />
     <el-table-column prop="cmpy" label="录音订单量" />
     <el-table-column prop="cmpy" label="全透传订单量" />
@@ -49,7 +57,7 @@
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
 import useRegion from "@/hooks/useRegion.js";
@@ -65,10 +73,23 @@ const initialValues = {
 };
 const { form, formRef, resetForm } = useForm(initialValues);
 // 地址
-const { address, setAddress } = useRegion(formRef, form);
+const { address, setAddress, getAddress } = useRegion(formRef, form);
 const tableData = ref([]);
 const total = ref(0);
 const getList = () => {
+  tableData.value = [
+    {
+      cmpy: "美团",
+      manager: "美团经理",
+      branchCmpy: "美团分公司",
+      channel: "渠道商",
+      phone: "123",
+      times: "2",
+      provinceId: "11",
+      cityId: "110101",
+      createTime: "2023/5/16"
+    }
+  ];
   orderList(form).then(res => {
     if (res.code === 200) {
       tableData.value = res.data.list;
@@ -91,4 +112,7 @@ const handleExport = () => {
     }
   });
 };
+onMounted(() => {
+  getList();
+});
 </script>

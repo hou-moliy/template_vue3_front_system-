@@ -1,10 +1,14 @@
 import { reactive, watch, toRefs } from "vue";
+import { codeToText } from "element-china-area-data";
 const useRegion = (formRef, formData) => {
   const state = reactive({
     address: [formData.provinceId, formData.cityId]
   });
   const setAddress = newVal => {
     state.address = newVal;
+  };
+  const getAddress = code => {
+    return codeToText[code];
   };
   // 监听地址变化
   watch(
@@ -27,7 +31,8 @@ const useRegion = (formRef, formData) => {
   );
   return {
     ...toRefs(state),
-    setAddress
+    setAddress,
+    getAddress
   };
 };
 export default useRegion;
