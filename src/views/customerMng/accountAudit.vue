@@ -16,7 +16,7 @@
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table :data="tableData" border style="width: 100%">
+  <el-table :data="tableData" border style="width: 100%" v-load="isLoading">
     <el-table-column prop="loginName" label="申请人姓名" />
     <el-table-column prop="phone" label="联系方式" />
     <el-table-column prop="createTime" label="申请时间" />
@@ -64,16 +64,16 @@
 </template>
 <script setup>
 import auditDialog from "./components/auditDialog.vue";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import useForm from "@/hooks/useForm";
 import { userList } from "@/api/user";
 import DictTypesStore from "@/stores/modules/dictTypes";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 const { getDictTypeLabel } = DictTypesStore();
 // 审核弹窗
 const auditDialogRef = ref(null);
-// 表格栏
-let tableData = ref([]);
-const total = computed(() => tableData.value.length);
+
 // 搜索表单
 const initialValues = {
   userType: "",
@@ -86,51 +86,18 @@ const { form, formRef, resetForm } = useForm(initialValues);
 const handleResetForm = () => {
   resetForm().then(() => getList());
 };
+// 表格栏
+let tableData = ref([]);
+const total = ref(0);
 const getList = () => {
-  console.log("获取表单的方法");
-  tableData.value = [
-    {
-      loginName: "张三1",
-      phone: "123456789",
-      createTime: "2021-08-09 12:00:00",
-      file: "资料查看",
-      userType: "1",
-      status: "1",
-      auditer: "李四",
-      updateTime: "2021-08-09 12:00:00",
-      auditStatus: "1",
-      remark: "备注"
-    },
-    {
-      loginName: "张三2",
-      phone: "123456789",
-      createTime: "2021-08-09 12:00:00",
-      file: "资料查看",
-      userType: "1",
-      status: "0",
-      auditer: "",
-      updateTime: "2021-08-09 12:00:00",
-      auditStatus: "0",
-      remark: "备注"
-    },
-    {
-      loginName: "王",
-      phone: "123456789",
-      createTime: "2021-08-09 12:00:00",
-      file: "资料查看",
-      userType: "2",
-      status: "2",
-      auditer: "",
-      updateTime: "2021-08-09 12:00:00",
-      auditStatus: "0",
-      remark: "备注"
-    }
-  ];
-  userList(form).then(res => {
-    if (res.code === 200) {
-      tableData.value = res.data.list;
-    }
-  });
+  loadingWrapper(
+    userList(form).then(res => {
+      if (res.code === 200) {
+        tableData.value = res.data.rows;
+        total.value = res.data.total;
+      }
+    })
+  );
 };
 const openAuditDialog = ({ userType }, auditStatus) => {
   // info: 1-通过 0-不通过

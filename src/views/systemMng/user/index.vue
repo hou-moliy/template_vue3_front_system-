@@ -50,7 +50,7 @@
   <accountDialog ref="accountDialogRef" />
 </template>
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import accountDialog from "./components/accountDialog.vue";
 import useForm from "@/hooks/useForm";
@@ -70,12 +70,13 @@ const initialValues = {
 };
 const { form, formRef, resetForm } = useForm(initialValues);
 const tableData = ref([]);
-const total = computed(() => tableData.value.length);
+const total = ref(0);
 const getList = () => {
   loadingWrapper(
     userList(form).then(res => {
       if (res.code == "0000") {
         tableData.value = res.rows;
+        total.value = res.total;
       }
     })
   );

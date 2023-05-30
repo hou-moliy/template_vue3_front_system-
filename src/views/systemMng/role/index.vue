@@ -1,8 +1,8 @@
 <template>
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
-    <el-form-item label="角色" prop="roleId">
-      <model-select v-model="form.roleId" dictType="roleType" placeholder="请输入角色类型" />
+    <el-form-item label="角色名称" prop="roleName">
+      <el-input v-model="form.roleName" placeholder="请输入角色名称" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
@@ -11,7 +11,7 @@
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table :data="tableData" border>
+  <el-table :data="tableData" border v-load="isLoading">
     <el-table-column prop="roleId" label="角色编号" />
     <el-table-column prop="roleName" label="角色名称" />
     <el-table-column prop="roleDesc" label="角色描述" />
@@ -28,15 +28,17 @@
   <roleDialog ref="roleDialogRef" @submit="getList" />
 </template>
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import roleDialog from "./components/roleDialog.vue";
 import useForm from "@/hooks/useForm";
 import { deleteRole, roleList } from "@/api/role";
 import mittBus from "@/utils/mittBus";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 // 搜索表单
 const initialValues = {
-  roleId: 0,
+  roleName: "",
   pageNum: 1,
   pageSize: 10
 };
@@ -46,7 +48,7 @@ const handleFormReset = () => {
 };
 // 表格数据
 const tableData = ref([]);
-const total = computed(() => tableData.value.length);
+const total = ref(0);
 // 删除
 const handleDelete = ({ roleId, roleName }) => {
   ElMessageBox.confirm(`此操作将永久删除该角色---${roleName}, 是否继续?`, "提示", {
@@ -69,11 +71,14 @@ const addRole = ({ data, isEdit }) => {
   roleDialogRef?.value?.handleOpenDialog({ data, isEdit });
 };
 const getList = () => {
-  roleList(form).then(res => {
-    if (res.code == "0000") {
-      tableData.value = res.rows;
-    }
-  });
+  loadingWrapper(
+    roleList(form).then(res => {
+      if (res.code == "0000") {
+        tableData.value = res.rows;
+        total.value = res.total;
+      }
+    })
+  );
 };
 onMounted(() => {
   getList();

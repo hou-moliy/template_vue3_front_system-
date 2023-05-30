@@ -110,7 +110,6 @@ export const deleteSysUser = ({ userId }) => {
   return service({
     url: `/system/user/deleteSysUser/${userId}`,
     method: "delete",
-    data,
     baseURL
   });
 };
