@@ -11,7 +11,7 @@
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table border :data="tableData">
+  <el-table border :data="tableData" v-load="isLoading">
     <el-table-column label="省份" prop="province" />
     <el-table-column label="地市" prop="city" />
     <el-table-column label="号码量" prop="phoneNum" />
@@ -24,10 +24,13 @@
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import regionSelect from "@/components/regionSelect/index.vue";
 import useRegion from "@/hooks/useRegion.js";
 import useForm from "@/hooks/useForm";
+import { unusedList } from "@/api/number";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 // 表单
 const initialValues = {
   province: "",
@@ -40,27 +43,16 @@ const { form, formRef, resetForm } = useForm(initialValues);
 const { address, setAddress } = useRegion(formRef, form);
 // 表格数据
 const tableData = ref([]);
-const total = computed(() => tableData.value.length);
+const total = ref(0);
 const getList = () => {
-  tableData.value = [
-    {
-      province: "北京市",
-      city: "东城区",
-      phoneNum: 100
-    },
-    {
-      province: "北京市",
-      city: "东城区",
-      phoneNum: 100
-    },
-    {
-      province: "北京市",
-      city: "东城区",
-      phoneNum: 100
-    }
-  ];
-  console.log(form);
-  console.log(address);
+  loadingWrapper(
+    unusedList(form).then(res => {
+      if (res.code == "0000") {
+        tableData.value = res.data.rows;
+        total.value = res.data.total;
+      }
+    })
+  );
 };
 // 重置
 const handleReset = () => {

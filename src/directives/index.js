@@ -3,12 +3,14 @@ import waterMarker from "./src/waterMarker";
 import debounce from "./src/debounce";
 import throttle from "./src/throttle";
 import hasPermi from "./src/hasPermi";
+import load from "./src/load";
 const directivesList = {
   copy,
   waterMarker,
   debounce,
   throttle,
-  hasPermi
+  hasPermi,
+  load
 };
 
 const directives = {

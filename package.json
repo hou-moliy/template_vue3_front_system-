@@ -23,6 +23,7 @@
     "@wangeditor/editor-for-vue": "^5.1.10",
     "axios": "^0.27.2",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "driver.js": "^0.9.8",
     "echarts": "^5.4.1",

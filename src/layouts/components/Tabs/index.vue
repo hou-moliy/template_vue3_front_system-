@@ -10,8 +10,8 @@
           :closable="item.close"
         >
           <template #label>
-            <el-icon class="tabs-icon" v-if="item.icon && themeConfig.tabsIcon">
-              <component :is="item.icon"></component>
+            <el-icon class="tabs-icon" v-if="item?.icon && item?.icon != '#' && themeConfig.tabsIcon">
+              <component :is="item?.icon"></component>
             </el-icon>
             {{ item.title }}
           </template>

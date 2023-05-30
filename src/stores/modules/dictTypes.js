@@ -84,7 +84,17 @@ const DictTypesStore = defineStore({
         label: "低消+按绑定次数计费",
         value: "3"
       }
-    ] // 账单方式
+    ], // 账单方式
+    poolType: [
+      {
+        label: "指定号码量订购",
+        value: "0"
+      },
+      {
+        label: "指定号码订购",
+        value: "1"
+      }
+    ] // 号码订购类型
   }),
   getters: {},
   actions: {

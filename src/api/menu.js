@@ -3,10 +3,10 @@ const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 // 获取菜单列表
 export const routerList = () => {
   return service({
-    url: "/system/menu/list",
+    url: "/system/getRouters",
     method: "get",
-    // baseURL,
-    baseURL: `/mock${baseURL}`
+    baseURL
+    // baseURL: `/mock${baseURL}`
   });
 };
 // 查询菜单列表树状结构

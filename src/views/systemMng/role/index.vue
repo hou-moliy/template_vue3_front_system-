@@ -15,11 +15,15 @@
     <el-table-column prop="roleId" label="角色编号" />
     <el-table-column prop="roleName" label="角色名称" />
     <el-table-column prop="roleDesc" label="角色描述" />
-    <el-table-column prop="createTime" label="创建时间" />
+    <el-table-column prop="createTime" label="创建时间">
+      <template #default="{ row }">
+        {{ $dayjs(row.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      </template>
+    </el-table-column>
     <el-table-column fixed="right" label="操作">
       <template #default="{ row }">
-        <el-button type="primary" link @click="addRole({ data: row, isEdit: true })">修改</el-button>
-        <el-button type="danger" link @click="handleDelete(row)">删除</el-button>
+        <el-button type="primary" v-if="row.roleId != 1" link @click="addRole({ data: row, isEdit: true })">修改</el-button>
+        <el-button type="danger" v-if="parseInt(row.roleId) > 6" link @click="handleDelete(row)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>

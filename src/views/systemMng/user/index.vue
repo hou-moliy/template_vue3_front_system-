@@ -32,10 +32,15 @@
         <el-button text link :type="getStatusItem(row.status)?.type"> {{ getStatusItem(row.status)?.label }}</el-button>
       </template>
     </el-table-column>
-    <el-table-column prop="createTime" label="创建时间" />
+    <el-table-column prop="createTime" label="创建时间">
+      <template #default="{ row }">
+        {{ $dayjs(row.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      </template>
+    </el-table-column>
     <el-table-column fixed="right" label="操作">
       <template #default="{ row, index }">
-        <div v-if="row.status != 2">
+        <!-- 超级管理员，当前账号本身，已删除账号都不展示操作按钮 -->
+        <div v-if="row.roleId != 1 && userId != row.userId && row.status != 2">
           <el-button type="primary" link @click="addAccount(row, true)">修改</el-button>
           <el-button link :type="row.status != 1 ? 'warning' : 'success'" @click="changeBindStatus(row)">
             {{ row.status != 1 ? "冻结" : "解冻" }}
@@ -54,10 +59,12 @@ import { ref, onMounted } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import accountDialog from "./components/accountDialog.vue";
 import useForm from "@/hooks/useForm";
-import { userList, updateSysUser, deleteSysUser } from "@/api/user";
+import { userList, updateSysUser } from "@/api/user";
 import mittBus from "@/utils/mittBus";
 import DictTypesStore from "@/stores/modules/dictTypes";
 import { useLoading } from "@/hooks/useLoading";
+import { AuthStore } from "@/stores/modules/auth";
+const { userId } = AuthStore();
 const { isLoading, loadingWrapper } = useLoading();
 const { getDictTypeValue, getDictTypeItem } = DictTypesStore();
 // 搜索表单
@@ -126,8 +133,11 @@ const deleteAccount = ({ userName, userId }) => {
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
+    let params = {};
+    params.userId = userId;
+    params.status = 2;
     // 删除
-    deleteSysUser({ userId }).then(res => {
+    updateSysUser(params).then(res => {
       if (res.code == "0000") {
         ElMessage.success("删除成功");
         getList();

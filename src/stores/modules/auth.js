@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { getFlatArr } from "@/utils/util";
-import { getShowMenuList, getAllBreadcrumbList, getAssetsImages } from "@/utils/util.js";
+import { getShowMenuList, handleMenuList, getAllBreadcrumbList, getAssetsImages } from "@/utils/util.js";
 import { routerList } from "@/api/menu.js";
 import { getUserInfoApi } from "@/api/user.js";
 import { removeToken } from "@/utils/auth";
@@ -32,7 +32,8 @@ export const AuthStore = defineStore({
     // getAuthMenuList
     async getAuthMenuList() {
       const res = await routerList();
-      this.authMenuList = res.data;
+      this.authMenuList = res?.data ?? [];
+      this.authMenuList = handleMenuList(this.authMenuList);
     },
     // setRouteName
     async setRouteName(name) {
@@ -79,7 +80,6 @@ export const AuthStore = defineStore({
     setAllMenuList() {
       const layoutList = staticRouter.find(item => item.path === "/layout")?.children ?? [];
       const staticList = staticRouter.filter(item => item.path !== "/layout") ?? [];
-      // console.log(this.authMenuList);
       this.allMenuList = [...layoutList, ...staticList, ...this.authMenuList];
     }
   }

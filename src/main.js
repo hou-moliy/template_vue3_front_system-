@@ -8,6 +8,8 @@ import elementIcon from "@/plugins/element-icon";
 import "element-plus/dist/index.css";
 import "@/styles/element.scss";
 import svgIcon from "@/components/SvgIcon/index.vue";
+import dayjs from "dayjs";
+import "dayjs/locale/zh-cn"; // 导入中文语言包（可选）
 // 路由
 import router from "@/routers/index";
 // i18n
@@ -21,12 +23,13 @@ import errorHandler from "@/utils/errorHandler";
 //  自定义指令
 import directives from "@/directives/index";
 import "@/permission";
-import "./mock/index";
+// import "./mock/index";
 import Pagination from "@/components/Pagination/index.vue";
-import { vLoading } from "element-plus/es/components/loading/src/directive";
+// 全局配置
+dayjs.locale("zh-cn"); // 设置语言为中文（可选）
 const app = createApp(App);
-
-app.directive("load", vLoading);
+// 将 dayjs 实例添加到 Vue 3 的全局属性中
+app.config.globalProperties.$dayjs = dayjs;
 app.config.errorHandler = errorHandler;
 
 app

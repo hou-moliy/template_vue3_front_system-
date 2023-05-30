@@ -150,7 +150,21 @@ export function getShowMenuList(menuList) {
     return !item?.meta?.isHide ?? true;
   });
 }
-
+export const handleMenuList = menuList => {
+  let menus = JSON.parse(JSON.stringify(menuList));
+  return menus.map(item => {
+    item.meta = {
+      title: item?.menuName ?? "",
+      icon: item?.icon ?? "",
+      isHide: item?.hidden ?? false,
+      isAffix: false,
+      isKeepAlive: item?.noCache === 1 ? true : false,
+      isFull: item?.isFull ?? false
+    };
+    item.children?.length && (item.children = handleMenuList(item.children));
+    return item;
+  });
+};
 /**
  * @description 递归找出所有面包屑存储到 pinia/vuex 中
  * @param {Array} menuList 所有菜单列表

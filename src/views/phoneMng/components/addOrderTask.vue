@@ -5,13 +5,13 @@
       <el-form-item label="任务名称" prop="title">
         <el-input v-model="form.title" placeholder="请输入任务名称" />
       </el-form-item>
-      <el-form-item label="类型" prop="type">
-        <model-select v-model="form.type" dictType="1" type="radio" />
+      <el-form-item label="类型" prop="poolType">
+        <model-select v-model="form.poolType" dictType="poolType" type="radio" />
       </el-form-item>
       <el-form-item label="企业客户" prop="groupName">
         <model-select v-model="form.groupName" dictType="1" placeholder="请选择企业客户" />
       </el-form-item>
-      <template v-if="form.type === 'AXB'">
+      <template v-if="form.type == '1'">
         <el-form-item label="省份地市" prop="provinceId">
           <regionSelect v-model="address" :level="2" />
         </el-form-item>
@@ -21,9 +21,9 @@
       </template>
       <template v-else>
         <el-form-item label="上传文件" prop="file">
-          <upload-file v-model="form.file">
+          <UploadFile :fileList="fileList" @file-success="fileSuccess" @file-remove="fileRemove">
             <el-link type="primary" href="https://element-plus.org" target="_blank">下载文件模板</el-link>
-          </upload-file>
+          </UploadFile>
         </el-form-item>
       </template>
 
@@ -38,19 +38,22 @@
 import { ref, reactive } from "vue";
 import useRegion from "@/hooks/useRegion.js";
 import useForm from "@/hooks/useForm";
-import { remainingNum } from "@/api/number.js";
+import { remainingNum, order } from "@/api/number.js";
+import { getFormData } from "@/utils/util";
+import useUpload from "@/hooks/useUpload";
 const dialogVisible = ref(false);
 // 表单
 const initialValues = {
   title: "",
-  type: "",
+  poolType: "",
   groupName: "",
   provinceId: "",
   cityId: "",
-  file: "",
+  file: null,
   phoneNum: 0
 };
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
+const { fileList, fileSuccess, fileRemove } = useUpload(form);
 const { address, setAddress } = useRegion(formRef, form);
 // 校验号码量最大值
 const validateMaxNum = (rule, value, callback) => {
@@ -72,7 +75,7 @@ const rules = reactive({
   type: [{ required: true, message: "请选择类型", trigger: "change" }],
   groupName: [{ required: true, message: "请选择企业客户", trigger: "change" }],
   provinceId: [{ required: true, message: "请选择省份", trigger: "blur" }],
-  file: [{ required: true, message: "请上传文件", trigger: "blur" }],
+  file: [{ required: true, message: "请上传文件", trigger: "blur", type: "object" }],
   phoneNum: [
     { required: true, message: "请输入号码量", trigger: "blur" },
     {
@@ -87,11 +90,13 @@ const openDialog = () => {
 // 提交表单
 const onSubmit = () => {
   submitForm().then(() => {
-    if (form.type === "AXB") {
-      handlePhoneNumOrder();
-    } else {
-      handlePhoneOrder();
-    }
+    const data = getFormData(form);
+    order(data).then(res => {
+      if (res.code == "0000") {
+        handleReset();
+        ElMessage.success("订购任务创建成功");
+      }
+    });
   });
 };
 // 重置
@@ -99,18 +104,6 @@ const handleReset = () => {
   setAddress([]);
   resetForm();
   dialogVisible.value = false;
-};
-
-// 指定号码订购
-const handlePhoneOrder = () => {
-  handleReset();
-  ElMessage.success("指定号码订购,提交成功");
-};
-
-// 指定号码量订购
-const handlePhoneNumOrder = () => {
-  handleReset();
-  ElMessage.success("指定号码量订购,提交成功");
 };
 defineExpose({
   openDialog
