@@ -4,7 +4,7 @@
       <h5>账户申请</h5>
     </template>
     <div class="register-wrap">
-      <el-form ref="formRef" :model="form" :rules="rules" size="large">
+      <el-form ref="formRef" :model="form" :rules="rules" label-position="left" label-width="150px">
         <el-form-item prop="userType" label="账户类型">
           <model-select v-model="form.userType" dictType="roleType" placeholder="请选择账户类型" />
         </el-form-item>
@@ -12,7 +12,7 @@
           <el-input v-model="form.loginName" placeholder="请输入用户名"> </el-input>
         </el-form-item>
         <!-- 企业客户 6  渠道商 5-->
-        <div class="" v-if="form.userType === '6' || form.userType === '5'">
+        <div class="content-wrap" v-if="form.userType === '6' || form.userType === '5'">
           <el-form-item prop="groupName" label="企业名称">
             <el-input v-model="form.groupName" placeholder="请输入企业名称"> </el-input>
           </el-form-item>
@@ -38,7 +38,7 @@
           </el-form-item>
         </div>
         <!-- 项目经理 2 分公司 3-->
-        <div class="" v-if="form.userType == '2' || form.userType == '3'">
+        <div class="content-wrap" v-if="form.userType == '2' || form.userType == '3'">
           <el-form-item prop="realName" label="姓名" v-if="form.userType == '2'">
             <el-input v-model="form.realName" placeholder="请输入姓名"> </el-input>
           </el-form-item>
@@ -77,7 +77,7 @@
     <template #footer>
       <div class="login-btn">
         <el-button @click="goBack"> 返回 </el-button>
-        <el-button @click="onSubmit" type="primary" :loading="loading">确定</el-button>
+        <el-button @click="onSubmit" type="primary" v-loading="loading">确定</el-button>
       </div>
     </template>
   </el-dialog>
@@ -261,5 +261,8 @@ h5 {
 }
 .code-btn {
   margin-left: 15px;
+}
+.content-wrap {
+  width: 100%;
 }
 </style>

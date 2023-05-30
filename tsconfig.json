@@ -59,7 +59,8 @@
     "src/stores/index.js",
     "src/utils/util.js",
     "src/hooks/useForm.ts",
-    "src/hooks/useValidator.ts"
+    "src/hooks/useValidator.ts",
+    "src/hooks/useLoading.js"
   ],
   "exclude": ["node_modules", "dist", "**/*.js"]
 }

@@ -3,6 +3,7 @@ import { getToken } from "@/utils/auth";
 import { AuthStore } from "@/stores/modules/auth";
 import { ElMessageBox, ElNotification, ElMessage } from "element-plus";
 axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
+
 // 是否显示重新登录
 export let isRelogin = { show: false };
 // 创建axios实例
@@ -56,6 +57,7 @@ service.interceptors.response.use(
       return res.data;
     }
   },
+
   error => {
     ElMessage({
       message: error.message || "服务器异常",

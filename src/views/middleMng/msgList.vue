@@ -29,7 +29,7 @@
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table border :data="tableData">
+  <el-table border :data="tableData" v-load="isLoading">
     <el-table-column prop="createTime" label="时间" />
     <el-table-column prop="branchCmpy" label="分公司" />
     <el-table-column prop="manager" label="客户经理" />
@@ -65,11 +65,13 @@
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
 import useRegion from "@/hooks/useRegion.js";
 import { smsList } from "@/api/stats";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 const initialValues = {
   userId: "",
   branchId: "",
@@ -85,16 +87,23 @@ const initialValues = {
 const { form, formRef, resetForm } = useForm(initialValues);
 // 地址
 const { address, setAddress } = useRegion(formRef, form);
-const tableData = ref();
+const tableData = ref([]);
 const total = ref(tableData.value.length);
-const getList = () => {
-  console.log(form, "获取新数据");
-  smsList(form).then(res => {
-    if (res.code == "0000") {
-      tableData.value = res.data.list;
-      total.value = res.data.total;
-    }
-  });
+const getList = async () => {
+  loadingWrapper(
+    smsList(form).then(res => {
+      if (res.code == "0000") {
+        tableData.value = res.data.list;
+        total.value = res.data.total;
+      }
+    })
+  );
+  // smsList(form).then(res => {
+  //   if (res.code == "0000") {
+  //     tableData.value = res.data.list;
+  //     total.value = res.data.total;
+  //   }
+  // });
 };
 // 重置
 const handleReset = () => {
@@ -103,4 +112,7 @@ const handleReset = () => {
     getList();
   });
 };
+onMounted(() => {
+  getList();
+});
 </script>

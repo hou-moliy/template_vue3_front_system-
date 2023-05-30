@@ -23,9 +23,10 @@ import directives from "@/directives/index";
 import "@/permission";
 import "./mock/index";
 import Pagination from "@/components/Pagination/index.vue";
-
+import { vLoading } from "element-plus/es/components/loading/src/directive";
 const app = createApp(App);
 
+app.directive("load", vLoading);
 app.config.errorHandler = errorHandler;
 
 app

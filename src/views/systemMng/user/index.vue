@@ -1,13 +1,13 @@
 <template>
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
-    <el-form-item label="账号">
+    <el-form-item label="账号" prop="loginName">
       <el-input v-model="form.loginName" placeholder="请输入账号" />
     </el-form-item>
-    <el-form-item label="角色">
+    <el-form-item label="角色" prop="roleId">
       <model-select v-model="form.roleId" dictType="roleType" placeholder="请输入角色类型" />
     </el-form-item>
-    <el-form-item label="状态">
+    <el-form-item label="状态" prop="status">
       <model-select v-model="form.status" dictType="statusType" placeholder="请选择状态" />
     </el-form-item>
     <el-form-item>
@@ -17,7 +17,7 @@
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table :data="tableData" border>
+  <el-table :data="tableData" border v-load="isLoading">
     <el-table-column prop="loginName" label="账号" />
     <el-table-column prop="userName" label="姓名" />
     <el-table-column prop="phoneNumber" label="手机号" />
@@ -57,6 +57,8 @@ import useForm from "@/hooks/useForm";
 import { userList, updateSysUser, deleteSysUser } from "@/api/user";
 import mittBus from "@/utils/mittBus";
 import DictTypesStore from "@/stores/modules/dictTypes";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 const { getDictTypeValue, getDictTypeItem } = DictTypesStore();
 // 搜索表单
 const initialValues = {
@@ -70,11 +72,13 @@ const { form, formRef, resetForm } = useForm(initialValues);
 const tableData = ref([]);
 const total = computed(() => tableData.value.length);
 const getList = () => {
-  userList(form).then(res => {
-    if (res.code == "0000") {
-      tableData.value = res.rows;
-    }
-  });
+  loadingWrapper(
+    userList(form).then(res => {
+      if (res.code == "0000") {
+        tableData.value = res.rows;
+      }
+    })
+  );
 };
 const handleFormReset = () => {
   resetForm().then(() => getList());
