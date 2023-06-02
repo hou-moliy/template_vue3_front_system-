@@ -59,15 +59,19 @@ const handleDelete = ({ roleId, roleName }) => {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
-  }).then(() => {
-    // 删除
-    deleteRole({ roleId }).then(res => {
+  })
+    .then(() => {
+      return deleteRole({ roleId });
+    })
+    .then(res => {
       if (res.code == "0000") {
         ElMessage.success("删除成功");
         getList();
       }
+    })
+    .catch(error => {
+      console.log(error);
     });
-  });
 };
 // 新增或者编辑账号
 const roleDialogRef = ref(null);

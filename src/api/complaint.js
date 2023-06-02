@@ -10,11 +10,12 @@ export const emailNotifyComplaints = data => {
     baseURL
   });
 };
-// 投诉台账导出
+// 投诉工单导出
 export const exportComplaints = params => {
   return service({
     url: "/complaintManager/exportComplaints",
     method: "get",
+    responseType: "blob",
     params,
     baseURL
   });
@@ -46,6 +47,17 @@ export const listComplaints = params => {
     baseURL
   });
 };
+// 投诉台账导出
+export const exportComplaintLedgers = params => {
+  return service({
+    url: "/complaintManager/exportComplaintLedgers",
+    method: "get",
+    responseType: "blob",
+    params,
+    baseURL
+  });
+};
+
 // 直接发送企业删除
 export const deleteEnterpriseCsMail = ({ userId }) => {
   return service({
@@ -80,10 +92,11 @@ export const insertMail = data => {
   });
 };
 // 直接发送企业查询
-export const listEnterpriseCsMails = ({ userId }) => {
+export const listEnterpriseCsMails = params => {
   return service({
-    url: `/mailManager/listEnterpriseCsMails/${userId}`,
+    url: "/mailManager/listEnterpriseCsMails",
     method: "get",
+    params,
     baseURL
   });
 };

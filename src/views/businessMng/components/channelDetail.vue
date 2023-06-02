@@ -1,4 +1,5 @@
 <template>
+  <!-- 渠道商详情 -->
   <el-dialog v-model="dialogVisible" :title="title" @close="closeDialog">
     <el-form :model="form" ref="formRef" label-width="120px" label-position="left" :disabled="!isEdit">
       <el-form-item label="企业名称" prop="groupName">
@@ -58,7 +59,7 @@ const openDialog = ({ data, isEdit: edit }) => {
 const onSubmit = () => {
   submitForm().then(() => {
     updateGroup(form).then(res => {
-      if (res.code === 200) {
+      if (res.code === "0000") {
         ElMessage.success("提交成功");
       }
     });

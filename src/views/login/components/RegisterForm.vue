@@ -5,7 +5,7 @@
     </template>
     <div class="register-wrap">
       <el-form ref="formRef" :model="form" :rules="rules" label-position="left" label-width="150px">
-        <el-form-item prop="userType" label="账户类型">
+        <el-form-item prop="businessUser" label="账户类型">
           <model-select v-model="form.userType" dictType="roleType" placeholder="请选择账户类型" />
         </el-form-item>
         <el-form-item prop="loginName" label="用户名">
@@ -37,12 +37,12 @@
             </div>
           </el-form-item>
         </div>
-        <!-- 项目经理 2 分公司 3-->
-        <div class="content-wrap" v-if="form.userType == '2' || form.userType == '3'">
-          <el-form-item prop="realName" label="姓名" v-if="form.userType == '2'">
+        <!-- 项目经理 4 分公司 3-->
+        <div class="content-wrap" v-if="form.userType == '3' || form.userType == '4'">
+          <el-form-item prop="realName" label="姓名">
             <el-input v-model="form.realName" placeholder="请输入姓名"> </el-input>
           </el-form-item>
-          <el-form-item prop="contactPhone" label="手机号" v-if="form.userType == '2'">
+          <el-form-item prop="contactPhone" label="手机号">
             <el-input v-model="form.contactPhone" placeholder="请输入手机号"> </el-input>
           </el-form-item>
           <el-form-item prop="email" label="邮箱">
@@ -53,10 +53,13 @@
               </el-button>
             </div>
           </el-form-item>
-          <el-form-item prop="deptId" label="二级部门(分公司)">
-            <el-select v-model="form.deptId" placeholder="下拉选择" size="large"> </el-select>
+          <el-form-item prop="deptId" label="二级部门(分公司)" v-if="form.userType == '3'">
+            <model-select v-model="form.deptId" dictType="branchDeptType" placeholder="请选择账户类型" />
           </el-form-item>
-          <el-form-item prop="tdName" label="三级部门" v-if="form.userType === '3'">
+          <el-form-item prop="deptId" label="二级部门(分公司)" v-if="form.userType == '4'">
+            <model-select v-model="form.deptId" dictType="managerDeptType" placeholder="请选择账户类型" />
+          </el-form-item>
+          <el-form-item prop="tdName" label="三级部门" v-if="form.userType === '4'">
             <el-input v-model="form.tdName" placeholder="请输入三级部门"> </el-input>
           </el-form-item>
           <el-form-item prop="id" label="工号">
@@ -67,7 +70,13 @@
           </el-form-item>
         </div>
         <el-form-item prop="file" label="上传附件">
-          <UploadFile :fileList="fileList" @fileSuccess="fileSuccess" @fileRemove="fileRemove" />
+          <UploadFile
+            :fileList="fileList"
+            acceptType="zip,tar,rar"
+            acceptTypeDesc="zip/tar/rar"
+            @file-success="fileSuccess"
+            @file-remove="fileRemove"
+          />
         </el-form-item>
         <el-form-item prop="verCode" label="验证码">
           <el-input v-model="form.verCode" auto-complete="off" placeholder="请输入验证码"> </el-input>
@@ -96,13 +105,13 @@ import useUpload from "@/hooks/useUpload";
 const tabsStore = TabsStore();
 const emit = defineEmits(["changeForm"]);
 const initialValues = {
-  loginName: "houyuanzhen",
+  loginName: "manager_ceshi1",
   groupName: "东信北邮",
   cardId: "510823199711177069",
-  contactPhone: "13006463385",
-  email: "1337312569@qq.com",
-  realName: "张三",
-  legalName: "张三",
+  contactPhone: "13800138200",
+  email: "pengpan@e-byte.com",
+  realName: "王五",
+  legalName: "王五",
   deptId: "",
   id: "",
   userType: "",
@@ -174,7 +183,7 @@ const onSubmit = () => {
     const check = await checkName();
     if (check) {
       loading.value = true;
-      const res = await register(getFormData(form));
+      const res = await register(form);
       try {
         if (res.code == "0000") {
           tabsStore.closeMultipleTab();
@@ -197,7 +206,7 @@ const onSubmit = () => {
 const checkName = () => {
   return new Promise((resolve, reject) => {
     checkUserName({ userName: form.loginName }).then(res => {
-      if (res.code === 200) {
+      if (res.code === "0000") {
         resolve(true); // 不存在
       } else {
         ElMessage.error("用户名已存在，请更换用户名!");

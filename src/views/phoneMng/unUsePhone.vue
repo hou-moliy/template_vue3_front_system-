@@ -7,13 +7,13 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary">导出</el-button>
+      <el-button type="primary" @click="handleExport" :disabled="!tableData.length">导出</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
   <el-table border :data="tableData" v-load="isLoading">
-    <el-table-column label="省份" prop="province" />
-    <el-table-column label="地市" prop="city" />
+    <el-table-column label="省份" prop="provinceId" />
+    <el-table-column label="地市" prop="cityId" />
     <el-table-column label="号码量" prop="phoneNum" />
     <el-table-column label="操作">
       <template #default>
@@ -28,13 +28,14 @@ import { ref, onMounted } from "vue";
 import regionSelect from "@/components/regionSelect/index.vue";
 import useRegion from "@/hooks/useRegion.js";
 import useForm from "@/hooks/useForm";
-import { unusedList } from "@/api/number";
+import { unusedList, exportUnusedNumberList } from "@/api/number";
+import { exportFile } from "@/hooks/useExport";
 import { useLoading } from "@/hooks/useLoading";
 const { isLoading, loadingWrapper } = useLoading();
 // 表单
 const initialValues = {
-  province: "",
-  city: "",
+  provinceId: "",
+  cityId: "",
   createTime: "",
   pageNum: 1,
   pageSize: 10
@@ -58,6 +59,16 @@ const getList = () => {
 const handleReset = () => {
   resetForm();
   setAddress([]);
+};
+// 导出
+const handleExport = () => {
+  exportUnusedNumberList(form).then(res => {
+    if (res.data.size == 0) {
+      ElMessage.warning("暂无数据");
+      return;
+    }
+    exportFile(res.data, "xlsx", "成本账单");
+  });
 };
 onMounted(() => {
   getList();

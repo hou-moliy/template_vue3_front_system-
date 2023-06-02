@@ -62,9 +62,18 @@ export const addGroup = data => {
 // 修改渠道商信息
 export const updateGroup = data => {
   return service({
-    url: "/bjxh/channel/update",
+    url: "/channel/update",
     method: "post",
     data,
+    baseURL
+  });
+};
+// 获取渠道商详情
+export const channelDetail = params => {
+  return service({
+    url: "/channel/detail",
+    method: "get",
+    params,
     baseURL
   });
 };

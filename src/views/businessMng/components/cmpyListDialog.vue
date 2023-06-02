@@ -51,6 +51,7 @@ const dialogVisible = ref(false);
 const addCmpyRef = ref(null);
 // 搜索表单
 const initialValues = {
+	userId: "",
   name: "",
   businessType: "",
   createTime: "",
@@ -60,37 +61,12 @@ const initialValues = {
 const { form, formRef, resetForm } = useForm(initialValues);
 // 表格数据
 const tableData = ref([]);
-const total = computed(() => tableData.value.length);
+const total = ref(0);
 const getList = () => {
-  tableData.value = [
-    {
-      id: 1,
-      name: "头条",
-      businessType: "AXB模式",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 2,
-      name: "美团",
-      businessType: "AXB模式",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 3,
-      name: "饿了么",
-      businessType: "AXB模式",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 4,
-      name: "百度",
-      businessType: "AXB模式",
-      createTime: "2021-08-09 12:00:00"
-    }
-  ];
   groupList().then(res => {
-    if(res.code === 200) {
-      tableData.value = res.data.list;
+    if(res.code === '0000') {
+      tableData.value = res.rows;
+      total.value = res.total;
     }
   });
 };
@@ -106,7 +82,7 @@ const deleteRow = (index, { groupId }) => {
   }).then(() => {
     tableData.value.splice(index, 1);
     deleteGroup({ groupId }).then(res => {
-      if(res.code === 200) {
+      if(res.code === '0000') {
         ElMessage.success("删除成功");
       }
     });

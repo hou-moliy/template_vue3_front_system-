@@ -1,26 +1,24 @@
 <template>
+  <!-- 分公司账户详情 -->
   <el-dialog v-model="dialogVisible" :title="title" @close="closeDialog">
     <el-form :model="form" ref="formRef" label-width="120px" label-position="left" :disabled="!isEdit">
-      <el-form-item label="用户名" prop="accountName">
-        <el-input v-model="form.accountName" />
+      <el-form-item label="用户名" prop="userName">
+        <el-input v-model="form.userName" />
       </el-form-item>
-      <el-form-item label="姓名" prop="name">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="手机号" prop="phone">
-        <el-input v-model="form.phone" />
+      <el-form-item label="手机号" prop="phoneNumber">
+        <el-input v-model="form.phoneNumber" />
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email" />
       </el-form-item>
-      <el-form-item label="二级部门(分公司)" prop="secondLevel">
-        <el-input v-model="form.secondLevel" />
+      <el-form-item label="二级部门(分公司)" prop="deptName">
+        <el-input v-model="form.deptName" />
       </el-form-item>
-      <el-form-item label="工号" prop="number">
-        <el-input v-model="form.number" />
+      <el-form-item label="工号" prop="id">
+        <el-input v-model="form.id" />
       </el-form-item>
-      <el-form-item label="身份证号码" prop="idCrad">
-        <el-input v-model="form.idCrad" />
+      <el-form-item label="身份证号码" prop="cardId">
+        <el-input v-model="form.cardId" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -35,27 +33,37 @@
 import { ref } from "vue";
 import useForm from "@/hooks/useForm";
 import { ElMessage } from "element-plus";
+import { branchDetail } from "@/api/branch";
 const dialogVisible = ref(false);
 // 表单
 const initialValues = {
-  accountName: "",
-  name: "",
-  phone: "",
+  userName: "",
+  phoneNumber: "",
   email: "",
-  secondLevel: "",
-  thirdLevel: "",
-  number: "",
-  idCrad: ""
+  deptName: "",
+  id: "",
+  cardId: ""
 };
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // openDialog
 const isEdit = ref(false);
 let title = ref("");
-const openDialog = ({ data, isEdit: edit }) => {
-  console.log(data, edit);
-  isEdit.value = edit;
-  dialogVisible.value = true;
-  title.value = isEdit.value ? "修改分公司属性" : "分公司详情";
+const openDialog = async ({ id, isEdit: edit }) => {
+  try {
+    isEdit.value = edit;
+    dialogVisible.value = true;
+    title.value = isEdit.value ? "修改分公司属性" : "分公司详情";
+    await getDetail(id);
+  } catch (error) {
+    console.error(error);
+  }
+};
+const getDetail = async branchId => {
+  await branchDetail({ branchId }).then(res => {
+    if (res.code == "0000") {
+      Object.assign(form, res.data);
+    }
+  });
 };
 // 提交表单
 const onSubmit = () => {

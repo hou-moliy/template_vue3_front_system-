@@ -36,10 +36,11 @@ const onSubmit = isAdd => {
     const form = {
       ...props.commonForm,
       ...interForm,
+      groupName: interForm.baseInfo.projectName,
       bindingType: interForm.baseInfo.bindingType,
       provinceId: interForm.baseInfo.provinceId,
       cityId: interForm.baseInfo.cityId,
-      recordMode: interForm.baseInfo.recordMode
+      recordMode: interForm.baseInfo.recordMode === "true" ? "0" : "1"
     };
     if (isAdd) {
       handleAdd(form);
@@ -57,7 +58,7 @@ const onReset = () => {
 onMounted(() => {
   interForm.baseInfo = baseInfoRef.value?.form;
   interForm.contactInfo = contactInfoRef.value?.form;
-  interForm.cityCallNums = cityCallNumsRef.value?.form;
+  interForm.cityCallNums = cityCallNumsRef.value?.cityCallNums;
   interForm.businessRule = businessRuleRef.value?.form;
 });
 defineExpose({ onSubmit, onReset, ...toRefs(interForm) });

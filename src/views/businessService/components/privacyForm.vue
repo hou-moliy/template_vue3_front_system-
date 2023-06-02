@@ -8,9 +8,9 @@
       <regionSelect v-model="address" :level="2" />
     </el-form-item>
     <el-form-item label="录音模式" prop="recordMode">
-      <el-select v-model="form.recordMode" placeholder="请选择归属省份地市">
-        <el-option label="全录音" value="bj" />
-        <el-option label="由中间号订单指定是否录音" value="sh" />
+      <el-select v-model="form.recordMode" placeholder="请选择录音模式">
+        <el-option label="全录音" value="0" />
+        <el-option label="由中间号订单指定是否录音" value="1" />
       </el-select>
     </el-form-item>
     <el-form-item label="是否开通短信" prop="smsMode">

@@ -93,57 +93,60 @@ const handleFormReset = () => {
 };
 // 修改绑定状态
 const changeBindStatus = row => {
-  if (row.status == 0) {
-    ElMessageBox.confirm("此操作将永久冻结该账号, 是否继续?", "提示", {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
-      type: "warning"
-    }).then(() => {
-      // 冻结
-      row.status = 1;
-      handleUpdateStatus(row);
-    });
-  } else if (row.status == 1) {
-    ElMessageBox.confirm("此操作将永久解冻该账号, 是否继续?", "提示", {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
-      type: "warning"
-    }).then(() => {
-      row.status = 0;
-      // 解冻
-      handleUpdateStatus(row);
-    });
-  }
-};
-const handleUpdateStatus = row => {
-  updateSysUser(row).then(res => {
-    if (res.code == "0000") {
-      if (row.status == 1) {
-        ElMessage.success("冻结成功");
-      } else if (row.status == 0) {
-        ElMessage.success("解冻成功");
-      }
-    }
-  });
-};
-// 删除
-const deleteAccount = ({ userName, userId }) => {
-  ElMessageBox.confirm(`此操作将永久删除该账号---${userName}, 是否继续?`, "提示", {
+  const confirmMessage = `此操作将永久${row.status == 0 ? "冻结" : "解冻"}该账号，是否继续？`;
+  ElMessageBox.confirm(confirmMessage, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
-  }).then(() => {
-    let params = {};
-    params.userId = userId;
-    params.status = 2;
-    // 删除
-    updateSysUser(params).then(res => {
+  })
+    .then(() => {
+      const params = {
+        userId: row.userId,
+        status: row.status == 0 ? 1 : 0
+      };
+      return updateSysUser(params);
+    })
+    .then(res => {
+      if (res.code == "0000") {
+        if (row.status == 1) {
+          ElMessage.success("冻结成功");
+        } else if (row.status == 0) {
+          ElMessage.success("解冻成功");
+        }
+        getList();
+      }
+    })
+    .catch(error => {
+      // 处理错误情况
+      console.error(error);
+    });
+};
+// 删除
+const deleteAccount = ({ userName, userId }) => {
+  const confirmMessage = `此操作将永久删除该账号---${userName}，是否继续？`;
+  ElMessageBox.confirm(confirmMessage, "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  })
+    .then(() => {
+      const params = {
+        userId,
+        status: 2
+      };
+      // 删除
+      return updateSysUser(params);
+    })
+    .then(res => {
       if (res.code == "0000") {
         ElMessage.success("删除成功");
         getList();
       }
+    })
+    .catch(error => {
+      // 处理错误情况
+      console.error(error);
     });
-  });
 };
 // 新增或者编辑账号
 const accountDialogRef = ref(null);

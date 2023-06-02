@@ -1,6 +1,6 @@
 <template>
   <div class="custom-input">
-    <input type="text" v-model="inputValue" class="custom-input__input" ref="input" @blur="onBlur" />
+    <input type="text" v-model="inputValue" class="custom-input__input" ref="input" @blur="onBlur" v-bind="$attrs" />
   </div>
 </template>
 
@@ -9,7 +9,7 @@ import { ref, onMounted, watch } from "vue";
 const inputValue = ref("");
 defineProps({
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: ""
   }
 });
@@ -20,14 +20,18 @@ onMounted(() => {
 
 const focusInput = () => {
   const inputElement = ref.input;
-  if(inputElement) {
+  if (inputElement) {
     inputElement.focus();
   }
 };
 watch(
   () => inputValue.value,
   newVal => {
+    console.log(newVal, "inputtt");
     emits("update:modelValue", newVal);
+  },
+  {
+    immediate: true
   }
 );
 const onBlur = () => {

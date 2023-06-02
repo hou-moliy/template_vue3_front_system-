@@ -2,16 +2,21 @@
   <el-dialog v-model="dialogVisible" title="审批操作" width="500px">
     <el-form ref="formRef" :model="form" :rules="rules">
       <el-form-item label="审批结果" prop="auditStatus">
-        <model-select v-model="form.auditStatus" dictType="1" placeholder="请选择审批结果" />
+        <el-select v-model="form.auditStatus" placeholder="请选择审批结果" disabled>
+          <el-option label="通过" value="2" />
+          <el-option label="不通过" value="1" />
+        </el-select>
       </el-form-item>
-      <template v-if="form.userType == 1 && form.auditStatus == 1">
+      <!-- 企业客户+通过 -->
+      <template v-if="form.roleId == 6 && form.auditStatus == 2">
         <el-form-item label="客户经理" prop="managerId">
-          <model-select v-model="form.managerId" dictType="1" placeholder="请选择客户经理" />
+          <model-select v-model="form.managerId" dictType="businessManager" placeholder="请选择客户经理" />
         </el-form-item>
         <el-form-item label="渠道商" prop="channelId">
-          <model-select v-model="form.channelId" dictType="1" placeholder="请选择渠道商" />
+          <model-select v-model="form.channelId" dictType="businessChannel" placeholder="请选择渠道商" />
         </el-form-item>
       </template>
+      <!-- 不通过 -->
       <el-form-item v-else label="审批不通过原因" prop="auditFailReason">
         <el-input v-model="form.auditFailReason" placeholder="请输入审核不通过的原因" />
       </el-form-item>
@@ -33,7 +38,8 @@ const { userName, userId } = AuthStore();
 const emits = defineEmits(["refresh"]);
 //定义校验规则
 const rules = reactive({
-  auditStatus: [{ required: true, message: "请选择审批结果", trigger: "change" }]
+  auditStatus: [{ required: true, message: "请选择审批结果", trigger: "change" }],
+  managerId: [{ required: true, message: "请选择客户经理", trigger: "change" }]
 });
 
 // 表单数据
@@ -50,7 +56,6 @@ const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // openDialog
 const openDialog = e => {
   Object.assign(form, e);
-  console.log(form, "ffffff");
   dialogVisible.value = true;
 };
 // 提交

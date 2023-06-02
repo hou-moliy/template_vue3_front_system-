@@ -9,9 +9,10 @@
         <model-select v-model="form.poolType" dictType="poolType" type="radio" />
       </el-form-item>
       <el-form-item label="企业客户" prop="groupName">
-        <model-select v-model="form.groupName" dictType="1" placeholder="请选择企业客户" />
+        <model-select v-model="form.groupName" dictType="businessUser" placeholder="请选择企业客户" />
       </el-form-item>
-      <template v-if="form.type == '1'">
+      <!-- 指定号码量订购展示 -->
+      <template v-if="form.poolType == '1'">
         <el-form-item label="省份地市" prop="provinceId">
           <regionSelect v-model="address" :level="2" />
         </el-form-item>
@@ -19,9 +20,16 @@
           <el-input-number v-model="form.phoneNum" :min="0" />
         </el-form-item>
       </template>
+      <!-- 指定号码订购展示 -->
       <template v-else>
         <el-form-item label="上传文件" prop="file">
-          <UploadFile :fileList="fileList" @file-success="fileSuccess" @file-remove="fileRemove">
+          <UploadFile
+            :fileList="fileList"
+            acceptType="txt,text"
+            acceptTypeDesc="txt/text"
+            @file-success="fileSuccess"
+            @file-remove="fileRemove"
+          >
             <el-link type="primary" href="https://element-plus.org" target="_blank">下载文件模板</el-link>
           </UploadFile>
         </el-form-item>
@@ -45,7 +53,7 @@ const dialogVisible = ref(false);
 // 表单
 const initialValues = {
   title: "",
-  poolType: "",
+  poolType: "0",
   groupName: "",
   provinceId: "",
   cityId: "",

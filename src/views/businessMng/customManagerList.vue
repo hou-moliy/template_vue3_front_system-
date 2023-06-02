@@ -67,7 +67,7 @@ const getList = () => {
     }
   ];
   managerList().then(res => {
-    if (res.code === 200) {
+    if (res.code === '0000') {
       tableData.value = res.data.list;
     }
   });
@@ -84,7 +84,7 @@ const deleteRow = (index, { userId }) => {
   }).then(() => {
     tableData.value.splice(index, 1);
     managerDelete({ userId }).then(res => {
-      if (res.code === 200) {
+      if (res.code === '0000') {
         ElMessage.success("删除成功");
       }
     });

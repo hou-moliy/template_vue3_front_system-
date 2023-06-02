@@ -2,7 +2,7 @@
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
     <el-form-item label="企业客户" prop="userId">
-      <model-select v-model="form.userId" dictType="userType" placeholder="请选择企业客户" />
+      <model-select v-model="form.userId" dictType="businessUser" placeholder="请选择企业客户" />
     </el-form-item>
     <el-form-item label="省份地市" prop="provinceId">
       <regionSelect v-model="address" :level="2" />

@@ -47,7 +47,7 @@ import { Close } from "@element-plus/icons-vue";
 const emits = defineEmits(["fileSuccess", "fileRemove"]);
 interface Props {
   acceptType?: string; // 上传文件类型
-  acceptTypeDesc?: string; // 描述 - 上传文件类型
+  acceptTypeDesc?: string; // 描述 - 上传文件类型,需要用/分割，用来校验类型
   isMultiple?: boolean; //   是否可批量上传
   limitNum?: number; // 允许上传文件的最大数量
   isDisableUpload?: boolean; // 是否禁用上传
@@ -58,8 +58,8 @@ interface Props {
 }
 // 接收父组件传递过来的参数
 const props = withDefaults(defineProps<Props>(), {
-  acceptType: "", //.xls,.doc
-  acceptTypeDesc: "doc/xls",
+  acceptType: ".xls,.doc", //
+  acceptTypeDesc: "",
   isMultiple: false,
   limitNum: 1,
   isDisableUpload: false,
@@ -79,7 +79,6 @@ waitFileList.value?.forEach((item: any) => {
 watch(
   () => props.fileList,
   () => {
-    console.log("props.fileList====>", props.fileList);
     waitFileList.value = props.fileList;
     waitFileList.value?.forEach((item: any) => {
       item.name = item.original;
@@ -96,20 +95,32 @@ const handleChange = async (file: any, fileList: any[]) => {
     return getType(its);
   });
   // 如果要检索的字符串值没有出现，则该方法返回 -1
+  console.log(acceptTypeList);
   const ars = acceptTypeList.filter((q: string) => {
+    console.log(rawFile.type);
+    if (!rawFile.type) {
+      // 取不到type的时候，用name来判断
+      const type = rawFile.name.split(".")[1];
+      return type == q;
+    }
+    console.log(rawFile.type.indexOf(q), "q");
     return rawFile.type.indexOf(q) > -1;
   });
+
   // 用于校验是否符合上传条件
-  const type = props.acceptTypeDesc.replace("/", ", ");
+  const type = props.acceptTypeDesc.replaceAll("/", ",");
+
   if (ars.length < 1) {
     ElMessage.error(`仅支持格式为${type}的文件`);
+    removeFile(rawFile);
     return false;
   } else if (rawFile.size / 1024 / 1024 > props.maxFileSize) {
     ElMessage.error(`文件大小不能超过${props.maxFileSize}MB!`);
-    const arr = [...waitFileList.value];
-    waitFileList.value = arr.filter((item: any) => {
-      return item.uid != rawFile.uid;
-    });
+    // const arr = [...waitFileList.value];
+    // waitFileList.value = arr.filter((item: any) => {
+    //   return item.uid != rawFile.uid;
+    // });
+    removeFile(rawFile);
     return false;
   } else {
     handleUpload(rawFile);
@@ -133,6 +144,12 @@ const getType = (acceptType: string) => {
     case "zip":
       val = "zip";
       break;
+    case "tar":
+      val = "tar";
+      break;
+    case "rar":
+      val = "rar";
+      break;
     case "xlsx":
       val = "sheet";
       break;
@@ -145,6 +162,9 @@ const getType = (acceptType: string) => {
     case "text":
       val = "text";
       break;
+    case "txt":
+      val = "txt";
+      break;
   }
   return val;
 };
@@ -155,9 +175,7 @@ const removeFile = (file: any) => {
   waitFileList.value = arr.filter((its: any) => {
     return its.id != file.id;
   });
-
   emits("fileRemove", waitFileList.value);
-  console.log("waitFileList.value====>", waitFileList.value);
 };
 
 // 点击下载
@@ -184,7 +202,6 @@ const handleUpload = (rawFile: any) => {
   });
   uploadIdsFile({ url: requestURL, data: formData })
     .then(async (res: any) => {
-      console.log(res);
       if (res.code == 0) {
         loadingInstance.close();
         let obj = {

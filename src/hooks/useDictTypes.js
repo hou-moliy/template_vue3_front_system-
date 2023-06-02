@@ -11,7 +11,8 @@ const useDictTypes = dictTypes => {
     } else {
       getDict({ dictTypes }).then(res => {
         if (res.code === "0000") {
-          dictList.value = res.data?.roleType || [];
+          dictList.value = res.data[dictTypes] || [];
+          console.log(dictList.value, dictTypes);
           setDictTypes(dictTypes, dictList.value);
           // dictList.value = getDictTypes(dictTypes);
         }

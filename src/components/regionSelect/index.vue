@@ -9,11 +9,6 @@ import { regionData, pcaTextArr, pcTextArr, provinceAndCityData } from "element-
 // pcTextArr省市二级联动数据，纯汉字
 // pcaTextArr省市区三级联动数据，纯汉字
 // codeToText是个大对象，属性是区域码，属性值是汉字 用法例如：codeToText['110000']输出北京市
-const emits = defineEmits(["update:modelValue"]);
-const onChange = e => {
-  emits("update:modelValue", e);
-};
-
 const props = defineProps({
   modelValue: {
     type: Array,
@@ -31,8 +26,20 @@ const props = defineProps({
     validator: val => {
       return val === 2 || val === 3;
     }
+  },
+  valStr: {
+    type: String,
+    default: ""
   }
 });
+const emits = defineEmits(["update:modelValue", "getValStr"]);
+const onChange = e => {
+  emits("update:modelValue", e);
+  if (e.length) {
+    const val = e.join(",");
+    emits("getValStr", val);
+  }
+};
 
 const options = computed(() => {
   if (props.level === 2) {

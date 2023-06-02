@@ -5,12 +5,10 @@
       <el-input v-model="form.applicantName" placeholder="请输入申请人姓名" />
     </el-form-item>
     <el-form-item label="企业名称" prop="groupName">
-      <el-select v-model="form.groupName" placeholder="请选择企业名称" size="large">
-        <el-option v-for="item in Roles" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled" />
-      </el-select>
+			<el-input v-model="form.groupName" placeholder="请输入企业名称" />
     </el-form-item>
     <el-form-item label="申请时间" prop="createTime">
-      <el-date-picker v-model="form.createTime" type="datetime" placeholder="请选择申请时间" />
+      <el-date-picker v-model="form.createTime" type="date" placeholder="请选择申请时间" />
     </el-form-item>
     <el-form-item label="审批状态" prop="auditStatus">
       <model-select v-model="form.auditStatus" dictType="auditStatus" placeholder="请选择审批状态" />
@@ -23,18 +21,24 @@
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border style="width: 100%">
-    <el-table-column prop="applicantName" label="申请人姓名" />
+    <el-table-column prop="userName" label="申请人姓名" />
     <el-table-column prop="groupName" label="企业名称" />
-    <el-table-column prop="phone" label="联系方式" />
+    <el-table-column prop="phoneNumber" label="联系方式" />
     <el-table-column prop="email" label="邮箱" />
     <el-table-column prop="createTime" label="申请时间" />
     <el-table-column prop="title" label="标题" />
-    <el-table-column prop="status" label="审核状态">
+    <el-table-column prop="auditStatus" label="审核状态">
       <template #default="{ row }">
-        {{ auditStatus[row.status] }}
+				<span>{{ getDictTypeValue("auditStatus", row.auditStatus) }}</span>
       </template>
     </el-table-column>
-    <el-table-column prop="reason" label="原因" />
+		<el-table-column prop="auditFailedReason" label="审批结果">
+			<template #default="{ row }">
+				<span v-if="row.auditStatus == 2">{{ getDictTypeValue("auditStatus", row.auditStatus) }}</span>
+				<span v-else-if="row.auditStatus == 1">{{ row.auditFailedReason }}</span>
+				<span v-else class="gray">/</span>
+			</template>
+		</el-table-column>
     <el-table-column fixed="right" label="审批操作">
       <template #default="{ row }">
         <el-button type="primary" link @click="openAuditDialog(row)">审核</el-button>
@@ -51,16 +55,15 @@
 </template>
 <script setup>
 import { handleList } from "@/api/businessService";
+import DictTypesStore from "@/stores/modules/dictTypes";
+import useForm from "@/hooks/useForm";
 import auditDialog from "./components/auditDialog.vue";
 import { useRouter } from "vue-router";
+const { getDictTypeValue } = DictTypesStore();
 import { ref, onMounted, computed } from "vue";
-import useForm from "@/hooks/useForm";
+
+
 const router = useRouter();
-const auditStatus = {
-  1: "待审核",
-  2: "通过",
-  3: "不通过"
-};
 // 审核弹窗
 const auditDialogRef = ref(null);
 // 搜索表单
@@ -75,35 +78,12 @@ const initialValues = {
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // 表格栏
 let tableData = ref([]);
-// 账户类型
-const Roles = [
-  {
-    value: "1",
-    label: "企业客户"
-  },
-  {
-    value: "2",
-    label: "客户经理"
-  },
-  {
-    value: "3",
-    label: "分公司管理员"
-  },
-  {
-    value: "4",
-    label: "渠道商"
-  },
-  {
-    value: "5",
-    label: "项目经理",
-    disabled: true
-  }
-];
-const total = computed(() => tableData.value.length);
+const total = ref(0);
 const getList = () => {
-  handleList().then(res => {
-    if (res.code === 200) {
-      tableData.value = res.data.list;
+  handleList(form).then(res => {
+    if (res.code === '0000') {
+      tableData.value = res.rows;
+			total.value = res.total;
     }
   });
 };
@@ -113,7 +93,7 @@ const handleFormReset = () => {
 const handleSubitForm = () => {
   submitForm()
     .then(() => {
-      getList();
+      getList(form);
       console.log("表单提交成功");
     })
     .catch(() => {

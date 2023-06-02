@@ -13,16 +13,10 @@
       <div class="form-item-wrap">
         <el-form-item label="是否集成商" prop="channelName">
           <el-switch v-model="channel" />
-          <el-input v-model="form.channelName" placeholder="请输入集成商名称" />
+          <el-input v-show="channel" v-model="form.channelName" placeholder="请输入集成商名称" />
         </el-form-item>
         <el-form-item label="业务模式" prop="bindingType">
-          <!-- <el-select v-model="form.bindingType" placeholder="请选择业务模式">
-            <el-option label="AXB模式" value="AXB" />
-            <el-option label="AXYB模式" value="AXYB" />
-            <el-option label="AX模式" value="AX" />
-            <el-option label="GXB模式" value="GXB" />
-          </el-select> -->
-          <modelSelect v-model="form.bindingType" dictType="1" placeholder="请选择业务模式" />
+          <modelSelect v-model="form.bindingType" dictType="bindingType" placeholder="请选择业务模式" />
         </el-form-item>
       </div>
       <div class="form-item-wrap">
@@ -63,10 +57,12 @@
           <el-input v-model="form.desc" placeholder="请输入不通过原因" />
         </el-form-item>
         <el-form-item label="业务类型" prop="changeReason">
-          <el-select v-model="form.opType" placeholder="请选择业务类型">
-            <el-option label="开卡" value="AXB" />
-            <el-option label="注销" value="AXYB" />
-          </el-select>
+          <el-cascader :options="opTypes">
+            <template #default="{ node, data }">
+              <span>{{ data.label }}</span>
+              <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+            </template>
+          </el-cascader>
           <el-input v-model="form.changeReason" placeholder="请输入变更原因" />
         </el-form-item>
       </div>
@@ -96,6 +92,36 @@
 import { ref, reactive } from "vue";
 import useForm from "@/hooks/useForm";
 import useRegion from "@/hooks/useRegion.js";
+// 业务类型枚举
+const opTypes = [
+  {
+    label: "开卡",
+    value: "1"
+  },
+  {
+    label: "注销",
+    value: "2"
+  },
+  {
+    label: "变更",
+    value: "3",
+    children: [
+      {
+        label: "新增号码",
+        value: "4"
+      },
+      {
+        label: "变更付费计划",
+        value: "5"
+      },
+      {
+        label: "删除号码",
+        value: "6"
+      }
+    ]
+  }
+];
+
 defineProps({
   disabled: {
     type: Boolean,

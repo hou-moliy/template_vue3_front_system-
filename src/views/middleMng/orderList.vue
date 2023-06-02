@@ -2,16 +2,16 @@
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
     <el-form-item label="企业客户" prop="userId">
-      <model-select v-model="form.userId" dictType="userType" placeholder="请选择企业客户" />
+      <model-select v-model="form.userId" dictType="businessUser" placeholder="请选择企业客户" />
     </el-form-item>
     <el-form-item label="分公司" prop="branchId">
-      <model-select v-model="form.branchId" dictType="branchType" placeholder="请选择分公司" />
+      <model-select v-model="form.branchId" dictType="businessBranch" placeholder="请选择分公司" />
     </el-form-item>
     <el-form-item label="客户经理" prop="managerId">
-      <model-select v-model="form.managerId" dictType="managerType" placeholder="请选择客户经理" />
+      <model-select v-model="form.managerId" dictType="businessManager" placeholder="请选择客户经理" />
     </el-form-item>
     <el-form-item label="渠道商" prop="channelId">
-      <model-select v-model="form.channelId" dictType="channelType" placeholder="请选择渠道商" />
+      <model-select v-model="form.channelId" dictType="businessChannel" placeholder="请选择渠道商" />
     </el-form-item>
     <el-form-item label="省份地市" prop="provinceId">
       <regionSelect v-model="address" :level="2" />
@@ -91,7 +91,7 @@ const getList = () => {
     }
   ];
   orderList(form).then(res => {
-    if (res.code === 200) {
+    if (res.code === '0000') {
       tableData.value = res.data.list;
       total.value = res.data.total;
     }
@@ -107,7 +107,7 @@ const handleReset = () => {
 // 导出
 const handleExport = () => {
   exportOrderList(form).then(res => {
-    if (res.code === 200) {
+    if (res.code === '0000') {
       ElMessage.success("导出成功");
     }
   });

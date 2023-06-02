@@ -29,3 +29,12 @@ export const managerDelete = params => {
     baseURL
   });
 };
+// 获取客户经理详情
+export const managerDetail = params => {
+  return service({
+    url: `/manager/detail`,
+    method: "get",
+    params,
+    baseURL
+  });
+};

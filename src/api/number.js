@@ -31,11 +31,11 @@ export const remainingNum = data => {
   });
 };
 // 获取未用号码列表
-export const unusedList = data => {
+export const unusedList = params => {
   return service({
     url: "/number/unusedList",
-    method: "post",
-    data,
+    method: "get",
+    params,
     baseURL
   });
 };
@@ -61,6 +61,15 @@ export const importDetail = data => {
 export const numberList = params => {
   return service({
     url: "/number/list",
+    method: "get",
+    params,
+    baseURL
+  });
+};
+// 导出未用号码列表
+export const exportUnusedNumberList = params => {
+  return service({
+    url: "/number/exportUnusedNumberList",
     method: "get",
     params,
     baseURL

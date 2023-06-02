@@ -1,8 +1,8 @@
 <template>
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
-    <el-form-item label="任务名称" prop="taskName">
-      <el-input v-model="form.taskName" />
+    <el-form-item label="任务名称" prop="taskTitle">
+      <el-input v-model="form.taskTitle" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
@@ -11,7 +11,7 @@
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table border :data="tableData">
+  <el-table border :data="tableData" v-load="isLoading">
     <el-table-column label="任务编号" prop="id" />
     <el-table-column label="任务名称" prop="taskName" />
     <el-table-column label="创建时间" prop="createTime" />
@@ -32,42 +32,34 @@
   <task-result ref="taskResultRef" />
 </template>
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import useForm from "@/hooks/useForm";
 import addTask from "./components/addOrderTask.vue";
 import taskResult from "./components/orderResult.vue";
+import { numberList } from "@/api/number";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 // import { } from "@/api/number"
 // 表单
 const initialValues = {
-  taskName: "",
+  taskTitle: "",
+  taskType: "2",
   pageNum: 1,
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
 // 表格数据
 const tableData = ref([]);
-const total = computed(() => tableData.value.length);
+const total = ref(0);
 const getList = () => {
-  tableData.value = [
-    {
-      id: 1,
-      groupName: "企业1",
-      taskName: "任务1",
-      createTime: "2021-08-01",
-      phoneNum: 100,
-      status: "1",
-      type: "1"
-    },
-    {
-      id: 2,
-      groupName: "企业2",
-      taskName: "任务2",
-      createTime: "2021-08-02",
-      phoneNum: 200,
-      status: "0",
-      type: "2"
-    }
-  ];
+  loadingWrapper(
+    numberList(form).then(res => {
+      if (res.code == "0000") {
+        tableData.value = res.rows;
+        total.value = res.total;
+      }
+    })
+  );
 };
 // 重置
 const handleReset = () => {

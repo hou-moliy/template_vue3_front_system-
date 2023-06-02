@@ -32,6 +32,7 @@
 import useTree from "../hooks/useTree";
 import useRoleDialog from "../hooks/useRoleDialog";
 import { onMounted } from "vue";
+
 const { formRef, rules, form, dialogVisible, isEdit, title, openDialog, onSubmit, closeDialog } = useRoleDialog();
 const { treeData, treeRef, defaultChecked, defaultProps, resetChecked, getRoleTreeSelect } = useTree();
 const handleCheckChange = () => {

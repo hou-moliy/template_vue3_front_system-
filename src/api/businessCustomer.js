@@ -25,7 +25,7 @@ export const deleteInfo = params => {
 // 获取企业客户账户详情
 export const getInfo = params => {
   return service({
-    url: "/businessCustomer/detail",
+    url: "/businessUser/detail",
     method: "get",
     params,
     baseURL

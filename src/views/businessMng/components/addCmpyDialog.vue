@@ -44,7 +44,7 @@ const openDialog = () => {
 const cmpyList = ref([]);
 const getNoRelatedGroupList = () => {
   noRelatedGroupList().then(res => {
-    if(res.code === 200) {
+    if(res.code === '0000') {
       cmpyList.value = res.data;
     }
   });

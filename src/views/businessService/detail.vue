@@ -20,10 +20,10 @@
     <template v-if="form.type == 2">
       <el-form-item label="业务模式" prop="bindingType">
         <el-select v-model="form.bindingType" placeholder="请选择业务模式">
-          <el-option label="AXB模式" value="AXB" />
-          <el-option label="AXYB模式" value="AXYB" />
-          <el-option label="AX模式" value="AX" />
-          <el-option label="GXB模式" value="GXB" />
+          <el-option label="AXB模式" value="0" />
+          <el-option label="AXYB模式" value="1" />
+          <el-option label="AX模式" value="2" />
+          <el-option label="GXB模式" value="3" />
         </el-select>
       </el-form-item>
       <privacyForm ref="privacyFormRef" :disabled="!isEdit" :commonForm="form" />
@@ -38,10 +38,12 @@
 </template>
 <script setup>
 import { ref, reactive, onMounted } from "vue";
+import { AuthStore } from "@/stores/modules/auth";
 import privacyForm from "./components/privacyForm.vue";
 import interForm from "./components/interForm.vue";
 import { useRoute } from "vue-router";
 import useForm from "@/hooks/useForm";
+const {userId} = AuthStore();
 const route = useRoute();
 const privacyFormRef = ref(null);
 const interFormRef = ref(null);
@@ -50,7 +52,8 @@ const isAdd = ref(true);
 const initialValues = {
   title: "",
   type: "1",
-  bindingType: ""
+  bindingType: "",
+	userId: userId
 };
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 const rules = reactive({

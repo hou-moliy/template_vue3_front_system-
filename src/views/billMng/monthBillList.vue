@@ -1,59 +1,65 @@
 <template>
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
-    <el-form-item label="企业客户" prop="cmpy">
-      <el-select v-model="form.cmpy" placeholder="请选择企业客户">
-        <el-option label="企业客户1" value="shanghai" />
-        <el-option label="企业客户2" value="beijing" />
-      </el-select>
+    <el-form-item label="企业" prop="midGroupId">
+      <model-select v-model="form.midGroupId" dictType="businessMidgroup" placeholder="请选择企业" />
     </el-form-item>
-    <el-form-item label="分公司" prop="branchCmpy">
-      <el-select v-model="form.branchCmpy" placeholder="请选择分公司">
-        <el-option label="分公司1" value="shanghai" />
-        <el-option label="分公司2" value="beijing" />
-      </el-select>
+    <el-form-item label="企业客户" prop="userId">
+      <model-select v-model="form.userId" dictType="businessUser" placeholder="请选择企业客户" />
     </el-form-item>
-    <el-form-item label="客户经理" prop="manager">
-      <el-select v-model="form.manager" placeholder="请选择客户经理">
-        <el-option label="客户经理1" value="shanghai" />
-        <el-option label="客户经理2" value="beijing" />
-      </el-select>
+    <el-form-item label="分公司" prop="branchId">
+      <model-select v-model="form.branchId" dictType="businessBranch" placeholder="请选择分公司" />
     </el-form-item>
-    <el-form-item label="渠道商" prop="channel">
-      <el-select v-model="form.channel" placeholder="请选择渠道商">
-        <el-option label="渠道商1" value="shanghai" />
-        <el-option label="渠道商2" value="beijing" />
-      </el-select>
+    <el-form-item label="客户经理" prop="managerId">
+      <model-select v-model="form.managerId" dictType="businessManager" placeholder="请选择客户经理" />
     </el-form-item>
-    <el-form-item label="账单月份" prop="month">
-      <el-date-picker v-model="form.month" type="month" placeholder="请选择账单月份" />
+    <el-form-item label="渠道商" prop="channelId">
+      <model-select v-model="form.channelId" dictType="businessChannel" placeholder="请选择渠道商" />
+    </el-form-item>
+    <el-form-item label="账单月份" prop="statTime">
+      <el-date-picker v-model="form.statTime" type="month" value-format="YYYYMM" placeholder="请选择账单月份" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary">上传成本账单</el-button>
-      <el-button type="primary">下载成本账单</el-button>
+      <el-upload
+        class="upload-demo"
+        :action="`${baseURL}/monthlyBilling/importMonthlyBilling`"
+        :headers="headers"
+        :show-file-list="false"
+        :limit="1"
+        :on-success="handleSuccess"
+        accept=".xls,.xlsx"
+      >
+        <el-button type="primary" style="margin: 0px 15px">上传成本账单</el-button>
+      </el-upload>
+      <el-button type="primary" :disabled="!tableData.length" @click="handleExport">下载成本账单</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table border :data="tableData">
-    <el-table-column prop="branchCmpy" label="账单月份" />
-    <el-table-column prop="branchCmpy" label="分公司" />
-    <el-table-column prop="manager" label="客户经理" />
-    <el-table-column prop="channel" label="渠道商" />
-    <el-table-column prop="cmpy" label="企业客户" />
-    <el-table-column prop="cmpy" label="成本账单金额" />
-    <el-table-column prop="cmpy" label="成本账单详情">
+  <el-table border :data="tableData" v-load="isLoading">
+    <el-table-column prop="statTime" label="账单月份">
       <template #default="{ row }">
-        <el-button type="primary" link @click="openDetail('cost', row)">查看</el-button>
-        <el-button type="primary" link>下载</el-button>
+        {{ $dayjs(row.statTime).format("YYYY-MM") }}
       </template>
     </el-table-column>
-    <el-table-column prop="cmpy" label="收入账单金额" />
-    <el-table-column prop="cmpy" label="收入账单详情">
+    <el-table-column prop="branchName" label="分公司" />
+    <el-table-column prop="managerName" label="客户经理" />
+    <el-table-column prop="channelName" label="渠道商" />
+    <el-table-column prop="userName" label="企业客户" />
+    <el-table-column prop="midGroupName" label="企业" />
+    <el-table-column prop="costBillingAmount" label="成本账单金额" />
+    <el-table-column label="成本账单详情">
+      <template #default="{ row }">
+        <el-button type="primary" link @click="openDetail('cost', row)">查看</el-button>
+        <el-button type="primary" link @click="handleDown('cost', row)">下载</el-button>
+      </template>
+    </el-table-column>
+    <el-table-column prop="incomeBillingAmount" label="收入账单金额" />
+    <el-table-column label="收入账单详情">
       <template #default="{ row }">
         <el-button type="primary" link @click="openDetail('income', row)">查看</el-button>
-        <el-button type="primary" link>下载</el-button>
+        <el-button type="primary" link @click="handleDown('income', row)">下载</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -64,42 +70,58 @@
   <incomeBillDetail ref="incomeBillRef" />
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { ref, onMounted } from "vue";
+import { getToken } from "@/utils/auth";
 import useForm from "@/hooks/useForm";
 import costBillDetail from "./components/costBillDetail.vue";
 import incomeBillDetail from "./components/incomeBillDetail.vue";
+import { listMonthlyBillings, downloadMonthlyBilling, exportMonthlyBillingCost, exportMonthlyBillingIncome } from "@/api/bill";
+import { exportFile } from "@/hooks/useExport";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
+const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
+const headers = {
+  Authorization: getToken()
+};
 const costBillRef = ref(null);
 const incomeBillRef = ref(null);
 const initialValues = {
-  cmpy: "",
-  branchCmpy: "",
-  manager: "",
-  channel: "",
-  month: "",
+  midGroupId: "",
+  userId: "",
+  branchId: "",
+  managerId: "",
+  channelId: "",
+  statTime: "",
   pageNum: 1,
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
-const tableData = reactive([
-  {
-    cmpy: "美团",
-    manager: "美团经理",
-    branchCmpy: "美团分公司",
-    channel: "渠道商",
-    phone: "123",
-    times: "2",
-    createTime: "2023/5/16"
-  }
-]);
-const total = ref(tableData.length);
+const tableData = ref([]);
+const total = ref(0);
 const getList = () => {
-  console.log(form, "获取新数据");
+  loadingWrapper(
+    listMonthlyBillings(form).then(res => {
+      if (res.code == "0000") {
+        tableData.value = res.rows;
+        total.value = res.total;
+      }
+    })
+  );
 };
 // 重置
 const handleReset = () => {
   resetForm().then(() => {
     getList();
   });
+};
+// 上传回调
+const handleSuccess = res => {
+  if (res.code == "0000") {
+    ElMessage.success("上传成功");
+    getList();
+  } else {
+    ElMessage.error(res.msg);
+  }
 };
 const openDetail = (type, row) => {
   if (type === "cost") {
@@ -108,4 +130,37 @@ const openDetail = (type, row) => {
     incomeBillRef.value?.openDialog(row);
   }
 };
+// 下载成本账单
+const handleExport = () => {
+  downloadMonthlyBilling(form).then(res => {
+    if (res.data.size == 0) {
+      ElMessage.warning("暂无数据");
+      return;
+    }
+    exportFile(res.data, "xlsx", "成本账单");
+  });
+};
+// 表格-行下载
+const handleDown = (type, { midGroupId, midGroupName, statTime }) => {
+  if (type === "cost") {
+    exportMonthlyBillingCost({ midGroupId, midGroupName, statTime }).then(res => {
+      if (res.data.size == 0) {
+        ElMessage.warning("暂无数据");
+        return;
+      }
+      exportFile(res.data, "xlsx", `${midGroupName}-${statTime}成本账单详情`);
+    });
+  } else {
+    exportMonthlyBillingIncome({ midGroupId, midGroupName, statTime }).then(res => {
+      if (res.data.size == 0) {
+        ElMessage.warning("暂无数据");
+        return;
+      }
+      exportFile(res.data, "xlsx", `${midGroupName}-${statTime}收入账单详情`);
+    });
+  }
+};
+onMounted(() => {
+  getList();
+});
 </script>

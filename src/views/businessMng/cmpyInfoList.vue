@@ -1,16 +1,14 @@
 <template>
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
-    <el-form-item label="客户名称">
+    <el-form-item label="企业账户名称">
       <el-input v-model="form.groupName" placeholder="请输入客户名称" />
     </el-form-item>
     <el-form-item label="业务模式" prop="bindingType">
-      <el-select v-model="form.bindingType" placeholder="请选择业务模式" v-if="dictList.length">
-        <el-option v-for="(item, index) in dictList" :label="item.label" :value="item.value" :key="index" />
-      </el-select>
+			<model-select v-model="form.bindingType" dictType="bindingType" placeholder="请选择业务模式" />
     </el-form-item>
     <el-form-item label="创建时间" prop="createTime">
-      <el-date-picker v-model="form.createTime" type="datetime" placeholder="请选择创建时间" />
+      <el-date-picker v-model="form.createTime" type="date" placeholder="请选择创建时间" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
@@ -19,8 +17,12 @@
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border>
-    <el-table-column prop="groupName" label="客户名称" />
-    <el-table-column prop="bindingType" label="业务模式" />
+    <el-table-column prop="groupName" label="企业账户名称" />
+		<el-table-column prop="bindingType" label="业务模式" >
+			<template #default="{ row }">
+				<span>{{ getDictTypeValue("bindingType", row.bindingType) }}</span>
+			</template>
+		</el-table-column>
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column prop="operation" label="操作">
       <template #default="{ row, $index }">
@@ -47,7 +49,8 @@ import phoneDialog from "./components/phoneDialog.vue";
 import cmpyInfoDialog from "./components/cmpyInfoDialog.vue";
 import useForm from "@/hooks/useForm";
 import { handleList, deleteInfo } from "@/api/businessCustomer";
-import useDictTypes from "@/hooks/useDictTypes";
+import DictTypesStore from "@/stores/modules/dictTypes";
+const { getDictTypeValue } = DictTypesStore();
 const phoneDialogRef = ref(null);
 const cmpyInfoDialogRef = ref(null);
 // 搜索表单
@@ -59,14 +62,13 @@ const initialValues = {
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
-const { dictList, getTypeList } = useDictTypes(1);
 // 表格数据
 const tableData = ref([]);
-const total = computed(() => tableData.value.length);
+const total = ref([0]);
 const getList = () => {
-  tableData.value = [{ groupId: 1, groupName: "xxx", bindingType: "Ax", createTime: "2023-5-23" }];
   handleList(form).then(res => {
-    tableData.value = res.data;
+    tableData.value = res.rows;
+    total.value = res.total;
   });
 };
 const handleResetForm = () => {
@@ -95,6 +97,5 @@ const showCmpyInfoDialog = (data, isEdit) => {
 };
 onMounted(() => {
   getList();
-  getTypeList();
 });
 </script>

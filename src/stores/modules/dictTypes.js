@@ -6,8 +6,8 @@ const DictTypesStore = defineStore({
   state: () => ({
     auditStatus: [
       { label: "待审核", value: "0" },
-      { label: "审核通过", value: "1" },
-      { label: "审核不通过", value: "2" }
+      { label: "审核不通过", value: "1" },
+      { label: "审核通过", value: "2" }
     ], // 审核状态
     roleType: [], // 用户类型
     statusType: [
@@ -27,7 +27,8 @@ const DictTypesStore = defineStore({
         type: "danger"
       }
     ], // 账号状态
-    userType: [
+    businessMidgroup: [], //企业
+    businessUser: [
       {
         label: "企业客户1",
         value: "1"
@@ -37,7 +38,7 @@ const DictTypesStore = defineStore({
         value: "2"
       }
     ], // 企业客户
-    channelType: [
+    businessChannel: [
       {
         label: "渠道1",
         value: "1"
@@ -46,8 +47,8 @@ const DictTypesStore = defineStore({
         label: "渠道2",
         value: "2"
       }
-    ], // 渠道
-    managerType: [
+    ], // 渠道商
+    businessManager: [
       {
         label: "客户经理1",
         value: "1"
@@ -56,8 +57,8 @@ const DictTypesStore = defineStore({
         label: "客户经理2",
         value: "2"
       }
-    ], // 客户经理类型
-    branchType: [
+    ], // 客户经理类型，企业经理
+    businessBranch: [
       {
         label: "分公司1",
         value: "1"
@@ -94,7 +95,39 @@ const DictTypesStore = defineStore({
         label: "指定号码订购",
         value: "1"
       }
-    ] // 号码订购类型
+    ], // 号码订购类型
+    bindingType: [
+      {
+        label: "AXB模式",
+        value: "0"
+      },
+      {
+        label: "AXYB模式",
+        value: "1"
+      },
+      {
+        label: "AX模式",
+        value: "2"
+      },
+      {
+        label: "GXB模式",
+        value: "3"
+      }
+    ], //业务模式
+    opType: [
+      {
+        label: "指定号码退订",
+        value: "0"
+      },
+      {
+        label: "指定地市号码退订",
+        value: "1"
+      },
+      {
+        label: "指定企业客户号码退",
+        value: "2"
+      }
+    ]
   }),
   getters: {},
   actions: {

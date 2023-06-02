@@ -28,46 +28,36 @@
 <script setup>
 import { ref, computed } from "vue";
 import useForm from "@/hooks/useForm";
+import { importDetail } from "@/api/number";
 const dialogVisible = ref(false);
 // 表单
 const initialValues = {
-  id: "",
+  taskId: "",
+  opType: "",
   pageNum: 1,
   pageSize: 10
 };
 const { form } = useForm(initialValues);
 const status = ref("");
-const openDialog = ({ data, type }) => {
-  Object.assign(form, data);
+const openDialog = ({ opType, taskId, type }) => {
+  form.taskId = taskId;
+  form.opType = opType;
   status.value = type;
   dialogVisible.value = true;
   getList();
 };
 const title = computed(() => {
-  return status.value === "success" ? `${form.id}任务成功号码详情` : `${form.id}任务失败号码详情`;
+  return status.value === "success" ? `${form.taskId}任务成功号码详情` : `${form.taskId}任务失败号码详情`;
 });
 const tableData = ref([]);
-const total = computed(() => tableData.value.length);
+const total = ref(0);
 const getList = () => {
-  tableData.value = [
-    {
-      id: 1,
-      imsi: "imsi1",
-      provinceId: "省份编码1",
-      cityId: "地市编码1",
-      createTime: "2021-08-01",
-      reason: "失败原因1"
-    },
-    {
-      id: 2,
-      imsi: "imsi2",
-      provinceId: "省份编码2",
-      cityId: "地市编码2",
-      createTime: "2021-08-02",
-      reason: "失败原因2"
+  importDetail(form).then(res => {
+    if (res.code == "0000") {
+      tableData.value = res.rows;
+      total.value = res.total;
     }
-  ];
-  console.log(form);
+  });
 };
 defineExpose({
   openDialog

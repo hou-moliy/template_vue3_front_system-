@@ -6,7 +6,7 @@ export default function (form) {
   const getList = () => {
     tableData.value = [];
     callList(form).then(res => {
-      if (res.code === 200) {
+      if (res.code === '0000') {
         tableData.value = res.data;
       }
     });

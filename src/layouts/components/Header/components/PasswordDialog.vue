@@ -52,7 +52,7 @@ const closeDialog = () => {
 const handleSubmit = () => {
   submitForm().then(() => {
     resetPassword(form).then(res => {
-      if (res.code === 200) {
+      if (res.code === '0000') {
         ElMessage.success("修改成功");
         closeDialog();
       }

@@ -1,4 +1,5 @@
 <template>
+  <!-- 未使用号码资源导入列表 -->
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
     <el-form-item label="任务名称" prop="taskTitle">
@@ -12,11 +13,16 @@
   </el-form>
   <!-- 表格 -->
   <el-table border :data="tableData" v-load="isLoading">
-    <el-table-column label="任务编号" prop="id" />
+    <el-table-column label="任务编号" prop="taskId" />
     <el-table-column label="任务名称" prop="taskTitle" />
     <el-table-column label="创建时间" prop="createTime" />
-    <el-table-column label="实际导入号码量" prop="phoneNum" />
-    <el-table-column label="导入状态" prop="status" />
+    <el-table-column label="实际导入号码量" prop="realNumber" />
+    <el-table-column label="导入状态" prop="type">
+      <template #default="{ row }">
+        <el-button v-if="row.type == 0" type="success" link>已完成</el-button>
+        <el-button v-else type="warning" link>处理中</el-button>
+      </template>
+    </el-table-column>
     <el-table-column label="详情">
       <template #default="{ row }">
         <el-button type="primary" link @click="handleResult(row, 'success')">查看成功</el-button>
@@ -26,7 +32,7 @@
   </el-table>
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
   <!-- 新建任务 -->
-  <add-task ref="addTaskRef" />
+  <add-task ref="addTaskRef" @submit-success="getList" />
   <!-- 任务结果 -->
   <task-result ref="taskResultRef" />
 </template>
@@ -41,6 +47,7 @@ const { isLoading, loadingWrapper } = useLoading();
 // 表单
 const initialValues = {
   taskTitle: "",
+  taskType: 0,
   pageNum: 1,
   pageSize: 10
 };
@@ -52,8 +59,8 @@ const getList = () => {
   loadingWrapper(
     numberList(form).then(res => {
       if (res.code == "0000") {
-        tableData.value = res.data.rows;
-        total.value = res.data.total;
+        tableData.value = res.rows;
+        total.value = res.total;
       }
     })
   );
@@ -61,14 +68,15 @@ const getList = () => {
 // 重置
 const handleReset = () => {
   resetForm();
+  getList();
 };
 const addTaskRef = ref(null);
 const handleAdd = () => {
   addTaskRef.value?.openDialog();
 };
 const taskResultRef = ref(null);
-const handleResult = (data, type) => {
-  taskResultRef.value?.openDialog({ data, type });
+const handleResult = ({ opType, taskId }, type) => {
+  taskResultRef.value?.openDialog({ opType, taskId, type });
 };
 onMounted(() => {
   getList();

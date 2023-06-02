@@ -1,4 +1,5 @@
 <template>
+  <!-- 企业客户账户详情 -->
   <el-dialog v-model="dialogVisible" :title="title" width="50%" @close="closeDialog">
     <el-form :model="form" ref="formRef" label-width="120px" label-position="left" :disabled="!isEdit">
       <privacyForm :disabled="!isEdit" ref="privacyFormRef">
@@ -54,12 +55,16 @@ let { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // openDialog
 const isEdit = ref(false);
 let title = ref("");
-const openDialog = ({ data, isEdit: edit }) => {
-  form.groupId = data.groupId;
-  isEdit.value = edit;
-  dialogVisible.value = true;
-  title.value = isEdit.value ? "编辑企业信息" : "查看企业信息";
-  getInfoData();
+const openDialog = async ({ id, isEdit: edit }) => {
+  try {
+    form.userId = id;
+    isEdit.value = edit;
+    dialogVisible.value = true;
+    title.value = isEdit.value ? "编辑企业信息" : "查看企业信息";
+    await getInfoData();
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 // 关闭弹窗
@@ -79,13 +84,13 @@ const onSubmit = () => {
 };
 
 const getInfoData = async () => {
-  getInfo({ groupId: form.groupId }).then(res => {
+  getInfo({ userId: form.userId }).then(res => {
     form = res.data;
   });
 };
 const handleUpdateInfo = data => {
   updateInfo(data).then(res => {
-    if(res.code === 200) {
+    if (res.code === "0000") {
       ElMessage.success("修改成功");
       closeDialog();
     }

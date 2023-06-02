@@ -3,11 +3,11 @@
     <el-form ref="formRef" :model="form" :rules="rules">
       <el-form-item label="审核结果" prop="auditStatus">
         <el-select v-model="form.auditStatus">
-          <el-option label="通过" :value="1" />
-          <el-option label="不通过" :value="2" />
+          <el-option label="通过" :value="2" />
+          <el-option label="不通过" :value="1" />
         </el-select>
       </el-form-item>
-      <template v-if="form.auditStatus === 1">
+      <template v-if="form.auditStatus === 2">
         <el-form-item label="账单公式" prop="billId">
           <el-select v-model="form.billId" placeholder="请选择账单公式">
             <el-option label="不打折扣" :value="0" />
@@ -32,7 +32,7 @@ import useForm from "@/hooks/useForm";
 import { audit } from "@/api/businessService";
 import { ElMessage } from "element-plus";
 import { AuthStore } from "@/stores/modules/auth";
-const authStore = AuthStore();
+const { userId, userName } = AuthStore();
 const dialogVisible = ref(false);
 const loading = ref(false);
 //定义校验规则
@@ -48,8 +48,8 @@ const initialValues = {
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // openDialog
 const id = ref("");
-const openDialog = ({ id }) => {
-  id.value = id;
+const openDialog = ({ streamNumber }) => {
+  id.value = streamNumber;
   dialogVisible.value = true;
 };
 // 提交
@@ -59,8 +59,8 @@ const handleSubitForm = () => {
     const data = {
       id: id.value,
       ...form,
-      userName: authStore.userInfo.userName,
-      userId: authStore.userInfo.userId
+      userName,
+      userId
     };
     audit(data)
       .then(() => {

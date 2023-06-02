@@ -1,10 +1,8 @@
 <template>
   <el-dialog v-model="dialogVisible" title="新增直接发送企业列表" @close="handleResetForm" append-to-body>
     <el-form :model="form" ref="formRef" :rules="rules">
-      <el-form-item label="企业客户" prop="userId ">
-        <el-select v-model="form.userId" multiple placeholder="请选择企业客户">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
+      <el-form-item label="企业客户" prop="userId">
+        <model-select v-model="form.userId" dictType="businessUser" placeholder="请选择企业客户" />
       </el-form-item>
       <el-form-item>
         <el-button @click="handleResetForm">返回</el-button>
@@ -22,28 +20,6 @@ const dialogVisible = ref(false);
 const initialValues = {
   userId: []
 };
-const options = [
-  {
-    value: "Option1",
-    label: "美团"
-  },
-  {
-    value: "Option2",
-    label: "腾讯"
-  },
-  {
-    value: "Option3",
-    label: "阿里"
-  },
-  {
-    value: "Option4",
-    label: "华为"
-  },
-  {
-    value: "Option5",
-    label: "字节"
-  }
-];
 let { form, formRef, resetForm, submitForm } = useForm(initialValues);
 const rules = reactive({
   userId: [{ required: true, message: "请选择企业客户", trigger: "blur", type: "array" }]

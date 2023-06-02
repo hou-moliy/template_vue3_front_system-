@@ -28,6 +28,10 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   res => {
     const code = res.data.code;
+    // 二进制数据则直接返回
+    if (res.request.responseType === "blob" || res.request.responseType === "arraybuffer") {
+      return res;
+    }
     if (code == "401") {
       if (!isRelogin.show) {
         isRelogin.show = true;

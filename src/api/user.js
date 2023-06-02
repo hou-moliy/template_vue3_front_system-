@@ -47,7 +47,7 @@ export const register = data => {
 
 // 下发验证码
 export const getVerCode = params => {
-  console.log(params);
+  // params = encodeURIComponent(params)
   return service({
     url: "/system/user/getVerCode",
     method: "get",
@@ -68,7 +68,7 @@ export const auditUser = data => {
 // 获取用户列表
 export const userList = params => {
   return service({
-    url: "/system/user/listSysUsers",
+    url: "/system/user/list",
     method: "get",
     params,
     baseURL

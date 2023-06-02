@@ -14,7 +14,7 @@
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border>
-    <el-table-column prop="name" label="渠道商名称" />
+    <el-table-column prop="userName" label="渠道商名称" />
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column prop="operation" label="操作">
       <template #default="{ row }">
@@ -52,34 +52,12 @@ const initialValues = {
 const { form, formRef, resetForm } = useForm(initialValues);
 // 表格数据
 const tableData = ref([]);
-const total = computed(() => tableData.value.length);
+const total = ref(0);
 const getList = () => {
-  tableData.value = [
-    {
-      id: 1,
-      name: "头条",
-      groupName: "h哈哈哈",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 2,
-      name: "美团",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 3,
-      name: "饿了么",
-      createTime: "2021-08-09 12:00:00"
-    },
-    {
-      id: 4,
-      name: "百度",
-      createTime: "2021-08-09 12:00:00"
-    }
-  ];
   channelList(form).then(res => {
-    if (res.code === 200) {
-      tableData.value = res.data.list;
+    if (res.code === '0000') {
+      tableData.value = res.rows;
+      total.value = res.total;
     } else {
       ElMessage.error(res.msg);
     }
@@ -96,7 +74,7 @@ const deleteRow = ({ userId }) => {
     type: "warning"
   }).then(() => {
     deleteInfo({ userId }).then(res => {
-      if (res.code === 200) {
+      if (res.code === '0000') {
         getList();
         ElMessage.success("删除成功");
       } else {

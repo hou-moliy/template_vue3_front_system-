@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="dialogVisible" title="投诉台账详情" @close="handleResetForm">
+  <el-dialog v-model="dialogVisible" title="新增邮箱" @close="handleResetForm">
     <el-form :inline="true" :model="form" ref="formRef" :rules="rules">
       <el-form-item label="收件人" prop="recipient">
         <el-input v-model="form.recipient" placeholder="请输入收件人" />
@@ -20,6 +20,7 @@ import useForm from "@/hooks/useForm";
 import useValidator from "@/hooks/useValidator";
 import { insertMail, updateMail } from "@/api/complaint";
 import { ElMessage } from "element-plus";
+const emits = defineEmits(["refreshList"]);
 const dialogVisible = ref(false);
 const initialValues = {
   recipient: "",
@@ -48,17 +49,22 @@ const handleSubmit = () => {
     }
   });
 };
+
 const handleAdd = () => {
   insertMail(form).then(res => {
-    if (res.cdoe == "0000") {
+    if (res.code == "0000") {
+      handleResetForm();
       ElMessage.success("新增成功");
+      emits("refreshList");
     }
   });
 };
 const handleUpdate = () => {
   updateMail(form).then(res => {
-    if (res.cdoe == "0000") {
+    if (res.code == "0000") {
+      handleResetForm();
       ElMessage.success("修改成功");
+      emits("refreshList");
     }
   });
 };
