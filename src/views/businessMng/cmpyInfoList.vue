@@ -5,7 +5,7 @@
       <el-input v-model="form.groupName" placeholder="请输入客户名称" />
     </el-form-item>
     <el-form-item label="业务模式" prop="bindingType">
-			<model-select v-model="form.bindingType" dictType="bindingType" placeholder="请选择业务模式" />
+      <model-select v-model="form.bindingType" dictType="bindingType" placeholder="请选择业务模式" />
     </el-form-item>
     <el-form-item label="创建时间" prop="createTime">
       <el-date-picker v-model="form.createTime" type="date" placeholder="请选择创建时间" />
@@ -18,11 +18,11 @@
   <!-- 表格 -->
   <el-table :data="tableData" border>
     <el-table-column prop="groupName" label="企业账户名称" />
-		<el-table-column prop="bindingType" label="业务模式" >
-			<template #default="{ row }">
-				<span>{{ getDictTypeValue("bindingType", row.bindingType) }}</span>
-			</template>
-		</el-table-column>
+    <el-table-column prop="bindingType" label="业务模式">
+      <template #default="{ row }">
+        <span>{{ getDictTypeValue("bindingType", row.bindingType) }}</span>
+      </template>
+    </el-table-column>
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column prop="operation" label="操作">
       <template #default="{ row, $index }">
@@ -64,7 +64,7 @@ const initialValues = {
 const { form, formRef, resetForm } = useForm(initialValues);
 // 表格数据
 const tableData = ref([]);
-const total = ref([0]);
+const total = ref(0);
 const getList = () => {
   handleList(form).then(res => {
     tableData.value = res.rows;

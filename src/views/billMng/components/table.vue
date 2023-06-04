@@ -5,7 +5,6 @@
     <el-table-column label="万分钟/天">
       <template #default="{ row, $index }">
         <div v-if="$index === 0">
-          {{ row.opRangeEnd }}hhh
           <span>x</span>
           <span>&lt;=</span>
           <!-- 万分钟/天 存放范围值  开始 -->
@@ -28,7 +27,9 @@
         <div v-if="$index === 0">标准价格</div>
         <div v-else-if="$index === len - 1">指定价格</div>
         <!-- 折扣优惠 -->
-        <div v-else><customInput v-model="row.discount" :disabled="$attrs.disabled" />折</div>
+        <div v-else>
+          <customInput v-model="row.discount" :disabled="$attrs.disabled" />折
+        </div>
       </template>
     </el-table-column>
     <el-table-column label="录音单价">
@@ -96,7 +97,7 @@ let tableData = ref([]);
 const len = computed(() => tableData.value.length);
 
 const arraySpanMethod = ({ rowIndex, columnIndex }) => {
-  if (rowIndex === len.value - 1 && columnIndex === 3) {
+  if(rowIndex === len.value - 1 && columnIndex === 3) {
     return [1, 2];
   }
 };
@@ -115,7 +116,7 @@ const onAddItem = () => {
 };
 
 const onDeleteItem = () => {
-  if (len.value > 2) {
+  if(len.value > 2) {
     tableData.value.splice(len.value - 2, 1);
     ElMessage.success("删除成功");
   } else {
@@ -134,9 +135,13 @@ const data = computed(() => {
   // 过滤调最后一个数据
   const list = tableData.value.filter((i, index) => index != len.value - 1);
   const item = tableData.value[0];
-  return list.map(i => {
+  return list.map((i, index) => {
+    if(index == 0) {
+      i.opRangeStart = "";
+    }
     i.recordUnitPrice = item.recordUnitPrice;
     i.nonRecordUnitPrice = item.nonRecordUnitPrice;
+    delete i.bindingNotConnectedUnitPrice;
     return i;
   });
 });
@@ -148,7 +153,7 @@ const bindingNotConnectedUnitPrice = computed(() => {
 watch(
   () => props.billData,
   newVal => {
-    if (newVal.length) {
+    if(newVal.length) {
       // 非新建
       console.log("newVal", props.billData);
       tableData.value = [];

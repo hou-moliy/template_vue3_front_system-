@@ -48,7 +48,7 @@
           <el-input-number v-model="form.numberCount" placeholder="请输入号码需求量" />
         </el-form-item>
         <el-form-item label="是否录音" prop="recordMode">
-          <el-switch v-model="form.recordMode" />
+          <el-switch v-model="form.recordMode" active-value="0" inactive-value="1" />
         </el-form-item>
       </div>
       <div class="form-item-wrap">

@@ -14,7 +14,7 @@
       </el-select>
     </el-form-item>
     <el-form-item label="是否开通短信" prop="smsMode">
-      <el-switch v-model="form.smsMode" />
+      <el-switch v-model="form.smsMode" active-value="1" inactive-value="0" />
     </el-form-item>
     <el-form-item label="是否接收呼叫起始事件" prop="startCallUrl">
       <el-switch v-model="switchForm.start" @change="onSwitchChange('startCallUrl')" />
@@ -60,7 +60,7 @@ const props = defineProps({
 const initialValues = {
   groupName: "",
   recordMode: "",
-  smsMode: "",
+  smsMode: 0,
   startCallUrl: "",
   ringingUrl: "",
   connectUrl: "",
@@ -87,7 +87,7 @@ watch(
   }
 );
 const onSwitchChange = type => {
-  if (!switchForm.value[type]) {
+  if(!switchForm.value[type]) {
     form[type] = ""; // 清空对应的输入框值
   }
 };

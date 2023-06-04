@@ -39,10 +39,9 @@ const onSubmit = isAdd => {
       groupName: interForm.baseInfo.projectName,
       bindingType: interForm.baseInfo.bindingType,
       provinceId: interForm.baseInfo.provinceId,
-      cityId: interForm.baseInfo.cityId,
-      recordMode: interForm.baseInfo.recordMode === "true" ? "0" : "1"
+      cityId: interForm.baseInfo.cityId
     };
-    if (isAdd) {
+    if(isAdd) {
       handleAdd(form);
     } else {
       handleUpdate(form);

@@ -59,17 +59,42 @@ const openDialog = ({ streamNumber, type }) => {
   // 1新增，2详情，3修改，4复制
   title.value = `${titleMap[type]}账单公式`;
   billType.value = type;
-  if (type !== 1) {
+  if(type !== 1) {
     getDetail(streamNumber);
   } else {
     dialogVisible.value = true;
   }
 };
 // 获取详情
-let billData = ref([]);
+let billData = ref([
+  {
+    opRangeStart: "0",
+    opRangeEnd: "1",
+    discount: "1",
+    recordUnitPrice: "1",
+    nonRecordUnitPrice: "1",
+    bindingNotConnectedUnitPrice: "1"
+  },
+  {
+    opRangeStart: "2",
+    opRangeEnd: "2",
+    discount: "2",
+    recordUnitPrice: "2",
+    nonRecordUnitPrice: "2",
+    bindingNotConnectedUnitPrice: "2"
+  },
+  {
+    opRangeStart: "3",
+    opRangeEnd: "3",
+    discount: "3",
+    recordUnitPrice: "3",
+    nonRecordUnitPrice: "3",
+    bindingNotConnectedUnitPrice: "3"
+  }
+]);
 const getDetail = async streamNumber => {
   await getBillingFormula({ streamNumber }).then(res => {
-    if (res.code == "0000") {
+    if(res.code == "0000") {
       Object.assign(form, res.data);
       let lastData = {
         bindingNotConnectedUnitPrice: res.data.bindingNotConnectedUnitPrice,
@@ -94,13 +119,13 @@ const handleSubmit = () => {
         billingFormulaManagerDetails: customTableRef.value?.data,
         bindingNotConnectedUnitPrice: customTableRef.value?.bindingNotConnectedUnitPrice
       };
-      if (billType.value == 1) {
+      if(billType.value == 1) {
         //新增接口
         handleAdd(data);
-      } else if (billType.value == 3) {
+      } else if(billType.value == 3) {
         //修改接口
         handleUpdate(data);
-      } else if (billType.value == 4) {
+      } else if(billType.value == 4) {
         //复制接口
         handleAdd(data);
       }
@@ -111,7 +136,7 @@ const handleSubmit = () => {
 };
 const handleAdd = async data => {
   await insertBillingFormula(data).then(res => {
-    if (res.code == "0000") {
+    if(res.code == "0000") {
       ElMessage.success("账单新增成功!");
       handleResetForm();
       emits("submitSuccess");
@@ -127,7 +152,7 @@ const handleResetForm = () => {
 // 修改账单公式
 const handleUpdate = async data => {
   await updateBillingFormula(data).then(res => {
-    if (res.code == "0000") {
+    if(res.code == "0000") {
       ElMessage.success("账单修改成功!");
       handleResetForm();
       emits("submitSuccess");
