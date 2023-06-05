@@ -2,7 +2,7 @@
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
     <el-form-item label="企业客户" prop="userId">
-      <model-select v-model="form.userId" dictType="businessUser" placeholder="请选择企业客户" />
+      <!-- <model-select v-model="form.userId" dictType="businessUser" placeholder="请选择企业客户" /> -->
     </el-form-item>
     <el-form-item label="公式名称" prop="formulaName">
       <el-input v-model="form.formulaName" placeholder="请输入公式名称" />
@@ -38,7 +38,8 @@
       </template>
     </el-table-column>
   </el-table>
-  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
+    @pagination="getList" />
   <addFormula ref="addFormulaRef" @submit-success="getList" />
 </template>
 <script setup>
@@ -62,7 +63,7 @@ const total = ref(0);
 const getList = () => {
   loadingWrapper(
     listBillingFormulas(form).then(res => {
-      if (res.code == "0000") {
+      if(res.code == "0000") {
         tableData.value = res.rows;
         total.value = res.total;
       }
@@ -82,13 +83,13 @@ const handleDialog = (type, row) => {
 // 删除
 const handleDel = ({ streamNumber }) => {
   deleteBillingFormula({ streamNumber }).then(res => {
-    if (res.code == "0000") {
+    if(res.code == "0000") {
       ElMessage.success("删除成功");
       getList();
     }
   });
 };
 onMounted(() => {
-  getList();
+  // getList();
 });
 </script>
