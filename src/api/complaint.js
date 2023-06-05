@@ -59,10 +59,11 @@ export const exportComplaintLedgers = params => {
 };
 
 // 直接发送企业删除
-export const deleteEnterpriseCsMail = ({ userId }) => {
+export const deleteEnterpriseCsMail = params => {
   return service({
-    url: `​​/mailManager​/deleteEnterpriseCsMail/${userId}`,
+    url: `/mailManager/deleteEnterpriseCsMail`,
     method: "delete",
+    params,
     baseURL
   });
 };
@@ -75,10 +76,11 @@ export const deleteMail = ({ streamNumber }) => {
   });
 };
 // 直接发送企业新增
-export const insertEnterpriseCsMail = ({ userId }) => {
+export const insertEnterpriseCsMail = data => {
   return service({
-    url: `/mailManager/insertEnterpriseCsMail/${userId}`,
+    url: `/mailManager/insertEnterpriseCsMail`,
     method: "post",
+    data,
     baseURL
   });
 };

@@ -35,14 +35,19 @@
         </template>
       </el-table-column>
     </el-table>
-    <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
-      @pagination="getList" />
+    <Pagination
+      v-show="total > 0"
+      :total="total"
+      v-model:page="form.pageNum"
+      v-model:limit="form.pageSize"
+      @pagination="getList"
+    />
     <!-- 嵌套的新增企业客户dialog -->
     <addCmpyDialog ref="addCmpyRef" />
   </el-dialog>
 </template>
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import useForm from "@/hooks/useForm";
 import { groupList, deleteGroup } from "@/api/channel";
@@ -51,7 +56,7 @@ const dialogVisible = ref(false);
 const addCmpyRef = ref(null);
 // 搜索表单
 const initialValues = {
-	userId: "",
+  userId: "",
   name: "",
   businessType: "",
   createTime: "",
@@ -64,7 +69,7 @@ const tableData = ref([]);
 const total = ref(0);
 const getList = () => {
   groupList().then(res => {
-    if(res.code === '0000') {
+    if (res.code === "0000") {
       tableData.value = res.rows;
       total.value = res.total;
     }
@@ -82,7 +87,7 @@ const deleteRow = (index, { groupId }) => {
   }).then(() => {
     tableData.value.splice(index, 1);
     deleteGroup({ groupId }).then(res => {
-      if(res.code === '0000') {
+      if (res.code === "0000") {
         ElMessage.success("删除成功");
       }
     });
@@ -97,7 +102,5 @@ const openDialog = () => {
   dialogVisible.value = true;
   getList();
 };
-// 新增
-const innerVisible = ref(false);
 defineExpose({ openDialog });
 </script>

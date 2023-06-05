@@ -41,7 +41,7 @@ const onSubmit = isAdd => {
       provinceId: interForm.baseInfo.provinceId,
       cityId: interForm.baseInfo.cityId
     };
-    if(isAdd) {
+    if (isAdd) {
       handleAdd(form);
     } else {
       handleUpdate(form);

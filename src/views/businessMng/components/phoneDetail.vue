@@ -1,8 +1,8 @@
 <template>
   <!-- 搜索 -->
   <el-form ref="formRef" :model="form" :inline="true" width="80%">
-    <el-form-item label="号码" prop="phone">
-      <el-input v-model="form.phone" placeholder="请输入号码" />
+    <el-form-item label="号码" prop="phoneNumber">
+      <el-input v-model="form.phoneNumber" placeholder="请输入号码" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="getList()">搜索</el-button>
@@ -11,50 +11,44 @@
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table :data="tableData" border>
+  <el-table :data="tableData" border v-load="isLoading">
     <el-table-column prop="phone" label="号码" width="180" />
     <el-table-column prop="createTime" label="加入时间" width="180" />
   </el-table>
-  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize"
-    @pagination="getList" />
+  <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import useForm from "@/hooks/useForm";
+import { phoneDetail } from "@/api/businessCustomer";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 // 审核表单
 const initialValues = {
-  phone: "",
+  groupId: "",
+  phoneNumber: "",
   pageNum: 1,
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
 const tableData = ref([]);
-const total = computed(() => tableData.value.length);
-const getList = () => {
-  tableData.value = [
-    {
-      phone: "12345678901",
-      createTime: "2021-01-01 12:00:00"
-    },
-    {
-      phone: "12345678901",
-      createTime: "2021-01-01 12:00:00"
-    },
-    {
-      phone: "12345678901",
-      createTime: "2021-01-01 12:00:00"
-    },
-    {
-      phone: "12345678901",
-      createTime: "2021-01-01 12:00:00"
-    }
-  ];
+const total = ref(0);
+const getList = groupId => {
+  form.groupId = groupId;
+  loadingWrapper(
+    phoneDetail(form).then(res => {
+      tableData.value = res.data.list;
+      total.value = res.data.total;
+    })
+  );
 };
+
 // 重置
 const handleResetForm = () => {
-  resetForm().then(() => getList());
+  resetForm();
+  getList();
 };
 // 导出
 const exportData = () => {
@@ -63,5 +57,5 @@ const exportData = () => {
 onMounted(() => {
   getList();
 });
-defineExpose({ handleResetForm });
+defineExpose({ handleResetForm, getList });
 </script>

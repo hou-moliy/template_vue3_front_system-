@@ -2,13 +2,15 @@
   <!-- 企业客户账户详情 -->
   <el-dialog v-model="dialogVisible" :title="title" width="50%" @close="closeDialog">
     <el-form :model="form" ref="formRef" label-width="120px" label-position="left" :disabled="!isEdit">
-      <privacyForm :disabled="!isEdit" ref="privacyFormRef">
+      <privacyForm :disabled="!isEdit" ref="privacyFormRef" :commonForm="form">
         <template #center v-if="!isEdit">
-          <el-form-item label="业务类型" prop="businessType">
-            <el-input v-model="form.businessType" />
+          <el-form-item label="业务类型" prop="bindingType">
+            <template #default>
+              <span>{{ getDictTypeValue("bindingType", form.bindingType) }}</span>
+            </template>
           </el-form-item>
-          <el-form-item label="企业编号" prop="number">
-            <el-input v-model="form.number" />
+          <el-form-item label="企业编号" prop="groupId">
+            <el-input v-model="form.groupId" />
           </el-form-item>
           <el-form-item label="platformId" prop="platformId">
             <el-input v-model="form.platformId" />
@@ -17,12 +19,9 @@
             <el-input v-model="form.password" />
           </el-form-item>
         </template>
-        <template #footer v-else>
-          <el-form-item label="账单公式" prop="billId">
-            <el-select v-model="form.billId" placeholder="请选择账单公式">
-              <el-option label="账单公式1" value="minute" />
-              <el-option label="账单公式2" value="count" />
-            </el-select>
+        <template #footer v-if="isEdit">
+          <el-form-item label="账单公式" prop="formulaName">
+            <model-select v-model="form.billId" dictType="formulaType" placeholder="请选择账单公式" />
           </el-form-item>
         </template>
       </privacyForm>
@@ -41,11 +40,15 @@ import privacyForm from "@/views/businessService/components/privacyForm.vue";
 import { getInfo, updateInfo } from "@/api/businessCustomer";
 import useForm from "@/hooks/useForm";
 import { ElMessage } from "element-plus";
+import DictTypesStore from "@/stores/modules/dictTypes";
+const { getDictTypeValue } = DictTypesStore();
 const dialogVisible = ref(false);
 const privacyFormRef = ref(null);
+
+const emits = defineEmits(["submitSuccess"]);
 // 表单
 const initialValues = {
-  businessType: "",
+  bindingType: "",
   number: "",
   platformId: "",
   password: "",
@@ -57,11 +60,10 @@ const isEdit = ref(false);
 let title = ref("");
 const openDialog = async ({ id, isEdit: edit }) => {
   try {
-    form.userId = id;
+    form.id = id;
     isEdit.value = edit;
-    dialogVisible.value = true;
     title.value = isEdit.value ? "编辑企业信息" : "查看企业信息";
-    await getInfoData();
+    await getInfoData(id);
   } catch (e) {
     console.error(e);
   }
@@ -70,6 +72,7 @@ const openDialog = async ({ id, isEdit: edit }) => {
 // 关闭弹窗
 const closeDialog = () => {
   dialogVisible.value = false;
+  Object.assign(form, initialValues);
   resetForm();
   privacyFormRef?.value?.onReset();
 };
@@ -83,15 +86,20 @@ const onSubmit = () => {
   });
 };
 
-const getInfoData = async () => {
-  getInfo({ userId: form.userId }).then(res => {
-    form = res.data;
+const getInfoData = async streamNumber => {
+  await getInfo({ streamNumber }).then(res => {
+    if (res.code == "0000" && res.data) {
+      Object.assign(form, res.data);
+      dialogVisible.value = true;
+      console.log(form, "fofoooo");
+    }
   });
 };
 const handleUpdateInfo = data => {
   updateInfo(data).then(res => {
-    if (res.code === "0000") {
+    if (res.code == "0000") {
       ElMessage.success("修改成功");
+      emits("submitSuccess");
       closeDialog();
     }
   });

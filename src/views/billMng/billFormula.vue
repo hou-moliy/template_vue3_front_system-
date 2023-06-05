@@ -14,7 +14,7 @@
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table border :data="tableData">
+  <el-table border :data="tableData" v-load="isLoading">
     <el-table-column prop="formulaName" label="公式名称" />
     <el-table-column prop="midGroupList" label="关联企业">
       <template #default="{ row }">
@@ -47,6 +47,8 @@ import useForm from "@/hooks/useForm";
 import addFormula from "./components/addFormula.vue";
 import { listBillingFormulas, deleteBillingFormula } from "@/api/bill";
 import { ElMessage } from "element-plus";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 const addFormulaRef = ref(null);
 const initialValues = {
   userId: "",
@@ -58,12 +60,14 @@ const { form, formRef, resetForm } = useForm(initialValues);
 const tableData = ref([]);
 const total = ref(0);
 const getList = () => {
-  listBillingFormulas(form).then(res => {
-    if (res.code == "0000") {
-      tableData.value = res.rows;
-      total.value = res.total;
-    }
-  });
+  loadingWrapper(
+    listBillingFormulas(form).then(res => {
+      if (res.code == "0000") {
+        tableData.value = res.rows;
+        total.value = res.total;
+      }
+    })
+  );
 };
 // 重置
 const handleReset = () => {

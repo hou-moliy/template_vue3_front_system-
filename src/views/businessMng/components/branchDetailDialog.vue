@@ -35,6 +35,8 @@ import useForm from "@/hooks/useForm";
 import { ElMessage } from "element-plus";
 import { branchDetail } from "@/api/branch";
 const dialogVisible = ref(false);
+
+const emits = defineEmits(["submitSuccess"]);
 // 表单
 const initialValues = {
   userName: "",
@@ -71,6 +73,7 @@ const onSubmit = () => {
     console.log(form);
     dialogVisible.value = false;
     ElMessage.success("提交成功");
+    emits("submitSuccess");
     formRef.value.resetFields();
   });
 };

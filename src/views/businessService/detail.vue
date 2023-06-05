@@ -8,16 +8,18 @@
     style="width: 50%"
     :disabled="!isEdit"
   >
-    <el-form-item label="标题" prop="title">
-      <el-input v-model="form.title" />
-    </el-form-item>
-    <el-form-item label="接入方式" prop="type">
-      <el-radio-group v-model="form.type">
-        <el-radio label="1">接入中移互联</el-radio>
-        <el-radio label="2">接入北京融昱隐私号</el-radio>
-      </el-radio-group>
-    </el-form-item>
-    <template v-if="form.type == 2">
+    <template v-if="form.type == isAdd">
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="form.title" />
+      </el-form-item>
+      <el-form-item label="接入方式" prop="type">
+        <el-radio-group v-model="form.type">
+          <el-radio label="0">接入中移互联</el-radio>
+          <el-radio label="1">接入北京融昱隐私号</el-radio>
+        </el-radio-group>
+      </el-form-item>
+    </template>
+    <template v-if="form.type == 1">
       <el-form-item label="业务模式" prop="bindingType">
         <el-select v-model="form.bindingType" placeholder="请选择业务模式">
           <el-option label="AXB模式" value="0" />
@@ -43,7 +45,7 @@ import privacyForm from "./components/privacyForm.vue";
 import interForm from "./components/interForm.vue";
 import { useRoute } from "vue-router";
 import useForm from "@/hooks/useForm";
-const {userId} = AuthStore();
+const { userId } = AuthStore();
 const route = useRoute();
 const privacyFormRef = ref(null);
 const interFormRef = ref(null);
@@ -53,7 +55,7 @@ const initialValues = {
   title: "",
   type: "1",
   bindingType: "",
-	userId: userId
+  userId: userId
 };
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 const rules = reactive({
@@ -98,4 +100,3 @@ onMounted(() => {
   isAdd.value = route.query.isAdd === "true" ? true : false;
 });
 </script>
-<style></style>

@@ -4,7 +4,7 @@
       <el-input v-model="form.groupName" placeholder="请输入企业名称" />
     </el-form-item>
     <slot name="center"></slot>
-    <el-form-item label="归属省份地市" prop="province">
+    <el-form-item label="归属省份地市" prop="cityId">
       <regionSelect v-model="address" :level="2" />
     </el-form-item>
     <el-form-item label="录音模式" prop="recordMode">
@@ -60,6 +60,8 @@ const props = defineProps({
 const initialValues = {
   groupName: "",
   recordMode: "",
+  cityId: "",
+  provinceId: "",
   smsMode: 0,
   startCallUrl: "",
   ringingUrl: "",
@@ -84,10 +86,24 @@ watch(
     switchForm.value.connect = connectUrl !== "";
     switchForm.value.end = endCallUrl !== "";
     switchForm.value.sms = smsUrl !== "";
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+watch(
+  () => props.commonForm,
+  newVal => {
+    Object.assign(form, newVal);
+  },
+  {
+    immediate: true,
+    deep: true
   }
 );
 const onSwitchChange = type => {
-  if(!switchForm.value[type]) {
+  if (!switchForm.value[type]) {
     form[type] = ""; // 清空对应的输入框值
   }
 };

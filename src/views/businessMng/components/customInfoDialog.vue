@@ -38,6 +38,8 @@ import useForm from "@/hooks/useForm";
 import { ElMessage } from "element-plus";
 import { managerUpdate, managerDetail } from "@/api/manager";
 const dialogVisible = ref(false);
+
+const emits = defineEmits(["submitSuccess"]);
 // 表单
 const initialValues = {
   cardId: "",
@@ -76,6 +78,7 @@ const onSubmit = () => {
     managerUpdate(form).then(res => {
       if (res.code === "0000") {
         ElMessage.success("提交成功");
+        emits("submitSuccess");
         closeDialog();
       }
     });

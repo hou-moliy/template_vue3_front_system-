@@ -1,6 +1,6 @@
 <template>
-  <div class="custom-input">
-    <el-input v-model="modelValue" @change="onChange" v-bind="$attrs" />
+  <div class="custom-input" :style="{ width }">
+    <el-input v-model="modelValue" @change="onChange" @blur="onBlur" v-bind="$attrs" />
   </div>
 </template>
 
@@ -9,11 +9,18 @@ defineProps({
   modelValue: {
     type: [String, Number],
     default: ""
+  },
+  width: {
+    type: String,
+    default: "100%"
   }
 });
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue", "onBlur"]);
 const onChange = e => {
   emits("update:modelValue", e);
+};
+const onBlur = e => {
+  emits("onBlur", e.target.value);
 };
 </script>
 

@@ -8,17 +8,22 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getList">搜索</el-button>
-        <el-button @click="resetForm">重置</el-button>
+        <el-button @click="handleReset">重置</el-button>
         <el-button type="primary" @click="handleAddCmpyList">新增</el-button>
       </el-form-item>
     </el-form>
     <!-- 表格 -->
     <el-table border :data="tableData" v-load="isLoading">
-      <el-table-column prop="cmpy" label="企业名称" />
-      <el-table-column prop="createTime" label="加入时间" />
+      <el-table-column prop="userName" label="企业名称" />
+      <el-table-column prop="email" label="邮箱" />
+      <el-table-column prop="emailIsSendTime" label="加入时间">
+        <template #default="{ row }">
+          {{ $dayjs(row.emailIsSendTime).format("YYYY-MM-DD HH:mm:ss") }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template #default="{ row }">
-          <el-button type="danger" @click="handleDel(row)">删除</el-button>
+          <el-button type="danger" link @click="handleDel(row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -30,7 +35,7 @@
       @pagination="getList"
     />
     <!-- 新增直 -->
-    <addCmpyList ref="addCmpyListRef" />
+    <addCmpyList ref="addCmpyListRef" @submit-success="getList" />
   </el-dialog>
 </template>
 <script setup>
@@ -81,6 +86,10 @@ const handleDel = ({ userId }) => {
 };
 const handleAddCmpyList = () => {
   addCmpyListRef.value?.openDialog();
+};
+const handleReset = () => {
+  resetForm();
+  getList();
 };
 defineExpose({ openDialog });
 </script>

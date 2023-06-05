@@ -33,8 +33,9 @@
 import { ref } from "vue";
 import useForm from "@/hooks/useForm";
 import { ElMessage } from "element-plus";
-import { updateGroup } from "@/api/channel";
+import { updateGroup, channelDetail } from "@/api/channel";
 const dialogVisible = ref(false);
+const emits = defineEmits(["submitSuccess"]);
 // 表单
 const initialValues = {
   groupName: "",
@@ -49,11 +50,15 @@ let { form, formRef, resetForm, submitForm } = useForm(initialValues);
 // openDialog
 const isEdit = ref(false);
 let title = ref("");
-const openDialog = ({ data, isEdit: edit }) => {
-  isEdit.value = edit;
-  dialogVisible.value = true;
-  Object.assign(form, data);
-  title.value = isEdit.value ? "修改渠道商属性" : "渠道商详情";
+const openDialog = async ({ id, isEdit: edit }) => {
+  try {
+    form.userId = id;
+    isEdit.value = edit;
+    title.value = isEdit.value ? "修改渠道商属性" : "渠道商详情";
+    await getInfoData(id);
+  } catch (e) {
+    console.error(e);
+  }
 };
 // 提交表单
 const onSubmit = () => {
@@ -61,8 +66,18 @@ const onSubmit = () => {
     updateGroup(form).then(res => {
       if (res.code === "0000") {
         ElMessage.success("提交成功");
+        emits("submitSuccess");
+        closeDialog();
       }
     });
+  });
+};
+const getInfoData = async channelId => {
+  await channelDetail({ channelId }).then(res => {
+    if (res.code == "0000" && res.data) {
+      Object.assign(form, res.data);
+      dialogVisible.value = true;
+    }
   });
 };
 // 关闭弹窗

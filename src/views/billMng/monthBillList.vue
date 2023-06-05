@@ -27,7 +27,6 @@
         :action="`${baseURL}/monthlyBilling/importMonthlyBilling`"
         :headers="headers"
         :show-file-list="false"
-        :limit="1"
         :on-success="handleSuccess"
         accept=".xls,.xlsx"
       >

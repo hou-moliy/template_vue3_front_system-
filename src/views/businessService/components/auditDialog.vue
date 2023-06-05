@@ -9,10 +9,7 @@
       </el-form-item>
       <template v-if="form.auditStatus === 2">
         <el-form-item label="账单公式" prop="billId">
-          <el-select v-model="form.billId" placeholder="请选择账单公式">
-            <el-option label="不打折扣" :value="0" />
-            <el-option label="统一9折" :value="9" />
-          </el-select>
+					<model-select v-model="form.formula" dictType="formulaType" placeholder="请选择账单公式" />
         </el-form-item>
       </template>
       <el-form-item v-else label="审批不通过原因" prop="auditFailedReason">

@@ -28,46 +28,10 @@ const DictTypesStore = defineStore({
       }
     ], // 账号状态
     businessMidgroup: [], //企业
-    businessUser: [
-      {
-        label: "企业客户1",
-        value: "1"
-      },
-      {
-        label: "企业客户2",
-        value: "2"
-      }
-    ], // 企业客户
-    businessChannel: [
-      {
-        label: "渠道1",
-        value: "1"
-      },
-      {
-        label: "渠道2",
-        value: "2"
-      }
-    ], // 渠道商
-    businessManager: [
-      {
-        label: "客户经理1",
-        value: "1"
-      },
-      {
-        label: "客户经理2",
-        value: "2"
-      }
-    ], // 客户经理类型，企业经理
-    businessBranch: [
-      {
-        label: "分公司1",
-        value: "1"
-      },
-      {
-        label: "分公司2",
-        value: "2"
-      }
-    ], // 分公司类型
+    businessUser: [], // 企业客户
+    businessChannel: [], // 渠道商
+    businessManager: [], // 客户经理类型，企业经理
+    businessBranch: [], // 分公司类型
     billingType: [
       {
         label: "月租费+按分钟计费",

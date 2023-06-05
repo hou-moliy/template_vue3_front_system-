@@ -13,23 +13,19 @@ const useBusiness = (initialValues, commonForm) => {
   const { removeTabs } = TabsStore();
   const { removeKeepLiveName } = KeepAliveStore();
   const { form, formRef, resetForm, submitForm } = useForm(initialValues);
+  Object.assign(form, commonForm);
   const onSubmit = isAdd => {
-    console.log({ ...commonForm, ...form }, "提交");
-
     submitForm().then(() => {
-      Object.assign(form, commonForm);
       if (isAdd) {
         handleAdd();
       } else {
         handleUpdate();
       }
-      console.log({ ...commonForm, ...form }, "值");
     });
   };
 
   const handleAdd = data => {
     Object.assign(form, data);
-    console.log("新增", form);
     add(form).then(res => {
       if (res.code == "0000") {
         ElMessage.success("新增成功");
@@ -44,7 +40,6 @@ const useBusiness = (initialValues, commonForm) => {
 
   const handleUpdate = data => {
     Object.assign(form, data);
-    console.log("修改", form);
     update(form).then(res => {
       if (res.code === "0000") {
         ElMessage.success("修改成功");

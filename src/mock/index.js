@@ -7,7 +7,7 @@ import BusinessCustomer from "@/assets/json/customerList.json";
 import DictData from "@/assets/json/dict.json";
 const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
-Mock.mock(`/mock${baseURL}/system/getRouters`, () => {
+Mock.mock(`/mock${baseURL}/system/menu/list`, () => {
   {
     return Mock.mock(DynamicRouter);
   }

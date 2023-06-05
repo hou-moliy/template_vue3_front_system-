@@ -226,7 +226,7 @@ const getCode = () => {
   sendLoading.value = true;
   getVerCode({ emailUrl: form.email })
     .then(res => {
-      if (res.code === 200) {
+      if (res.code === '0000') {
         ElMessage.success("下发成功，请注意查收!");
       }
       sendLoading.value = false;

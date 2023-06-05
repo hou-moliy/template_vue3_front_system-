@@ -58,7 +58,7 @@ const openDialog = ({ data, isEdit: edit }) => {
   }
   isEdit.value = edit;
   dialogVisible.value = true;
-  title.value = isEdit.value ? "新增项目经理账号" : "修改账号信息";
+  title.value = isEdit.value ? "修改账号信息" : "新增项目经理账号";
 };
 
 // 提交表单

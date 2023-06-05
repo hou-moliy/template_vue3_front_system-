@@ -21,6 +21,7 @@ import useForm from "@/hooks/useForm";
 import { ElMessage } from "element-plus";
 import { noRelatedGroupList } from "@/api/channel";
 const dialogVisible = ref(false);
+const emits = defineEmits(["submitSuccess"]);
 // 表单
 const initialValues = {
   groupIds: []
@@ -44,7 +45,7 @@ const openDialog = () => {
 const cmpyList = ref([]);
 const getNoRelatedGroupList = () => {
   noRelatedGroupList().then(res => {
-    if(res.code === '0000') {
+    if (res.code == "0000") {
       cmpyList.value = res.data;
     }
   });
@@ -54,6 +55,7 @@ const getNoRelatedGroupList = () => {
 const onSubmit = () => {
   submitForm().then(() => {
     ElMessage.success("提交成功");
+    emits("submitSuccess");
     closeDialog();
   });
 };

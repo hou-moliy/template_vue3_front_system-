@@ -25,7 +25,7 @@ export const deleteInfo = params => {
 // 获取企业客户账户详情
 export const getInfo = params => {
   return service({
-    url: "/businessUser/detail",
+    url: "/businessCustomer/detail",
     method: "get",
     params,
     baseURL
@@ -38,6 +38,24 @@ export const updateInfo = data => {
     url: "/businessCustomer/update",
     method: "post",
     data,
+    baseURL
+  });
+};
+// 获取企业客户账户号码列表
+export const phoneList = params => {
+  return service({
+    url: "/businessCustomer/phoneList",
+    method: "get",
+    params,
+    baseURL
+  });
+};
+// 获取企业客户账户号码详情
+export const phoneDetail = params => {
+  return service({
+    url: "/businessCustomer/phoneDetail",
+    method: "get",
+    params,
     baseURL
   });
 };

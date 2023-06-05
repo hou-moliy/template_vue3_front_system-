@@ -68,7 +68,7 @@ export const auditUser = data => {
 // 获取用户列表
 export const userList = params => {
   return service({
-    url: "/system/user/list",
+    url: "/system/user/listSysUsers",
     method: "get",
     params,
     baseURL
