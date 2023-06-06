@@ -5,8 +5,8 @@ export const routerList = () => {
   return service({
     url: "/system/getRouters",
     method: "get",
-    // baseURL
-    baseURL: `/mock${baseURL}`
+    baseURL
+    // baseURL: `/mock${baseURL}`
   });
 };
 // 查询菜单列表树状结构

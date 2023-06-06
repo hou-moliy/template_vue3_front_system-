@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { ElNotification } from "element-plus";
 import { TabsStore } from "@/stores/modules/tabs";
 import { HOME_URL, APP_NAME } from "@/config/config";
@@ -38,7 +38,9 @@ import { Encrypt, Decrypt } from "@/utils/secret";
 const router = useRouter();
 const tabsStore = TabsStore();
 const emit = defineEmits(["changeForm"]);
-
+const route = useRoute();
+// 获取路由上的redirect
+const redirect = route.query.redirect || HOME_URL;
 // 定义 formRef（校验规则）
 const loginFormRef = ref();
 const loginRules = reactive({
@@ -59,7 +61,7 @@ const loginClick = formEl => {
       const { token } = await login(loginForm);
       setToken(token);
       tabsStore.closeMultipleTab();
-      router.push(HOME_URL);
+      router.push({ path: redirect });
       ElNotification.success(`欢迎使用${APP_NAME}`);
     } finally {
       loading.value = false;

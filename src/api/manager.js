@@ -12,11 +12,11 @@ export const managerList = params => {
   });
 };
 // 修改客户经理信息
-export const managerUpdate = params => {
+export const managerUpdate = data => {
   return service({
     url: `/manager/update`,
     method: "post",
-    params,
+    data,
     baseURL
   });
 };

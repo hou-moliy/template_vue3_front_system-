@@ -20,8 +20,8 @@
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column prop="operation" label="操作">
       <template #default="{ row }">
-        <el-button type="primary" link @click="showChannelDetailDialog(row.managerId, false)">详情</el-button>
-        <el-button type="primary" link @click="showChannelDetailDialog(row.managerId, true)">编辑</el-button>
+        <el-button type="primary" link @click="showManagerDetailDialog(row.userId, false)">详情</el-button>
+        <el-button type="primary" link @click="showManagerDetailDialog(row.userId, true)">编辑</el-button>
         <el-button type="danger" link @click="deleteRow(row)">删除</el-button>
         <el-button type="primary" link @click="showCmpyListDialog(row)">查看客户列表</el-button>
         <el-button type="primary" link>下载附件</el-button>
@@ -32,12 +32,12 @@
   <!-- 企业客户列表 -->
   <cmpyListDialog ref="cmpyListDialogRef" />
   <!-- 编辑、详情 -->
-  <channelDetail ref="channelDetailRef" @submitSuccess="getList" />
+  <customInfoDialog ref="customInfoDialogRef" @submitSuccess="getList" />
 </template>
 <script setup>
 import { onMounted, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import channelDetail from "./components/channelDetail.vue";
+import customInfoDialog from "./components/customInfoDialog.vue";
 import cmpyListDialog from "./components/cmpyListDialog.vue";
 import useForm from "@/hooks/useForm";
 import { managerList, managerDelete } from "@/api/manager";
@@ -87,9 +87,9 @@ const showCmpyListDialog = row => {
   cmpyListDialogRef?.value?.openDialog(row);
 };
 // 编辑、详情
-const channelDetailRef = ref(null);
-const showChannelDetailDialog = (id, isEdit) => {
-  channelDetailRef?.value?.openDialog({ id, isEdit });
+const customInfoDialogRef = ref(null);
+const showManagerDetailDialog = (id, isEdit) => {
+	customInfoDialogRef?.value?.openDialog({ id, isEdit });
 };
 onMounted(() => {
   getList();

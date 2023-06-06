@@ -15,7 +15,7 @@
       <el-table-column prop="displayCallingNumber" label="显示主叫号码" />
       <el-table-column prop="userName" label="企业客户">
         <template #default="{ row }">
-          <el-button type="primary" link @click="handleNav(row.userId, cmpyInfoRef)">{{ row.userName }}</el-button>
+          <el-button type="primary" link @click="handleNav(row.userId, userDetailRef)">{{ row.userName }}</el-button>
         </template>
       </el-table-column>
       <el-table-column prop="branchName" label="归属分公司">
@@ -38,7 +38,7 @@
         <template #default="{ row }">
           <el-popover placement="top-start" trigger="hover" :content="row.complaintContent">
             <template #reference>
-              <el-button type="primary" text>查看</el-button>
+              <el-button type="primary" link>查看</el-button>
             </template>
           </el-popover>
         </template>
@@ -59,7 +59,7 @@
     />
 
     <!-- 企业客户详情 -->
-    <cmpyInfoDialog ref="cmpyInfoRef" />
+    <userDetail ref="userDetailRef" />
     <!-- 分公司账户详情 -->
     <branchDetailDialog append-to-body ref="branchDetailRef" />
     <!-- 客户经理详情 -->
@@ -68,14 +68,14 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import cmpyInfoDialog from "@/views/businessMng/components/cmpyInfoDialog.vue";
+import userDetail from "./userDetail.vue";
 import branchDetailDialog from "@/views/businessMng/components/branchDetailDialog.vue";
 import customInfoDialog from "@/views/businessMng/components/customInfoDialog.vue";
 import { listComplaints } from "@/api/complaint";
 
 import { useLoading } from "@/hooks/useLoading";
 const { isLoading, loadingWrapper } = useLoading();
-const cmpyInfoRef = ref(null);
+const userDetailRef = ref(null);
 const branchDetailRef = ref(null);
 const customInfoRef = ref(null);
 const dialogVisible = ref(false);
@@ -108,9 +108,8 @@ const getDetail = params => {
     })
   );
 };
-const handleNav = (row, formRefEl) => {
-  console.log(row);
-  formRefEl?.openDialog({ data: row, isEdit: false });
+const handleNav = (id, formRefEl) => {
+  formRefEl?.openDialog({ id, isEdit: false });
 };
 
 defineExpose({ openDialog });

@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { phoneList } from "@/api/businessCustomer";
 import phoneDetail from "./phoneDetail.vue";
 import regionSelect from "@/components/regionSelect/index.vue";
@@ -50,6 +50,7 @@ const phoneDetailRef = ref(false);
 const initialValues = {
   provinceId: "",
   cityId: "",
+  groupId: "",
   pageNum: 1,
   pageSize: 10
 };
@@ -57,15 +58,16 @@ const { form, formRef, resetForm } = useForm(initialValues);
 // 地址
 const { address, setAddress } = useRegion(formRef, form);
 // openDialog
-const openDialog = data => {
-  console.log(data);
+const openDialog = ({ groupId }) => {
   dialogVisible.value = true;
+  form.groupId = groupId;
+  getList(form);
 };
 // 表格数据
 const tableData = ref([]);
 const total = ref(0);
-const getList = () => {
-  loadingWrapper(
+const getList = async () => {
+  await loadingWrapper(
     phoneList(form).then(res => {
       if (res.code == "0000") {
         tableData.value = res.rows;
@@ -89,8 +91,5 @@ const handleDetail = ({ groupId }) => {
   innerVisible.value = true;
   phoneDetailRef.value?.getList(groupId);
 };
-onMounted(() => {
-  getList();
-});
 defineExpose({ openDialog });
 </script>

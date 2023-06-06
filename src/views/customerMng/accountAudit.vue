@@ -74,7 +74,7 @@
 import auditDialog from "./components/auditDialog.vue";
 import { ref, onMounted } from "vue";
 import useForm from "@/hooks/useForm";
-import { userList, auditUser } from "@/api/user";
+import { auditUserList, auditUser } from "@/api/user";
 import DictTypesStore from "@/stores/modules/dictTypes";
 import { useLoading } from "@/hooks/useLoading";
 import { ElMessageBox, ElMessage } from "element-plus";
@@ -102,7 +102,7 @@ let tableData = ref([]);
 const total = ref(0);
 const getList = () => {
   loadingWrapper(
-    userList(form).then(res => {
+		auditUserList(form).then(res => {
       if (res.code === '0000') {
         tableData.value = res.rows;
         total.value = res.total;

@@ -23,7 +23,7 @@ import errorHandler from "@/utils/errorHandler";
 //  自定义指令
 import directives from "@/directives/index";
 import "@/permission";
-import "./mock/index";
+// import "./mock/index";
 import Pagination from "@/components/Pagination/index.vue";
 // 全局配置
 dayjs.locale("zh-cn"); // 设置语言为中文（可选）

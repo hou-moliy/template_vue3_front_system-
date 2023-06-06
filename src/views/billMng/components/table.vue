@@ -7,30 +7,51 @@
         <div v-if="$index === 0" class="flx-center">
           <span>x</span> <span>&lt;=</span>
           <!-- 万分钟/天 存放范围值 x<=  -->
-          <customInput v-model="row.opRangeEnd" :disabled="$attrs.disabled" width="70px" type="number" min="0"
-            @onBlur="handleBlur($event, $index)" />
-          <!--  @onBlur="handleBlurEnd($event, $index)" -->
+          <customInput
+            v-model="row.opRangeEnd"
+            :disabled="$attrs.disabled"
+            width="70px"
+            type="number"
+            min="1"
+            @on-blur="handleBlur($event, $index)"
+          />
         </div>
         <!--万分钟/天 存放范围值 x>=  -->
         <div v-else-if="$index === len - 2" class="flx-center">
-          <customInput v-model="row.opRangeStart" :disabled="$attrs.disabled" width="70px" type="number" min="0"
-            @onBlur="handleBlur($event, $index)" />
-          <!--  @onBlur="handleBlurStart($event, $index)" -->
+          <customInput
+            v-model="row.opRangeStart"
+            :disabled="$attrs.disabled"
+            width="70px"
+            type="number"
+            min="1"
+            @on-blur="handleBlur($event, $index)"
+          />
           <span>&lt;</span>
           <span>x</span>
         </div>
         <div v-else-if="$index === len - 1" class="flx-center">有绑定未接通</div>
         <div v-else class="flx-center">
           <!-- 万分钟/天 存放范围值  开始 -->
-          <customInput v-model="row.opRangeStart" :disabled="true" width="70px" type="number" min="0"
-            @onBlur="handleBlur($event, $index)" />
-          <!-- @onBlur="handleBlurStart($event, $index)" -->
+          <customInput
+            v-model="row.opRangeStart"
+            :disabled="true"
+            width="70px"
+            type="number"
+            min="1"
+            @on-blur="handleBlur($event, $index)"
+          />
           <span>&lt;</span>
           <span>x</span>
           <span>&lt;=</span>
           <!-- 万分钟/天 存放范围值 结束 -->
-          <customInput v-model="row.opRangeEnd" :disabled="$attrs.disabled" width="70px" type="number" min="0"
-            @onBlur="handleBlur($event, $index)" />
+          <customInput
+            v-model="row.opRangeEnd"
+            :disabled="$attrs.disabled"
+            width="70px"
+            type="number"
+            min="1"
+            @on-blur="handleBlur($event, $index)"
+          />
         </div>
       </template>
     </el-table-column>
@@ -40,29 +61,53 @@
         <div v-else-if="$index === len - 1" class="flx-center">指定价格</div>
         <!-- 折扣优惠 -->
         <div v-else class="flx-center">
-          <customInput v-model="row.discount" :disabled="$attrs.disabled" width="70px" type="number" min="0"
-            @onBlur="handleBlur($event, $index)" />折
+          <customInput
+            v-model="row.discount"
+            :disabled="$attrs.disabled"
+            width="70px"
+            type="number"
+            min="1"
+            @on-blur="handleBlur($event, $index)"
+          />折
         </div>
       </template>
     </el-table-column>
     <el-table-column label="录音单价">
       <template #default="{ row, $index }">
         <div v-if="$index === 0" class="flx-center">
-          <customInput v-model="row.recordUnitPrice" :disabled="$attrs.disabled" width="70px" type="number" min="0"
-            @onBlur="handleBlur($event, $index)" />
+          <customInput
+            v-model="row.recordUnitPrice"
+            :disabled="$attrs.disabled"
+            width="70px"
+            type="number"
+            min="1"
+            @on-blur="handleBlur($event, $index)"
+          />
         </div>
         <!-- 绑定未接通单价 -->
         <div v-else-if="$index === len - 1" class="flx-center">
-          <customInput v-model="row.bindingNotConnectedUnitPrice" :disabled="$attrs.disabled" width="70px" type="number"
-            min="0" @onBlur="handleBlur($event, $index)" />
+          <customInput
+            v-model="row.bindingNotConnectedUnitPrice"
+            :disabled="$attrs.disabled"
+            width="70px"
+            type="number"
+            min="1"
+            @on-blur="handleBlur($event, $index)"
+          />
         </div>
       </template>
     </el-table-column>
     <el-table-column label="非录音单价">
       <template #default="{ row, $index }">
         <div v-if="$index === 0" class="flx-center">
-          <customInput v-model="row.nonRecordUnitPrice" :disabled="$attrs.disabled" width="70px" type="number" min="0"
-            @onBlur="handleBlur($event, $index)" />
+          <customInput
+            v-model="row.nonRecordUnitPrice"
+            :disabled="$attrs.disabled"
+            width="70px"
+            type="number"
+            min="1"
+            @on-blur="handleBlur($event, $index)"
+          />
         </div>
       </template>
     </el-table-column>
@@ -113,7 +158,7 @@ let tableData = ref([]);
 const len = computed(() => tableData.value.length);
 
 const arraySpanMethod = ({ rowIndex, columnIndex }) => {
-  if(rowIndex === len.value - 1 && columnIndex === 3) {
+  if (rowIndex === len.value - 1 && columnIndex === 3) {
     return [1, 2];
   }
 };
@@ -122,7 +167,7 @@ const checkContinuous = () => {
   const ars = tableData.value.filter(
     ({ opRangeStart, opRangeEnd }, index) => index > 0 && index < len.value - 2 && Number(opRangeStart) - Number(opRangeEnd) >= 0
   );
-  if(ars.length) {
+  if (ars.length) {
     ElMessage.error("请检查范围值的连续性！");
     return false;
   }
@@ -130,7 +175,7 @@ const checkContinuous = () => {
 };
 
 const onAddItem = () => {
-  if(checkContinuous()) {
+  if (checkContinuous()) {
     const index = len.value - 1;
     const beforeData = tableData.value[index - 1];
     let item = {
@@ -146,7 +191,7 @@ const onAddItem = () => {
 };
 
 const onDeleteItem = () => {
-  if(len.value > 3) {
+  if (len.value > 3) {
     tableData.value.splice(len.value - 3, 1);
     ElMessage.success("删除成功");
   } else {
@@ -166,7 +211,7 @@ const data = computed(() => {
   const list = tableData.value.filter((i, index) => index != len.value - 1);
   const item = tableData.value[0];
   return list.map((i, index) => {
-    if(index == 0) {
+    if (index == 0) {
       i.opRangeStart = "";
     }
     i.recordUnitPrice = item.recordUnitPrice;
@@ -184,42 +229,56 @@ const bindingNotConnectedUnitPrice = computed(() => {
 const handleBlurStart = index => {
   let beforeData = tableData.value[index - 1];
   let currentData = tableData.value[index];
-  if(beforeData.opRangeEnd) {
+  if (beforeData.opRangeEnd) {
     currentData.opRangeStart = beforeData.opRangeEnd;
     tableData.value.splice(index, 1, currentData);
   }
 };
-const handleBlurEnd = index => {
-  let beforeData = tableData.value[index - 1];
-  let currentData = tableData.value[index];
-  if(!currentData.opRangeEnd) {
-    currentData.opRangeEnd = Number(beforeData.opRangeEnd) + 1;
-    tableData.value.splice(index, 1, currentData);
-  }
-};
+
 const handleBlur = (e, index) => {
   let currentData = tableData.value[index];
   console.log(currentData, index);
   const { opRangeStart, opRangeEnd } = currentData;
-  console.log(opRangeStart, opRangeEnd, index);
-
-  if(opRangeStart && opRangeEnd) {
-    if(Number(opRangeStart) - Number(opRangeEnd) >= 0) {
+  if (opRangeStart && opRangeEnd) {
+    if (Number(opRangeStart) - Number(opRangeEnd) >= 0) {
       ElMessage.error("开始值大于等于结束值,请重新填写！");
     }
   }
 };
+// 检查是否都填写完成
+const checkAll = () => {
+  const ars = data.value.filter(({ opRangeStart, opRangeEnd, discount, recordUnitPrice, nonRecordUnitPrice }, index) => {
+    if (index == 0) {
+      //检查第一行
+      return !opRangeEnd || !recordUnitPrice || !nonRecordUnitPrice;
+    } else if (index == len.value - 1) {
+      //检查最后一行
+      return !opRangeStart || !discount || !recordUnitPrice || !nonRecordUnitPrice;
+    }
+    return !opRangeStart || !discount || !recordUnitPrice || !nonRecordUnitPrice;
+  });
+  console.log(ars, "ars");
+  if (ars.length) {
+    ElMessage.error("请检查自定义表格是否都填写完成！");
+    return false;
+  } else if (bindingNotConnectedUnitPrice.value == "") {
+    ElMessage.error("请填写有绑定未接通单价！");
+    return false;
+  } else if (!checkContinuous()) {
+    return false;
+  }
+  return true;
+};
 watch(
   () => props.billData,
   newVal => {
-    if(newVal.length) {
+    if (newVal.length) {
       // 非新建
       tableData.value = [];
       tableData.value = newVal;
     } else {
       // 新建
       tableData.value = JSON.parse(JSON.stringify(initData)); // 深拷贝
-      console.log(tableData.value, "新建");
     }
   },
   {
@@ -237,9 +296,8 @@ watch(
       // 1.开始时间必须等于上一条的结束时间
       // 2.结束时间必须等于下一条的开始时间
       const lastIndex = index - 1;
-      if(lastIndex >= 0) {
+      if (lastIndex >= 0) {
         handleBlurStart(index);
-        // handleBlurEnd(index);
       }
       return i;
     });
@@ -250,13 +308,11 @@ watch(
     deep: true
   }
 );
-defineExpose({ tableData, onResetTable, bindingNotConnectedUnitPrice, data });
+defineExpose({ tableData, onResetTable, bindingNotConnectedUnitPrice, data, checkAll });
 </script>
 <style lang="scss" scoped>
 .btn-wrap {
   margin-top: 15px;
   width: 100%;
 }
-
-.input-warp {}
 </style>

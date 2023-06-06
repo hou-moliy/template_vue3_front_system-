@@ -1,5 +1,5 @@
 <template>
-  <el-cascader placeholder="请选择地区" :options="options" :modelValue="modelValue" @change="onChange" />
+  <el-cascader placeholder="请选择地区" :options="options" :model-value="modelValue" @change="onChange" clearable> </el-cascader>
 </template>
 <script setup>
 import { computed } from "vue";
@@ -40,7 +40,6 @@ const onChange = e => {
     emits("getValStr", val);
   }
 };
-
 const options = computed(() => {
   if (props.level === 2) {
     return props.showCode ? provinceAndCityData : pcTextArr;

@@ -12,7 +12,7 @@ export const handleList = params => {
   });
 };
 
-// 删除企业客户账户信息
+// 删除企业信息
 export const deleteInfo = params => {
   return service({
     url: "/businessCustomer/delete",
@@ -22,7 +22,7 @@ export const deleteInfo = params => {
   });
 };
 
-// 获取企业客户账户详情
+// 获取企业详情
 export const getInfo = params => {
   return service({
     url: "/businessCustomer/detail",
@@ -32,7 +32,7 @@ export const getInfo = params => {
   });
 };
 
-// 修改企业客户账户信息
+// 修改企业信息
 export const updateInfo = data => {
   return service({
     url: "/businessCustomer/update",
@@ -41,7 +41,7 @@ export const updateInfo = data => {
     baseURL
   });
 };
-// 获取企业客户账户号码列表
+// 获取企业号码列表
 export const phoneList = params => {
   return service({
     url: "/businessCustomer/phoneList",
@@ -50,10 +50,19 @@ export const phoneList = params => {
     baseURL
   });
 };
-// 获取企业客户账户号码详情
+// 获取企业号码详情
 export const phoneDetail = params => {
   return service({
     url: "/businessCustomer/phoneDetail",
+    method: "get",
+    params,
+    baseURL
+  });
+};
+// 获取企业客户详情
+export const businessUserDetail = params => {
+  return service({
+    url: "/businessUser/detail",
     method: "get",
     params,
     baseURL

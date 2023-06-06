@@ -14,12 +14,12 @@
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border v-load="isLoading">
-    <el-table-column prop="name" label="分公司名称" />
+    <el-table-column prop="userName" label="分公司名称" />
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column prop="operation" label="操作">
       <template #default="{ row }">
-        <el-button type="primary" link @click="showDetailDialog(row.branchId, false)">详情</el-button>
-        <el-button type="primary" link @click="showDetailDialog(row.branchId, true)">编辑</el-button>
+        <el-button type="primary" link @click="showDetailDialog(row.userId, false)">详情</el-button>
+        <el-button type="primary" link @click="showDetailDialog(row.userId, true)">编辑</el-button>
         <el-button type="danger" link @click="deleteRow(row)">删除</el-button>
         <el-button type="primary" link @click="showCmpyListDialog(row)">查看客户列表</el-button>
         <el-button type="primary" link>下载附件</el-button>
@@ -57,9 +57,9 @@ const tableData = ref([]);
 const total = ref(0);
 const getList = () => {
   loadingWrapper(
-    branchList().then(res => {
+    branchList(form).then(res => {
       if (res.code == "0000") {
-        tableData.value = res.rows;
+				tableData.value = res.rows;
         total.value = res.total;
       }
     })

@@ -1,7 +1,9 @@
 <template>
-  <div class="custom-input" :style="{ width }">
-    <el-input v-model="modelValue" @change="onChange" @blur="onBlur" v-bind="$attrs" />
-  </div>
+  <el-tooltip :content="String(modelValue)" placement="top-start">
+    <div class="custom-input" :style="{ width }">
+      <el-input v-model="modelValue" @change="onChange" @blur="onBlur" v-bind="$attrs" />
+    </div>
+  </el-tooltip>
 </template>
 
 <script setup>
@@ -23,5 +25,16 @@ const onBlur = e => {
   emits("onBlur", e.target.value);
 };
 </script>
-
-<style scoped></style>
+<style lang="scss" scoped>
+.btn-wrap {
+  margin-top: 15px;
+  width: 100%;
+}
+:deep()input::-webkit-outer-spin-button,
+:deep()input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+}
+:deep()input[type="'number'"] {
+  -moz-appearance: textfield !important;
+}
+</style>

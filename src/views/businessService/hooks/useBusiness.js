@@ -4,6 +4,7 @@ import useForm from "@/hooks/useForm";
 import { useRouter, useRoute } from "vue-router";
 import { TabsStore } from "@/stores/modules/tabs";
 
+import useRegion from "@/hooks/useRegion.js";
 import { KeepAliveStore } from "@/stores/modules/keepAlive";
 
 const useBusiness = (initialValues, commonForm) => {
@@ -14,6 +15,8 @@ const useBusiness = (initialValues, commonForm) => {
   const { removeKeepLiveName } = KeepAliveStore();
   const { form, formRef, resetForm, submitForm } = useForm(initialValues);
   Object.assign(form, commonForm);
+  // 地址
+  const { address, setAddress } = useRegion(formRef, form);
   const onSubmit = isAdd => {
     submitForm().then(() => {
       if (isAdd) {
@@ -58,7 +61,9 @@ const useBusiness = (initialValues, commonForm) => {
     formRef,
     resetForm,
     handleAdd,
-    handleUpdate
+    handleUpdate,
+    address,
+    setAddress
   };
 };
 export default useBusiness;

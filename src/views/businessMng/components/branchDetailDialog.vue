@@ -33,7 +33,7 @@
 import { ref } from "vue";
 import useForm from "@/hooks/useForm";
 import { ElMessage } from "element-plus";
-import { branchDetail } from "@/api/branch";
+import { branchDetail,branchUpdate } from "@/api/branch";
 const dialogVisible = ref(false);
 
 const emits = defineEmits(["submitSuccess"]);
@@ -70,12 +70,14 @@ const getDetail = async branchId => {
 // 提交表单
 const onSubmit = () => {
   submitForm().then(() => {
-    console.log(form);
-    dialogVisible.value = false;
-    ElMessage.success("提交成功");
-    emits("submitSuccess");
-    formRef.value.resetFields();
-  });
+		branchUpdate(form).then(res => {
+			if (res.code === "0000") {
+				ElMessage.success("提交成功");
+				emits("submitSuccess");
+				closeDialog();
+			}
+		});
+	});
 };
 // 关闭弹窗
 const closeDialog = () => {

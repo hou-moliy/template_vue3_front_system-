@@ -33,7 +33,7 @@ export const AuthStore = defineStore({
     async getAuthMenuList() {
       const res = await routerList();
       this.authMenuList = res?.data ?? [];
-      // this.authMenuList = handleMenuList(this.authMenuList);
+      this.authMenuList = handleMenuList(this.authMenuList);
     },
     // setRouteName
     async setRouteName(name) {

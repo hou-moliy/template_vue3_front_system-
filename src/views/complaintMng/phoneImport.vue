@@ -34,7 +34,7 @@
           style="width: 100%"
           v-if="percentage"
           :percentage="percentage"
-          :status="percentage == 100 ? 'success' : ''"
+          :status="percentage == 100 ? 'success' : 'error'"
         />
       </div>
 
@@ -56,7 +56,7 @@
     <el-table-column prop="displayCallingNumber" label="显示主叫号码" />
     <el-table-column prop="userName" label="企业客户">
       <template #default="{ row }">
-        <el-button type="primary" link @click="handleNav(row.userId, cmpyInfoRef)">{{ row.userName }}</el-button>
+        <el-button type="primary" link @click="handleNav(row.userId, userDetailRef)">{{ row.userName }}</el-button>
       </template>
     </el-table-column>
     <el-table-column prop="branchName" label="归属分公司">
@@ -93,7 +93,7 @@
   </el-table>
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
   <!-- 企业客户账户详情 -->
-  <cmpyInfoDialog ref="cmpyInfoRef" />
+  <userDetail ref="userDetailRef" />
   <!-- 分公司账户详情 -->
   <branchDetailDialog append-to-body ref="branchDetailRef" />
   <!-- 客户经理账户详情 -->
@@ -103,7 +103,7 @@
 import { ref, onMounted } from "vue";
 import { getToken } from "@/utils/auth";
 import useForm from "@/hooks/useForm";
-import cmpyInfoDialog from "@/views/businessMng/components/cmpyInfoDialog.vue";
+import userDetail from "./components/userDetail.vue";
 import branchDetailDialog from "@/views/businessMng/components/branchDetailDialog.vue";
 import customInfoDialog from "@/views/businessMng/components/customInfoDialog.vue";
 import { emailNotifyComplaints, listComplaints, exportComplaints } from "@/api/complaint";
@@ -115,7 +115,7 @@ const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 const headers = {
   Authorization: getToken()
 };
-const cmpyInfoRef = ref();
+const userDetailRef = ref();
 const branchDetailRef = ref();
 const customInfoRef = ref();
 const initialValues = {
@@ -168,7 +168,7 @@ const handleSuccess = res => {
     percentage.value = 0;
     getList();
   } else {
-    ElMessage.error(res.msg);
+    handleError();
   }
 };
 // 上传中回调
@@ -177,10 +177,9 @@ const handleProgress = ({ percent }) => {
   percentage.value = Math.floor(percent);
 };
 // 上传失败回调
-const handleError = err => {
+const handleError = () => {
   percentage.value = 0;
   ElMessage.error("上传失败");
-  console.log(err);
 };
 // 重置
 const handleReset = () => {

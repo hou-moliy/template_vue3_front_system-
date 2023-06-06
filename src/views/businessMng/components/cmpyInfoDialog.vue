@@ -1,7 +1,7 @@
 <template>
   <!-- 企业客户账户详情 -->
   <el-dialog v-model="dialogVisible" :title="title" width="50%" @close="closeDialog">
-    <el-form :model="form" ref="formRef" label-width="120px" label-position="left" :disabled="!isEdit">
+    <el-form :model="form" ref="formRef" label-width="120px" label-position="left" :disabled="!isEdit" v-load="isLoading">
       <privacyForm :disabled="!isEdit" ref="privacyFormRef" :commonForm="form">
         <template #center v-if="!isEdit">
           <el-form-item label="业务类型" prop="bindingType">
@@ -41,6 +41,8 @@ import { getInfo, updateInfo } from "@/api/businessCustomer";
 import useForm from "@/hooks/useForm";
 import { ElMessage } from "element-plus";
 import DictTypesStore from "@/stores/modules/dictTypes";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 const { getDictTypeValue } = DictTypesStore();
 const dialogVisible = ref(false);
 const privacyFormRef = ref(null);
@@ -63,6 +65,7 @@ const openDialog = async ({ id, isEdit: edit }) => {
     form.id = id;
     isEdit.value = edit;
     title.value = isEdit.value ? "编辑企业信息" : "查看企业信息";
+    dialogVisible.value = true;
     await getInfoData(id);
   } catch (e) {
     console.error(e);
@@ -73,8 +76,8 @@ const openDialog = async ({ id, isEdit: edit }) => {
 const closeDialog = () => {
   dialogVisible.value = false;
   Object.assign(form, initialValues);
-  resetForm();
   privacyFormRef?.value?.onReset();
+  resetForm();
 };
 const onSubmit = () => {
   submitForm().then(() => {
@@ -87,13 +90,13 @@ const onSubmit = () => {
 };
 
 const getInfoData = async streamNumber => {
-  await getInfo({ streamNumber }).then(res => {
-    if (res.code == "0000" && res.data) {
-      Object.assign(form, res.data);
-      dialogVisible.value = true;
-      console.log(form, "fofoooo");
-    }
-  });
+  await loadingWrapper(
+    getInfo({ streamNumber }).then(res => {
+      if (res.code == "0000" && res.data) {
+        Object.assign(form, res.data);
+      }
+    })
+  );
 };
 const handleUpdateInfo = data => {
   updateInfo(data).then(res => {

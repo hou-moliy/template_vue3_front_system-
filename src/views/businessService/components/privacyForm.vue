@@ -44,7 +44,6 @@
 </template>
 <script setup>
 import { watch } from "vue";
-import useRegion from "@/hooks/useRegion.js";
 import useRules from "../hooks/useRules";
 import useBusiness from "../hooks/useBusiness";
 const props = defineProps({
@@ -70,22 +69,30 @@ const initialValues = {
   smsUrl: "",
   ipList: ""
 };
-const { onSubmit, form, formRef, resetForm } = useBusiness(initialValues, props.commonForm);
-// 地址
-const { address, setAddress } = useRegion(formRef, form);
+const { onSubmit, form, formRef, resetForm, address, setAddress } = useBusiness(initialValues, props.commonForm);
+
 const { rules, switchForm } = useRules();
 const onReset = () => {
   resetForm();
   setAddress([]);
 };
 watch(
-  [() => form.startCallUrl, () => form.ringingUrl, () => form.connectUrl, () => form.endCallUrl, () => form.smsUrl],
-  ([startCallUrl, ringingUrl, connectUrl, endCallUrl, smsUrl]) => {
+  [
+    () => form.startCallUrl,
+    () => form.ringingUrl,
+    () => form.connectUrl,
+    () => form.endCallUrl,
+    () => form.smsUrl,
+    () => form.provinceId,
+    () => form.cityId
+  ],
+  ([startCallUrl, ringingUrl, connectUrl, endCallUrl, smsUrl, provinceId, cityId]) => {
     switchForm.value.start = startCallUrl !== "";
     switchForm.value.ring = ringingUrl !== "";
     switchForm.value.connect = connectUrl !== "";
     switchForm.value.end = endCallUrl !== "";
     switchForm.value.sms = smsUrl !== "";
+    setAddress([String(provinceId), String(cityId)]);
   },
   {
     immediate: true,

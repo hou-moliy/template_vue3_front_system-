@@ -116,9 +116,12 @@ onMounted(() => {
   getList();
 });
 </script>
-<style>
+<style lang="scss" scoped>
 .times-wrap {
   max-height: 100px;
   overflow-y: scroll;
+  .el-button {
+    margin: 0;
+  }
 }
 </style>

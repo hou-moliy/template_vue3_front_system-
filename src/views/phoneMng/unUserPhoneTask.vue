@@ -17,10 +17,10 @@
     <el-table-column label="任务名称" prop="taskTitle" />
     <el-table-column label="创建时间" prop="createTime" />
     <el-table-column label="实际导入号码量" prop="realNumber" />
-    <el-table-column label="导入状态" prop="type">
+    <el-table-column label="导入状态" prop="taskStatus">
       <template #default="{ row }">
-        <el-button v-if="row.type == 0" type="success" link>已完成</el-button>
-        <el-button v-else type="warning" link>处理中</el-button>
+        <el-button v-if="row.taskStatus == '1'" type="success" link>处理中</el-button>
+        <el-button v-else type="warning" link>已完成</el-button>
       </template>
     </el-table-column>
     <el-table-column label="详情">
@@ -75,8 +75,8 @@ const handleAdd = () => {
   addTaskRef.value?.openDialog();
 };
 const taskResultRef = ref(null);
-const handleResult = ({ opType, taskId }, type) => {
-  taskResultRef.value?.openDialog({ opType, taskId, type });
+const handleResult = ({ taskStatus, taskId }, type) => {
+  taskResultRef.value?.openDialog({ taskStatus, taskId, type });
 };
 onMounted(() => {
   getList();

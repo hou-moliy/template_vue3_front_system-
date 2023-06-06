@@ -1,7 +1,7 @@
 <template>
   <el-dialog v-model="dialogVisible" :title="title" @close="handleResetForm">
     <!-- 表单 -->
-    <el-form :inline="true" :model="form" ref="formRef" :rules="rules" :disabled="billType == 2">
+    <el-form :inline="true" :model="form" ref="formRef" :rules="rules" :disabled="billType == 2" v-load="isLoading">
       <el-form-item label="公式名称" prop="formulaName">
         <el-input v-model="form.formulaName" placeholder="请输入公式名称" />
       </el-form-item>
@@ -17,7 +17,7 @@
       <customTable ref="customTableRef" :disabled="billType == 2" :billData="billData" />
       <div class="btn-wrap flx-center">
         <el-form-item>
-          <el-button @click="handleResetForm">返回</el-button>
+          <el-button @click="handleResetForm" v-if="billType != 2">返回</el-button>
           <el-button type="primary" @click="handleSubmit" :loading="loading">确定</el-button>
         </el-form-item>
       </div>
@@ -30,6 +30,8 @@ import useForm from "@/hooks/useForm";
 import customTable from "./table.vue";
 import { getBillingFormula, insertBillingFormula, updateBillingFormula } from "@/api/bill";
 import { ElMessage } from "element-plus";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 const customTableRef = ref(null);
 const loading = ref(false);
 const emits = defineEmits(["submitSuccess"]);
@@ -68,44 +70,45 @@ const openDialog = ({ streamNumber, type }) => {
 // 获取详情
 let billData = ref([]);
 const getDetail = async streamNumber => {
-  await getBillingFormula({ streamNumber }).then(res => {
-    if (res.code == "0000") {
-      Object.assign(form, res.data);
-      let lastData = {
-        bindingNotConnectedUnitPrice: res.data.bindingNotConnectedUnitPrice,
-        opRangeStart: "",
-        opRangeEnd: "",
-        discount: "",
-        recordUnitPrice: "",
-        nonRecordUnitPrice: ""
-      };
-      let list = [...res.data.billingFormulaManagerDetails, lastData];
-      billData.value = [...list];
-    }
-  });
-};
-const handleSubmit = () => {
-  submitForm()
-    .then(() => {
-      const data = {
-        ...form,
-        billingFormulaManagerDetails: customTableRef.value?.data,
-        bindingNotConnectedUnitPrice: customTableRef.value?.bindingNotConnectedUnitPrice
-      };
-      if (billType.value == 1) {
-        //新增接口
-        handleAdd(data);
-      } else if (billType.value == 3) {
-        //修改接口
-        handleUpdate(data);
-      } else if (billType.value == 4) {
-        //复制接口
-        handleAdd(data);
+  await loadingWrapper(
+    getBillingFormula({ streamNumber }).then(res => {
+      if (res.code == "0000") {
+        Object.assign(form, res.data);
+        let lastData = {
+          bindingNotConnectedUnitPrice: res.data.bindingNotConnectedUnitPrice,
+          opRangeStart: "",
+          opRangeEnd: "",
+          discount: "",
+          recordUnitPrice: "",
+          nonRecordUnitPrice: ""
+        };
+        let list = [...res.data.billingFormulaManagerDetails, lastData];
+        billData.value = [...list];
       }
     })
-    .catch(() => {
-      console.log("校验失败了");
-    });
+  );
+};
+const handleSubmit = () => {
+  submitForm().then(() => {
+    if (!customTableRef.value?.checkAll()) {
+      return;
+    }
+    const data = {
+      ...form,
+      billingFormulaManagerDetails: customTableRef.value?.data,
+      bindingNotConnectedUnitPrice: customTableRef.value?.bindingNotConnectedUnitPrice
+    };
+    if (billType.value == 1) {
+      //新增接口
+      handleAdd(data);
+    } else if (billType.value == 3) {
+      //修改接口
+      handleUpdate(data);
+    } else if (billType.value == 4) {
+      //复制接口
+      handleAdd(data);
+    }
+  });
 };
 const handleAdd = async data => {
   loading.value = true;

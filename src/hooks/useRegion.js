@@ -2,10 +2,14 @@ import { reactive, watch, toRefs } from "vue";
 import { codeToText } from "element-china-area-data";
 const useRegion = (formRef, formData) => {
   const state = reactive({
-    address: [formData.provinceId, formData.cityId]
+    address: [String(formData.provinceId), String(formData.cityId)]
   });
   const setAddress = newVal => {
     state.address = newVal;
+    if (newVal.length === 0) {
+      formData.provinceId = "";
+      formData.cityId = "";
+    }
   };
   const getAddress = code => {
     return codeToText[code];
@@ -27,6 +31,10 @@ const useRegion = (formRef, formData) => {
         formData.cityId = newVal[1];
         formData.areaId = newVal[2];
       }
+    },
+    {
+      immediate: true,
+      deep: true
     }
   );
   return {

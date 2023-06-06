@@ -57,6 +57,8 @@ const isEdit = ref(false);
 let title = ref("");
 const openDialog = async ({ id, isEdit: edit }) => {
   try {
+  	console.debug("id的值为：" + id)
+  	form.userId = id;
     isEdit.value = edit;
     dialogVisible.value = true;
     title.value = isEdit.value ? "修改客户经理属性" : "客户经理详情";
@@ -66,6 +68,7 @@ const openDialog = async ({ id, isEdit: edit }) => {
   }
 };
 const getDetail = async managerId => {
+	console.debug("managerId的值为：" + managerId)
   await managerDetail({ managerId }).then(res => {
     if (res.code == "0000") {
       Object.assign(form, res.data);

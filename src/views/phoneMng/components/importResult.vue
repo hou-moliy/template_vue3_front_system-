@@ -1,25 +1,18 @@
 <template>
   <el-dialog v-model="dialogVisible" :title="title">
     <!-- 表格 -->
-    <el-table border :data="tableData">
-      <el-table-column label="号码" prop="id" />
-      <el-table-column label="副号imsi" prop="imsi" />
+    <el-table border :data="tableData" height="200">
+      <el-table-column label="号码" prop="mcnNumber" />
+      <el-table-column label="副号imsi" prop="mcnImsi" />
       <el-table-column label="省份编码" prop="provinceId" />
       <el-table-column label="地市编码" prop="cityId" />
       <el-table-column label="操作时间" prop="createTime" />
       <el-table-column label="失败原因" v-if="status == 'fail'">
         <template #default="{ row }">
-          {{ row.reason }}
+          {{ row.failReason }}
         </template>
       </el-table-column>
     </el-table>
-    <Pagination
-      v-show="total > 0"
-      :total="total"
-      v-model:page="form.pageNum"
-      v-model:limit="form.pageSize"
-      @pagination="getList"
-    />
     <template #footer>
       <el-button type="primary">导出</el-button>
     </template>
@@ -33,15 +26,17 @@ const dialogVisible = ref(false);
 // 表单
 const initialValues = {
   taskId: "",
-  opType: "",
-  pageNum: 1,
-  pageSize: 10
+  opType: ""
 };
 const { form } = useForm(initialValues);
 const status = ref("");
-const openDialog = ({ opType, taskId, type }) => {
+const openDialog = ({ taskStatus, taskId, type }) => {
   form.taskId = taskId;
-  form.opType = opType;
+  if(type === 'success') {
+		form.opType = '2';
+	} else {
+		form.opType = '1';
+	}
   status.value = type;
   dialogVisible.value = true;
   getList();
@@ -50,12 +45,10 @@ const title = computed(() => {
   return status.value === "success" ? `${form.taskId}任务成功号码详情` : `${form.taskId}任务失败号码详情`;
 });
 const tableData = ref([]);
-const total = ref(0);
 const getList = () => {
   importDetail(form).then(res => {
     if (res.code == "0000") {
-      tableData.value = res.rows;
-      total.value = res.total;
+      tableData.value = res.data;
     }
   });
 };
