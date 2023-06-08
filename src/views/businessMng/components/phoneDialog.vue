@@ -3,7 +3,7 @@
     <!-- 搜索 -->
     <el-form ref="formRef" :model="form" :inline="true">
       <el-form-item label="省份地市" prop="provinceId">
-        <regionSelect v-model="address" :level="2" />
+        <regionSelect v-model="address" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getList">搜索</el-button>

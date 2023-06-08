@@ -22,7 +22,7 @@ const props = defineProps({
   },
   commonForm: {
     type: Object,
-    default: () => ({})
+    default: () => {}
   }
 });
 const baseInfoRef = ref(null);
@@ -36,10 +36,11 @@ const onSubmit = isAdd => {
     const form = {
       ...props.commonForm,
       ...interForm,
-      groupName: interForm.baseInfo.projectName,
+      groupName: interForm.baseInfo.groupName,
       bindingType: interForm.baseInfo.bindingType,
       provinceId: interForm.baseInfo.provinceId,
-      cityId: interForm.baseInfo.cityId
+      cityId: interForm.baseInfo.cityId,
+      recordMode: interForm.baseInfo.recordMode
     };
     if (isAdd) {
       handleAdd(form);

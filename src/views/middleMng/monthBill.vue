@@ -14,13 +14,10 @@
       <model-select v-model="form.channelId" dictType="businessChannel" placeholder="请选择渠道商" />
     </el-form-item>
     <el-form-item label="省份地市" prop="provinceId">
-      <regionSelect v-model="address" :level="2" />
+      <regionSelect v-model="address" />
     </el-form-item>
     <el-form-item label="统计周期" prop="date">
-      <el-select v-model="form.date" placeholder="请选择统计周期">
-        <el-option label="日统计" value="day" />
-        <el-option label="月统计" value="month" />
-      </el-select>
+      <statisticalPeriod ref="statisticalRef" v-model="statType" />
     </el-form-item>
     <el-form-item label="类型" prop="type">
       <el-select v-model="form.type" placeholder="请选择类型">
@@ -35,54 +32,77 @@
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table border :data="tableData">
-    <el-table-column prop="branchCmpy" label="分公司" />
-    <el-table-column prop="manager" label="客户经理" />
-    <el-table-column prop="channel" label="渠道商" />
-    <el-table-column prop="cmpy" label="企业客户" />
-    <el-table-column prop="cmpy" label="总号码量" />
-    <el-table-column prop="cmpy" label="上半月号码量" />
-    <el-table-column prop="cmpy" label="下半月号码量" />
-    <el-table-column prop="cmpy" label="录音通话次数" />
-    <el-table-column prop="cmpy" label="非录音呼叫次数" />
-    <el-table-column prop="cmpy" label="新增订单量" />
-    <el-table-column prop="cmpy" label="有绑定呼叫成功次数" />
-    <el-table-column prop="phone" label="有绑定呼叫未接通次数" />
+  <el-table border :data="tableData" v-load="isLoading">
+    <el-table-column prop="branchName" label="分公司" />
+    <el-table-column prop="managerName" label="客户经理" />
+    <el-table-column prop="channelName" label="渠道商" />
+    <el-table-column prop="userName" label="企业客户" />
+    <el-table-column prop="numberCount" label="总号码量" />
+    <el-table-column prop="firstHalfMonthNum" label="上半月号码量" />
+    <el-table-column prop="secondHalfMonthNum" label="下半月号码量" />
+    <el-table-column prop="newOrderNum" label="新增订单量" />
+    <template v-if="form.type == '1'">
+      <el-table-column prop="recordNum" label="录音通话次数" />
+      <el-table-column prop="nonRecordNum" label="非录音呼叫次数" />
+      <el-table-column prop="bindCallSucNum" label="有绑定呼叫成功次数" />
+      <el-table-column prop="bindNotCallNum" label="有绑定呼叫未接通次数" />
+    </template>
+    <template v-else>
+      <el-table-column prop="recordMin" label="录音通话分钟数" />
+      <el-table-column prop="nonRecordMin" label="非录音呼叫分钟数" />
+      <el-table-column prop="bindCallSucMin" label="有绑定呼叫成功分钟数" />
+    </template>
   </el-table>
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
+import statisticalPeriod from "./components/statisticalPeriod/index.vue";
 import useRegion from "@/hooks/useRegion.js";
 import { monthBillList } from "@/api/stats";
+import usePeriod from "./hooks/usePeriod";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 const initialValues = {
   userId: "",
+  branchId: "",
+  managerId: "",
+  channelId: "",
   provinceId: "",
   cityId: "",
-  date: "",
+  statType: "",
+  statTime: "202210",
   pageNum: 1,
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
+const { statisticalRef, statType, resetStatType } = usePeriod(form);
 // 地址
 const { address, setAddress } = useRegion(formRef, form);
 const tableData = ref([]);
 const total = ref(0);
 const getList = () => {
-  monthBillList(form).then(res => {
-    if (res.coede == "0000") {
-      tableData.value = res.data.list;
-      total.value = res.data.total;
-    }
-  });
+  loadingWrapper(
+    monthBillList(form).then(res => {
+      if (res.code == "0000") {
+        tableData.value = res.rows;
+        total.value = res.total;
+      }
+    })
+  );
 };
 // 重置
 const handleReset = () => {
   setAddress([]);
+  resetStatType();
   resetForm().then(() => {
     getList();
   });
 };
+
+onMounted(() => {
+  getList();
+});
 </script>

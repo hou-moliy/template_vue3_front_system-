@@ -13,7 +13,7 @@
           <model-select v-model="form.groupId" dictType="businessUser" placeholder="请选择企业客户" />
         </el-form-item>
         <el-form-item label="省份地市" prop="provinceId" v-if="form.type === 'AXB'">
-          <regionSelect v-model="address" :level="2" />
+          <regionSelect v-model="address" />
         </el-form-item>
       </template>
       <template v-else>
@@ -83,6 +83,7 @@ const handleReset = () => {
   resetForm();
   setAddress([]);
   dialogVisible.value = false;
+  fileList.value = [];
 };
 defineExpose({
   openDialog

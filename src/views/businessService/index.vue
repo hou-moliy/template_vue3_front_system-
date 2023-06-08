@@ -14,7 +14,7 @@
       <model-select v-model="form.auditStatus" dictType="auditStatus" placeholder="请选择审批状态" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="handleSubitForm">搜索</el-button>
+      <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleFormReset">重置</el-button>
       <el-button type="primary" @click="addService(true, true)">新增</el-button>
     </el-form-item>
@@ -51,7 +51,7 @@
   </el-table>
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
   <!-- 审核弹窗 -->
-  <auditDialog ref="auditDialogRef" />
+  <auditDialog ref="auditDialogRef" @submit-success="getList" />
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
@@ -75,7 +75,7 @@ const initialValues = {
   pageNum: 1,
   pageSize: 10
 };
-const { form, formRef, resetForm, submitForm } = useForm(initialValues);
+const { form, formRef, resetForm } = useForm(initialValues);
 // 表格栏
 let tableData = ref([]);
 const total = ref(0);
@@ -92,24 +92,14 @@ const getList = () => {
 const handleFormReset = () => {
   resetForm().then(() => getList());
 };
-const handleSubitForm = () => {
-  submitForm()
-    .then(() => {
-      getList(form);
-      console.log("表单提交成功");
-    })
-    .catch(() => {
-      console.log("表单提交失败");
-    });
-};
 const openAuditDialog = data => {
   // info: 1-通过 0-不通过
   auditDialogRef?.value?.openDialog(data);
 };
-const addService = (isEdit, isAdd, data) => {
+const addService = (isEdit, isAdd, row) => {
   let url = `/businessService/businessDetail?isEdit=${isEdit}&isAdd=${isAdd}`;
-  if (data) {
-    // url =
+  if (row) {
+    url = `${url}&type=${row.type}&streamNumber=${row.streamNumber}`;
   }
   router.push(url);
 };

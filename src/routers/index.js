@@ -19,9 +19,11 @@ import NProgress from "@/config/nprogress";
  * @param meta.isAffix ==> 是否固定在 tabs nav 默认不固定
  * @param meta.isKeepAlive ==> 是否缓存
  * */
+
 const router = createRouter({
   history: createWebHistory(),
-  routes: [...staticRouter, ...errorRouter],
+  routes: staticRouter.concat(errorRouter),
+  // routes: [],
   strict: false,
   scrollBehavior: () => ({ left: 0, top: 0 })
 });

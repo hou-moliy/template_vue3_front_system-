@@ -25,8 +25,8 @@
     </el-table-column>
     <el-table-column label="详情">
       <template #default="{ row }">
-        <el-button type="primary" link @click="handleResult(row, 'success')">查看成功</el-button>
-        <el-button type="primary" link @click="handleResult(row, 'fail')">查看失败</el-button>
+        <el-button type="primary" v-if="row.taskStatus == '2'" link @click="handleResult(row, 'success')">查看成功</el-button>
+        <el-button type="primary" v-if="row.taskStatus == '2'" link @click="handleResult(row, 'fail')">查看失败</el-button>
       </template>
     </el-table-column>
   </el-table>

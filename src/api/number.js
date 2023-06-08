@@ -66,11 +66,12 @@ export const numberList = params => {
     baseURL
   });
 };
-// 导出未用号码列表
+// 导出未用号码资源
 export const exportUnusedNumberList = params => {
   return service({
     url: "/number/exportUnusedNumberList",
     method: "get",
+    responseType: "blob",
     params,
     baseURL
   });

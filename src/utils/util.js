@@ -150,6 +150,7 @@ export function getShowMenuList(menuList) {
     return !item?.meta?.isHide ?? true;
   });
 }
+// 递归处理菜单列表
 export const handleMenuList = menuList => {
   let menus = JSON.parse(JSON.stringify(menuList));
   return menus.map(item => {

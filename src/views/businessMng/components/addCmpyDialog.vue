@@ -19,7 +19,7 @@
 import { ref } from "vue";
 import useForm from "@/hooks/useForm";
 import { ElMessage } from "element-plus";
-import { noRelatedGroupList } from "@/api/channel";
+import { noRelatedGroupList, addGroup } from "@/api/channel";
 const dialogVisible = ref(false);
 const emits = defineEmits(["submitSuccess"]);
 // 表单
@@ -54,9 +54,13 @@ const getNoRelatedGroupList = () => {
 // 提交表单
 const onSubmit = () => {
   submitForm().then(() => {
-    ElMessage.success("提交成功");
-    emits("submitSuccess");
-    closeDialog();
+    addGroup(form).then(res => {
+      if (res.code == "0000") {
+        ElMessage.success("提交成功");
+        emits("submitSuccess");
+        closeDialog();
+      }
+    });
   });
 };
 

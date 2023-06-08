@@ -15,13 +15,17 @@
   <!-- 表格 -->
   <el-table :data="tableData" border v-load="isLoading">
     <el-table-column prop="userName" label="分公司名称" />
-    <el-table-column prop="createTime" label="创建时间" />
+    <el-table-column prop="createTime" label="创建时间">
+      <template #default="{ row }">
+        {{ $dayjs(row.createTime).format("YYYY-MM-DD HH:mm:ss") }}
+      </template>
+    </el-table-column>
     <el-table-column prop="operation" label="操作">
       <template #default="{ row }">
         <el-button type="primary" link @click="showDetailDialog(row.userId, false)">详情</el-button>
         <el-button type="primary" link @click="showDetailDialog(row.userId, true)">编辑</el-button>
         <el-button type="danger" link @click="deleteRow(row)">删除</el-button>
-        <el-button type="primary" link @click="showCmpyListDialog(row)">查看客户列表</el-button>
+        <el-button type="primary" link @click="showCmpyListDialog(row)">查看客户经理列表</el-button>
         <el-button type="primary" link>下载附件</el-button>
       </template>
     </el-table-column>
@@ -59,7 +63,7 @@ const getList = () => {
   loadingWrapper(
     branchList(form).then(res => {
       if (res.code == "0000") {
-				tableData.value = res.rows;
+        tableData.value = res.rows;
         total.value = res.total;
       }
     })
@@ -85,7 +89,7 @@ const deleteRow = ({ userId }) => {
 };
 // 查看企业客户列表
 const showCmpyListDialog = row => {
-  customListDialogRef?.value?.openDialog(row);
+  customListDialogRef?.value?.openDialog(row.userId);
 };
 // 编辑、详情
 const showDetailDialog = (id, isEdit) => {

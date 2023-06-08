@@ -6,8 +6,8 @@
         <el-form-item label="项目名称" prop="projectName">
           <el-input v-model="form.projectName" placeholder="请输入项目名称" />
         </el-form-item>
-        <el-form-item label="归属省份地市" prop="province">
-          <regionSelect v-model="address" :level="2" />
+        <el-form-item label="归属省份地市" prop="provinceId">
+          <regionSelect v-model="address" />
         </el-form-item>
       </div>
       <div class="form-item-wrap">
@@ -54,7 +54,7 @@
       <div class="form-item-wrap">
         <el-form-item label="省市侧评审意见" prop="opinion">
           <el-switch v-model="form.provinceViews" />
-          <el-input v-model="form.desc" placeholder="请输入不通过原因" />
+          <el-input v-model="form.desc" v-show="!form.provinceViews" placeholder="请输入不通过原因" />
         </el-form-item>
         <el-form-item label="业务类型" prop="changeReason">
           <el-cascader :options="opTypes">
@@ -147,11 +147,18 @@ const initialValues = {
   bindingType: "",
   provinceId: "",
   cityId: "",
-  recordMode: false
+  recordMode: "0"
 };
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 const channel = ref(false);
 const rules = reactive({
+  provinceId: [
+    {
+      required: true,
+      message: "请选择省份",
+      trigger: "blur"
+    }
+  ],
   bindingType: [
     {
       required: true,
@@ -162,7 +169,21 @@ const rules = reactive({
   channelName: [
     {
       required: channel,
-      message: "请选择业务模式",
+      message: "请输入集成商名称",
+      trigger: "blur"
+    }
+  ],
+  groupName: [
+    {
+      required: true,
+      message: "请输入公司名称",
+      trigger: "blur"
+    }
+  ],
+  recordMode: [
+    {
+      required: true,
+      message: "请选择是否录音",
       trigger: "blur"
     }
   ]

@@ -12,11 +12,11 @@ interface FormHooks {
 }
 
 const useForm = (initialValues: FormValues): FormHooks => {
-  let form = reactive<FormValues>({ ...initialValues });
+  let form = reactive<FormValues>(JSON.parse(JSON.stringify(initialValues))); // 深拷贝
   const formRef = ref<FormInstance | null>(null);
   const resetForm = () => {
-    // Object.assign(form, initialValues);
-    formRef.value?.resetFields();
+    Object.assign(form, initialValues);
+    // formRef.value?.resetFields(); // 不设置props的情况下，resetFields不能重置
     return Promise.resolve();
   };
 

@@ -3,7 +3,6 @@ import { ElMessage } from "element-plus";
 import useForm from "@/hooks/useForm";
 import { useRouter, useRoute } from "vue-router";
 import { TabsStore } from "@/stores/modules/tabs";
-
 import useRegion from "@/hooks/useRegion.js";
 import { KeepAliveStore } from "@/stores/modules/keepAlive";
 
@@ -13,6 +12,9 @@ const useBusiness = (initialValues, commonForm) => {
   const oldRoute = { ...route };
   const { removeTabs } = TabsStore();
   const { removeKeepLiveName } = KeepAliveStore();
+  if (!initialValues) {
+    initialValues = {};
+  }
   const { form, formRef, resetForm, submitForm } = useForm(initialValues);
   Object.assign(form, commonForm);
   // 地址
@@ -28,7 +30,9 @@ const useBusiness = (initialValues, commonForm) => {
   };
 
   const handleAdd = data => {
-    Object.assign(form, data);
+    if (data) {
+      Object.assign(form, data);
+    }
     add(form).then(res => {
       if (res.code == "0000") {
         ElMessage.success("新增成功");
@@ -42,7 +46,9 @@ const useBusiness = (initialValues, commonForm) => {
   };
 
   const handleUpdate = data => {
-    Object.assign(form, data);
+    if (data) {
+      Object.assign(form, data);
+    }
     update(form).then(res => {
       if (res.code === "0000") {
         ElMessage.success("修改成功");

@@ -50,7 +50,7 @@ const DictTypesStore = defineStore({
         value: "3"
       }
     ], // 账单方式
-    poolType: [
+    orderType: [
       {
         label: "指定号码量订购",
         value: "0"

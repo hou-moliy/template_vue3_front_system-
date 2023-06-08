@@ -31,10 +31,6 @@ const useRegion = (formRef, formData) => {
         formData.cityId = newVal[1];
         formData.areaId = newVal[2];
       }
-    },
-    {
-      immediate: true,
-      deep: true
     }
   );
   return {

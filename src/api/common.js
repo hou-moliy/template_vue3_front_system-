@@ -10,3 +10,12 @@ export const getDict = ({ dictTypes }) => {
     baseURL
   });
 };
+
+// 省份地市枚举
+export const provinceAndCity = () => {
+  return service({
+    url: "/system/dict/provinceAndCity",
+    method: "get",
+    baseURL
+  });
+};

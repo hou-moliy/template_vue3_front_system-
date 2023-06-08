@@ -5,13 +5,16 @@ import router from "./routers";
 import NProgress from "@/config/nprogress";
 import { AuthStore } from "@/stores/modules/auth";
 import { ElMessage } from "element-plus";
+import { GlobalStore } from "@/stores";
+
 /**
  * @description 路由拦截 beforeEach
  * */
 router.beforeEach((to, from, next) => {
+  const authStore = AuthStore();
+  const globalStore = GlobalStore();
   const token = getToken();
   NProgress.start();
-
   const title = import.meta.env.VITE_GLOB_APP_TITLE;
   document.title = to.meta.title ? `${to.meta.title} - ${title}` : title;
   if (token) {
@@ -20,7 +23,6 @@ router.beforeEach((to, from, next) => {
       next(from.fullPath);
     } else {
       // 已登录跳转
-      const authStore = AuthStore();
       authStore.setRouteName(to.name);
       // 用户权限
       const rolesLen = authStore.roles.length;
@@ -38,6 +40,8 @@ router.beforeEach((to, from, next) => {
               });
             });
         });
+        // 获取省份-城市数据
+        globalStore.getProvinceCityData();
       } else {
         next();
       }

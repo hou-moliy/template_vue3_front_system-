@@ -7,34 +7,59 @@
         <el-table-column prop="before15thUnitPrice" label="15日前单价(元)" align="center" />
         <el-table-column prop="before15thNum" label="15日前数量(个)" align="center">
           <template #default="{ row }">
-            <customInput v-model="row.before15thNum" :disabled="disabled" min="1" type="number"
-              @on-blur="handleCalculate('before15thNum', row)" />
+            <customInput
+              v-model="row.before15thNum"
+              :disabled="disabled"
+              min="1"
+              type="number"
+              @on-blur="handleCalculate('before15thNum', row)"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="before15thAmount" label="15日前金额(元)" align="center">
           <template #default="{ row }">
-            <customInput v-model="row.before15thAmount" :disabled="disabled" min="1" type="number"
-              @on-blur="handleCalculate('before15thAmount', row)" />
+            <customInput
+              v-model="row.before15thAmount"
+              :disabled="disabled"
+              min="1"
+              type="number"
+              @on-blur="handleCalculate('before15thAmount', row)"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="after15thUnitPrice" label="15日后单价(元)" align="center" />
         <el-table-column prop="after15thNum" label="15日后数量(个)" align="center">
           <template #default="{ row }">
-            <customInput v-model="row.after15thNum" :disabled="disabled" min="1" type="number"
-              @on-blur="handleCalculate('after15thNum', row)" />
+            <customInput
+              v-model="row.after15thNum"
+              :disabled="disabled"
+              min="1"
+              type="number"
+              @on-blur="handleCalculate('after15thNum', row)"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="after15thAmount" label="15日后金额(元)" align="center">
           <template #default="{ row }">
-            <customInput v-model="row.after15thAmount" :disabled="disabled" min="1" type="number"
-              @on-blur="handleCalculate('after15thAmount', row)" />
+            <customInput
+              v-model="row.after15thAmount"
+              :disabled="disabled"
+              min="1"
+              type="number"
+              @on-blur="handleCalculate('after15thAmount', row)"
+            />
           </template>
         </el-table-column>
       </el-table-column>
       <el-table-column prop="totalAmount" label="总金额(元)" align="center" :index="2">
         <template #default="{ row }">
-          <customInput v-model="row.totalAmount" :disabled="disabled" min="1" type="number"
-            @on-blur="handleCalculate('totalAmount', row)" />
+          <customInput
+            v-model="row.totalAmount"
+            :disabled="disabled"
+            min="1"
+            type="number"
+            @on-blur="handleCalculate('totalAmount', row)"
+          />
         </template>
       </el-table-column>
       <el-table-column label="通话" align="center" :index="3">
@@ -42,46 +67,81 @@
         <el-table-column prop="recordUnitPrice" label="录音单价(元/分钟)" align="center" />
         <el-table-column prop="recordMinutes" label="录音分钟数(分钟)" align="center">
           <template #default="{ row }">
-            <customInput v-model="row.recordMinutes" :disabled="disabled" min="1" type="number"
-              @on-blur="handleCalculate('recordMinutes', row)" />
+            <customInput
+              v-model="row.recordMinutes"
+              :disabled="disabled"
+              min="1"
+              type="number"
+              @on-blur="handleCalculate('recordMinutes', row)"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="recordFee" label="录音费用(元)" align="center">
           <template #default="{ row }">
-            <customInput v-model="row.recordFee" :disabled="disabled" min="1" type="number"
-              @on-blur="handleCalculate('recordFee', row)" />
+            <customInput
+              v-model="row.recordFee"
+              :disabled="disabled"
+              min="1"
+              type="number"
+              @on-blur="handleCalculate('recordFee', row)"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="nonRecordUnitPrice" label="非录音单价(元)" align="center" />
         <el-table-column prop="nonRecordMinutes" label="非录音分钟数(分钟)" align="center">
           <template #default="{ row }">
-            <customInput v-model="row.nonRecordMinutes" :disabled="disabled" min="1" type="number"
-              @on-blur="handleCalculate('nonRecordMinutes', row)" />
+            <customInput
+              v-model="row.nonRecordMinutes"
+              :disabled="disabled"
+              min="1"
+              type="number"
+              @on-blur="handleCalculate('nonRecordMinutes', row)"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="nonRecordFee" label="非录音费用(元)" align="center">
           <template #default="{ row }">
-            <customInput v-model="row.nonRecordFee" :disabled="disabled" min="1" type="number"
-              @on-blur="handleCalculate('nonRecordFee', row)" />
+            <customInput
+              v-model="row.nonRecordFee"
+              :disabled="disabled"
+              min="1"
+              type="number"
+              @on-blur="handleCalculate('nonRecordFee', row)"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="bindingNotConnectedFee" label="有绑定未接通费用(元)" align="center">
           <template #default="{ row }">
-            <customInput v-model="row.bindingNotConnectedFee" :disabled="disabled" min="1" type="number"
-              @on-blur="handleCalculate('bindingNotConnectedFee', row)" />
+            <customInput
+              v-model="row.bindingNotConnectedFee"
+              :disabled="disabled"
+              min="1"
+              type="number"
+              @on-blur="handleCalculate('bindingNotConnectedFee', row)"
+            />
           </template>
         </el-table-column>
         <el-table-column prop="totalFee" label="费用" align="center">
           <template #default="{ row }">
-            <customInput v-model="row.totalFee" :disabled="disabled" min="1" type="number"
-              @on-blur="handleCalculate('totalFee', row)" />
+            <customInput
+              v-model="row.totalFee"
+              :disabled="disabled"
+              min="1"
+              type="number"
+              @on-blur="handleCalculate('totalFee', row)"
+            />
           </template>
         </el-table-column>
       </el-table-column>
       <el-table-column prop="monthlyTotalFee" label="当月总费用(元)" align="center" :index="4">
         <template #default="{ row }">
-          <customInput v-model="row.monthlyTotalFee" :disabled="disabled" min="1" type="number"
-            @on-blur="handleCalculate('monthlyTotalFee', row)" />
+          <customInput
+            v-model="row.monthlyTotalFee"
+            :disabled="disabled"
+            min="1"
+            type="number"
+            @on-blur="handleCalculate('monthlyTotalFee', row)"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -120,7 +180,7 @@ const onSave = () => {
   const data = tableData.value[0];
   adjustMonthlyBillingIncome(data)
     .then(res => {
-      if(res.code == "0000") {
+      if (res.code == "0000") {
         ElMessage.success("调账成功");
         dialogVisible.value = false;
       }
@@ -131,8 +191,8 @@ const onSave = () => {
 };
 const getDetail = async () => {
   await getMonthlyBillingIncome(form).then(res => {
-    if(res.code == "0000") {
-      if(res.data) {
+    if (res.code == "0000") {
+      if (res.data) {
         tableData.value = [res.data];
       }
     }
@@ -167,7 +227,7 @@ const handleNonRecordMinutes = newVal => {
   newVal.totalFee = (Number(newVal.recordFee) + Number(newVal.nonRecordFee) + Number(newVal.bindingNotConnectedFee)).toFixed(3);
 };
 const handleCalculate = (type, rowData) => {
-  switch(type) {
+  switch (type) {
     case "before15thNum": // 15日前数量
       handlebefore15thNum(rowData);
       break;

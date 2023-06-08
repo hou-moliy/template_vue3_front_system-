@@ -1,5 +1,5 @@
 <template>
-  <!-- 企业客户账户详情 -->
+  <!-- 企业详情 -->
   <el-dialog v-model="dialogVisible" :title="title" width="50%" @close="closeDialog">
     <el-form :model="form" ref="formRef" label-width="120px" label-position="left" :disabled="!isEdit" v-load="isLoading">
       <privacyForm :disabled="!isEdit" ref="privacyFormRef" :commonForm="form">

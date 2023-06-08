@@ -32,7 +32,12 @@
       >
         <el-button type="primary" style="margin: 0px 15px">上传成本账单</el-button>
       </el-upload>
-      <el-button type="primary" :disabled="!tableData.length" @click="handleExport">下载成本账单</el-button>
+      <el-button
+        type="primary"
+        :disabled="!tableData.length"
+        @click="handleDownload(downloadMonthlyBilling(form), 'xlsx', '成本账单')"
+        >下载成本账单</el-button
+      >
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -75,7 +80,7 @@ import useForm from "@/hooks/useForm";
 import costBillDetail from "./components/costBillDetail.vue";
 import incomeBillDetail from "./components/incomeBillDetail.vue";
 import { listMonthlyBillings, downloadMonthlyBilling, exportMonthlyBillingCost, exportMonthlyBillingIncome } from "@/api/bill";
-import { exportFile } from "@/hooks/useExport";
+import { handleDownload } from "@/hooks/useExport";
 import { useLoading } from "@/hooks/useLoading";
 const { isLoading, loadingWrapper } = useLoading();
 const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
@@ -129,34 +134,17 @@ const openDetail = (type, row) => {
     incomeBillRef.value?.openDialog(row);
   }
 };
-// 下载成本账单
-const handleExport = () => {
-  downloadMonthlyBilling(form).then(res => {
-    if (res.data.size == 0) {
-      ElMessage.warning("暂无数据");
-      return;
-    }
-    exportFile(res.data, "xlsx", "成本账单");
-  });
-};
 // 表格-行下载
 const handleDown = (type, { midGroupId, midGroupName, statTime }) => {
+  const data = {
+    midGroupId,
+    midGroupName,
+    statTime
+  };
   if (type === "cost") {
-    exportMonthlyBillingCost({ midGroupId, midGroupName, statTime }).then(res => {
-      if (res.data.size == 0) {
-        ElMessage.warning("暂无数据");
-        return;
-      }
-      exportFile(res.data, "xlsx", `${midGroupName}-${statTime}成本账单详情`);
-    });
+    handleDownload(exportMonthlyBillingCost(data), "xlsx", `${midGroupName}-${statTime}成本账单详情`);
   } else {
-    exportMonthlyBillingIncome({ midGroupId, midGroupName, statTime }).then(res => {
-      if (res.data.size == 0) {
-        ElMessage.warning("暂无数据");
-        return;
-      }
-      exportFile(res.data, "xlsx", `${midGroupName}-${statTime}收入账单详情`);
-    });
+    handleDownload(exportMonthlyBillingIncome(data), "xlsx", `${midGroupName}-${statTime}收入账单详情`);
   }
 };
 onMounted(() => {

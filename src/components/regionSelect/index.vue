@@ -1,50 +1,48 @@
 <template>
-  <el-cascader placeholder="请选择地区" :options="options" :model-value="modelValue" @change="onChange" clearable> </el-cascader>
+  <el-cascader placeholder="请选择地区" :options="provinceCityData" :model-value="modelValue" @change="onChange" clearable>
+  </el-cascader>
 </template>
 <script setup>
-import { computed } from "vue";
-import { regionData, pcaTextArr, pcTextArr, provinceAndCityData } from "element-china-area-data";
-// provinceAndCityData省市二级联动数据,汉字+code
-// regionData省市区三级联动数据,纯code
-// pcTextArr省市二级联动数据，纯汉字
-// pcaTextArr省市区三级联动数据，纯汉字
-// codeToText是个大对象，属性是区域码，属性值是汉字 用法例如：codeToText['110000']输出北京市
+import { GlobalStore } from "@/stores";
 const props = defineProps({
   modelValue: {
     type: Array,
     default: () => []
   },
-  // 返回的是code
   showCode: {
     type: Boolean,
     default: true
-  },
-  // 几级联动
-  level: {
-    type: Number,
-    default: 3,
-    validator: val => {
-      return val === 2 || val === 3;
-    }
-  },
-  valStr: {
-    type: String,
-    default: ""
   }
 });
-const emits = defineEmits(["update:modelValue", "getValStr"]);
+const { provinceCityData } = GlobalStore();
+const emits = defineEmits(["update:modelValue", "change", "getLabel"]);
 const onChange = e => {
-  emits("update:modelValue", e);
-  if (e.length) {
-    const val = e.join(",");
-    emits("getValStr", val);
+  emits("update:modelValue", e); // 返回数组类型的数据
+  emits("change", e); // 返回省份和地市数组
+  if (!props.showCode) {
+    // 获取省份和地市文字数组
+    const value = getLabel(e);
+    emits("getLabel", value);
   }
 };
-const options = computed(() => {
-  if (props.level === 2) {
-    return props.showCode ? provinceAndCityData : pcTextArr;
-  } else {
-    return props.showCode ? regionData : pcaTextArr;
+//  根据value值获取省份和地市数组，返回形式[省份，地市]
+const getLabel = value => {
+  let label = [];
+  if (value.length === 2) {
+    label = [
+      provinceCityData.find(item => item.value === value[0]).label,
+      provinceCityData.find(item => item.value === value[0]).children.find(item => item.value === value[1]).label
+    ];
+  } else if (value.length === 3) {
+    label = [
+      provinceCityData.find(item => item.value === value[0]).label,
+      provinceCityData.find(item => item.value === value[0]).children.find(item => item.value === value[1]).label,
+      provinceCityData
+        .find(item => item.value === value[0])
+        .children.find(item => item.value === value[1])
+        .children.find(item => item.value === value[2]).label
+    ];
   }
-});
+  return label;
+};
 </script>

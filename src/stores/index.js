@@ -2,6 +2,7 @@ import { defineStore, createPinia } from "pinia";
 import { DEFAULT_PRIMARY } from "@/config/config";
 import piniaPersistConfig from "@/config/piniaPersist";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import { provinceAndCity } from "@/api/common";
 
 // defineStore 调用后返回一个函数，调用该函数获得 Store 实体
 export const GlobalStore = defineStore({
@@ -39,7 +40,9 @@ export const GlobalStore = defineStore({
       footer: true,
       // 当前页面是否全屏
       maximize: false
-    }
+    },
+    // 省份-城市数据
+    provinceCityData: []
   }),
   getters: {},
   actions: {
@@ -54,6 +57,18 @@ export const GlobalStore = defineStore({
     // setThemeConfig
     setThemeConfig(themeConfig) {
       this.themeConfig = themeConfig;
+    },
+    // setProvinceCityData
+    setProvinceCityData(provinceCityData) {
+      this.provinceCityData = provinceCityData;
+    },
+    // getProvinceCityData
+    getProvinceCityData() {
+      provinceAndCity().then(res => {
+        if (res.code == "0000") {
+          this.setProvinceCityData(res.data);
+        }
+      });
     }
   },
   persist: piniaPersistConfig("GlobalState")

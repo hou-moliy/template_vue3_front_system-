@@ -51,6 +51,7 @@ const openDialog = () => {
 const handleReset = () => {
   resetForm();
   dialogVisible.value = false;
+  fileList.value = [];
 };
 const handleSubmit = () => {
   submitForm().then(() => {

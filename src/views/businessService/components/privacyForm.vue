@@ -5,7 +5,7 @@
     </el-form-item>
     <slot name="center"></slot>
     <el-form-item label="归属省份地市" prop="cityId">
-      <regionSelect v-model="address" :level="2" />
+      <regionSelect v-model="address" />
     </el-form-item>
     <el-form-item label="录音模式" prop="recordMode">
       <el-select v-model="form.recordMode" placeholder="请选择录音模式">

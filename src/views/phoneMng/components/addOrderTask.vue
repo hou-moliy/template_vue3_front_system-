@@ -5,23 +5,11 @@
       <el-form-item label="任务名称" prop="title">
         <el-input v-model="form.title" placeholder="请输入任务名称" />
       </el-form-item>
-      <el-form-item label="类型" prop="poolType">
-        <model-select v-model="form.poolType" dictType="poolType" type="radio" />
+      <el-form-item label="类型" prop="orderType">
+        <model-select v-model="form.orderType" dictType="orderType" type="radio" />
       </el-form-item>
-      <el-form-item label="企业客户" prop="groupName">
-        <model-select v-model="form.groupName" dictType="businessUser" placeholder="请选择企业客户" />
-      </el-form-item>
-      <!-- 指定号码量订购展示 -->
-      <template v-if="form.poolType == '1'">
-        <el-form-item label="省份地市" prop="provinceId">
-          <regionSelect v-model="address" :level="2" />
-        </el-form-item>
-        <el-form-item label="号码量" prop="phoneNum">
-          <el-input-number v-model="form.phoneNum" :min="0" />
-        </el-form-item>
-      </template>
       <!-- 指定号码订购展示 -->
-      <template v-else>
+      <template v-if="form.orderType == '1'">
         <el-form-item label="上传文件" prop="file">
           <UploadFile
             :fileList="fileList"
@@ -32,6 +20,18 @@
           >
             <el-link type="primary" href="https://element-plus.org" target="_blank">下载文件模板</el-link>
           </UploadFile>
+        </el-form-item>
+      </template>
+      <!-- 指定号码量订购展示 -->
+      <template v-else>
+        <el-form-item label="企业客户" prop="groupId">
+          <model-select v-model="form.groupId" dictType="businessMidgroup" placeholder="请选择企业客户" />
+        </el-form-item>
+        <el-form-item label="省份地市" prop="provinceId">
+          <regionSelect v-model="address" />
+        </el-form-item>
+        <el-form-item label="号码量" prop="phoneNum">
+          <el-input-number v-model="form.phoneNum" :min="0" />
         </el-form-item>
       </template>
 
@@ -53,8 +53,9 @@ const dialogVisible = ref(false);
 // 表单
 const initialValues = {
   title: "",
-  poolType: "0",
-  groupName: "",
+  orderType: "0",
+  poolType: "",
+  groupId: "",
   provinceId: "",
   cityId: "",
   file: null,
@@ -112,6 +113,7 @@ const handleReset = () => {
   setAddress([]);
   resetForm();
   dialogVisible.value = false;
+  fileList.value = [];
 };
 defineExpose({
   openDialog

@@ -29,7 +29,10 @@ service.interceptors.response.use(
   res => {
     const code = res.data.code;
     // 二进制数据则直接返回
-    if (res.request.responseType === "blob" || res.request.responseType === "arraybuffer") {
+    if (
+      res.data.type != "application/json" &&
+      (res.request.responseType === "blob" || res.request.responseType === "arraybuffer")
+    ) {
       return res;
     }
     if (code == "401") {
@@ -54,7 +57,7 @@ service.interceptors.response.use(
       return Promise.reject("无效的会话，或者会话已过期，请重新登录。");
     } else if (code != "0000") {
       ElNotification.error({
-        title: res.data.message || res.data.msg || "Error"
+        title: res.message || res.msg || "Error"
       });
       return Promise.reject("error");
     } else {

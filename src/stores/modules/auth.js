@@ -4,7 +4,6 @@ import { getShowMenuList, handleMenuList, getAllBreadcrumbList, getAssetsImages 
 import { routerList } from "@/api/menu.js";
 import { getUserInfoApi } from "@/api/user.js";
 import { removeToken } from "@/utils/auth";
-import { staticRouter } from "@/routers/modules/staticRouter";
 // AuthStore
 export const AuthStore = defineStore({
   id: "AuthStore",
@@ -77,9 +76,15 @@ export const AuthStore = defineStore({
         resolve();
       });
     },
-    setAllMenuList() {
-      const layoutList = staticRouter.find(item => item.path === "/layout")?.children ?? [];
-      const staticList = staticRouter.filter(item => item.path !== "/layout") ?? [];
+    async initializeStaticRouter() {
+      // Import the staticRouter module dynamically
+      const { staticRouter } = await import("@/routers/modules/staticRouter");
+      return staticRouter;
+    },
+    async setAllMenuList() {
+      const staticRouter = await this.initializeStaticRouter();
+      const layoutList = staticRouter?.find(item => item.path === "/layout")?.children ?? [];
+      const staticList = staticRouter?.filter(item => item.path !== "/layout") ?? [];
       this.allMenuList = [...layoutList, ...staticList, ...this.authMenuList];
     }
   }

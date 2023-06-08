@@ -49,15 +49,12 @@ const useTime = () => {
     return dates;
   };
   // 获取当前时间
-  const getCurrentDate = () => {
+  const getCurrentDate = (format = "yyyy-mm-dd") => {
     const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-    const day = String(currentDate.getDate()).padStart(2, "0");
-    const formattedDate = `${year}-${month}-${day}`;
-    todayDate.value = formatDate;
+    const formattedDate = formatDate(currentDate, format);
     return formattedDate;
   };
+  // 两个日期间的所有日期
   const getDateRange = (startDate, endDate, format = "yyyy/mm/dd") => {
     startDate = new Date(startDate);
     endDate = new Date(endDate);
@@ -70,6 +67,14 @@ const useTime = () => {
     }
     return dates;
   };
+  // 获取当前日期
+  const getTodayDate = (format = "yyyymmdd") => {
+    return getCurrentDate(format);
+  };
+  // 获取当前月份
+  const getThisMonth = (format = "yyyymm") => {
+    return getCurrentDate(format);
+  };
   return {
     getMonthDates,
     monthDates,
@@ -77,7 +82,10 @@ const useTime = () => {
     recentDates,
     getCurrentDate,
     todayDate,
-    getDateRange
+    getDateRange,
+    formatDate,
+    getTodayDate,
+    getThisMonth
   };
 };
 export default useTime;

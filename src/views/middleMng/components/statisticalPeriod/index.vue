@@ -1,10 +1,10 @@
 <template>
   <el-select :modelValue="modelValue" placeholder="请选择统计周期" @change="onChange">
-    <el-option label="日统计" value="day" />
-    <el-option label="月统计" value="month" />
-    <el-option label="近7日统计" value="7" />
-    <el-option label="近30日统计" value="30" />
-    <el-option :value="customDate" @click="showPicker('daterange', 'YYYY-MM-DD')">
+    <el-option label="日统计" value="0" />
+    <el-option label="月统计" value="1" />
+    <el-option label="近7日统计" value="2" />
+    <el-option label="近30日统计" value="3" />
+    <el-option :value="customDate" @click="showPicker('datetime', 'YYYY-MM-DD')">
       <span class="label">自定义日期</span>
       <span class="sub-label">{{ customDate }}</span>
     </el-option>
@@ -15,39 +15,45 @@
   </el-select>
   <el-date-picker
     ref="datePickerRef"
+    style="display: none"
     v-model="pickerOptions.val"
     :value-format="pickerOptions.format"
     :type="pickerOptions.type"
+    :disabled-date="$pickerOptions.disabledDate"
     @change="onPickerChange"
   />
 </template>
 <script setup>
 import { ref, computed, reactive, toRefs } from "vue";
+
 const titleMap = {
-  day: "日统计",
-  month: "月统计",
-  7: "近7日统计",
-  30: "近30日统计"
+  0: "日统计",
+  1: "月统计",
+  2: "近7日统计",
+  3: "近30日统计",
+  4: "自定义日期",
+  5: "自定义月份"
 };
 defineProps({
   modelValue: {
-    type: String,
+    type: [String, Array],
     default: ""
   }
 });
 const emits = defineEmits(["update:modelValue"]);
-const customDate = computed(() => (pickerOptions.type === "daterange" && pickerOptions.val) || "点击选择");
+const customDate = computed(() => (pickerOptions.type === "datetime" && pickerOptions.val) || "点击选择");
 const customMonth = computed(() => (pickerOptions.type === "month" && pickerOptions.val) || "点击选择");
 const pickerOptions = reactive({
   val: "点击选择",
-  type: "daterange",
-  format: "YYYY-MM-DD",
+  type: "datetime",
+  format: "YYYYMMDDHHmmss",
   title: ""
 });
 const datePickerRef = ref(null);
 const onChange = e => {
   pickerOptions.val = "";
-  if (e === "day" || e === "month" || e === "7" || e === "30") {
+  if (e < 4) {
+    // 非自定义
     pickerOptions.title = titleMap[e];
     emits("update:modelValue", e);
   }
@@ -61,16 +67,14 @@ const onPickerChange = () => {
   pickerOptions.title = `${pickerOptions.val}统计`;
   emits("update:modelValue", pickerOptions.val);
 };
-defineExpose({ ...toRefs(pickerOptions) });
+const resetPicker = () => {
+  console.log("resetPicker");
+  pickerOptions.val = "";
+  pickerOptions.title = "";
+};
+defineExpose({ ...toRefs(pickerOptions), resetPicker });
 </script>
-<style>
-.el-date-editor,
-.el-date-editor--daterange,
-.el-range-editor.el-input__wrapper {
-  display: none;
-  /* 隐藏日期选择器的输入框 */
-}
-
+<style lang="scss" scoped>
 .label {
   float: left;
 }

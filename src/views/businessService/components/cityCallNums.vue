@@ -5,7 +5,7 @@
       <el-table :data="cityCallNums" max-height="250" border>
         <el-table-column fixed prop="cityName" label="地区" width="150">
           <template #default="{ row }">
-            <regionSelect v-model="row.address" :level="2" :showCode="false" @get-val-str="getValStr(row)" />
+            <regionSelect v-model="row.address" :showCode="false" @get-label="getLabel($event, row)" />
           </template>
         </el-table-column>
         <el-table-column prop="number" label="数量">
@@ -62,8 +62,8 @@ const onAddItem = () => {
 const onDelete = () => {
   cityCallNums.value.pop();
 };
-const getValStr = row => {
-  row.cityName = row.address.join(",");
+const getLabel = (e, row) => {
+  row.cityName = e[1];
 };
 defineExpose({ form, resetForm, submitForm, cityCallNums });
 </script>

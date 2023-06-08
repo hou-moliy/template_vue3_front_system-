@@ -26,7 +26,7 @@ const props = defineProps({
   },
   legendData: {
     type: Array,
-    default: () => ["订单量", "呼入平台次数", "成功通话次数", "接通率"]
+    default: () => ["呼入平台次数", "呼出平台次数", "成功通话次数", "接通率"]
   },
   xData: {
     // 横坐标
@@ -75,19 +75,19 @@ let option = reactive({
     // y轴
     type: "value",
     min: "0",
-    max: "50000000",
-    splitNumber: "10"
+    max: "1000"
+    // splitNumber: "10"
   },
   series: [
     // 数据
     {
-      name: "订单量",
+      name: "呼入平台次数",
       type: "line",
       stack: "Total",
       data: []
     },
     {
-      name: "呼入平台次数",
+      name: "呼出平台次数",
       type: "line",
       stack: "Total",
       data: []
@@ -112,6 +112,9 @@ watch(
     nextTick(() => {
       option.xAxis.data = newVal.xData;
       option.title.text = newVal.title;
+      newVal.seriesData.forEach((item, index) => {
+        option.series[index].data = item;
+      });
       let chartDom = document.getElementById("main");
       let myChart = echarts.init(chartDom);
       useEcharts(myChart, option);

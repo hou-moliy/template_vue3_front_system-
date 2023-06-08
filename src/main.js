@@ -24,20 +24,14 @@ import errorHandler from "@/utils/errorHandler";
 import directives from "@/directives/index";
 import "@/permission";
 // import "./mock/index";
-import Pagination from "@/components/Pagination/index.vue";
+import { pickerOptions } from "@/config/datePicker.js";
 // 全局配置
 dayjs.locale("zh-cn"); // 设置语言为中文（可选）
 const app = createApp(App);
 // 将 dayjs 实例添加到 Vue 3 的全局属性中
 app.config.globalProperties.$dayjs = dayjs;
 app.config.errorHandler = errorHandler;
+// 将日期选择器配置添加到 Vue 3 的全局属性中
+app.config.globalProperties.$pickerOptions = pickerOptions;
 
-app
-  .use(router)
-  .use(I18n)
-  .use(pinia)
-  .use(elementIcon)
-  .use(directives)
-  .component("svg-icon", svgIcon)
-  .component("Pagination", Pagination)
-  .mount("#app");
+app.use(router).use(I18n).use(pinia).use(elementIcon).use(directives).component("svg-icon", svgIcon).mount("#app");

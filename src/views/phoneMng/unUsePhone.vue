@@ -2,7 +2,7 @@
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
     <el-form-item label="省份地市">
-      <regionSelect v-model="address" :level="2" />
+      <regionSelect v-model="address" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
@@ -12,12 +12,12 @@
   </el-form>
   <!-- 表格 -->
   <el-table border :data="tableData" v-load="isLoading">
-    <el-table-column label="省份" prop="provinceId" />
-    <el-table-column label="地市" prop="cityId" />
-    <el-table-column label="号码量" prop="phoneNum" />
+    <el-table-column label="省份" prop="provinceName" />
+    <el-table-column label="地市" prop="cityName" />
+    <el-table-column label="号码量" prop="numberTotal" />
     <el-table-column label="操作">
-      <template #default>
-        <el-button type="primary" link>导出号码详情</el-button>
+      <template #default="{ row }">
+        <el-button type="primary" link @click="handleExportPhoneDetail(row)">导出号码详情</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -29,7 +29,7 @@ import regionSelect from "@/components/regionSelect/index.vue";
 import useRegion from "@/hooks/useRegion.js";
 import useForm from "@/hooks/useForm";
 import { unusedList, exportUnusedNumberList } from "@/api/number";
-import { exportFile } from "@/hooks/useExport";
+import { handleDownload, exportExcel } from "@/hooks/useExport";
 import { useLoading } from "@/hooks/useLoading";
 const { isLoading, loadingWrapper } = useLoading();
 // 表单
@@ -41,7 +41,7 @@ const initialValues = {
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
-const { address, setAddress } = useRegion(formRef, form);
+const { address, setAddress, getAddress } = useRegion(formRef, form);
 // 表格数据
 const tableData = ref([]);
 const total = ref(0);
@@ -49,8 +49,8 @@ const getList = () => {
   loadingWrapper(
     unusedList(form).then(res => {
       if (res.code == "0000") {
-        tableData.value = res.data.rows;
-        total.value = res.data.total;
+        tableData.value = res.rows;
+        total.value = res.total;
       }
     })
   );
@@ -62,13 +62,32 @@ const handleReset = () => {
 };
 // 导出
 const handleExport = () => {
-  exportUnusedNumberList(form).then(res => {
-    if (res.data.size == 0) {
-      ElMessage.warning("暂无数据");
-      return;
-    }
-    exportFile(res.data, "xlsx", "成本账单");
+  const { provinceId, cityId } = form;
+  let fileName = "";
+  if (provinceId && cityId) {
+    fileName = `${getAddress(provinceId)}-${getAddress(cityId)}-未用号码资源`;
+  } else {
+    fileName = "未用号码资源";
+  }
+  handleDownload(exportUnusedNumberList(form), "xlsx", fileName);
+};
+// 表格-行导出号码详情
+const handleExportPhoneDetail = ({ provinceName, cityName, numberList }) => {
+  //导出 把英文表头转成中文
+  let Lists = [];
+  numberList.map(item => {
+    let obj = {};
+    obj["省份"] = provinceName;
+    obj["城市"] = cityName;
+    obj["号码"] = item;
+    Lists.push(obj);
   });
+  let fields = {
+    provinceName: "省份",
+    cityName: "城市",
+    number: "号码"
+  };
+  exportExcel(Lists, fields, `${provinceName}-${cityName}号码详情`);
 };
 onMounted(() => {
   getList();

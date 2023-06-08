@@ -14,13 +14,10 @@
       <model-select v-model="form.channelId" dictType="businessChannel" placeholder="请选择渠道商" />
     </el-form-item>
     <el-form-item label="省份地市" prop="provinceId">
-      <regionSelect v-model="address" :level="2" />
+      <regionSelect v-model="address" />
     </el-form-item>
-    <el-form-item label="统计周期" prop="date">
-      <el-select v-model="form.date" placeholder="请选择统计周期">
-        <el-option label="日统计" value="day" />
-        <el-option label="月统计" value="month" />
-      </el-select>
+    <el-form-item label="统计周期" prop="statType">
+      <statisticalPeriod ref="statisticalRef" v-model="statType" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
@@ -29,30 +26,26 @@
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table border :data="tableData">
-    <el-table-column prop="createTime" label="时间" />
-    <el-table-column prop="branchCmpy" label="分公司" />
-    <el-table-column prop="manager" label="客户经理" />
-    <el-table-column prop="channel" label="渠道商" />
-    <el-table-column prop="cmpy" label="企业客户" />
-    <el-table-column prop="provinceId" label="省份">
+  <el-table border :data="tableData" v-load="isLoading">
+    <el-table-column prop="statTime" label="时间">
       <template #default="{ row }">
-        <span>{{ getAddress(row.provinceId) }}</span>
+        {{ $dayjs(row.statTime).format("YYYY-MM-DD") }}
       </template>
     </el-table-column>
-    <el-table-column prop="cityId" label="地市">
-      <template #default="{ row }">
-        <span>{{ getAddress(row.cityId) }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column prop="cmpy" label="在绑订单量" />
-    <el-table-column prop="cmpy" label="录音订单量" />
-    <el-table-column prop="cmpy" label="全透传订单量" />
-    <el-table-column prop="cmpy" label="全不透传订单量" />
-    <el-table-column prop="phone" label="单向-A透传订单量" />
-    <el-table-column prop="times" label="单向-B透传订单量" />
-    <el-table-column prop="times" label="指定中间号订单量" />
-    <el-table-column prop="times" label="未指定中间号订单量" />
+    <el-table-column prop="branchName" label="分公司" />
+    <el-table-column prop="managerName" label="客户经理" />
+    <el-table-column prop="channelName" label="渠道商" />
+    <el-table-column prop="userName" label="企业客户" />
+    <el-table-column prop="provinceName" label="省份" />
+    <el-table-column prop="cityName" label="地市" />
+    <el-table-column prop="bindingNum" label="在绑订单量" />
+    <el-table-column prop="recordNum" label="录音订单量" />
+    <el-table-column prop="allTransNum" label="全透传订单量" />
+    <el-table-column prop="nonTransNum" label="全不透传订单量" />
+    <el-table-column prop="toATransNum" label="单向-A透传订单量" />
+    <el-table-column prop="toBTransNum" label="单向-B透传订单量" />
+    <el-table-column prop="designateBindNum" label="指定中间号订单量" />
+    <el-table-column prop="nonDesignateNum" label="未指定中间号订单量" />
   </el-table>
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
 </template>
@@ -60,46 +53,46 @@
 import { ref, onMounted } from "vue";
 import useForm from "@/hooks/useForm";
 import regionSelect from "@/components/regionSelect/index.vue";
+import statisticalPeriod from "./components/statisticalPeriod/index.vue";
 import useRegion from "@/hooks/useRegion.js";
 import { orderList, exportOrderList } from "@/api/stats";
 import { ElMessage } from "element-plus";
+import usePeriod from "./hooks/usePeriod";
+import { useLoading } from "@/hooks/useLoading";
+const { isLoading, loadingWrapper } = useLoading();
 const initialValues = {
   userId: "",
+  branchId: "",
+  channelId: "",
+  managerId: "",
   provinceId: "",
   cityId: "",
-  date: "",
+  statType: "",
+  startTime: "",
+  endTime: "",
   pageNum: 1,
   pageSize: 10
 };
 const { form, formRef, resetForm } = useForm(initialValues);
+const { statisticalRef, statType, resetStatType } = usePeriod(form);
 // 地址
-const { address, setAddress, getAddress } = useRegion(formRef, form);
+const { address, setAddress } = useRegion(formRef, form);
 const tableData = ref([]);
 const total = ref(0);
 const getList = () => {
-  tableData.value = [
-    {
-      cmpy: "美团",
-      manager: "美团经理",
-      branchCmpy: "美团分公司",
-      channel: "渠道商",
-      phone: "123",
-      times: "2",
-      provinceId: "11",
-      cityId: "110101",
-      createTime: "2023/5/16"
-    }
-  ];
-  orderList(form).then(res => {
-    if (res.code === '0000') {
-      tableData.value = res.data.list;
-      total.value = res.data.total;
-    }
-  });
+  loadingWrapper(
+    orderList(form).then(res => {
+      if (res.code === "0000") {
+        tableData.value = res.rows;
+        total.value = res.total;
+      }
+    })
+  );
 };
 // 重置
 const handleReset = () => {
   setAddress([]);
+  resetStatType();
   resetForm().then(() => {
     getList();
   });
@@ -107,7 +100,7 @@ const handleReset = () => {
 // 导出
 const handleExport = () => {
   exportOrderList(form).then(res => {
-    if (res.code === '0000') {
+    if (res.code === "0000") {
       ElMessage.success("导出成功");
     }
   });
