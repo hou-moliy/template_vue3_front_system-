@@ -39,9 +39,10 @@
     <el-form-item v-if="isEdit">
       <el-button @click="onReset">重置</el-button>
       <el-button type="primary" @click="onSubmit">提交</el-button>
-      <el-button @click="onReset">取消</el-button>
+      <el-button @click="goBack('cancel')">取消</el-button>
     </el-form-item>
   </el-form>
+  <el-button v-if="!isEdit" @click="goBack">返回</el-button>
 </template>
 <script setup>
 import { ref, reactive, onMounted } from "vue";
@@ -51,6 +52,7 @@ import privacyForm from "./components/privacyForm.vue";
 import interForm from "./components/interForm.vue";
 import { useRoute } from "vue-router";
 import useForm from "@/hooks/useForm";
+import mittBus from "@/utils/mittBus";
 const { userId } = AuthStore();
 const route = useRoute();
 const privacyFormRef = ref(null);
@@ -81,7 +83,7 @@ const rules = reactive({
   ],
   bindingType: [
     {
-      required: true,
+      required: form.type == 1,
       message: "请选择业务模式",
       trigger: "blur"
     }
@@ -103,11 +105,17 @@ const onReset = () => {
   privacyFormRef?.value?.onReset();
   interFormRef?.value?.onReset();
 };
+const goBack = type => {
+  if (type == "cancel") {
+    onReset();
+  }
+  history.go(-1);
+};
 const getDetail = streamNumber => {
   getInfo({ streamNumber }).then(res => {
     if (res.code == "0000") {
       Object.assign(form, res.data);
-      form.type = "0";
+      mittBus.emit("setForm", res.data);
     }
   });
 };

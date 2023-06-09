@@ -1,7 +1,7 @@
 <template>
   <template v-if="type == 'select'">
     <el-select :modelValue="modelValue" :placeholder="placeholder" @change="onChange" v-bind="$attrs">
-      <el-option v-for="(item, index) in dictList" :label="item.label" :value="item.value" :key="index" />
+      <el-option v-for="(item, index) in dictList" :label="item.label" :value="item.value * 1" :key="index" />
     </el-select>
   </template>
   <template v-if="type == 'radio'">

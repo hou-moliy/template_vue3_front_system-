@@ -32,6 +32,7 @@ const businessRuleRef = ref(null);
 let interForm = reactive({ baseInfo: null, contactInfo: null, cityCallNums: null, businessRule: null });
 const { handleAdd, handleUpdate } = useBusiness();
 const onSubmit = isAdd => {
+  console.log("点击了提交");
   baseInfoRef.value?.submitForm().then(() => {
     const form = {
       ...props.commonForm,

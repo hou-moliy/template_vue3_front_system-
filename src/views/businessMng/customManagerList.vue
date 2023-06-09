@@ -23,22 +23,22 @@
         <el-button type="primary" link @click="showManagerDetailDialog(row.userId, false)">详情</el-button>
         <el-button type="primary" link @click="showManagerDetailDialog(row.userId, true)">编辑</el-button>
         <el-button type="danger" link @click="deleteRow(row)">删除</el-button>
-        <el-button type="primary" link @click="showCmpyListDialog(row)">查看客户列表</el-button>
+        <el-button type="primary" link @click="showCmpyListDialog(row.userId)">查看客户列表</el-button>
         <el-button type="primary" link>下载附件</el-button>
       </template>
     </el-table-column>
   </el-table>
   <Pagination v-show="total > 0" :total="total" v-model:page="form.pageNum" v-model:limit="form.pageSize" @pagination="getList" />
-  <!-- 企业客户列表 -->
-  <cmpyListDialog ref="cmpyListDialogRef" />
+  <!-- 客户经理下的所有企业客户信息 -->
+  <managerUserList ref="userListDialogRef" />
   <!-- 编辑、详情 -->
-  <customInfoDialog ref="customInfoDialogRef" @submitSuccess="getList" />
+  <customInfoDialog ref="customInfoDialogRef" @submit-success="getList" />
 </template>
 <script setup>
 import { onMounted, ref } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
+import managerUserList from "./components/managerUserList.vue";
 import customInfoDialog from "./components/customInfoDialog.vue";
-import cmpyListDialog from "./components/cmpyListDialog.vue";
 import useForm from "@/hooks/useForm";
 import { managerList, managerDelete } from "@/api/manager";
 import { useLoading } from "@/hooks/useLoading";
@@ -81,15 +81,15 @@ const deleteRow = ({ userId }) => {
     });
   });
 };
-// 查看企业客户列表
-const cmpyListDialogRef = ref(null);
-const showCmpyListDialog = row => {
-  cmpyListDialogRef?.value?.openDialog(row);
+// 查看客户列表
+const userListDialogRef = ref(null);
+const showCmpyListDialog = userId => {
+  userListDialogRef?.value?.openDialog(userId);
 };
 // 编辑、详情
 const customInfoDialogRef = ref(null);
 const showManagerDetailDialog = (id, isEdit) => {
-	customInfoDialogRef?.value?.openDialog({ id, isEdit });
+  customInfoDialogRef?.value?.openDialog({ id, isEdit });
 };
 onMounted(() => {
   getList();

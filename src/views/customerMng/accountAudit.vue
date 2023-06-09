@@ -5,7 +5,10 @@
       <model-select v-model="form.userType" dictType="roleType" placeholder="请选择账户类型" />
     </el-form-item>
     <el-form-item label="审批状态" prop="auditStatus">
-      <model-select v-model="form.auditStatus" dictType="auditStatus" placeholder="请选择审批状态" />
+      <el-select v-model="form.auditStatus" placeholder="请选择审批状态">
+        <el-option label="待审核" value="0" />
+        <el-option label="审核未通过" value="1" />
+      </el-select>
     </el-form-item>
     <el-form-item label="申请人名称" prop="loginName">
       <el-input v-model="form.loginName" placeholder="请输入申请人姓名" />
@@ -41,22 +44,20 @@
         <span v-else class="gray">/</span>
       </template>
     </el-table-column>
-		<el-table-column prop="auditTime" label="审批时间" >
-			<template #default="{ row }">
-				<span v-if="row.auditStatus != 0">{{ row.auditTime }}</span>
-				<span v-else class="gray">/</span>
-			</template>
-		</el-table-column>
-    <el-table-column prop="auditFailedReason" label="审批结果">
+    <el-table-column prop="auditTime" label="审批时间">
       <template #default="{ row }">
-        <span v-if="row.auditStatus == 2">{{ getDictTypeValue("auditStatus", row.auditStatus) }}</span>
-				<span v-else-if="row.auditStatus == 1">{{ row.auditFailedReason }}</span>
+        <span v-if="row.auditStatus != 0">{{ row.auditTime }}</span>
         <span v-else class="gray">/</span>
       </template>
     </el-table-column>
-		<el-table-column prop="remark" label="备注">
-
-		</el-table-column>
+    <el-table-column prop="auditFailedReason" label="审批结果">
+      <template #default="{ row }">
+        <span v-if="row.auditStatus == 2">{{ getDictTypeValue("auditStatus", row.auditStatus) }}</span>
+        <span v-else-if="row.auditStatus == 1">{{ row.auditFailedReason }}</span>
+        <span v-else class="gray">/</span>
+      </template>
+    </el-table-column>
+    <el-table-column prop="remark" label="备注"> </el-table-column>
     <el-table-column fixed="right" label="审批操作" width="180">
       <template #default="{ row }">
         <div v-if="row.auditStatus == 0">
@@ -81,7 +82,7 @@ import { ElMessageBox, ElMessage } from "element-plus";
 import { AuthStore } from "@/stores/modules/auth";
 const authStore = AuthStore();
 const { isLoading, loadingWrapper } = useLoading();
-const { getDictTypeValue,getDictTypeLabel } = DictTypesStore();
+const { getDictTypeValue, getDictTypeLabel } = DictTypesStore();
 // 审核弹窗
 const auditDialogRef = ref(null);
 
@@ -102,8 +103,8 @@ let tableData = ref([]);
 const total = ref(0);
 const getList = () => {
   loadingWrapper(
-		auditUserList(form).then(res => {
-      if (res.code === '0000') {
+    auditUserList(form).then(res => {
+      if (res.code === "0000") {
         tableData.value = res.rows;
         total.value = res.total;
       }
@@ -129,7 +130,7 @@ const openAuditDialog = ({ userId, roleId }, auditStatus) => {
         return auditUser(data);
       })
       .then(res => {
-        if (res.code === '0000') {
+        if (res.code === "0000") {
           ElMessage.success("审批成功");
           getList();
         }

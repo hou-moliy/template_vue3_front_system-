@@ -89,9 +89,10 @@
   </el-card>
 </template>
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import useForm from "@/hooks/useForm";
 import useRegion from "@/hooks/useRegion.js";
+import mittBus from "@/utils/mittBus";
 // 业务类型枚举
 const opTypes = [
   {
@@ -152,6 +153,13 @@ const initialValues = {
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
 const channel = ref(false);
 const rules = reactive({
+  projectName: [
+    {
+      required: true,
+      message: "请输入项目名称",
+      trigger: "blur"
+    }
+  ],
   provinceId: [
     {
       required: true,
@@ -163,13 +171,6 @@ const rules = reactive({
     {
       required: true,
       message: "请选择业务模式",
-      trigger: "blur"
-    }
-  ],
-  channelName: [
-    {
-      required: channel,
-      message: "请输入集成商名称",
       trigger: "blur"
     }
   ],
@@ -195,7 +196,13 @@ const onReset = () => {
   resetForm();
   setAddress([]);
 };
-
+onMounted(() => {
+  mittBus.on("setForm", data => {
+    if (data?.baseInfo) {
+      Object.assign(form, data.baseInfo);
+    }
+  });
+});
 defineExpose({ form, onReset, submitForm });
 </script>
 <style lang="scss" scoped>

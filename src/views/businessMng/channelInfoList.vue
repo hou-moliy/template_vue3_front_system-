@@ -25,7 +25,7 @@
         <el-button type="primary" link @click="showChannelDetailDialog(row.userId, false)">详情</el-button>
         <el-button type="primary" link @click="showChannelDetailDialog(row.userId, true)">编辑</el-button>
         <el-button type="danger" link @click="deleteRow(row)">删除</el-button>
-        <el-button type="primary" link @click="showCmpyListDialog(row)">查看客户列表</el-button>
+        <el-button type="primary" link @click="showCmpyListDialog(row)">查看企业客户列表</el-button>
         <el-button type="primary" link>下载附件</el-button>
       </template>
     </el-table-column>

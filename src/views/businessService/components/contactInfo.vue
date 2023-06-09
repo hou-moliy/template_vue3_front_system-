@@ -37,6 +37,8 @@
 </template>
 <script setup>
 import useForm from "@/hooks/useForm";
+import { onMounted } from "vue";
+import mittBus from "@/utils/mittBus";
 defineProps({
   disabled: {
     type: Boolean,
@@ -54,6 +56,13 @@ const initialValues = {
   productName: ""
 };
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
+onMounted(() => {
+  mittBus.on("setForm", data => {
+    if (data?.contactInfo) {
+      Object.assign(form, data.contactInfo);
+    }
+  });
+});
 defineExpose({ form, resetForm, submitForm });
 </script>
 <style lang="scss" scoped>

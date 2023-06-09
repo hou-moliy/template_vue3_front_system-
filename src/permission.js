@@ -11,8 +11,6 @@ import { GlobalStore } from "@/stores";
  * @description 路由拦截 beforeEach
  * */
 router.beforeEach((to, from, next) => {
-  const authStore = AuthStore();
-  const globalStore = GlobalStore();
   const token = getToken();
   NProgress.start();
   const title = import.meta.env.VITE_GLOB_APP_TITLE;
@@ -22,6 +20,8 @@ router.beforeEach((to, from, next) => {
       NProgress.done();
       next(from.fullPath);
     } else {
+      const authStore = AuthStore();
+      const globalStore = GlobalStore();
       // 已登录跳转
       authStore.setRouteName(to.name);
       // 用户权限
@@ -31,7 +31,9 @@ router.beforeEach((to, from, next) => {
         authStore.getUserInfo().then(() => {
           initDynamicRouter()
             .then(() => {
+              console.log(to, "tooooo");
               next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
+              // next({ path: to.path, query: to.query, replace: true });
             })
             .catch(err => {
               authStore.logout().then(() => {
@@ -47,7 +49,7 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    TABS_WHITE_LIST.indexOf(to.path) !== -1 ? next() : next(`${LOGIN_URL}?redirect=${to.path}`);
+    TABS_WHITE_LIST.indexOf(to.path) !== -1 ? next() : next(`${LOGIN_URL}?redirect=${to.fullPath}`);
   }
 });
 

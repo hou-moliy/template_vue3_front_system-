@@ -2,7 +2,7 @@
   <div class="upload_wrap">
     <el-upload
       v-if="!isDisableUpload"
-      class="upload"
+      :class="{ upload: fileList.length }"
       ref="uploadRef"
       :file-list="waitFileList"
       :multiple="isMultiple"
@@ -17,11 +17,11 @@
     >
       <div class="el-upload__text">
         <el-icon><Upload /></el-icon>
-        <span>上传文件</span>
+        <span>{{ btnText }}</span>
       </div>
       <div @click.stop="() => {}"><slot name="default"></slot></div>
     </el-upload>
-    <div class="template_list">
+    <div class="template_list" v-if="fileList.length">
       <div class="template" v-for="(item, index) in waitFileList" :key="index">
         <span>
           <el-icon><Link /></el-icon>
@@ -35,7 +35,9 @@
         </span>
       </div>
     </div>
-    <span class="tips" v-if="!props.isDisableUpload">支持{{ acceptTypeDesc }}；文件大小不能超过{{ props.maxFileSize }}M</span>
+    <span class="tips" v-if="!props.isDisableUpload && props.acceptTypeDesc"
+      >支持{{ acceptTypeDesc }}；文件大小不能超过{{ props.maxFileSize }}M</span
+    >
   </div>
 </template>
 
@@ -55,6 +57,7 @@ interface Props {
   action?: string;
   fileList?: any; // 回显的文件
   isDownLoad?: boolean; // 是否可以下载
+  btnText?: string; // 按钮文字
 }
 // 接收父组件传递过来的参数
 const props = withDefaults(defineProps<Props>(), {
@@ -66,7 +69,8 @@ const props = withDefaults(defineProps<Props>(), {
   maxFileSize: 10,
   action: "",
   fileList: [],
-  isDownLoad: false
+  isDownLoad: false,
+  btnText: "上传文件"
 });
 
 let waitFileList = ref<any[]>([]);
@@ -116,10 +120,6 @@ const handleChange = async (file: any, fileList: any[]) => {
     return false;
   } else if (rawFile.size / 1024 / 1024 > props.maxFileSize) {
     ElMessage.error(`文件大小不能超过${props.maxFileSize}MB!`);
-    // const arr = [...waitFileList.value];
-    // waitFileList.value = arr.filter((item: any) => {
-    //   return item.uid != rawFile.uid;
-    // });
     removeFile(rawFile);
     return false;
   } else {
@@ -202,12 +202,17 @@ const handleUpload = (rawFile: any) => {
   });
   uploadIdsFile({ url: requestURL, data: formData })
     .then(async (res: any) => {
-      if (res.code == 0) {
+      if (res.code == "0000") {
         loadingInstance.close();
-        let obj = {
-          ...res.data,
-          name: res.data.original
-        };
+        console.log("上传成功");
+        let obj = {};
+        if (res.data) {
+          obj = {
+            ...res.data,
+            name: res.data.original
+          };
+        }
+        ElMessage.success("上传成功");
         emits("fileSuccess", obj);
       } else {
         loadingInstance.close();
@@ -243,7 +248,9 @@ const handleExceed = (files: any, fileList: any[]) => {
 }
 
 :deep().el-upload__text {
-  width: 106px;
+  // width: 106px;
+  padding: 0px 5px;
+  box-sizing: border-box;
   height: 32px;
   display: flex;
   align-items: center;

@@ -25,6 +25,7 @@ import directives from "@/directives/index";
 import "@/permission";
 // import "./mock/index";
 import { pickerOptions } from "@/config/datePicker.js";
+import "default-passive-events"; // 解决element-plus的警告
 // 全局配置
 dayjs.locale("zh-cn"); // 设置语言为中文（可选）
 const app = createApp(App);

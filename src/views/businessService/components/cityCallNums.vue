@@ -32,7 +32,8 @@
   </el-card>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import mittBus from "@/utils/mittBus";
 import useForm from "@/hooks/useForm";
 defineProps({
   disabled: {
@@ -65,6 +66,13 @@ const onDelete = () => {
 const getLabel = (e, row) => {
   row.cityName = e[1];
 };
+onMounted(() => {
+  mittBus.on("setForm", data => {
+    if (data?.cityCallNums) {
+      cityCallNums.value = data.cityCallNums;
+    }
+  });
+});
 defineExpose({ form, resetForm, submitForm, cityCallNums });
 </script>
 <style lang="scss" scoped>

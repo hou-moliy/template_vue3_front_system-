@@ -38,3 +38,12 @@ export const managerDetail = params => {
     baseURL
   });
 };
+// 获取客户经理下的所有企业客户信息
+export const managerUserList = params => {
+  return service({
+    url: `/manager/userList`,
+    method: "get",
+    params,
+    baseURL
+  });
+};

@@ -22,16 +22,15 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-upload
-        class="upload-demo"
-        :action="`${baseURL}/monthlyBilling/importMonthlyBilling`"
-        :headers="headers"
-        :show-file-list="false"
-        :on-success="handleSuccess"
-        accept=".xls,.xlsx"
-      >
-        <el-button type="primary" style="margin: 0px 15px">上传成本账单</el-button>
-      </el-upload>
+      <div style="margin: 0 15px">
+        <upload-file
+          action="/monthlyBilling/importMonthlyBilling"
+          acceptType=".xls,.xlsx"
+          :maxFileSize="10"
+          @file-success="getList"
+          btnText="上传成本账单"
+        />
+      </div>
       <el-button
         type="primary"
         :disabled="!tableData.length"
@@ -75,7 +74,6 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-import { getToken } from "@/utils/auth";
 import useForm from "@/hooks/useForm";
 import costBillDetail from "./components/costBillDetail.vue";
 import incomeBillDetail from "./components/incomeBillDetail.vue";
@@ -83,10 +81,7 @@ import { listMonthlyBillings, downloadMonthlyBilling, exportMonthlyBillingCost, 
 import { handleDownload } from "@/hooks/useExport";
 import { useLoading } from "@/hooks/useLoading";
 const { isLoading, loadingWrapper } = useLoading();
-const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
-const headers = {
-  Authorization: getToken()
-};
+
 const costBillRef = ref(null);
 const incomeBillRef = ref(null);
 const initialValues = {
@@ -118,15 +113,7 @@ const handleReset = () => {
     getList();
   });
 };
-// 上传回调
-const handleSuccess = res => {
-  if (res.code == "0000") {
-    ElMessage.success("上传成功");
-    getList();
-  } else {
-    ElMessage.error(res.msg);
-  }
-};
+
 const openDetail = (type, row) => {
   if (type === "cost") {
     costBillRef.value?.openDialog(row);

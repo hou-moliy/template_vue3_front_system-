@@ -43,8 +43,8 @@
       <template #default="{ row }">
         <el-button type="primary" v-if="row.auditStatus == 0" link @click="openAuditDialog(row)">审核</el-button>
         <el-button type="primary" link @click="addService(false, false, row)">查看</el-button>
-        <el-button type="primary" link @click="addService(true, false, row)">修改</el-button>
-        <el-button type="danger" link>撤销</el-button>
+        <el-button type="primary" v-if="row.auditStatus != 2" link @click="addService(true, false, row)">修改</el-button>
+        <el-button type="danger" v-if="row.auditStatus == 0" link>撤销</el-button>
         <el-button type="primary" link>下载</el-button>
       </template>
     </el-table-column>

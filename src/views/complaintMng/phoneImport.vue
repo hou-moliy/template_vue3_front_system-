@@ -17,27 +17,15 @@
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
       <el-button type="primary" @click="handleExport" :disabled="!tableData.length">导出</el-button>
-      <div style="margin: 0px 15px">
-        <el-upload
-          class="upload-demo"
-          :action="`${baseURL}/complaintManager/importComplaintFile`"
-          :headers="headers"
-          :show-file-list="false"
-          :on-success="handleSuccess"
-          :on-progress="handleProgress"
-          :on-error="handleError"
-          accept=".xls,.xlsx"
-        >
-          <el-button type="primary">上传投诉工单文件</el-button>
-        </el-upload>
-        <el-progress
-          style="width: 100%"
-          v-if="percentage"
-          :percentage="percentage"
-          :status="percentage == 100 ? 'success' : 'error'"
+      <div style="margin: 0 15px">
+        <upload-file
+          action="/complaintManager/importComplaintFile"
+          acceptType=".xls,.xlsx"
+          :maxFileSize="10"
+          @file-success="getList"
+          btnText="上传投诉工单文件"
         />
       </div>
-
       <el-button type="primary" :disabled="!tableData.length" @click="handleEmail">邮件通知</el-button>
     </el-form-item>
   </el-form>
@@ -101,7 +89,6 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-import { getToken } from "@/utils/auth";
 import useForm from "@/hooks/useForm";
 import userDetail from "./components/userDetail.vue";
 import branchDetailDialog from "@/views/businessMng/components/branchDetailDialog.vue";
@@ -111,10 +98,7 @@ import { ElMessage } from "element-plus";
 import { exportFile } from "@/hooks/useExport";
 import { useLoading } from "@/hooks/useLoading";
 const { isLoading, loadingWrapper } = useLoading();
-const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
-const headers = {
-  Authorization: getToken()
-};
+
 const userDetailRef = ref();
 const branchDetailRef = ref();
 const customInfoRef = ref();
@@ -160,26 +144,6 @@ const handleEmail = () => {
       ElMessage.success("邮件通知成功");
     }
   });
-};
-// 上传回调
-const handleSuccess = res => {
-  if (res.code == "0000") {
-    ElMessage.success("上传成功");
-    percentage.value = 0;
-    getList();
-  } else {
-    handleError();
-  }
-};
-// 上传中回调
-const percentage = ref(0); // 上传进度
-const handleProgress = ({ percent }) => {
-  percentage.value = Math.floor(percent);
-};
-// 上传失败回调
-const handleError = () => {
-  percentage.value = 0;
-  ElMessage.error("上传失败");
 };
 // 重置
 const handleReset = () => {

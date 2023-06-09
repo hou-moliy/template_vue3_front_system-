@@ -20,7 +20,7 @@
           </el-form-item>
         </template>
         <template #footer v-if="isEdit">
-          <el-form-item label="账单公式" prop="formulaName">
+          <el-form-item label="账单公式" prop="billId">
             <model-select v-model="form.billId" dictType="formulaType" placeholder="请选择账单公式" />
           </el-form-item>
         </template>
