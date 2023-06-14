@@ -16,7 +16,7 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleFormReset">重置</el-button>
-      <el-button type="primary" @click="addService(true, true)">新增</el-button>
+      <el-button type="primary" v-hasPermi="['businessList:add']" @click="addService(true, true)">新增</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -41,11 +41,11 @@
     </el-table-column>
     <el-table-column fixed="right" label="审批操作">
       <template #default="{ row }">
-        <el-button type="primary" v-if="row.auditStatus == 0" link @click="openAuditDialog(row)">审核</el-button>
-        <el-button type="primary" link @click="addService(false, false, row)">查看</el-button>
-        <el-button type="primary" v-if="row.auditStatus != 2" link @click="addService(true, false, row)">修改</el-button>
-        <el-button type="danger" v-if="row.auditStatus == 0" link>撤销</el-button>
-        <el-button type="primary" link>下载</el-button>
+        <el-button type="primary" v-if="row.auditStatus == 0" v-hasPermi="['businessList:audit']" link @click="openAuditDialog(row)">审核</el-button>
+        <el-button type="primary" link v-hasPermi="['businessList:detail']" @click="addService(false, false, row)">查看</el-button>
+        <el-button type="primary" v-if="row.auditStatus != 2" v-hasPermi="['businessList:edit']" link @click="addService(true, false, row)">修改</el-button>
+        <el-button type="danger" v-if="row.auditStatus == 0" v-hasPermi="['businessList:reset']" link @click="handleDelete(row)">撤销</el-button>
+        <el-button type="primary" link v-hasPermi="['businessList:download']">下载</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -55,12 +55,13 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-import { handleList } from "@/api/businessService";
+import { handleList, revoke } from "@/api/businessService";
 import DictTypesStore from "@/stores/modules/dictTypes";
 import useForm from "@/hooks/useForm";
 import auditDialog from "./components/auditDialog.vue";
 import { useLoading } from "@/hooks/useLoading";
 import { useRouter } from "vue-router";
+import { ElMessageBox, ElMessage } from "element-plus";
 const { getDictTypeValue } = DictTypesStore();
 const router = useRouter();
 const { isLoading, loadingWrapper } = useLoading();
@@ -102,6 +103,22 @@ const addService = (isEdit, isAdd, row) => {
     url = `${url}&type=${row.type}&streamNumber=${row.streamNumber}`;
   }
   router.push(url);
+};
+const handleDelete = async ({ streamNumber }) => {
+  try {
+    await ElMessageBox.confirm("是否确定撤销该申请？？？", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning"
+    });
+    const res = await revoke({ streamNumber });
+    if (res.code == "0000") {
+      ElMessage.success("撤销成功");
+      getList();
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 onMounted(() => {
   getList();

@@ -2,8 +2,8 @@ import { Ref } from "vue";
 import type { FormInstance } from "element-plus";
 import { isPassword, isEmail, isPhone, isCardId, isLoginName, isRealName, isVerCode } from "@/utils/validate";
 export default function useValidator(ruleFormRef: Ref<FormInstance>, ruleForm: any) {
-  const validatePass = (rule: any, value: any, callback: any) => {
-    if (value === "") {
+  const validatePass = (rule: any, value: any, callback: any, required = true) => {
+    if (required && value === "") {
       callback(new Error("请输入密码!"));
     } else {
       if (ruleForm.password !== "") {
@@ -18,8 +18,8 @@ export default function useValidator(ruleFormRef: Ref<FormInstance>, ruleForm: a
       }
     }
   };
-  const validatePass2 = (rule: any, value: any, callback: any) => {
-    if (value === "") {
+  const validatePass2 = (rule: any, value: any, callback: any, required = true) => {
+    if (required && value === "") {
       callback(new Error("请再次输入密码!"));
     } else if (value !== ruleForm.password) {
       callback(new Error("两次密码不一致!"));
@@ -27,8 +27,8 @@ export default function useValidator(ruleFormRef: Ref<FormInstance>, ruleForm: a
       callback();
     }
   };
-  const validateEmail = (rule: any, value: any, callback: any) => {
-    if (value === "") {
+  const validateEmail = (rule: any, value: any, callback: any, required = true) => {
+    if (required && value === "") {
       callback(new Error("请输入邮箱"));
     } else {
       if (!ruleFormRef?.value) return;
@@ -42,8 +42,8 @@ export default function useValidator(ruleFormRef: Ref<FormInstance>, ruleForm: a
     }
   };
 
-  const validatePhone = (rule: any, value: any, callback: any) => {
-    if (value === "") {
+  const validatePhone = (rule: any, value: any, callback: any, required = true) => {
+    if (required && value === "") {
       callback(new Error("请输入手机号"));
     } else {
       if (!ruleFormRef?.value) return;

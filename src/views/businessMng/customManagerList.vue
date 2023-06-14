@@ -20,11 +20,11 @@
     <el-table-column prop="createTime" label="创建时间" />
     <el-table-column prop="operation" label="操作">
       <template #default="{ row }">
-        <el-button type="primary" link @click="showManagerDetailDialog(row.userId, false)">详情</el-button>
-        <el-button type="primary" link @click="showManagerDetailDialog(row.userId, true)">编辑</el-button>
-        <el-button type="danger" link @click="deleteRow(row)">删除</el-button>
-        <el-button type="primary" link @click="showCmpyListDialog(row.userId)">查看客户列表</el-button>
-        <el-button type="primary" link>下载附件</el-button>
+        <el-button type="primary" link v-hasPermi="['managerList:detail']" @click="showManagerDetailDialog(row.userId, false)">详情</el-button>
+        <el-button type="primary" link v-hasPermi="['managerList:edit']" @click="showManagerDetailDialog(row.userId, true)">编辑</el-button>
+        <el-button type="danger" link v-hasPermi="['managerList:delete']" @click="deleteRow(row)">删除</el-button>
+        <el-button type="primary" link v-hasPermi="['managerList:userList']" @click="showCmpyListDialog(row.userId)">查看客户列表</el-button>
+        <el-button type="primary" link v-hasPermi="['managerList:download']">下载附件</el-button>
       </template>
     </el-table-column>
   </el-table>

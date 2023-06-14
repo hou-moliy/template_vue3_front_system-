@@ -22,7 +22,7 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary">导出</el-button>
+      <el-button type="primary" v-hasPermi="['phoneList:export']">导出</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->

@@ -75,8 +75,8 @@ let option = reactive({
     // y轴
     type: "value",
     min: "0",
-    max: "1000"
-    // splitNumber: "10"
+    max: "500000",
+    splitNumber: "10"
   },
   series: [
     // 数据

@@ -22,11 +22,11 @@
     </el-table-column>
     <el-table-column prop="operation" label="操作">
       <template #default="{ row }">
-        <el-button type="primary" link @click="showDetailDialog(row.userId, false)">详情</el-button>
-        <el-button type="primary" link @click="showDetailDialog(row.userId, true)">编辑</el-button>
-        <el-button type="danger" link @click="deleteRow(row)">删除</el-button>
-        <el-button type="primary" link @click="showCmpyListDialog(row)">查看客户经理列表</el-button>
-        <el-button type="primary" link>下载附件</el-button>
+        <el-button type="primary" link v-hasPermi="['branchList:detail']" @click="showDetailDialog(row.userId, false)">详情</el-button>
+        <el-button type="primary" link v-hasPermi="['branchList:edit']" @click="showDetailDialog(row.userId, true)">编辑</el-button>
+        <el-button type="danger" link v-hasPermi="['branchList:delete']" @click="deleteRow(row)">删除</el-button>
+        <el-button type="primary" link v-hasPermi="['branchList:managerList']" @click="showCmpyListDialog(row)">查看客户经理列表</el-button>
+        <el-button type="primary" link v-hasPermi="['branchList:download']">下载附件</el-button>
       </template>
     </el-table-column>
   </el-table>

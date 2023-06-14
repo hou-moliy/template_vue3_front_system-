@@ -12,7 +12,6 @@
           :data="treeData"
           ref="treeRef"
           node-key="id"
-          :default-checked-keys="defaultChecked"
           show-checkbox
           :props="defaultProps"
           @check="handleCheckChange"
@@ -36,7 +35,7 @@ import { onMounted } from "vue";
 const { formRef, rules, form, dialogVisible, isEdit, title, openDialog, onSubmit, closeDialog } = useRoleDialog();
 const { treeData, treeRef, defaultChecked, defaultProps, resetChecked, getRoleTreeSelect } = useTree();
 const handleCheckChange = () => {
-  const list = treeRef.value.getCheckedNodes();
+  const list = treeRef.value.getCheckedNodes(false, true);
   form.menuIds = list.map(item => item.id);
 };
 const handleColse = () => {
@@ -47,10 +46,10 @@ onMounted(() => {
   form.menuIds = defaultChecked.value;
 });
 const handleOpenDialog = async ({ data, isEdit }) => {
+  openDialog({ data, isEdit });
   if (isEdit) {
     await getRoleTreeSelect({ roleId: data.roleId });
   }
-  openDialog({ data, isEdit });
 };
 defineExpose({ handleOpenDialog });
 </script>

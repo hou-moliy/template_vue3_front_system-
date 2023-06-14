@@ -69,9 +69,59 @@ export const GlobalStore = defineStore({
           this.setProvinceCityData(res.data);
         }
       });
-    }
-  },
-  persist: piniaPersistConfig("GlobalState")
+    },
+    // 根据value获取地址label
+    getAddress(value) {
+      let label = [];
+      if (value.length === 2) {
+        label = [
+          this.provinceCityData?.find(item => item.value === value[0])?.label,
+          this.provinceCityData?.find(item => item.value === value[0]).children.find(item => item.value === value[1])?.label
+        ];
+      } else if (value.length === 3) {
+        label = [
+          this.provinceCityData?.find(item => item.value === value[0]).label,
+          this.provinceCityData?.find(item => item.value === value[0]).children.find(item => item.value === value[1]).label,
+          this.provinceCityData
+            ?.find(item => item.value === value[0])
+            .children.find(item => item.value === value[1])
+            .children.find(item => item.value === value[2]).label
+        ];
+      }
+      return label;
+    },
+    // 根据label获取地址value
+    getAddressValue(label) {
+      let value = [];
+      if (label.length === 1) {
+        const provinceCity = this.provinceCityData.find(item => {
+          const cityFound = item.children.find(city => city.label === label[0]);
+          return !!cityFound;
+        });
+        if (provinceCity) {
+          const province = provinceCity.value;
+          const city = provinceCity.children?.find(i => i.label == label[0]).value;
+          return [province, city];
+        }
+      } else if (label.length === 2) {
+        value = [
+          this.provinceCityData?.find(item => item.label === label[0])?.value,
+          this.provinceCityData?.find(item => item.label === label[0]).children.find(item => item.label === label[1])?.value
+        ];
+      } else if (label.length === 3) {
+        value = [
+          this.provinceCityData?.find(item => item.label === label[0]).value,
+          this.provinceCityData?.find(item => item.label === label[0]).children.find(item => item.label === label[1]).value,
+          this.provinceCityData
+            ?.find(item => item.label === label[0])
+            .children.find(item => item.label === label[1])
+            .children.find(item => item.label === label[2]).value
+        ];
+      }
+      return value;
+    },
+    persist: piniaPersistConfig("GlobalState")
+  }
 });
 
 // piniaPersist(持久化)

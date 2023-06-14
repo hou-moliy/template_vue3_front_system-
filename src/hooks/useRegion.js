@@ -1,8 +1,9 @@
 import { reactive, watch, toRefs } from "vue";
-import { codeToText } from "element-china-area-data";
+import { GlobalStore } from "@/stores";
 const useRegion = (formRef, formData) => {
+  const { getAddress } = GlobalStore();
   const state = reactive({
-    address: [String(formData.provinceId), String(formData.cityId)]
+    address: [String(formData?.provinceId), String(formData?.cityId)]
   });
   const setAddress = newVal => {
     state.address = newVal;
@@ -10,9 +11,6 @@ const useRegion = (formRef, formData) => {
       formData.provinceId = "";
       formData.cityId = "";
     }
-  };
-  const getAddress = code => {
-    return codeToText[code];
   };
   // 监听地址变化
   watch(
@@ -31,6 +29,18 @@ const useRegion = (formRef, formData) => {
         formData.cityId = newVal[1];
         formData.areaId = newVal[2];
       }
+    }
+  );
+  // 监听表单变化
+  watch(
+    () => formData,
+    newVal => {
+      if (newVal.provinceId && newVal.cityId) {
+        state.address = [String(newVal.provinceId), String(newVal.cityId)];
+      }
+    },
+    {
+      deep: true
     }
   );
   return {

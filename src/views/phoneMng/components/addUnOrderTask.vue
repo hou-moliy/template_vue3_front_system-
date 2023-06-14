@@ -6,13 +6,13 @@
         <el-input v-model="form.taskTitle" placeholder="请输入标题" />
       </el-form-item>
       <el-form-item label="类型" prop="opType">
-        <model-select v-model="form.opType" dictType="opType" type="radio" />
+        <model-select v-model="form.opType" dictType="cancelType" type="radio" />
       </el-form-item>
-      <template v-if="form.opType === 'AXB' || form.opType === 'AX'">
+      <template v-if="form.opType === '1' || form.opType === '2'">
         <el-form-item label="企业客户" prop="groupId">
           <model-select v-model="form.groupId" dictType="businessUser" placeholder="请选择企业客户" />
         </el-form-item>
-        <el-form-item label="省份地市" prop="provinceId" v-if="form.type === 'AXB'">
+        <el-form-item label="省份地市" prop="provinceId" v-if="form.opType === '1'">
           <regionSelect v-model="address" />
         </el-form-item>
       </template>
@@ -43,10 +43,11 @@ import useRegion from "@/hooks/useRegion.js";
 import useUpload from "@/hooks/useUpload";
 import { numberCancel } from "@/api/number";
 import { getFormData } from "@/utils/util";
+const emits = defineEmits(["submitSuccess"]);
 // 表单
 const initialValues = {
   taskTitle: "",
-  opType: "",
+  opType: "0",
   groupId: "",
   provinceId: "",
   cityId: "",
@@ -72,6 +73,7 @@ const onSubmit = () => {
     const data = getFormData(form);
     numberCancel(data).then(res => {
       if (res.code == "0000") {
+        emits("submitSuccess");
         ElMessage.success("提交成功");
         handleReset();
       }

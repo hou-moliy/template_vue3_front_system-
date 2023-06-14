@@ -7,17 +7,17 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary" @click="handleExport" :disabled="!tableData.length">导出</el-button>
+      <el-button type="primary" v-hasPermi="['unUsedList:export']" @click="handleExport" :disabled="!tableData.length">导出</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
-  <el-table border :data="tableData" v-load="isLoading">
+  <el-table border :data="tableData" v-load="isLoading">ne
     <el-table-column label="省份" prop="provinceName" />
     <el-table-column label="地市" prop="cityName" />
     <el-table-column label="号码量" prop="numberTotal" />
     <el-table-column label="操作">
       <template #default="{ row }">
-        <el-button type="primary" link @click="handleExportPhoneDetail(row)">导出号码详情</el-button>
+        <el-button type="primary" link v-hasPermi="['unUsedList:detail:export']" @click="handleExportPhoneDetail(row)">导出号码详情</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -59,13 +59,15 @@ const getList = () => {
 const handleReset = () => {
   resetForm();
   setAddress([]);
+  getList();
 };
 // 导出
 const handleExport = () => {
   const { provinceId, cityId } = form;
   let fileName = "";
   if (provinceId && cityId) {
-    fileName = `${getAddress(provinceId)}-${getAddress(cityId)}-未用号码资源`;
+    const address = getAddress([provinceId, cityId]);
+    fileName = `${address[0]}-${address[1]}-未用号码资源`;
   } else {
     fileName = "未用号码资源";
   }

@@ -22,11 +22,11 @@
     </el-table-column>
     <el-table-column prop="operation" label="操作">
       <template #default="{ row }">
-        <el-button type="primary" link @click="showChannelDetailDialog(row.userId, false)">详情</el-button>
-        <el-button type="primary" link @click="showChannelDetailDialog(row.userId, true)">编辑</el-button>
-        <el-button type="danger" link @click="deleteRow(row)">删除</el-button>
-        <el-button type="primary" link @click="showCmpyListDialog(row)">查看企业客户列表</el-button>
-        <el-button type="primary" link>下载附件</el-button>
+        <el-button type="primary" link v-hasPermi="['channelInfoList:detail']" @click="showChannelDetailDialog(row.userId, false)">详情</el-button>
+        <el-button type="primary" link v-hasPermi="['channelInfoList:edit']" @click="showChannelDetailDialog(row.userId, true)">编辑</el-button>
+        <el-button type="danger" link v-hasPermi="['channelInfoList:delete']" @click="deleteRow(row)">删除</el-button>
+        <el-button type="primary" link v-hasPermi="['channelInfoList:groupList']" @click="showCmpyListDialog(row)">查看企业客户列表</el-button>
+        <el-button type="primary" link v-hasPermi="['channelInfoList:download']">下载附件</el-button>
       </template>
     </el-table-column>
   </el-table>

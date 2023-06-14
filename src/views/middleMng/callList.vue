@@ -22,11 +22,11 @@
     <el-form-item>
       <el-button type="primary" @click="handleSearch">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary">导出</el-button>
+      <el-button type="primary" v-hasPermi="['callList:export']">导出</el-button>
     </el-form-item>
   </el-form>
   <!-- 统计 -->
-  <div class="echarts-map-chian" style="width: 100%; height: 300px" v-if="statType && LineCharts.xData.length">
+  <div class="echarts-map-chian" style="width: 100%; height: 300px">
     <stackedLine :xData="LineCharts.xData" :title="LineCharts.title" :seriesData="LineCharts.seriesData" />
   </div>
   <!-- 表格 -->

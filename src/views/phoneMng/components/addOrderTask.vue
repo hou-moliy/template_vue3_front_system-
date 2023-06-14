@@ -49,6 +49,7 @@ import useForm from "@/hooks/useForm";
 import { remainingNum, order } from "@/api/number.js";
 import { getFormData } from "@/utils/util";
 import useUpload from "@/hooks/useUpload";
+const emits = defineEmits(["submitSuccess"]);
 const dialogVisible = ref(false);
 // 表单
 const initialValues = {
@@ -103,6 +104,7 @@ const onSubmit = () => {
     order(data).then(res => {
       if (res.code == "0000") {
         handleReset();
+        emits("submitSuccess");
         ElMessage.success("订购任务创建成功");
       }
     });

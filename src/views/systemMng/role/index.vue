@@ -7,7 +7,7 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleFormReset">重置</el-button>
-      <el-button type="primary" @click="addRole({ isEdit: false })">新增角色</el-button>
+      <el-button type="primary" v-hasPermi="['roleList:add']" @click="addRole({ isEdit: false })">新增角色</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -22,8 +22,17 @@
     </el-table-column>
     <el-table-column fixed="right" label="操作">
       <template #default="{ row }">
-        <el-button type="primary" v-if="row.roleId != 1" link @click="addRole({ data: row, isEdit: true })">修改</el-button>
-        <el-button type="danger" v-if="parseInt(row.roleId) > 6" link @click="handleDelete(row)">删除</el-button>
+        <el-button
+          type="primary"
+          v-if="row.roleId != 1"
+          link
+          v-hasPermi="['roleList:edit']"
+          @click="addRole({ data: row, isEdit: true })"
+          >修改</el-button
+        >
+        <el-button type="danger" v-if="parseInt(row.roleId) > 6" link v-hasPermi="['roleList:delete']" @click="handleDelete(row)"
+          >删除</el-button
+        >
       </template>
     </el-table-column>
   </el-table>

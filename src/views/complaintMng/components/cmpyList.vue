@@ -9,7 +9,7 @@
       <el-form-item>
         <el-button type="primary" @click="getList">搜索</el-button>
         <el-button @click="handleReset">重置</el-button>
-        <el-button type="primary" @click="handleAddCmpyList">新增</el-button>
+        <el-button type="primary" v-hasPermi="['emailList:cmpyList:add']" @click="handleAddCmpyList">新增</el-button>
       </el-form-item>
     </el-form>
     <!-- 表格 -->
@@ -23,7 +23,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template #default="{ row }">
-          <el-button type="danger" link @click="handleDel(row)">删除</el-button>
+          <el-button type="danger" link v-hasPermi="['emailList:cmpyList:delete']" @click="handleDel(row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

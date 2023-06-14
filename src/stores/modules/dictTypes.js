@@ -60,6 +60,20 @@ const DictTypesStore = defineStore({
         value: "1"
       }
     ], // 号码订购类型
+    cancelType: [
+      {
+        label: "指定号码退订",
+        value: "0"
+      },
+      {
+        label: "指定地市号码退订",
+        value: "1"
+      },
+      {
+        label: "指定企业账户号码退订",
+        value: "2"
+      }
+    ], // 号码退订类型
     bindingType: [
       {
         label: "AXB模式",
@@ -77,21 +91,7 @@ const DictTypesStore = defineStore({
         label: "GXB模式",
         value: "3"
       }
-    ], //业务模式
-    opType: [
-      {
-        label: "指定号码退订",
-        value: "0"
-      },
-      {
-        label: "指定地市号码退订",
-        value: "1"
-      },
-      {
-        label: "指定企业客户号码退",
-        value: "2"
-      }
-    ]
+    ] //业务模式
   }),
   getters: {},
   actions: {

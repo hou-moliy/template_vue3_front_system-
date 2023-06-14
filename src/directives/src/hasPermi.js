@@ -7,17 +7,15 @@
 import { AuthStore } from "@/stores/modules/auth";
 
 const permission = {
-  mounted (el, binding) {
-    const authStore = AuthStore();
+  mounted(el, binding) {
+    const { permissions } = AuthStore();
     const { value, modifiers } = binding;
-    console.log(modifiers, "binding");
     const allPermission = "*:*:*";
-    const roles = authStore && authStore.roles;
 
     if (value && value instanceof Array && value.length > 0) {
       const permissionRoles = value;
 
-      const hasPermissions = roles.some(permission => {
+      const hasPermissions = permissions.some(permission => {
         return allPermission === permission || permissionRoles.includes(permission);
       });
 

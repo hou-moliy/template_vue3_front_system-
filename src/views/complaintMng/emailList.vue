@@ -13,8 +13,8 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary" @click="handleAddEmail">新增</el-button>
-      <el-button type="primary" @click="handleCmpyList">直接发送企业列表</el-button>
+      <el-button type="primary" v-hasPermi="['emailList:add']" @click="handleAddEmail">新增</el-button>
+      <el-button type="primary" v-hasPermi="['emailList:cmpyList']" @click="handleCmpyList">直接发送企业列表</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -29,8 +29,8 @@
 
     <el-table-column label="操作">
       <template #default="{ row }">
-        <el-button type="danger" link @click="handleDelEmail(row)">删除</el-button>
-        <el-button type="primary" link @click="handleAddEmail(row, true)">编辑</el-button>
+        <el-button type="danger" link v-hasPermi="['emailList:delete']" @click="handleDelEmail(row)">删除</el-button>
+        <el-button type="primary" link v-hasPermi="['emailList:edit']" @click="handleAddEmail(row, true)">编辑</el-button>
       </template>
     </el-table-column>
   </el-table>

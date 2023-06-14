@@ -1,5 +1,6 @@
 import { reactive, ref, Ref } from "vue";
 import type { FormInstance } from "element-plus";
+import { ElMessage } from "element-plus";
 interface FormValues {
   [key: string]: any;
 }
@@ -28,6 +29,7 @@ const useForm = (initialValues: FormValues): FormHooks => {
           resolve(true);
         } else {
           // 表单校验失败
+          ElMessage.error("请检查表单是否填写正确");
           reject(false);
         }
       });

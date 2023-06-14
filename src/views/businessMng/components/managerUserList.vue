@@ -13,7 +13,7 @@
     </el-form>
     <!-- 表格 -->
     <el-table :data="tableData" border v-load="isLoading">
-      <el-table-column prop="groupName" label="客户名称" />
+      <el-table-column prop="userName" label="客户名称" />
       <el-table-column prop="createTime" label="创建时间">
         <template #default="{ row }">
           {{ $dayjs(row.createTime).format("YYYY-MM-DD HH:mm:ss") }}

@@ -35,6 +35,7 @@
 import { ref, onMounted } from "vue";
 import mittBus from "@/utils/mittBus";
 import useForm from "@/hooks/useForm";
+import { GlobalStore } from "@/stores";
 defineProps({
   disabled: {
     type: Boolean,
@@ -49,6 +50,7 @@ const initialValues = {
   address: []
 };
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
+const { getAddressValue } = GlobalStore();
 // 城市号码数量和呼叫量
 const cityCallNums = ref([]);
 const onAddItem = () => {
@@ -70,6 +72,9 @@ onMounted(() => {
   mittBus.on("setForm", data => {
     if (data?.cityCallNums) {
       cityCallNums.value = data.cityCallNums;
+      cityCallNums.value.forEach(item => {
+        item.address = getAddressValue([item.cityName]);
+      });
     }
   });
 });

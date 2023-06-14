@@ -36,9 +36,10 @@ const useBusiness = (initialValues, commonForm) => {
     add(form).then(res => {
       if (res.code == "0000") {
         ElMessage.success("新增成功");
-        removeTabs(oldRoute.fullPath);
-        removeKeepLiveName(oldRoute.name);
-        router.replace("/businessService/businessList");
+        router.replace("/businessService/businessList").then(() => {
+          removeTabs(oldRoute.fullPath);
+          removeKeepLiveName(oldRoute.name);
+        });
       } else {
         ElMessage.error("新增失败");
       }
@@ -52,9 +53,10 @@ const useBusiness = (initialValues, commonForm) => {
     update(form).then(res => {
       if (res.code === "0000") {
         ElMessage.success("修改成功");
-        removeTabs(oldRoute.fullPath);
-        removeKeepLiveName(oldRoute.name);
-        router.replace("/businessService/businessList");
+        router.replace("/businessService/businessList").then(() => {
+          removeTabs(oldRoute.fullPath);
+          removeKeepLiveName(oldRoute.name);
+        });
       } else {
         ElMessage.error("修改失败");
       }

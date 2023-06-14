@@ -6,7 +6,7 @@
         <el-form-item label="项目名称" prop="projectName">
           <el-input v-model="form.projectName" placeholder="请输入项目名称" />
         </el-form-item>
-        <el-form-item label="归属省份地市" prop="provinceId">
+        <el-form-item label="归属省份地市" prop="cityId">
           <regionSelect v-model="address" />
         </el-form-item>
       </div>
@@ -16,7 +16,12 @@
           <el-input v-show="channel" v-model="form.channelName" placeholder="请输入集成商名称" />
         </el-form-item>
         <el-form-item label="业务模式" prop="bindingType">
-          <modelSelect v-model="form.bindingType" dictType="bindingType" placeholder="请选择业务模式" />
+          <el-select v-model="form.bindingType" placeholder="请选择业务模式">
+            <el-option label="AXB模式" value="0" />
+            <el-option label="AXYB模式" value="1" />
+            <el-option label="AX模式" value="2" />
+            <el-option label="GXB模式" value="3" />
+          </el-select>
         </el-form-item>
       </div>
       <div class="form-item-wrap">
@@ -52,7 +57,7 @@
         </el-form-item>
       </div>
       <div class="form-item-wrap">
-        <el-form-item label="省市侧评审意见" prop="opinion">
+        <el-form-item label="省市侧评审意见" prop="desc">
           <el-switch v-model="form.provinceViews" />
           <el-input v-model="form.desc" v-show="!form.provinceViews" placeholder="请输入不通过原因" />
         </el-form-item>
@@ -78,10 +83,10 @@
         </el-form-item>
       </div>
       <div class="form-item-wrap">
-        <el-form-item label="联系电话" prop="phone" placeholder="请输入联系电话">
+        <el-form-item label="联系电话" prop="groupMobile" placeholder="请输入联系电话">
           <el-input v-model="form.groupMobile" />
         </el-form-item>
-        <el-form-item label="公司地址" prop="adress" placeholder="请输入公司地址">
+        <el-form-item label="公司地址" prop="groupAddr" placeholder="请输入公司地址">
           <el-input v-model="form.groupAddr" />
         </el-form-item>
       </div>
@@ -93,6 +98,7 @@ import { ref, reactive, onMounted } from "vue";
 import useForm from "@/hooks/useForm";
 import useRegion from "@/hooks/useRegion.js";
 import mittBus from "@/utils/mittBus";
+import useValidator from "@/hooks/useValidator";
 // 业务类型枚举
 const opTypes = [
   {
@@ -151,6 +157,7 @@ const initialValues = {
   recordMode: "0"
 };
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
+const { validatePhone } = useValidator(formRef, form);
 const channel = ref(false);
 const rules = reactive({
   projectName: [

@@ -28,12 +28,14 @@
           acceptType=".xls,.xlsx"
           :maxFileSize="10"
           @file-success="getList"
+					v-hasPermi="['monthBillList:uploadCost']"
           btnText="上传成本账单"
         />
       </div>
       <el-button
         type="primary"
         :disabled="!tableData.length"
+				v-hasPermi="['monthBillList:downCost']"
         @click="handleDownload(downloadMonthlyBilling(form), 'xlsx', '成本账单')"
         >下载成本账单</el-button
       >
@@ -54,15 +56,15 @@
     <el-table-column prop="costBillingAmount" label="成本账单金额" />
     <el-table-column label="成本账单详情">
       <template #default="{ row }">
-        <el-button type="primary" link @click="openDetail('cost', row)">查看</el-button>
-        <el-button type="primary" link @click="handleDown('cost', row)">下载</el-button>
+        <el-button type="primary" link v-hasPermi="['monthBillList:costDetail']" @click="openDetail('cost', row)">查看</el-button>
+        <el-button type="primary" link v-hasPermi="['monthBillList:costDetail:down']" @click="handleDown('cost', row)">下载</el-button>
       </template>
     </el-table-column>
     <el-table-column prop="incomeBillingAmount" label="收入账单金额" />
     <el-table-column label="收入账单详情">
       <template #default="{ row }">
-        <el-button type="primary" link @click="openDetail('income', row)">查看</el-button>
-        <el-button type="primary" link @click="handleDown('income', row)">下载</el-button>
+        <el-button type="primary" link v-hasPermi="['monthBillList:incomeDetail']" @click="openDetail('income', row)">查看</el-button>
+        <el-button type="primary" link v-hasPermi="['monthBillList:incomeDetail:down']" @click="handleDown('income', row)">下载</el-button>
       </template>
     </el-table-column>
   </el-table>

@@ -13,7 +13,7 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleFormReset">重置</el-button>
-      <el-button type="primary" @click="addAccount(false)">新增账号</el-button>
+      <el-button type="primary" v-hasPermi="['userList:add']" @click="addAccount(false)">新增账号</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -41,11 +41,16 @@
       <template #default="{ row, index }">
         <!-- 超级管理员，当前账号本身，已删除账号都不展示操作按钮 -->
         <div v-if="row.roleId != 1 && userId != row.userId && row.status != 2">
-          <el-button type="primary" link @click="addAccount(row, true)">修改</el-button>
-          <el-button link :type="row.status != 1 ? 'warning' : 'success'" @click="changeBindStatus(row)">
+          <el-button type="primary" link v-hasPermi="['userList:edit']" @click="addAccount(row, true)">修改</el-button>
+          <el-button
+            link
+            :type="row.status != 1 ? 'warning' : 'success'"
+            v-hasPermi="['userList:change']"
+            @click="changeBindStatus(row)"
+          >
             {{ row.status != 1 ? "冻结" : "解冻" }}
           </el-button>
-          <el-button type="danger" link @click="deleteAccount(row, index)">删除</el-button>
+          <el-button type="danger" link v-hasPermi="['userList:delete']" @click="deleteAccount(row, index)">删除</el-button>
         </div>
       </template>
     </el-table-column>

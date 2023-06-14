@@ -14,8 +14,8 @@
       <el-form-item>
         <el-button type="primary" @click="getList">搜索</el-button>
         <el-button @click="handleResetForm">重置</el-button>
-        <!-- v-hasPermi="['channel']" -->
-        <el-button type="primary" @click="handleAdd">添加</el-button>
+         <!--v-hasPermi="['channel']" -->
+        <el-button type="primary" v-hasPermi="['channelInfoList:groupList:add']" @click="handleAdd">添加</el-button>
       </el-form-item>
     </el-form>
     <!-- 表格 -->
@@ -34,7 +34,7 @@
       <!-- v-hasPermi="['channel']" -->
       <el-table-column prop="operation" label="操作">
         <template #default="{ row }">
-          <el-button type="danger" link @click="deleteRow(row)">删除</el-button>
+          <el-button type="danger" link v-hasPermi="['channelInfoList:groupList:del']" @click="deleteRow(row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -41,3 +41,13 @@ export const update = data => {
     baseURL
   });
 };
+
+// 撤销业务表单
+export const revoke = params => {
+  return service({
+    url: "/businessRegister/delete",
+    method: "get",
+    params,
+    baseURL
+  });
+};

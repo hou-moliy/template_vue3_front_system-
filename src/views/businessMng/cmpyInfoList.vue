@@ -30,11 +30,11 @@
     </el-table-column>
     <el-table-column prop="operation" label="操作">
       <template #default="{ row, $index }">
-        <el-button type="primary" link @click="showCmpyInfoDialog(row, false)">详情</el-button>
-        <el-button type="primary" link @click="showCmpyInfoDialog(row, true)">编辑</el-button>
-        <el-button type="danger" link @click="deleteRow($index, row)">删除</el-button>
-        <el-button type="primary" link @click="showPhoneDialog(row)">查看号码列表</el-button>
-        <el-button type="primary" link>下载附件</el-button>
+        <el-button type="primary" link v-hasPermi="['cmpyInfoList:detail']" @click="showCmpyInfoDialog(row, false)">详情</el-button>
+        <el-button type="primary" link v-hasPermi="['cmpyInfoList:edit']" @click="showCmpyInfoDialog(row, true)">编辑</el-button>
+        <el-button type="danger" link v-hasPermi="['cmpyInfoList:delete']" @click="deleteRow(row)">删除</el-button>
+        <el-button type="primary" link v-hasPermi="['cmpyInfoList:phoneList']" @click="showPhoneDialog(row)">查看号码列表</el-button>
+        <el-button type="primary" link v-hasPermi="['cmpyInfoList:download']" >下载附件</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -84,13 +84,13 @@ const handleResetForm = () => {
   resetForm().then(() => getList());
 };
 // 删除
-const deleteRow = ({ groupName, groupId }) => {
-  ElMessageBox.confirm(`是否确定删除【${groupName}】企业？？？`, "删除提示", {
+const deleteRow = row => {
+  ElMessageBox.confirm(`是否确定删除【${row.groupName}】企业？？？`, "删除提示", {
     confirmButtonText: "确认",
     cancelButtonText: "取消",
     type: "warning"
   }).then(() => {
-    deleteInfo({ groupId }).then(() => {
+    deleteInfo({ groupId: row.groupId }).then(() => {
       getList();
       ElMessage.success("删除成功");
     });

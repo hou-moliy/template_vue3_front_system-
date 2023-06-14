@@ -25,7 +25,7 @@
     <el-table-column prop="createTime" label="申请时间" />
     <el-table-column prop="file" label="资料查看">
       <template #default>
-        <el-button type="primary" link>点击下载</el-button>
+        <el-button type="primary" link v-hasPermi="['accountList:download']">点击下载</el-button>
       </template>
     </el-table-column>
     <el-table-column prop="roleId" label="账户类型">
@@ -61,8 +61,8 @@
     <el-table-column fixed="right" label="审批操作" width="180">
       <template #default="{ row }">
         <div v-if="row.auditStatus == 0">
-          <el-button type="primary" link @click="openAuditDialog(row, '2')">通过</el-button>
-          <el-button type="danger" link @click="openAuditDialog(row, '1')">不通过</el-button>
+          <el-button type="primary" v-hasPermi="['accountList:pass']" link @click="openAuditDialog(row, '2')">通过</el-button>
+          <el-button type="danger" v-hasPermi="['accountList:noPass']" link @click="openAuditDialog(row, '1')">不通过</el-button>
         </div>
       </template>
     </el-table-column>

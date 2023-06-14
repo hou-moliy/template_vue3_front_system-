@@ -9,7 +9,7 @@
   <businessRule ref="businessRuleRef" :disabled="disabled" />
 </template>
 <script setup>
-import { reactive, ref, onMounted, toRefs } from "vue";
+import { reactive, ref, toRefs } from "vue";
 import baseInfo from "./baseInfo.vue";
 import contactInfo from "./contactInfo.vue";
 import cityCallNums from "./cityCallNums.vue";
@@ -29,10 +29,15 @@ const baseInfoRef = ref(null);
 const contactInfoRef = ref(null);
 const cityCallNumsRef = ref(null);
 const businessRuleRef = ref(null);
-let interForm = reactive({ baseInfo: null, contactInfo: null, cityCallNums: null, businessRule: null });
+let interForm = reactive({
+  baseInfo: {},
+  contactInfo: {},
+  cityCallNums: {},
+  businessRule: {}
+});
 const { handleAdd, handleUpdate } = useBusiness();
 const onSubmit = isAdd => {
-  console.log("点击了提交");
+  setInterForm();
   baseInfoRef.value?.submitForm().then(() => {
     const form = {
       ...props.commonForm,
@@ -56,11 +61,11 @@ const onReset = () => {
   cityCallNumsRef.value?.resetForm();
   businessRuleRef.value?.resetForm();
 };
-onMounted(() => {
+const setInterForm = () => {
   interForm.baseInfo = baseInfoRef.value?.form;
   interForm.contactInfo = contactInfoRef.value?.form;
   interForm.cityCallNums = cityCallNumsRef.value?.cityCallNums;
   interForm.businessRule = businessRuleRef.value?.form;
-});
+};
 defineExpose({ onSubmit, onReset, ...toRefs(interForm) });
 </script>

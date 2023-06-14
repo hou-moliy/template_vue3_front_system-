@@ -16,17 +16,18 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary" @click="handleExport" :disabled="!tableData.length">导出</el-button>
+      <el-button type="primary" v-hasPermi="['phoneImport:export']" @click="handleExport" :disabled="!tableData.length">导出</el-button>
       <div style="margin: 0 15px">
         <upload-file
           action="/complaintManager/importComplaintFile"
           acceptType=".xls,.xlsx"
           :maxFileSize="10"
           @file-success="getList"
+					v-hasPermi="['phoneImport:upload']"
           btnText="上传投诉工单文件"
         />
       </div>
-      <el-button type="primary" :disabled="!tableData.length" @click="handleEmail">邮件通知</el-button>
+      <el-button type="primary" :disabled="!tableData.length" v-hasPermi="['phoneImport:email']" @click="handleEmail">邮件通知</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -44,12 +45,12 @@
     <el-table-column prop="displayCallingNumber" label="显示主叫号码" />
     <el-table-column prop="userName" label="企业客户">
       <template #default="{ row }">
-        <el-button type="primary" link @click="handleNav(row.userId, userDetailRef)">{{ row.userName }}</el-button>
+        <el-button type="primary" link v-hasPermi="['phoneImport:user']" @click="handleNav(row.userId, userDetailRef)">{{ row.userName }}</el-button>
       </template>
     </el-table-column>
     <el-table-column prop="branchName" label="归属分公司">
       <template #default="{ row }">
-        <el-button type="primary" link @click="handleNav(row.branchId, branchDetailRef)">{{ row.branchName }}</el-button>
+        <el-button type="primary" link v-hasPermi="['phoneImport:branch']" @click="handleNav(row.branchId, branchDetailRef)">{{ row.branchName }}</el-button>
       </template>
     </el-table-column>
     <el-table-column prop="bindingType" label="业务类型" />
@@ -74,7 +75,7 @@
     </el-table-column>
     <el-table-column prop="managerName" label="客户经理">
       <template #default="{ row }">
-        <el-button type="primary" link @click="handleNav(row.managerId, customInfoRef)">{{ row.managerName }}</el-button>
+        <el-button type="primary" link v-hasPermi="['phoneImport:manager']" @click="handleNav(row.managerId, customInfoRef)">{{ row.managerName }}</el-button>
       </template>
     </el-table-column>
     <el-table-column prop="managerPhoneNumber" label="客户经理电话" />

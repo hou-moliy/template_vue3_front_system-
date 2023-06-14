@@ -10,7 +10,7 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary" @click="handleDialog(1)">新建公式</el-button>
+      <el-button type="primary" v-hasPermi="['billFormula:add']" @click="handleDialog(1)">新建公式</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -31,10 +31,10 @@
     </el-table-column>
     <el-table-column label="操作">
       <template #default="{ row }">
-        <el-button type="primary" link @click="handleDialog(2, row)">详情</el-button>
-        <el-button type="primary" link @click="handleDialog(3, row)">修改</el-button>
-        <el-button type="primary" link @click="handleDel(row)" handleDel>删除</el-button>
-        <el-button type="primary" link @click="handleDialog(4, row)">复制</el-button>
+        <el-button type="primary" link v-hasPermi="['billFormula:detail']" @click="handleDialog(2, row)">详情</el-button>
+        <el-button type="primary" link v-hasPermi="['billFormula:edit']" @click="handleDialog(3, row)">修改</el-button>
+        <el-button type="primary" link v-hasPermi="['billFormula:delete']" @click="handleDel(row)" handleDel>删除</el-button>
+        <el-button type="primary" link v-hasPermi="['billFormula:copy']" @click="handleDialog(4, row)">复制</el-button>
       </template>
     </el-table-column>
   </el-table>

@@ -1,5 +1,5 @@
 import { treeselect, roleMenuTreeselect } from "@/api/menu";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 const useTree = () => {
   const treeData = ref([]);
   const treeRef = ref(null);
@@ -26,6 +26,14 @@ const useTree = () => {
       const list = res?.checkedKeys ?? [];
       defaultChecked.value = list;
       treeData.value = res.menus;
+      nextTick(() => {
+        list.forEach(element => {
+          const node = treeRef.value?.getNode(element);
+          if (node.isLeaf) {
+            treeRef.value?.setChecked(node, true, true);
+          }
+        });
+      });
     }
   };
 

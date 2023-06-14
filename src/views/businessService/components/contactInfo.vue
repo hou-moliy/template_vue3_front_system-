@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <template #header> 联系方式 </template>
-    <el-form :model="form" ref="formRef" :disabled="disabled">
+    <el-form :model="form" ref="formRef" :disabled="disabled" :rules="rules">
       <div class="form-item-wrap">
         <el-form-item label="联系人姓名" prop="contactName" placeholder="请输入联系人姓名">
           <el-input v-model="form.contactName" />
@@ -37,8 +37,9 @@
 </template>
 <script setup>
 import useForm from "@/hooks/useForm";
-import { onMounted } from "vue";
+import { onMounted, reactive } from "vue";
 import mittBus from "@/utils/mittBus";
+import useValidator from "@/hooks/useValidator";
 defineProps({
   disabled: {
     type: Boolean,
@@ -56,6 +57,34 @@ const initialValues = {
   productName: ""
 };
 const { form, formRef, resetForm, submitForm } = useForm(initialValues);
+const { validatePhone } = useValidator(formRef, form);
+const rules = reactive({
+  contactMobile: [
+    {
+      required: false,
+      validator: (rule, value, callback) => validatePhone(rule, value, callback, false),
+      trigger: "blur"
+    }
+  ],
+  managerMobile: [
+    {
+      validator: (rule, value, callback) => validatePhone(rule, value, callback, false),
+      trigger: "blur"
+    }
+  ],
+  pickerMobile: [
+    {
+      validator: (rule, value, callback) => validatePhone(rule, value, callback, false),
+      trigger: "blur"
+    }
+  ],
+  productMobile: [
+    {
+      validator: (rule, value, callback) => validatePhone(rule, value, callback, false),
+      trigger: "blur"
+    }
+  ]
+});
 onMounted(() => {
   mittBus.on("setForm", data => {
     if (data?.contactInfo) {

@@ -1,7 +1,7 @@
 <template>
   <template v-if="type == 'select'">
     <el-select :modelValue="modelValue" :placeholder="placeholder" @change="onChange" v-bind="$attrs">
-      <el-option v-for="(item, index) in dictList" :label="item.label" :value="item.value * 1" :key="index" />
+      <el-option v-for="(item, index) in dictList" :label="item.label" :value="handleValue(item.value)" :key="index" />
     </el-select>
   </template>
   <template v-if="type == 'radio'">
@@ -40,6 +40,14 @@ const emits = defineEmits(["update:modelValue"]);
 const { dictList, getTypeList } = useDictTypes(props.dictType);
 const onChange = e => {
   emits("update:modelValue", e);
+};
+const handleValue = value => {
+  // value是字符串的数字
+  if (typeof value === "string" && !isNaN(Number(value))) {
+    return Number(value);
+  } else {
+    return value;
+  }
 };
 onMounted(() => {
   getTypeList();

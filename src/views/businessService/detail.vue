@@ -39,7 +39,7 @@
     <el-form-item v-if="isEdit">
       <el-button @click="onReset">重置</el-button>
       <el-button type="primary" @click="onSubmit">提交</el-button>
-      <el-button @click="goBack('cancel')">取消</el-button>
+      <el-button @click="goBack">取消</el-button>
     </el-form-item>
   </el-form>
   <el-button v-if="!isEdit" @click="goBack">返回</el-button>
@@ -53,12 +53,15 @@ import interForm from "./components/interForm.vue";
 import { useRoute } from "vue-router";
 import useForm from "@/hooks/useForm";
 import mittBus from "@/utils/mittBus";
+import { KeepAliveStore } from "@/stores/modules/keepAlive";
+import { TabsStore } from "@/stores/modules/tabs";
 const { userId } = AuthStore();
 const route = useRoute();
 const privacyFormRef = ref(null);
 const interFormRef = ref(null);
 const isEdit = ref(true);
 const isAdd = ref(true);
+
 const initialValues = {
   title: "",
   type: "0",
@@ -93,10 +96,10 @@ const onSubmit = () => {
   submitForm().then(() => {
     if (form.type == 0) {
       // 中移互联
-      interFormRef?.value?.onSubmit(isAdd);
+      interFormRef?.value?.onSubmit(isAdd.value);
     } else {
       // 隐私号
-      privacyFormRef.value?.onSubmit(isAdd);
+      privacyFormRef.value?.onSubmit(isAdd.value);
     }
   });
 };
@@ -105,10 +108,13 @@ const onReset = () => {
   privacyFormRef?.value?.onReset();
   interFormRef?.value?.onReset();
 };
-const goBack = type => {
-  if (type == "cancel") {
-    onReset();
-  }
+const goBack = () => {
+  const oldRoute = { ...route };
+  const { removeTabs } = TabsStore();
+  const { removeKeepLiveName } = KeepAliveStore();
+  removeTabs(oldRoute.fullPath);
+  removeKeepLiveName(oldRoute.name);
+  onReset();
   history.go(-1);
 };
 const getDetail = streamNumber => {

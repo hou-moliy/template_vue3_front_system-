@@ -8,7 +8,7 @@
     <el-form-item>
       <el-button type="primary" @click="getList">搜索</el-button>
       <el-button @click="handleReset">重置</el-button>
-      <el-button type="primary" @click="handleAdd">新建任务</el-button>
+      <el-button type="primary" link v-hasPermi="['numberList:add']" @click="handleAdd">新建任务</el-button>
     </el-form-item>
   </el-form>
   <!-- 表格 -->
@@ -25,8 +25,8 @@
     </el-table-column>
     <el-table-column label="详情">
       <template #default="{ row }">
-        <el-button type="primary" v-if="row.taskStatus == '2'" link @click="handleResult(row, 'success')">查看成功</el-button>
-        <el-button type="primary" v-if="row.taskStatus == '2'" link @click="handleResult(row, 'fail')">查看失败</el-button>
+        <el-button type="primary" v-if="row.taskStatus == '2'" link v-hasPermi="['numberList:success']" @click="handleResult(row, 'success')">查看成功</el-button>
+        <el-button type="primary" v-if="row.taskStatus == '2'" link v-hasPermi="['numberList:fail']" @click="handleResult(row, 'fail')">查看失败</el-button>
       </template>
     </el-table-column>
   </el-table>

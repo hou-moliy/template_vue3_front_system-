@@ -9,8 +9,10 @@
     </el-form-item>
     <el-form-item label="录音模式" prop="recordMode">
       <el-select v-model="form.recordMode" placeholder="请选择录音模式">
-        <el-option label="全录音" value="0" />
-        <el-option label="由中间号订单指定是否录音" value="1" />
+        <el-option label="全不录音" value="0" />
+        <el-option label="全录音" value="1" />
+				<el-option label="跟随订单，绑定未指定默认不开启录音" value="2" />
+				<el-option label="跟随订单，绑定未指定默认开启录音" value="3" />
       </el-select>
     </el-form-item>
     <el-form-item label="是否开通短信" prop="smsMode">
