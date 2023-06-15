@@ -15,4 +15,9 @@ import { APP_NAME } from "@/config/config";
   justify-content: center;
   align-items: center;
 }
+:deep().el-tabs__item {
+  display: flex !important;
+  align-items: center !important;
+  vertical-align: middle;
+}
 </style>

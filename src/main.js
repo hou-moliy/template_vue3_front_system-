@@ -23,7 +23,7 @@ import errorHandler from "@/utils/errorHandler";
 //  自定义指令
 import directives from "@/directives/index";
 import "@/permission";
-// import "./mock/index";
+import "./mock/index";
 import { pickerOptions } from "@/config/datePicker.js";
 import "default-passive-events"; // 解决element-plus的警告
 // 全局配置

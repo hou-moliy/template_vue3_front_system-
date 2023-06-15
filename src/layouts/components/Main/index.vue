@@ -4,9 +4,11 @@
   <el-main>
     <router-view v-slot="{ Component, route }">
       <transition appear name="fade-transform" mode="out-in">
-        <keep-alive :include="keepAliveStore.keepLiveName">
-          <el-card class="box-card"><component :is="Component" :key="route.path" v-if="isRouterShow" /></el-card>
-        </keep-alive>
+        <el-card class="box-card">
+          <keep-alive :include="keepAliveStore.keepLiveName">
+            <component :is="Component" :key="route.path" v-if="isRouterShow" />
+          </keep-alive>
+        </el-card>
       </transition>
     </router-view>
   </el-main>

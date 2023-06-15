@@ -16,6 +16,7 @@ export const provinceAndCity = () => {
   return service({
     url: "/system/dict/provinceAndCity",
     method: "get",
-    baseURL
+    // baseURL,
+    baseURL: `/mock${baseURL}`
   });
 };

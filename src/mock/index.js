@@ -5,9 +5,10 @@ import TreeSelect from "@/assets/json/treeSelect.json";
 import RoleTreeSelect from "@/assets/json/roleTreeSelect.json";
 import BusinessCustomer from "@/assets/json/customerList.json";
 import DictData from "@/assets/json/dict.json";
+import ProvinceAndCity from "@/assets/json/provinceAndCity.json";
 const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
-Mock.mock(`/mock${baseURL}/system/menu/list`, () => {
+Mock.mock(`/mock${baseURL}/system/getRouters`, () => {
   {
     return Mock.mock(DynamicRouter);
   }
@@ -47,5 +48,10 @@ Mock.mock(`/mock${baseURL}/businessCustomer/list`, () => {
 Mock.mock(`/mock${baseURL}/system/dict/data/dictTypes/1`, () => {
   {
     return Mock.mock(DictData);
+  }
+});
+Mock.mock(`/mock${baseURL}/system/dict/provinceAndCity`, () => {
+  {
+    return Mock.mock(ProvinceAndCity);
   }
 });

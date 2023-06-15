@@ -41,7 +41,8 @@
           "component": "/businessService/detail",
           "meta": {
             "title": "填写表单",
-            "isHide": true
+            "isHide": true,
+            "isKeepAlive": true
           }
         }
       ]

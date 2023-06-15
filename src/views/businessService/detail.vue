@@ -44,7 +44,7 @@
   </el-form>
   <el-button v-if="!isEdit" @click="goBack">返回</el-button>
 </template>
-<script setup>
+<script setup name="businessDetail">
 import { ref, reactive, onMounted } from "vue";
 import { getInfo } from "@/api/businessCustomer";
 import { AuthStore } from "@/stores/modules/auth";

@@ -11,8 +11,8 @@ export const login = ({ loginName, password }) => {
       loginName: loginName,
       password: Encrypt(password)
     },
-    baseURL
-    // baseURL: `/mock${baseURL}`
+    // baseURL
+    baseURL: `/mock${baseURL}`
   });
 };
 
@@ -21,8 +21,8 @@ export const getUserInfoApi = () => {
   return service({
     url: "/system/getInfo",
     method: "get",
-    baseURL
-    // baseURL: `/mock${baseURL}`
+    // baseURL
+    baseURL: `/mock${baseURL}`
   });
 };
 // 校验用户是否存在
@@ -67,12 +67,12 @@ export const auditUser = data => {
 };
 // 获取用户列表
 export const auditUserList = params => {
-	return service({
-		url: "/system/user/list",
-		method: "get",
-		params,
-		baseURL
-	});
+  return service({
+    url: "/system/user/list",
+    method: "get",
+    params,
+    baseURL
+  });
 };
 
 // 获取用户列表

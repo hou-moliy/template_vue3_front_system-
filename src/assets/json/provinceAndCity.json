@@ -1,0 +1,308 @@
+{
+  "msg": "操作成功",
+  "code": "0000",
+  "data": [
+    { "value": "0", "label": "北京", "children": [{ "value": "10", "label": "北京", "children": null }] },
+    { "value": "1", "label": "上海", "children": [{ "value": "21", "label": "上海", "children": null }] },
+    { "value": "2", "label": "天津", "children": [{ "value": "22", "label": "天津", "children": null }] },
+    { "value": "3", "label": "重庆", "children": [{ "value": "23", "label": "重庆", "children": null }] },
+    {
+      "value": "4",
+      "label": "辽宁",
+      "children": [
+        { "value": "24", "label": "沈阳", "children": null },
+        { "value": "410", "label": "铁岭", "children": null },
+        { "value": "411", "label": "大连", "children": null },
+        { "value": "412", "label": "鞍山", "children": null },
+        { "value": "413", "label": "抚顺", "children": null },
+        { "value": "414", "label": "本溪", "children": null },
+        { "value": "415", "label": "丹东", "children": null },
+        { "value": "416", "label": "锦州", "children": null },
+        { "value": "417", "label": "营口", "children": null },
+        { "value": "418", "label": "阜新", "children": null },
+        { "value": "419", "label": "辽阳", "children": null },
+        { "value": "421", "label": "朝阳", "children": null },
+        { "value": "427", "label": "盘锦", "children": null },
+        { "value": "429", "label": "葫芦岛", "children": null }
+      ]
+    },
+    {
+      "value": "5",
+      "label": "吉林",
+      "children": [
+        { "value": "431", "label": "长春", "children": null },
+        { "value": "432", "label": "吉林", "children": null },
+        { "value": "433", "label": "延吉", "children": null },
+        { "value": "434", "label": "四平", "children": null },
+        { "value": "435", "label": "通化", "children": null },
+        { "value": "436", "label": "白城", "children": null },
+        { "value": "437", "label": "辽源", "children": null },
+        { "value": "438", "label": "松原", "children": null },
+        { "value": "439", "label": "白山", "children": null }
+      ]
+    },
+    {
+      "value": "6",
+      "label": "黑龙江",
+      "children": [
+        { "value": "451", "label": "哈尔滨", "children": null },
+        { "value": "452", "label": "齐齐哈尔", "children": null },
+        { "value": "453", "label": "牡丹江", "children": null },
+        { "value": "454", "label": "佳木斯", "children": null },
+        { "value": "455", "label": "绥化", "children": null },
+        { "value": "456", "label": "黑河", "children": null },
+        { "value": "457", "label": "大兴安岭", "children": null },
+        { "value": "458", "label": "伊春", "children": null },
+        { "value": "459", "label": "大庆", "children": null },
+        { "value": "464", "label": "七台河", "children": null },
+        { "value": "467", "label": "鸡西", "children": null },
+        { "value": "468", "label": "鹤岗", "children": null },
+        { "value": "469", "label": "双鸭山", "children": null }
+      ]
+    },
+    {
+      "value": "7",
+      "label": "内蒙古",
+      "children": [
+        { "value": "470", "label": "海拉尔", "children": null },
+        { "value": "471", "label": "呼和浩特", "children": null },
+        { "value": "472", "label": "包头", "children": null },
+        { "value": "473", "label": "乌海", "children": null },
+        { "value": "474", "label": "集宁", "children": null },
+        { "value": "475", "label": "通辽", "children": null },
+        { "value": "476", "label": "赤峰", "children": null },
+        { "value": "477", "label": "东胜", "children": null },
+        { "value": "478", "label": "临河", "children": null },
+        { "value": "479", "label": "锡林浩特", "children": null },
+        { "value": "482", "label": "乌兰浩特", "children": null },
+        { "value": "483", "label": "巴彦浩特", "children": null }
+      ]
+    },
+    {
+      "value": "8",
+      "label": "河北",
+      "children": [
+        { "value": "310", "label": "邯郸", "children": null },
+        { "value": "311", "label": "石家庄", "children": null },
+        { "value": "312", "label": "保定", "children": null },
+        { "value": "313", "label": "张家口", "children": null },
+        { "value": "314", "label": "承德", "children": null },
+        { "value": "315", "label": "唐山", "children": null },
+        { "value": "316", "label": "廊坊", "children": null },
+        { "value": "317", "label": "沧州", "children": null },
+        { "value": "318", "label": "衡水", "children": null },
+        { "value": "319", "label": "邢台", "children": null },
+        { "value": "335", "label": "秦皇岛", "children": null }
+      ]
+    },
+    {
+      "value": "9",
+      "label": "河南",
+      "children": [
+        { "value": "370", "label": "商丘", "children": null },
+        { "value": "371", "label": "郑州", "children": null },
+        { "value": "372", "label": "安阳", "children": null },
+        { "value": "373", "label": "新乡", "children": null },
+        { "value": "374", "label": "许昌", "children": null },
+        { "value": "375", "label": "平顶山", "children": null },
+        { "value": "376", "label": "信阳", "children": null },
+        { "value": "377", "label": "南阳", "children": null },
+        { "value": "378", "label": "开封", "children": null },
+        { "value": "379", "label": "洛阳", "children": null },
+        { "value": "391", "label": "焦作", "children": null },
+        { "value": "392", "label": "鹤壁", "children": null },
+        { "value": "393", "label": "濮阳", "children": null },
+        { "value": "394", "label": "周口", "children": null },
+        { "value": "395", "label": "漯河", "children": null },
+        { "value": "396", "label": "驻马店", "children": null },
+        { "value": "397", "label": "济源", "children": null },
+        { "value": "398", "label": "三门峡", "children": null }
+      ]
+    },
+    {
+      "value": "10",
+      "label": "山东",
+      "children": [
+        { "value": "530", "label": "菏泽", "children": null },
+        { "value": "531", "label": "济南", "children": null },
+        { "value": "532", "label": "青岛", "children": null },
+        { "value": "533", "label": "淄博", "children": null },
+        { "value": "534", "label": "德州", "children": null },
+        { "value": "535", "label": "烟台", "children": null },
+        { "value": "536", "label": "潍坊", "children": null },
+        { "value": "537", "label": "济宁", "children": null },
+        { "value": "538", "label": "泰安", "children": null },
+        { "value": "539", "label": "临沂", "children": null },
+        { "value": "543", "label": "滨州", "children": null },
+        { "value": "546", "label": "东营", "children": null },
+        { "value": "631", "label": "威海", "children": null },
+        { "value": "632", "label": "枣庄", "children": null },
+        { "value": "633", "label": "日照", "children": null },
+        { "value": "634", "label": "莱芜", "children": null },
+        { "value": "635", "label": "聊城", "children": null }
+      ]
+    },
+    {
+      "value": "11",
+      "label": "山西",
+      "children": [
+        { "value": "349", "label": "朔州", "children": null },
+        { "value": "350", "label": "忻州", "children": null },
+        { "value": "351", "label": "太原", "children": null },
+        { "value": "352", "label": "大同", "children": null },
+        { "value": "353", "label": "阳泉", "children": null },
+        { "value": "354", "label": "晋中", "children": null },
+        { "value": "355", "label": "长治", "children": null },
+        { "value": "356", "label": "晋城", "children": null },
+        { "value": "357", "label": "临汾", "children": null },
+        { "value": "358", "label": "吕梁", "children": null },
+        { "value": "359", "label": "运城", "children": null }
+      ]
+    },
+    {
+      "value": "12",
+      "label": "湖南",
+      "children": [
+        { "value": "730", "label": "岳阳", "children": null },
+        { "value": "731", "label": "长沙", "children": null },
+        { "value": "732", "label": "湘潭", "children": null },
+        { "value": "733", "label": "株洲", "children": null },
+        { "value": "734", "label": "衡阳", "children": null },
+        { "value": "735", "label": "郴州", "children": null },
+        { "value": "736", "label": "常德", "children": null },
+        { "value": "737", "label": "益阳", "children": null },
+        { "value": "738", "label": "娄底", "children": null },
+        { "value": "739", "label": "邵阳", "children": null },
+        { "value": "743", "label": "吉首", "children": null },
+        { "value": "744", "label": "张家界", "children": null },
+        { "value": "745", "label": "怀化", "children": null },
+        { "value": "746", "label": "永州", "children": null }
+      ]
+    },
+    {
+      "value": "13",
+      "label": "湖北",
+      "children": [
+        { "value": "27", "label": "武汉", "children": null },
+        { "value": "710", "label": "襄樊", "children": null },
+        { "value": "711", "label": "鄂州", "children": null },
+        { "value": "712", "label": "孝感", "children": null },
+        { "value": "713", "label": "黄冈", "children": null },
+        { "value": "714", "label": "黄石", "children": null },
+        { "value": "715", "label": "咸宁", "children": null },
+        { "value": "716", "label": "荆州", "children": null },
+        { "value": "717", "label": "宜昌", "children": null },
+        { "value": "718", "label": "恩施", "children": null },
+        { "value": "719", "label": "十堰", "children": null },
+        { "value": "722", "label": "随州", "children": null },
+        { "value": "724", "label": "荆门", "children": null },
+        { "value": "728", "label": "潜江/江汉/天门", "children": null }
+      ]
+    },
+    { "value": "14", "label": "江西", "children": [{ "value": "701", "label": "鹰潭", "children": null }] },
+    {
+      "value": "15",
+      "label": "江苏",
+      "children": [
+        { "value": "25", "label": "南京", "children": null },
+        { "value": "510", "label": "无锡", "children": null },
+        { "value": "511", "label": "镇江", "children": null },
+        { "value": "512", "label": "苏州", "children": null },
+        { "value": "513", "label": "南通", "children": null },
+        { "value": "514", "label": "扬州", "children": null },
+        { "value": "515", "label": "盐城", "children": null },
+        { "value": "516", "label": "徐州", "children": null },
+        { "value": "517", "label": "淮安", "children": null },
+        { "value": "518", "label": "连云港", "children": null },
+        { "value": "519", "label": "常州", "children": null },
+        { "value": "520", "label": "苏州2", "children": null },
+        { "value": "523", "label": "泰州", "children": null },
+        { "value": "527", "label": "宿迁", "children": null }
+      ]
+    },
+    {
+      "value": "16",
+      "label": "浙江",
+      "children": [
+        { "value": "570", "label": "衢州", "children": null },
+        { "value": "571", "label": "杭州", "children": null },
+        { "value": "572", "label": "湖州", "children": null },
+        { "value": "573", "label": "嘉兴", "children": null },
+        { "value": "574", "label": "宁波", "children": null },
+        { "value": "575", "label": "绍兴", "children": null },
+        { "value": "576", "label": "台州", "children": null },
+        { "value": "577", "label": "温州", "children": null },
+        { "value": "578", "label": "丽水", "children": null },
+        { "value": "579", "label": "金华", "children": null },
+        { "value": "580", "label": "舟山", "children": null }
+      ]
+    },
+    {
+      "value": "17",
+      "label": "福建",
+      "children": [
+        { "value": "591", "label": "福州", "children": null },
+        { "value": "592", "label": "厦门", "children": null },
+        { "value": "593", "label": "宁德", "children": null },
+        { "value": "594", "label": "莆田", "children": null },
+        { "value": "595", "label": "泉州", "children": null },
+        { "value": "596", "label": "漳州", "children": null },
+        { "value": "597", "label": "龙岩", "children": null },
+        { "value": "598", "label": "三明", "children": null },
+        { "value": "599", "label": "南平", "children": null }
+      ]
+    },
+    {
+      "value": "18",
+      "label": "广东",
+      "children": [
+        { "value": "20", "label": "广州", "children": null },
+        { "value": "660", "label": "汕尾", "children": null },
+        { "value": "661", "label": "潮阳", "children": null },
+        { "value": "662", "label": "阳江", "children": null },
+        { "value": "663", "label": "揭阳", "children": null },
+        { "value": "668", "label": "茂名", "children": null }
+      ]
+    },
+    { "value": "19", "label": "广西", "children": [] },
+    { "value": "20", "label": "贵州", "children": [] },
+    {
+      "value": "21",
+      "label": "云南",
+      "children": [
+        { "value": "691", "label": "版纳", "children": null },
+        { "value": "692", "label": "德宏", "children": null }
+      ]
+    },
+    { "value": "22", "label": "四川", "children": [{ "value": "28", "label": "成都", "children": null }] },
+    { "value": "23", "label": "西藏", "children": [] },
+    { "value": "24", "label": "青海", "children": [] },
+    { "value": "25", "label": "宁夏", "children": [] },
+    { "value": "26", "label": "陕西", "children": [{ "value": "29", "label": "西安", "children": null }] },
+    { "value": "27", "label": "甘肃", "children": [] },
+    { "value": "28", "label": "新疆", "children": [] },
+    {
+      "value": "29",
+      "label": "安徽",
+      "children": [
+        { "value": "100", "label": "亳州", "children": null },
+        { "value": "550", "label": "滁州", "children": null },
+        { "value": "551", "label": "合肥", "children": null },
+        { "value": "552", "label": "蚌埠", "children": null },
+        { "value": "553", "label": "芜湖", "children": null },
+        { "value": "554", "label": "淮南", "children": null },
+        { "value": "555", "label": "马鞍山", "children": null },
+        { "value": "556", "label": "安庆", "children": null },
+        { "value": "557", "label": "宿州", "children": null },
+        { "value": "558", "label": "阜阳", "children": null },
+        { "value": "559", "label": "黄山", "children": null },
+        { "value": "561", "label": "淮北", "children": null },
+        { "value": "562", "label": "铜陵", "children": null },
+        { "value": "563", "label": "宣城", "children": null },
+        { "value": "564", "label": "六安", "children": null },
+        { "value": "566", "label": "池州", "children": null }
+      ]
+    },
+    { "value": "30", "label": "海南", "children": [] }
+  ]
+}
