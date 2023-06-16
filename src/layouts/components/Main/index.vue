@@ -8,6 +8,7 @@
           <keep-alive :include="keepAliveStore.keepLiveName">
             <component :is="Component" :key="route.path" v-if="isRouterShow" />
           </keep-alive>
+          <el-backtop target=".el-main" :right="100" :bottom="100"> </el-backtop>
         </el-card>
       </transition>
     </router-view>

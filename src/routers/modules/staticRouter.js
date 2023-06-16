@@ -1,5 +1,5 @@
 import { HOME_URL, LOGIN_URL } from "@/config/config";
-import LayOut from "@/layouts/index.vue";
+import LayOut from "@/layouts/indexAsync.vue";
 import Home from "@/views/home/index.vue";
 /**
  * staticRouter(静态路由)
