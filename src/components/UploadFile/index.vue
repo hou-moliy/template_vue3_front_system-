@@ -19,8 +19,10 @@
         <el-icon><Upload /></el-icon>
         <span>{{ btnText }}</span>
       </div>
+      <!-- 自定义内容，例如有些页面支持示例文件下载 -->
       <div @click.stop="() => {}"><slot name="default"></slot></div>
     </el-upload>
+    <!-- 文件列表展示 -->
     <div class="template_list" v-if="fileList.length">
       <div class="template" v-for="(item, index) in waitFileList" :key="index">
         <span>
@@ -35,6 +37,7 @@
         </span>
       </div>
     </div>
+    <!-- 文件类型和大小支持提示 -->
     <span class="tips" v-if="!props.isDisableUpload && props.acceptTypeDesc"
       >支持{{ acceptTypeDesc }}；文件大小不能超过{{ props.maxFileSize }}M</span
     >
@@ -99,21 +102,17 @@ const handleChange = async (file: any, fileList: any[]) => {
     return getType(its);
   });
   // 如果要检索的字符串值没有出现，则该方法返回 -1
-  console.log(acceptTypeList);
   const ars = acceptTypeList.filter((q: string) => {
-    console.log(rawFile.type);
     if (!rawFile.type) {
       // 取不到type的时候，用name来判断
       const type = rawFile.name.split(".")[1];
       return type == q;
     }
-    console.log(rawFile.type.indexOf(q), "q");
     return rawFile.type.indexOf(q) > -1;
   });
 
   // 用于校验是否符合上传条件
   const type = props.acceptTypeDesc.replaceAll("/", ",");
-
   if (ars.length < 1) {
     ElMessage.error(`仅支持格式为${type}的文件`);
     removeFile(rawFile);
@@ -190,9 +189,11 @@ const handleUpload = (rawFile: any) => {
   // 上传到服务器上面
   const requestURL: string = props.action;
   if (!requestURL) {
+    // 自定义上传
     emits("fileSuccess", rawFile);
     return;
   }
+  // 直接上传
   let formData = new FormData();
   formData.append("file", rawFile);
   formData.append("fileType", "2");
@@ -204,7 +205,6 @@ const handleUpload = (rawFile: any) => {
     .then(async (res: any) => {
       if (res.code == "0000") {
         loadingInstance.close();
-        console.log("上传成功");
         let obj = {};
         if (res.data) {
           obj = {

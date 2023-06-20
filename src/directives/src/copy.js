@@ -1,18 +1,18 @@
 import { ElMessage } from "element-plus";
 const copy = {
-  mounted (el, binding) {
+  mounted(el, binding) {
     el.copyData = binding.value;
     el.addEventListener("click", handleClick);
   },
-  updated (el, binding) {
+  updated(el, binding) {
     el.copyData = binding.value;
   },
-  beforeUnmount (el) {
+  beforeUnmount(el) {
     el.removeEventListener("click", el.__handleClick__);
   }
 };
 
-function handleClick () {
+function handleClick() {
   const input = document.createElement("input");
   input.value = this.copyData.toLocaleString();
   document.body.appendChild(input);

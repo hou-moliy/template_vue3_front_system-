@@ -1,6 +1,6 @@
 import { ref, computed } from "vue";
 
-export const useLoading = target => {
+export const useLoading = () => {
   // 使用number类型的loadingIndex，而不是boolean类型，用于有多个请求的场景
   const loadingIndex = ref(0);
 

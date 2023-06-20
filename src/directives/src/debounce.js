@@ -1,5 +1,5 @@
 const debounce = {
-  mounted (el, binding) {
+  mounted(el, binding) {
     if (typeof binding.value !== "function") {
       throw "callback must be a function";
     }
@@ -14,7 +14,7 @@ const debounce = {
     };
     el.addEventListener("click", el.__handleClick__);
   },
-  beforeUnmount (el) {
+  beforeUnmount(el) {
     el.removeEventListener("click", el.__handleClick__);
   }
 };
