@@ -55,6 +55,14 @@ export const TabsStore = defineStore({
           Object.assign(item, tabItem);
         }
       });
+    },
+    updateTabs(tabItem) {
+      const tabsMenuList = this.tabsMenuList;
+      tabsMenuList.forEach(item => {
+        if (item.path === tabItem.path) {
+          Object.assign(item, tabItem);
+        }
+      });
     }
   },
   persist: piniaPersistConfig("TabsState")

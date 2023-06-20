@@ -40,6 +40,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       open: viteEnv.VITE_OPEN,
       hmr: true,
       cors: true,
+      hmr: true,
       // 跨域代理配置
       proxy: {
         ["/mock" + viteEnv.VITE_BASE_API]: {
@@ -85,13 +86,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       viteEnv.VITE_REPORT && visualizer(),
       // * gzip compress
       viteEnv.VITE_BUILD_GZIP &&
-        viteCompression({
-          verbose: true,
-          disable: false,
-          threshold: 10240,
-          algorithm: "gzip",
-          ext: ".gz"
-        }),
+      viteCompression({
+        verbose: true,
+        disable: false,
+        threshold: 10240,
+        algorithm: "gzip",
+        ext: ".gz"
+      }),
       // * cdn 引入（vue按需引入会导致依赖vue的插件出现问题(列如:pinia/vuex)）
       importToCDN({
         modules: []
