@@ -28,6 +28,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "src/types/*.d.ts",
     "vite.config.ts",
     "src/routers/modules/staticRouter.js",
     "src/routers/modules/dynamicRouter.js",
