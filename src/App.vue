@@ -28,4 +28,5 @@ const i18nLocale = computed(() => {
 
 // 配置全局组件大小 (small/default(medium)/large)
 const assemblySize = computed(() => globalStore.assemblySize);
+console.info(import.meta.env);
 </script>
