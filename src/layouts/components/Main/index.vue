@@ -4,7 +4,7 @@
   <el-main>
     <router-view v-slot="{ Component, route }">
       <transition appear name="fade-transform" mode="out-in">
-        <el-card class="box-card">
+        <el-card class="box-card" v-waterMarker="{ text: `${authStore.userName}`, textColor: 'rgba(180, 180, 180, 0.4)' }">
           <keep-alive :include="keepAliveStore.keepLiveName">
             <component :is="Component" :key="route.path" v-if="isRouterShow" />
           </keep-alive>
@@ -21,12 +21,14 @@
 <script setup>
 import { ref, computed, onBeforeUnmount, provide } from "vue";
 import { GlobalStore } from "@/stores";
+import { AuthStore } from "@/stores/modules/auth";
 import { KeepAliveStore } from "@/stores/modules/keepAlive";
 import Maximize from "./components/Maximize.vue";
 import Tabs from "@/layouts/components/Tabs/index.vue";
 import Footer from "@/layouts/components/Footer/index.vue";
 
 const globalStore = GlobalStore();
+const authStore = AuthStore();
 const keepAliveStore = KeepAliveStore();
 const themeConfig = computed(() => globalStore.themeConfig);
 const isCollapse = computed(() => globalStore.themeConfig.isCollapse);
