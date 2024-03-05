@@ -32,7 +32,7 @@ export const AuthStore = defineStore({
     async getAuthMenuList() {
       const res = await routerList();
       this.authMenuList = res?.data ?? [];
-      // this.authMenuList = handleMenuList(this.authMenuList);
+      this.authMenuList = handleMenuList(this.authMenuList);
     },
     // setRouteName
     async setRouteName(name) {
@@ -43,7 +43,7 @@ export const AuthStore = defineStore({
       return new Promise((resolve, reject) => {
         getUserInfoApi()
           .then(res => {
-            if (res.code == "0000") {
+            if (res.code == "200") {
               const user = res.user;
               const avatar = !user.avatar ? getAssetsImages("/src/assets/images/profile.jpg") : user.avatar;
               if (res.roles && res.roles.length > 0) {

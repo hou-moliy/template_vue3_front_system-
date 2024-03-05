@@ -8,7 +8,7 @@ import DictData from "@/assets/json/dict.json";
 import ProvinceAndCity from "@/assets/json/provinceAndCity.json";
 const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
-Mock.mock(`/mock${baseURL}/system/getRouters`, () => {
+Mock.mock(`/mock${baseURL}/common/getRouters`, () => {
   {
     return Mock.mock(DynamicRouter);
   }

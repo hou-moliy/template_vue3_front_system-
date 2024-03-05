@@ -10,9 +10,12 @@
           :closable="item.close"
         >
           <template #label>
-            <el-icon class="tabs-icon" v-if="item?.icon && item?.icon != '#' && themeConfig.tabsIcon">
+            <!-- <el-icon class="tabs-icon" v-if="item?.icon && item?.icon != '#' && themeConfig.tabsIcon">
               <component :is="item?.icon"></component>
-            </el-icon>
+            </el-icon> -->
+            <template v-if="item?.icon && item?.icon != '#' && themeConfig.tabsIcon">
+              <SvgIcon :name="item?.icon" color="#409EFF" />
+            </template>
             {{ item.title }}
           </template>
         </el-tab-pane>
@@ -41,6 +44,7 @@ const keepAliveStore = KeepAliveStore();
 
 const tabsMenuValue = ref(route.fullPath);
 const tabsMenuList = computed(() => tabStore.tabsMenuList);
+console.log(tabsMenuList, "tabs");
 const themeConfig = computed(() => globalStore.themeConfig);
 
 onMounted(() => {

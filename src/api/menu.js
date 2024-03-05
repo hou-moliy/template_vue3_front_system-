@@ -3,7 +3,7 @@ const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 // 获取菜单列表
 export const routerList = () => {
   return service({
-    url: "/system/getRouters",
+    url: "/common/getRouters",
     method: "get",
     // baseURL
     baseURL: `/mock${baseURL}`

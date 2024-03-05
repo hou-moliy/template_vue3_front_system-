@@ -2,17 +2,23 @@
   <template v-for="subItem in menuList" :key="subItem.path">
     <el-sub-menu v-if="subItem.children && subItem.children.length > 0" :index="subItem.path">
       <template #title>
-        <el-icon v-if="subItem?.meta?.icon && subItem.meta.icon != '#'">
+        <!-- <el-icon v-if="subItem?.meta?.icon && subItem.meta.icon != '#'">
           <component :is="subItem?.meta?.icon"></component>
-        </el-icon>
+        </el-icon> -->
+        <template v-if="subItem?.meta?.icon && subItem.meta.icon != '#'">
+          <SvgIcon :name="subItem?.meta?.icon" />
+        </template>
         <span>{{ subItem?.meta?.title }}</span>
       </template>
       <SubMenu :menuList="subItem.children" />
     </el-sub-menu>
     <el-menu-item v-else :index="subItem.path" @click="handleClickMenu(subItem)">
-      <el-icon v-if="subItem?.meta?.icon && subItem.meta.icon != '#'">
+      <!-- <el-icon v-if="subItem?.meta?.icon && subItem.meta.icon != '#'">
         <component :is="subItem?.meta?.icon"></component>
-      </el-icon>
+      </el-icon> -->
+      <template v-if="subItem?.meta?.icon && subItem.meta.icon != '#'">
+        <SvgIcon :name="subItem?.meta?.icon" />
+      </template>
       <template #title>
         <span>{{ subItem?.meta?.title }}</span>
       </template>

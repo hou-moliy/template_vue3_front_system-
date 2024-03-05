@@ -3,26 +3,26 @@ import { Encrypt } from "@/utils/secret";
 const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
 
 // 登录
-export const login = ({ loginName, password }) => {
+export const login = data => {
   return service({
-    url: "/system/login",
+    url: "/common/login",
     method: "post",
     data: {
-      loginName: loginName,
-      password: Encrypt(password)
+      ...data,
+      username: data.loginName
     },
-    // baseURL
-    baseURL: `/mock${baseURL}`
+    baseURL
+    // baseURL: `/mock${baseURL}`
   });
 };
 
 // 获取用户信息
 export const getUserInfoApi = () => {
   return service({
-    url: "/system/getInfo",
+    url: "/common/getInfo",
     method: "get",
-    // baseURL
-    baseURL: `/mock${baseURL}`
+    baseURL
+    // baseURL: `/mock${baseURL}`
   });
 };
 // 校验用户是否存在
@@ -146,6 +146,15 @@ export const updateSysUser = data => {
       password: Encrypt(data.password),
       password2: Encrypt(data.password2)
     },
+    baseURL
+  });
+};
+
+// 获取图形验证码
+export const getImgCode = () => {
+  return service({
+    url: "/common/captchaImage",
+    method: "get",
     baseURL
   });
 };

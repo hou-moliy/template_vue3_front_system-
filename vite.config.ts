@@ -52,10 +52,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
         },
         [viteEnv.VITE_BASE_API]: {
           // target: "https://gitee.com", // easymock
-          target: "http://10.4.5.40:9111/bjxh", // yhw
+          // target: "http://10.4.5.40:9111/bjxh", // yhw
           // target: "http://10.4.4.133:9111/bjxh", // pp
           // target: "http://10.1.35.207:8180/admin", //
           // target: "http://10.1.61.13:9501/admin/api",
+          target: "http://10.1.61.13:9501/adminLn/test/api",
           changeOrigin: true,
           rewrite: path => path.replace(viteEnv.VITE_BASE_API, "")
         }
@@ -72,7 +73,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       }),
       // * 使用 svg 图标
       createSvgIconsPlugin({
-        iconDirs: [resolve(process.cwd(), "src/assets/icons")],
+        iconDirs: [resolve(process.cwd(), "src/assets/svg")],
         symbolId: "icon-[dir]-[name]"
       }),
       // * EsLint 报错信息显示在浏览器界面上

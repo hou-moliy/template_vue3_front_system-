@@ -14,6 +14,18 @@
         </template>
       </el-input>
     </el-form-item>
+    <el-form-item prop="code">
+      <div class="code-wrap">
+        <el-input v-model="loginForm.code" placeholder="请输入验证码">
+          <template #prefix>
+            <el-icon class="el-input__icon"><user /></el-icon>
+          </template>
+        </el-input>
+        <div class="login-code">
+          <img :src="codeUrl" alt="" @click="getCode" />
+        </div>
+      </div>
+    </el-form-item>
     <!-- 记住密码 -->
     <el-form-item>
       <el-checkbox v-model="loginForm.remember">记住密码</el-checkbox>
@@ -26,12 +38,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, watch, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { ElNotification } from "element-plus";
 import { TabsStore } from "@/stores/modules/tabs";
 import { HOME_URL, APP_NAME } from "@/config/config";
-import { login } from "@/api/user";
+import { login, getImgCode } from "@/api/user";
 import { setToken } from "@/utils/auth";
 import { getCookie, setCookie } from "@/utils/cookie";
 import { Encrypt, Decrypt } from "@/utils/secret";
@@ -61,12 +73,13 @@ watch(
 const loginFormRef = ref();
 const loginRules = reactive({
   loginName: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-  password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+  code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
 });
 
 const loading = ref(false);
 // 登录
-const loginForm = reactive({ loginName: "", password: "", remember: false });
+const loginForm = reactive({ loginName: "", password: "", remember: false, uuid: "", code: "" });
 const loginClick = formEl => {
   if (!formEl) return;
   formEl.validate(async valid => {
@@ -113,14 +126,37 @@ const getCookieInfo = () => {
 getCookieInfo();
 // 注册
 const registerClick = () => emit("changeForm", "register");
+
+// 获取验证码
+const codeUrl = ref("");
+const getCode = () => {
+  getImgCode().then(res => {
+    codeUrl.value = "data:image/gif;base64," + res.img;
+    loginForm.uuid = res.uuid;
+  });
+};
+onMounted(() => {
+  getCode();
+});
 </script>
 
 <style lang="scss" scoped>
+.code-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .login-code {
+  width: 33%;
   height: 100%;
   display: flex;
   align-items: center;
+  margin-left: 20px;
   img {
+    width: 100%;
+    height: 100%;
     cursor: pointer;
     vertical-align: middle;
   }

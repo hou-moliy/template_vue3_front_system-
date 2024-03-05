@@ -17,7 +17,7 @@ const props = defineProps({
   },
   color: {
     type: String,
-    default: "#333"
+    default: "#fff"
   },
   size: {
     type: String,
@@ -27,3 +27,14 @@ const props = defineProps({
 
 const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 </script>
+<style lang="scss" scoped>
+svg {
+  vertical-align: middle;
+  fill: currentColor;
+  margin-right: 10px;
+  use {
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>

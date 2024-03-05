@@ -155,8 +155,8 @@ export const handleMenuList = menuList => {
   let menus = JSON.parse(JSON.stringify(menuList));
   return menus.map(item => {
     item.meta = {
-      title: item?.menuName ?? "",
-      icon: item?.icon ?? "",
+      title: item.meta.title,
+      icon: item.meta.icon || "",
       isHide: item?.hidden ?? false,
       isAffix: false,
       isKeepAlive: item?.noCache === 1 ? true : false,

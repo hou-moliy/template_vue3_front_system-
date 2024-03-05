@@ -36,7 +36,7 @@ export const staticRouter = [
         name: "home",
         component: Home,
         meta: {
-          icon: "HomeFilled",
+          icon: "dashboard",
           title: "首页",
           isHide: false,
           isFull: false,

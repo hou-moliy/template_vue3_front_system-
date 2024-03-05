@@ -1,296 +1,318 @@
 {
-  "code": "0000",
+  "code": 200,
   "data": [
     {
-      "path": "/customerMng",
-      "name": "customerMng",
+      "path": "/assembly",
+      "name": "assembly",
+      "redirect": "/assembly/message",
       "meta": {
-        "title": "客户管理",
-        "icon": "UserFilled"
+        "icon": "Briefcase",
+        "title": "常用组件",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
       },
       "children": [
         {
-          "path": "/customerMng/accountList",
-          "name": "accountList",
-          "component": "/customerMng/accountAudit",
+          "path": "/assembly/message",
+          "name": "message",
+          "component": "/assembly/message",
           "meta": {
-            "title": "账户审批"
-          }
-        }
-      ]
-    },
-    {
-      "path": "/businessService",
-      "name": "businessService",
-      "meta": {
-        "title": "业务办理",
-        "icon": "Briefcase"
-      },
-      "children": [
-        {
-          "path": "/businessService/businessList",
-          "name": "businessList",
-          "component": "/businessService/index",
-          "meta": {
-            "title": "业务列表"
+            "title": "消息框",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
           }
         },
         {
-          "path": "/businessService/businessDetail",
-          "name": "businessDetail",
-          "component": "/businessService/detail",
+          "path": "/assembly/wangEditor",
+          "name": "wangEditor",
+          "component": "/assembly/wangEditor",
           "meta": {
-            "title": "填写表单",
-            "isHide": true,
+            "title": "富文本",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/assembly/count",
+          "name": "count",
+          "component": "/assembly/count",
+          "meta": {
+            "title": "数字滚动",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/assembly/guide",
+          "name": "guide",
+          "component": "/assembly/guide",
+          "meta": {
+            "title": "引导页",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/assembly/drag",
+          "name": "drag",
+          "component": "/assembly/drag",
+          "meta": {
+            "title": "拖拽",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/assembly/webpage",
+          "name": "webpage",
+          "component": "/assembly/webpage",
+          "meta": {
+            "title": "内嵌网页",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
             "isKeepAlive": true
           }
         }
       ]
     },
     {
-      "path": "/businessMng",
-      "name": "businessMng",
+      "path": "/directives",
+      "name": "directives",
+      "redirect": "/directives/copy",
       "meta": {
-        "title": "业务管理",
-        "icon": "GoodsFilled"
+        "icon": "Pointer",
+        "title": "自定义指令",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
       },
       "children": [
         {
-          "path": "/businessMng/cmpyInfoList",
-          "name": "cmpyInfoList",
-          "component": "/businessMng/cmpyInfoList",
+          "path": "/directives/copy",
+          "name": "copy",
+          "component": "/directives/copy",
           "meta": {
-            "title": "企业客户账户信息列表"
+            "title": "复制",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
           }
         },
         {
-          "path": "/businessMng/channelInfoList",
-          "name": "channelInfoList",
-          "component": "/businessMng/channelInfoList",
+          "path": "/directives/watermark",
+          "name": "watermark",
+          "component": "/directives/watermark",
           "meta": {
-            "title": "渠道账户信息列表"
+            "title": "水印",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
           }
         },
         {
-          "path": "/businessMng/customManagerList",
-          "name": "customManagerList",
-          "component": "/businessMng/customManagerList",
+          "path": "/directives/debounce",
+          "name": "debounce",
+          "component": "/directives/debounce",
           "meta": {
-            "title": "客户经理账户信息列表"
+            "title": "防抖",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
           }
         },
         {
-          "path": "/businessMng/branchCmpyList",
-          "name": "branchCmpyList",
-          "component": "/businessMng/branchCmpyList",
+          "path": "/directives/throttle",
+          "name": "throttle",
+          "component": "/directives/throttle",
           "meta": {
-            "title": "分公司账户信息列表"
+            "title": "节流",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
           }
         }
       ]
     },
     {
-      "path": "/phoneMng",
-      "name": "phoneMng",
+      "path": "/work",
+      "name": "work",
+      "redirect": "/work/print",
       "meta": {
-        "title": "号码管理",
-        "icon": "PhoneFilled"
+        "icon": "Printer",
+        "title": "办公",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
       },
       "children": [
         {
-          "path": "/phoneMng/unUserPhoneTask",
-          "name": "unUserPhoneTask",
-          "component": "/phoneMng/unUserPhoneTask",
+          "path": "/work/print",
+          "name": "print",
+          "component": "/work/print",
           "meta": {
-            "title": "未用号码资源导入任务列表"
+            "title": "打印",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
           }
         },
         {
-          "path": "/phoneMng/unUsePhone",
-          "name": "unUsePhone",
-          "component": "/phoneMng/unUsePhone",
+          "path": "/work/excel",
+          "name": "excel",
+          "component": "/work/excel",
           "meta": {
-            "title": "导入未使用号码资源"
+            "title": "Excel",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
           }
         },
         {
-          "path": "/phoneMng/phoneOrder",
-          "name": "phoneOrder",
-          "component": "/phoneMng/phoneOrder",
+          "path": "/work/flowChart",
+          "name": "flowChart",
+          "component": "/work/flowChart",
           "meta": {
-            "title": "号码订购"
-          }
-        },
-        {
-          "path": "/phoneMng/phoneUnOrder",
-          "name": "phoneUnOrder",
-          "component": "/phoneMng/phoneUnOrder",
-          "meta": {
-            "title": "号码退订"
+            "title": "流程图",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": false
           }
         }
       ]
     },
     {
-      "path": "/systemMng",
-      "name": "systemMng",
+      "path": "/menu",
+      "name": "menu",
+      "redirect": "/menu/menu1",
       "meta": {
-        "title": "系统管理",
-        "icon": "Briefcase"
+        "icon": "Menu",
+        "title": "菜单嵌套",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
       },
       "children": [
         {
-          "path": "/systemMng/roleList",
-          "name": "roleList",
-          "component": "/systemMng/role/index",
+          "path": "/menu/menu1",
+          "name": "menu1",
+          "component": "/menu/menu1/index",
           "meta": {
-            "title": "角色管理"
+            "title": "菜单1",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
           }
         },
         {
-          "path": "/systemMng/userList",
-          "name": "userList",
-          "component": "/systemMng/user/index",
+          "path": "/menu/menu2",
+          "name": "menu2",
+          "redirect": "/menu/menu2/menu21",
           "meta": {
-            "title": "账号管理"
-          }
-        }
-      ]
-    },
-    {
-      "path": "/complaintMng",
-      "name": "complaintMng",
-      "meta": {
-        "title": "投诉管理",
-        "icon": "Briefcase"
-      },
-      "children": [
-        {
-          "path": "/complaintMng/complaintList",
-          "name": "complaintList",
-          "component": "/complaintMng/complaintList",
-          "meta": {
-            "title": "投诉台账"
-          }
-        },
-        {
-          "path": "/complaintMng/phoneImport",
-          "name": "phoneImport",
-          "component": "/complaintMng/phoneImport",
-          "meta": {
-            "title": "号码导入"
-          }
-        },
-        {
-          "path": "/complaintMng/emailList",
-          "name": "emailList",
-          "component": "/complaintMng/emailList",
-          "meta": {
-            "title": "邮件管理"
-          }
-        }
-      ]
-    },
-    {
-      "path": "/middleMng",
-      "name": "middleMng",
-      "meta": {
-        "title": "中间号统计",
-        "icon": "TrendCharts"
-      },
-      "children": [
-        {
-          "path": "/middleMng/orderList",
-          "name": "orderList",
-          "component": "/middleMng/orderList",
-          "meta": {
-            "title": "订单统计"
-          }
-        },
-        {
-          "path": "/middleMng/callList",
-          "name": "callList",
-          "component": "/middleMng/callList",
-          "meta": {
-            "title": "通话统计"
-          }
-        },
-        {
-          "path": "/middleMng/msgList",
-          "name": "msgList",
-          "component": "/middleMng/msgList",
-          "meta": {
-            "title": "短信统计"
-          }
-        },
-        {
-          "path": "/middleMng/phoneList",
-          "name": "phoneList",
-          "component": "/middleMng/phoneList",
-          "meta": {
-            "title": "号码统计"
-          }
-        },
-        {
-          "path": "/middleMng/usePhoneList",
-          "name": "usePhoneList",
-          "component": "/middleMng/usePhoneList",
-          "meta": {
-            "title": "号码使用统计"
-          }
-        },
-        {
-          "path": "/middleMng/dayList",
-          "name": "dayList",
-          "component": "/middleMng/dayList",
-          "meta": {
-            "title": "中间号行为日统计"
-          }
-        },
-        {
-          "path": "/middleMng/monthList",
-          "name": "monthList",
-          "component": "/middleMng/monthList",
-          "meta": {
-            "title": "中间号行为月统计"
-          }
-        },
-        {
-          "path": "/middleMng/monthBill",
-          "name": "monthBill",
-          "component": "/middleMng/monthBill",
-          "meta": {
-            "title": "中间号月账单"
-          }
-        }
-      ]
-    },
-    {
-      "path": "/billMng",
-      "name": "billMng",
-      "meta": {
-        "icon": "Briefcase",
-        "title": "账单统计",
-        "isHide": false
-      },
-      "children": [
-        {
-          "path": "/billMng/monthBillList",
-          "name": "monthBillList",
-          "component": "/billMng/monthBillList",
-          "meta": {
-            "title": "月账单列表",
-            "isHide": false
-          }
-        },
-        {
-          "path": "/billMng/billFormula",
-          "name": "billFormula",
-          "component": "/billMng/billFormula",
-          "meta": {
-            "title": "账单公式",
-            "isHide": false
-          }
+            "title": "菜单2",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          },
+          "children": [
+            {
+              "path": "/menu/menu2/menu21",
+              "name": "menu21",
+              "component": "/menu/menu2/menu2-1/index",
+              "meta": {
+                "title": "菜单2-1",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+              }
+            },
+            {
+              "path": "/menu/menu2/menu22",
+              "name": "menu22",
+              "redirect": "/menu/menu2/menu2-2/menu2-2-1",
+              "meta": {
+                "title": "菜单2-2",
+                "isLink": "",
+                "isHide": false,
+                "isFull": false,
+                "isAffix": false,
+                "isKeepAlive": true
+              },
+              "children": [
+                {
+                  "path": "/menu/menu2/menu22/menu221",
+                  "name": "menu221",
+                  "component": "/menu/menu2/menu2-2/menu2-2-1/index",
+                  "meta": {
+                    "title": "菜单2-2-1",
+                    "isLink": "",
+                    "isHide": false,
+                    "isFull": false,
+                    "isAffix": false,
+                    "isKeepAlive": true
+                  }
+                },
+                {
+                  "path": "/menu/menu2/menu22/menu222",
+                  "name": "menu222",
+                  "component": "/menu/menu2/menu2-2/menu2-2-2/index",
+                  "meta": {
+                    "title": "菜单2-2-2",
+                    "isLink": "",
+                    "isHide": false,
+                    "isFull": false,
+                    "isAffix": false,
+                    "isKeepAlive": true
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     }
