@@ -56,7 +56,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           // target: "http://10.4.4.133:9111/bjxh", // pp
           // target: "http://10.1.35.207:8180/admin", //
           // target: "http://10.1.61.13:9501/admin/api",
-          target: "http://10.1.61.13:9501/adminLn/test/api",
+          // target: "http://10.1.61.13:9501/adminLn/test/api",
+          target: "http://xm-frontadmin-ln-v1-6-2.ebapp-xinmei-new.k8s.ebupt.com/test/api/adminLnK8stestv2-10-7",
           changeOrigin: true,
           rewrite: path => path.replace(viteEnv.VITE_BASE_API, "")
         }

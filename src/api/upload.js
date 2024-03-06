@@ -9,3 +9,12 @@ export const uploadIdsFile = ({ url, data }) => {
     baseURL
   });
 };
+// 上传图片
+export const uploadImage = ({ url, data }) => {
+  return service({
+    url: url,
+    method: "post",
+    data,
+    baseURL
+  });
+};

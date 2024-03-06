@@ -13,6 +13,7 @@ interface ViteEnv {
   VITE_BUILD_GZIP: boolean;
   VITE_REPORT: boolean;
   VITE_BASE_API: string;
+  VITE_FILE_BASE_API: string;
 }
 
 export function isDevFn(mode: string): boolean {

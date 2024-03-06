@@ -17,6 +17,8 @@
 <script setup>
 import { onBeforeUnmount, shallowRef, reactive, toRefs } from "vue";
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
+import { uploadImage } from "@/api/upload";
+import { ElLoading, ElMessage } from "element-plus";
 
 const props = defineProps({
   modelValue: {
@@ -36,7 +38,32 @@ const state = reactive({
     placeholder: "请输入内容...",
     MENU_CONF: {
       uploadImage: {
-        // 自定义图片上传
+        maxFileSize: 1, // 5M
+        maxNumberOfFiles: 1,
+        onBeforeUpload(file) {
+          console.log("onBeforeUpload", file);
+          return false;
+        },
+        // 自定义上传
+        async customUpload(file, insertFn) {
+          // file 转formData
+          return;
+          let formData = new FormData();
+          formData.append("file", file);
+          formData.append("activityId", "signIn");
+          formData.append("templateId", "sell");
+          uploadImage({
+            url: "/activity/commonV2/uploadImg",
+            data: formData
+          }).then(res => {
+            if (res.code === 200) {
+              const url = res?.data || "";
+              insertFn(url, "图片", url);
+            } else {
+              ElMessage.error(`图片上传失败：${res.msg}`);
+            }
+          });
+        }
       }
     }
   },
