@@ -6,13 +6,13 @@
       "name": "assembly",
       "redirect": "/assembly/message",
       "meta": {
-        "icon": "Briefcase",
         "title": "常用组件",
         "isLink": "",
         "isHide": false,
         "isFull": false,
         "isAffix": false,
-        "isKeepAlive": true
+        "isKeepAlive": true,
+        "icon": "component"
       },
       "children": [
         {
@@ -25,7 +25,8 @@
             "isHide": false,
             "isFull": false,
             "isAffix": false,
-            "isKeepAlive": true
+            "isKeepAlive": true,
+            "icon": "message"
           }
         },
         {
@@ -38,20 +39,8 @@
             "isHide": false,
             "isFull": false,
             "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
-          "path": "/assembly/count",
-          "name": "count",
-          "component": "/assembly/count",
-          "meta": {
-            "title": "数字滚动",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
+            "isKeepAlive": true,
+            "icon": "textarea"
           }
         },
         {
@@ -64,7 +53,8 @@
             "isHide": false,
             "isFull": false,
             "isAffix": false,
-            "isKeepAlive": true
+            "isKeepAlive": true,
+            "icon": "guide"
           }
         },
         {
@@ -77,7 +67,8 @@
             "isHide": false,
             "isFull": false,
             "isAffix": false,
-            "isKeepAlive": true
+            "isKeepAlive": true,
+            "icon": "drag"
           }
         },
         {
@@ -90,7 +81,8 @@
             "isHide": false,
             "isFull": false,
             "isAffix": false,
-            "isKeepAlive": true
+            "isKeepAlive": true,
+            "icon": "international"
           }
         }
       ]
@@ -100,7 +92,7 @@
       "name": "directives",
       "redirect": "/directives/copy",
       "meta": {
-        "icon": "Pointer",
+        "icon": "code",
         "title": "自定义指令",
         "isLink": "",
         "isHide": false,
@@ -119,20 +111,8 @@
             "isHide": false,
             "isFull": false,
             "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
-          "path": "/directives/watermark",
-          "name": "watermark",
-          "component": "/directives/watermark",
-          "meta": {
-            "title": "水印",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
+            "isKeepAlive": true,
+            "icon": "clipboard"
           }
         },
         {
@@ -160,159 +140,6 @@
             "isAffix": false,
             "isKeepAlive": true
           }
-        }
-      ]
-    },
-    {
-      "path": "/work",
-      "name": "work",
-      "redirect": "/work/print",
-      "meta": {
-        "icon": "Printer",
-        "title": "办公",
-        "isLink": "",
-        "isHide": false,
-        "isFull": false,
-        "isAffix": false,
-        "isKeepAlive": true
-      },
-      "children": [
-        {
-          "path": "/work/print",
-          "name": "print",
-          "component": "/work/print",
-          "meta": {
-            "title": "打印",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
-          "path": "/work/excel",
-          "name": "excel",
-          "component": "/work/excel",
-          "meta": {
-            "title": "Excel",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
-          "path": "/work/flowChart",
-          "name": "flowChart",
-          "component": "/work/flowChart",
-          "meta": {
-            "title": "流程图",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": false
-          }
-        }
-      ]
-    },
-    {
-      "path": "/menu",
-      "name": "menu",
-      "redirect": "/menu/menu1",
-      "meta": {
-        "icon": "Menu",
-        "title": "菜单嵌套",
-        "isLink": "",
-        "isHide": false,
-        "isFull": false,
-        "isAffix": false,
-        "isKeepAlive": true
-      },
-      "children": [
-        {
-          "path": "/menu/menu1",
-          "name": "menu1",
-          "component": "/menu/menu1/index",
-          "meta": {
-            "title": "菜单1",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          }
-        },
-        {
-          "path": "/menu/menu2",
-          "name": "menu2",
-          "redirect": "/menu/menu2/menu21",
-          "meta": {
-            "title": "菜单2",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          },
-          "children": [
-            {
-              "path": "/menu/menu2/menu21",
-              "name": "menu21",
-              "component": "/menu/menu2/menu2-1/index",
-              "meta": {
-                "title": "菜单2-1",
-                "isLink": "",
-                "isHide": false,
-                "isFull": false,
-                "isAffix": false,
-                "isKeepAlive": true
-              }
-            },
-            {
-              "path": "/menu/menu2/menu22",
-              "name": "menu22",
-              "redirect": "/menu/menu2/menu2-2/menu2-2-1",
-              "meta": {
-                "title": "菜单2-2",
-                "isLink": "",
-                "isHide": false,
-                "isFull": false,
-                "isAffix": false,
-                "isKeepAlive": true
-              },
-              "children": [
-                {
-                  "path": "/menu/menu2/menu22/menu221",
-                  "name": "menu221",
-                  "component": "/menu/menu2/menu2-2/menu2-2-1/index",
-                  "meta": {
-                    "title": "菜单2-2-1",
-                    "isLink": "",
-                    "isHide": false,
-                    "isFull": false,
-                    "isAffix": false,
-                    "isKeepAlive": true
-                  }
-                },
-                {
-                  "path": "/menu/menu2/menu22/menu222",
-                  "name": "menu222",
-                  "component": "/menu/menu2/menu2-2/menu2-2-2/index",
-                  "meta": {
-                    "title": "菜单2-2-2",
-                    "isLink": "",
-                    "isHide": false,
-                    "isFull": false,
-                    "isAffix": false,
-                    "isKeepAlive": true
-                  }
-                }
-              ]
-            }
-          ]
         }
       ]
     }

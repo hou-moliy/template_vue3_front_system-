@@ -5,10 +5,12 @@
         <div>{{ title }}</div>
         <content-view :field="field" style="color: rgba(0, 0, 0, 0.6)"></content-view>
         <div class="messageBox-btn">
-          <button class="btn" style="margin-right: 20px" @click="cancalBtnClick" v-if="cancelBtnText">{{ cancelBtnText }}</button>
+          <button class="btn cancel-btn" style="margin-right: 20px" @click="cancalBtnClick" v-if="cancelBtnText">
+            {{ cancelBtnText }}
+          </button>
           <button class="btn" @click="confirmBtnClick">{{ confirmBtnText }}</button>
         </div>
-        <img src="./image/close.png" class="close-icon" @click="cancalBtnClick" />
+        <img src="./image/close.png" class="close-icon" @click="cancalBtnClick" alt="" />
       </div>
     </div>
   </transition>
@@ -137,6 +139,13 @@ defineExpose({
         cursor: pointer;
         &:hover {
           background: #2994f9;
+        }
+      }
+      .cancel-btn {
+        background: #f0f0f0;
+        color: #000;
+        &:hover {
+          background: #e1e1e1;
         }
       }
     }

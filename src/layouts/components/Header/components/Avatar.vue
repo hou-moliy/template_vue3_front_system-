@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown trigger="click">
+  <el-dropdown trigger="click" id="avatarWrap">
     <div class="avatar">
       <img :src="authStore.avatar" alt="avatar" />
     </div>
