@@ -60,6 +60,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           target: "http://xm-frontadmin-ln-v1-6-2.ebapp-xinmei-new.k8s.ebupt.com/test/api/adminLnK8stestv2-10-7",
           changeOrigin: true,
           rewrite: path => path.replace(viteEnv.VITE_BASE_API, "")
+        },
+        [viteEnv.VITE_FILE_BASE_API]: {
+          target: "http://10.1.61.13:9501/material/api",
+          changeOrigin: true,
+          rewrite: path => path.replace(viteEnv.VITE_FILE_BASE_API, "")
         }
       }
     },
