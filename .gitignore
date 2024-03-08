@@ -13,6 +13,7 @@ dist
 dist-ssr
 *.local
 stats.html
+dist.zip
 
 
 # Editor directories and files

@@ -14,6 +14,8 @@ interface ViteEnv {
   VITE_REPORT: boolean;
   VITE_BASE_API: string;
   VITE_FILE_BASE_API: string;
+  VITE_SOURCE_MAP: boolean;
+  VITE_PUBLIC_PATH: string;
 }
 
 export function isDevFn(mode: string): boolean {

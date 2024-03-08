@@ -21,9 +21,8 @@ import NProgress from "@/config/nprogress";
  * */
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
   routes: staticRouter.concat(errorRouter),
-  // routes: [],
   strict: false,
   scrollBehavior: () => ({ left: 0, top: 0 })
 });

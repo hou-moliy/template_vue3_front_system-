@@ -13,18 +13,29 @@ import importToCDN from "vite-plugin-cdn-import";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite"; // 自定义组件自动引入插件
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import dayjs from "dayjs";
+import pkg from "./package.json";
+const { dependencies, devDependencies, name, version } = pkg;
+// 最后一次打包时间
+const __APP_INFO__ = {
+  pkg: { dependencies, devDependencies, name, version },
+  lastBuildTime: dayjs().format("YYYY-MM-DD HH:mm:ss")
+};
 
 // @see: https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   const env = loadEnv(mode, process.cwd());
   const viteEnv = wrapperEnv(env);
   return {
-    base: "/",
+    base: viteEnv.VITE_PUBLIC_PATH,
     resolve: {
       alias: {
         "@": resolve(__dirname, "./src"),
         "vue-i18n": "vue-i18n/dist/vue-i18n.cjs.js"
       }
+    },
+    define: {
+      __APP_INFO__: JSON.stringify(__APP_INFO__)
     },
     css: {
       preprocessorOptions: {
@@ -117,6 +128,20 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     build: {
       outDir: "dist",
       minify: "esbuild",
+      terserOptions: {
+        compress: viteEnv.VITE_DROP_CONSOLE
+          ? {
+              // 删除 console
+              drop_console: true,
+              // 删除 debugger
+              drop_debugger: true
+            }
+          : {},
+        format: {
+          // 删除注释
+          comments: false
+        }
+      },
       chunkSizeWarningLimit: 1500,
       rollupOptions: {
         output: {
@@ -125,7 +150,8 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           entryFileNames: "assets/js/[name]-[hash].js",
           assetFileNames: "assets/[ext]/[name]-[hash].[ext]"
         }
-      }
+      },
+      sourcemap: false
     }
   };
 });
