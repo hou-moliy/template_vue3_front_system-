@@ -1,6 +1,6 @@
 <template>
   <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" size="large">
-    <el-form-item prop="loginName ">
+    <el-form-item prop="loginName">
       <el-input v-model="loginForm.loginName" placeholder="请输入账号">
         <template #prefix>
           <el-icon class="el-input__icon"><user /></el-icon>
@@ -33,7 +33,7 @@
   </el-form>
   <div class="login-btn">
     <el-button @click="loginClick(loginFormRef)" size="large" type="primary" :loading="loading"> 登录 </el-button>
-    <el-button @click="registerClick()" size="large">注册</el-button>
+    <el-button @click="registerClick()" size="large" :disabled="loading">注册</el-button>
   </div>
 </template>
 

@@ -5,18 +5,25 @@
         <!-- 首页面包屑不要可以直接删除 -->
         <el-breadcrumb-item :key="HOME_URL" :to="{ path: HOME_URL }" v-if="breadcrumbList[0].meta.title !== '首页'">
           <div class="breadcrumb-item">
-            <el-icon class="breadcrumb-icon" v-if="themeConfig.breadcrumbIcon">
+            <!-- <el-icon class="breadcrumb-icon" v-if="themeConfig.breadcrumbIcon">
               <HomeFilled />
-            </el-icon>
+            </el-icon> -->
+            <template v-if="themeConfig.breadcrumbIcon">
+              <SvgIcon name="dashboard" color="#333" />
+            </template>
             <span class="breadcrumb-title">首页</span>
           </div>
         </el-breadcrumb-item>
         <!-- other -->
         <el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="item.path">
-          <div class="breadcrumb-item el-breadcrumb__inner is-link" @click="onBreadcrumbClick(item, index)">
+          <!-- <div class="breadcrumb-item el-breadcrumb__inner is-link" @click="onBreadcrumbClick(item, index)">
             <el-icon class="breadcrumb-icon" v-if="item.meta.icon && themeConfig.breadcrumbIcon">
               <component :is="item.meta.icon"></component>
             </el-icon>
+            <span class="breadcrumb-title">{{ item.meta.title }}</span>
+          </div> -->
+          <div class="breadcrumb-item el-breadcrumb__inner is-link" @click="onBreadcrumbClick(item, index)">
+            <SvgIcon v-if="item.meta.icon && themeConfig.breadcrumbIcon" :name="item.meta.icon" :key="index" color="#333" />
             <span class="breadcrumb-title">{{ item.meta.title }}</span>
           </div>
         </el-breadcrumb-item>

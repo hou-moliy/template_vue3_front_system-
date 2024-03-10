@@ -14,7 +14,7 @@
               <component :is="item?.icon"></component>
             </el-icon> -->
             <template v-if="item?.icon && item?.icon != '#' && themeConfig.tabsIcon">
-              <SvgIcon :name="item?.icon" color="#409EFF" />
+              <SvgIcon :name="item?.icon" :color="handleColor(item)" />
             </template>
             {{ item.title }}
           </template>
@@ -51,6 +51,11 @@ onMounted(() => {
   tabsDrop();
   initTabs();
 });
+// 计算svgcolor的颜色
+const handleColor = item => {
+  if (item.fullPath === tabsMenuValue.value) return "#409EFF";
+  return "#ccc";
+};
 
 // 标签拖拽排序
 const tabsDrop = () => {
