@@ -127,7 +127,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     },
     build: {
       outDir: "dist",
-      minify: "esbuild",
+      minify: "terser",
       terserOptions: {
         compress: viteEnv.VITE_DROP_CONSOLE
           ? {
