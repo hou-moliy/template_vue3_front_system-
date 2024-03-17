@@ -90,10 +90,8 @@ const addRole = ({ data, isEdit }) => {
 const getList = () => {
   loadingWrapper(
     roleList(form).then(res => {
-      if (res.code == "0000") {
-        tableData.value = res.rows;
-        total.value = res.total;
-      }
+      tableData.value = res.rows;
+      total.value = res.total;
     })
   );
 };

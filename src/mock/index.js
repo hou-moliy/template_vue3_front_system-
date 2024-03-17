@@ -6,7 +6,10 @@ import RoleTreeSelect from "@/assets/json/roleTreeSelect.json";
 import BusinessCustomer from "@/assets/json/customerList.json";
 import DictData from "@/assets/json/dict.json";
 import ProvinceAndCity from "@/assets/json/provinceAndCity.json";
-const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
+import CaptchaImage from "@/assets/json/captchaImage.json";
+import UserList from "@/assets/json/userList.json";
+import RoleList from "@/assets/json/roleList.json";
+const baseURL = import.meta.env.VITE_BASE_API || "admin";
 
 // Mock重写，避免responseType设置无效的问题
 Mock.XHR.prototype.send = (() => {
@@ -32,21 +35,31 @@ Mock.mock(`/mock${baseURL}/common/getRouters`, () => {
   return Mock.mock(DynamicRouter);
 });
 
-Mock.mock(`/mock${baseURL}/system/login`, () => {
+Mock.mock(`/mock${baseURL}/common/login`, () => {
   return Mock.mock({
-    code: "0000",
+    code: "200",
     token:
       "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODQ4MjUxNDgsImxvZ2luX3VzZXJfa2V5IjoiMDQ2ZDIzYTUtNWVlNC00MTMyLWJjMTYtMjhlNDQ2MjU4MmFhIn0.GatpTz_TTHJoP1DHj0j_h21CZekZMDbCmREwe6AdVeWPCM5TobwZD6odS8-bZ1LmK3RDmdsei-5yxnraKZaW3g"
   });
 });
 
-Mock.mock(`/mock${baseURL}/system/getInfo`, () => {
+Mock.mock(`/mock${baseURL}/common/getInfo`, () => {
   return Mock.mock(UserInfo);
 });
 
+Mock.mock(`/mock${baseURL}/common/captchaImage`, () => {
+  return Mock.mock(CaptchaImage);
+});
+Mock.mock(`/mock${baseURL}/system/user/listSysUsers`, params => {
+  return Mock.mock(UserList);
+});
+Mock.mock(`/mock${baseURL}/system/role/listSysRole`, params => {
+  return Mock.mock(RoleList);
+});
 Mock.mock(`/mock${baseURL}/system/menu/treeselect`, () => {
   return Mock.mock(TreeSelect);
 });
+
 Mock.mock(`/mock${baseURL}/system/menu/roleMenuTreeselect?roleId=117`, () => {
   return Mock.mock(RoleTreeSelect);
 });

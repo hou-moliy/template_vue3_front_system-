@@ -1,12 +1,12 @@
 import service from "./service.js";
-const baseURL = import.meta.env.VITE_BASE_API || "bjxh";
+const baseURL = import.meta.env.VITE_BASE_API || "admin";
 // 获取角色列表
 export const roleList = params => {
   return service({
     url: "/system/role/listSysRole",
     method: "get",
-    params,
-    baseURL
+    // params,
+    baseURL: `/mock${baseURL}`
   });
 };
 // 新增角色

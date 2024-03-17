@@ -34,7 +34,6 @@
 import { reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import useAccountRules from "../hooks/useAccountRules";
-import { insertSysUser, updateSysUser } from "@/api/user";
 import mittBus from "@/utils/mittBus";
 const formRef = ref(null);
 // 表单
@@ -73,23 +72,15 @@ const onSubmit = () => {
 };
 
 const handleAdd = () => {
-  insertSysUser(form).then(res => {
-    if (res.code === "0000") {
-      ElMessage.success("新增成功");
-      mittBus.emit("refreshTable");
-      closeDialog();
-    }
-  });
+  ElMessage.success("新增成功");
+  mittBus.emit("refreshTable");
+  closeDialog();
 };
 
 const handleUpdate = () => {
-  updateSysUser(form).then(res => {
-    if (res.code === "0000") {
-      ElMessage.success("修改成功");
-      mittBus.emit("refreshTable");
-      closeDialog();
-    }
-  });
+  ElMessage.success("修改成功");
+  mittBus.emit("refreshTable");
+  closeDialog();
 };
 
 // 关闭弹窗

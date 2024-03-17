@@ -142,6 +142,92 @@
           }
         }
       ]
+    },
+    {
+      "path": "/svg",
+      "name": "svg",
+      "component": "/svg/index",
+      "meta": {
+        "icon": "documentation",
+        "title": "svg图标",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      }
+    },
+    {
+      "path": "/table",
+      "name": "table",
+      "redirect": "/table/index",
+      "meta": {
+        "icon": "druid",
+        "title": "表格",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/table/index",
+          "name": "index",
+          "component": "/table/index",
+          "meta": {
+            "title": "基础表格",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
+    },
+    {
+      "path": "/systemMng",
+      "name": "systemMng",
+      "meta": {
+        "icon": "example",
+        "title": "系统管理",
+        "isLink": "",
+        "isHide": false,
+        "isFull": false,
+        "isAffix": false,
+        "isKeepAlive": true
+      },
+      "children": [
+        {
+          "path": "/systemMng/userMng",
+          "name": "userMng",
+          "component": "/systemMng/user/index",
+          "meta": {
+            "icon": "peoples",
+            "title": "用户管理",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        },
+        {
+          "path": "/systemMng/roleMng",
+          "name": "roleMng",
+          "component": "/systemMng/role/index",
+          "meta": {
+            "icon": "peoples",
+            "title": "角色管理",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true
+          }
+        }
+      ]
     }
   ],
   "msg": "成功"

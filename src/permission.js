@@ -31,7 +31,6 @@ router.beforeEach((to, from, next) => {
         authStore.getUserInfo().then(() => {
           initDynamicRouter()
             .then(() => {
-              console.log(to, "tooooo");
               next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
               // next({ path: to.path, query: to.query, replace: true });
             })

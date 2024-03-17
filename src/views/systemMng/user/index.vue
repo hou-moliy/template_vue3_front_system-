@@ -1,8 +1,8 @@
 <template>
   <!-- 表单 -->
   <el-form :inline="true" :model="form" ref="formRef">
-    <el-form-item label="账号" prop="loginName">
-      <el-input v-model="form.loginName" placeholder="请输入账号" />
+    <el-form-item label="账号" prop="userName">
+      <el-input v-model="form.userName" placeholder="请输入账号" />
     </el-form-item>
     <el-form-item label="角色" prop="roleId">
       <model-select v-model="form.roleId" dictType="roleType" placeholder="请输入角色类型" />
@@ -18,9 +18,9 @@
   </el-form>
   <!-- 表格 -->
   <el-table :data="tableData" border v-load="isLoading">
-    <el-table-column prop="loginName" label="账号" />
-    <el-table-column prop="userName" label="姓名" />
-    <el-table-column prop="phoneNumber" label="手机号" />
+    <el-table-column prop="userName" label="账号" />
+    <el-table-column prop="nickName" label="姓名" />
+    <el-table-column prop="phonenumber" label="手机号" />
     <el-table-column prop="email" label="邮箱" />
     <el-table-column prop="roleId" label="角色">
       <template #default="{ row }">
@@ -64,7 +64,7 @@ import { ref, onMounted } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import accountDialog from "./components/accountDialog.vue";
 import useForm from "@/hooks/useForm";
-import { userList, updateSysUser } from "@/api/user";
+import { userList } from "@/api/user";
 import mittBus from "@/utils/mittBus";
 import DictTypesStore from "@/stores/modules/dictTypes";
 import { useLoading } from "@/hooks/useLoading";
@@ -74,7 +74,7 @@ const { isLoading, loadingWrapper } = useLoading();
 const { getDictTypeValue, getDictTypeItem } = DictTypesStore();
 // 搜索表单
 const initialValues = {
-  loginName: "",
+  userName: "",
   roleId: "",
   status: "",
   pageNum: 1,
@@ -86,10 +86,8 @@ const total = ref(0);
 const getList = () => {
   loadingWrapper(
     userList(form).then(res => {
-      if (res.code == "0000") {
-        tableData.value = res.rows;
-        total.value = res.total;
-      }
+      tableData.value = res.rows;
+      total.value = res.total;
     })
   );
 };
@@ -105,21 +103,7 @@ const changeBindStatus = row => {
     type: "warning"
   })
     .then(() => {
-      const params = {
-        userId: row.userId,
-        status: row.status == 0 ? 1 : 0
-      };
-      return updateSysUser(params);
-    })
-    .then(res => {
-      if (res.code == "0000") {
-        if (row.status == 1) {
-          ElMessage.success("冻结成功");
-        } else if (row.status == 0) {
-          ElMessage.success("解冻成功");
-        }
-        getList();
-      }
+      ElMessage.success("操作成功");
     })
     .catch(error => {
       // 处理错误情况

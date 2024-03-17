@@ -53,14 +53,6 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       cors: true,
       // 跨域代理配置
       proxy: {
-        ["/mock" + viteEnv.VITE_BASE_API]: {
-          target: "https://gitee.com", // easymock
-          // target: "http://10.4.5.40:9111/bjxh", // yhw
-          // target: "http://10.1.35.207:8180/admin", //
-          // target: "http://10.1.61.13:9501/admin/api",
-          changeOrigin: true,
-          rewrite: path => path.replace(viteEnv.VITE_BASE_API, "")
-        },
         [viteEnv.VITE_BASE_API]: {
           // target: "https://gitee.com", // easymock
           // target: "http://10.4.5.40:9111/bjxh", // yhw
@@ -129,14 +121,10 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       outDir: "dist",
       minify: "terser",
       terserOptions: {
-        compress: viteEnv.VITE_DROP_CONSOLE
-          ? {
-              // 删除 console
-              drop_console: true,
-              // 删除 debugger
-              drop_debugger: true
-            }
-          : {},
+        compress: {
+          drop_console: viteEnv.VITE_DROP_CONSOLE,
+          drop_debugger: viteEnv.VITE_DROP_CONSOLE
+        },
         format: {
           // 删除注释
           comments: false

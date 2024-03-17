@@ -1,6 +1,6 @@
 {
   "msg": "操作成功",
-  "code": "0000",
+  "code": "200",
   "data": [
     { "value": "0", "label": "北京", "children": [{ "value": "10", "label": "北京", "children": null }] },
     { "value": "1", "label": "上海", "children": [{ "value": "21", "label": "上海", "children": null }] },
