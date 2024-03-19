@@ -2,13 +2,17 @@ import { ref, reactive, computed } from "vue";
 import { ElMessage } from "element-plus";
 import { addRole, updateRole } from "@/api/role";
 import mittBus from "@/utils/mittBus";
+import useForm from "@/hooks/useForm";
+
 const useRoleDialog = () => {
-  const formRef = ref(null);
-  const form = reactive({
+  // 表单初始数据
+  const initialValues = {
     roleName: "",
     roleDesc: "",
     menuIds: []
-  });
+  };
+  const { form, formRef, resetForm } = useForm(initialValues);
+
   const rules = reactive({
     roleName: [{ required: true, message: "请输入角色名称", trigger: "blur" }]
   });
@@ -34,27 +38,23 @@ const useRoleDialog = () => {
   };
 
   const handleUpdate = () => {
-    updateRole(form).then(res => {
-      if (res.code == "0000") {
-        ElMessage.success("修改成功");
-        mittBus.emit("refreshTable");
-        closeDialog();
-      }
+    updateRole(form).then(() => {
+      ElMessage.success("修改成功");
+      mittBus.emit("refreshTable");
+      closeDialog();
     });
   };
   const handleAdd = () => {
-    addRole(form).then(res => {
-      if (res.code == "0000") {
-        ElMessage.success("新增成功");
-        mittBus.emit("refreshTable");
-        closeDialog();
-      }
+    addRole(form).then(() => {
+      ElMessage.success("新增成功");
+      mittBus.emit("refreshTable");
+      closeDialog();
     });
   };
 
   const closeDialog = () => {
+    resetForm();
     dialogVisible.value = false;
-    formRef.value?.resetFields();
   };
 
   return {

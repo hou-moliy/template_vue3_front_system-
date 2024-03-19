@@ -53,3 +53,8 @@ const handleOpenDialog = async ({ data, isEdit }) => {
 };
 defineExpose({ handleOpenDialog });
 </script>
+<style lang="scss" scoped>
+.el-tree {
+  width: 100%;
+}
+</style>

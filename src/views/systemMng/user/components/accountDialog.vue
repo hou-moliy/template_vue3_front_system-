@@ -24,27 +24,28 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">返回</el-button>
+        <el-button @click="closeDialog">返回</el-button>
         <el-button type="primary" @click="onSubmit"> 提交 </el-button>
       </span>
     </template>
   </el-dialog>
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import useAccountRules from "../hooks/useAccountRules";
 import mittBus from "@/utils/mittBus";
-const formRef = ref(null);
-// 表单
-const form = reactive({
+import useForm from "@/hooks/useForm";
+// 表单初始数据
+const initialValues = {
   loginName: "",
   userName: "",
   phoneNumber: "",
   email: "",
   password: "",
   password2: ""
-});
+};
+const { form, formRef, resetForm } = useForm(initialValues);
 const { rules } = useAccountRules(formRef, form);
 const dialogVisible = ref(false);
 
@@ -85,8 +86,8 @@ const handleUpdate = () => {
 
 // 关闭弹窗
 const closeDialog = () => {
+  resetForm();
   dialogVisible.value = false;
-  formRef.value.resetFields();
 };
 defineExpose({ openDialog });
 </script>

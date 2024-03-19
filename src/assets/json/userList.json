@@ -27,7 +27,7 @@
       "delFlag": "0",
       "loginIp": null,
       "loginDate": null,
-      "roleIds": null,
+      "roleIds": ["1"],
       "postIds": null,
       "admin": false
     },
@@ -56,7 +56,7 @@
       "delFlag": "0",
       "loginIp": null,
       "loginDate": null,
-      "roleIds": null,
+      "roleIds": ["0", "1"],
       "postIds": null,
       "admin": false
     },
@@ -85,7 +85,7 @@
       "delFlag": "0",
       "loginIp": null,
       "loginDate": null,
-      "roleIds": null,
+      "roleIds": ["1", "2"],
       "postIds": null,
       "admin": false
     },

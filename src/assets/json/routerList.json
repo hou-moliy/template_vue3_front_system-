@@ -198,6 +198,7 @@
         "isAffix": false,
         "isKeepAlive": true
       },
+      "redirect": "/systemMng/userMng",
       "children": [
         {
           "path": "/systemMng/userMng",

@@ -22,9 +22,9 @@
     <el-table-column prop="nickName" label="姓名" />
     <el-table-column prop="phonenumber" label="手机号" />
     <el-table-column prop="email" label="邮箱" />
-    <el-table-column prop="roleId" label="角色">
+    <el-table-column prop="roleIds" label="角色">
       <template #default="{ row }">
-        <el-button text link>{{ getRoleName(row.roleId) }}</el-button>
+        <el-tag v-for="(role, index) in getRoleName(row.roleIds)" :key="index">{{ role }}</el-tag>
       </template>
     </el-table-column>
     <el-table-column prop="status" label="状态">
@@ -71,7 +71,7 @@ import { useLoading } from "@/hooks/useLoading";
 import { AuthStore } from "@/stores/modules/auth";
 const { userId } = AuthStore();
 const { isLoading, loadingWrapper } = useLoading();
-const { getDictTypeValue, getDictTypeItem } = DictTypesStore();
+const { getDictTypeLabel, getDictTypeItem } = DictTypesStore();
 // 搜索表单
 const initialValues = {
   userName: "",
@@ -117,33 +117,21 @@ const deleteAccount = ({ userName, userId }) => {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"
-  })
-    .then(() => {
-      const params = {
-        userId,
-        status: 2
-      };
-      // 删除
-      return updateSysUser(params);
-    })
-    .then(res => {
-      if (res.code == "0000") {
-        ElMessage.success("删除成功");
-        getList();
-      }
-    })
-    .catch(error => {
-      // 处理错误情况
-      console.error(error);
-    });
+  }).then(() => {
+    ElMessage.success("删除成功");
+    getList();
+  });
 };
 // 新增或者编辑账号
 const accountDialogRef = ref(null);
 const addAccount = (data, isEdit) => {
   accountDialogRef?.value?.openDialog({ data, isEdit });
 };
-const getRoleName = roleId => {
-  return getDictTypeValue("roleType", String(roleId));
+const getRoleName = roleIds => {
+  if (!roleIds) return "";
+  return roleIds.map(roleId => {
+    return getDictTypeLabel("roleType", String(roleId));
+  });
 };
 const getStatusItem = status => {
   return getDictTypeItem("statusType", String(status));
@@ -155,3 +143,8 @@ onMounted(() => {
   });
 });
 </script>
+<style lang="scss" scoped>
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
+</style>
