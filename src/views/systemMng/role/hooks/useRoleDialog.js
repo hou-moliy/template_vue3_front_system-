@@ -32,24 +32,25 @@ const useRoleDialog = () => {
         isEdit.value ? handleUpdate() : handleAdd();
         closeDialog();
       } else {
+        ElMessage.error("请检查表单是否填写正确");
         return false;
       }
     });
   };
 
   const handleUpdate = () => {
-    updateRole(form).then(() => {
-      ElMessage.success("修改成功");
-      mittBus.emit("refreshTable");
-      closeDialog();
-    });
+    // updateRole(form).then(() => {
+    ElMessage.success("修改成功");
+    mittBus.emit("refreshTable");
+    closeDialog();
+    // });
   };
   const handleAdd = () => {
-    addRole(form).then(() => {
-      ElMessage.success("新增成功");
-      mittBus.emit("refreshTable");
-      closeDialog();
-    });
+    // addRole(form).then(() => {
+    ElMessage.success("新增成功");
+    mittBus.emit("refreshTable");
+    closeDialog();
+    // });
   };
 
   const closeDialog = () => {

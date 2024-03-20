@@ -72,11 +72,9 @@ const handleDelete = ({ roleId, roleName }) => {
     .then(() => {
       return deleteRole({ roleId });
     })
-    .then(res => {
-      if (res.code == "0000") {
-        ElMessage.success("删除成功");
-        getList();
-      }
+    .then(() => {
+      ElMessage.success("删除成功");
+      getList();
     })
     .catch(error => {
       console.log(error);

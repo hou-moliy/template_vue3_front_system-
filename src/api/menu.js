@@ -14,7 +14,7 @@ export const treeselect = () => {
   return service({
     url: "/system/menu/treeselect",
     method: "get",
-    baseURL
+    baseURL: `/mock${baseURL}`
   });
 };
 // 根据角色ID查询菜单下拉树结构

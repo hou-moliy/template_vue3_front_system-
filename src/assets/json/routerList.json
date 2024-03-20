@@ -84,6 +84,20 @@
             "isKeepAlive": true,
             "icon": "international"
           }
+        },
+        {
+          "path": "/assembly/fileUpload",
+          "name": "fileUpload",
+          "component": "/assembly/fileUpload",
+          "meta": {
+            "title": "文件上传",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true,
+            "icon": "fileUpload"
+          }
         }
       ]
     },

@@ -15,14 +15,12 @@ const useTree = () => {
     treeRef.value?.setCheckedKeys([], false);
   };
   const getAllTreeSelect = async () => {
-    const res = await treeselect();
-    if (res.code == "0000") {
+    await treeselect().then(res => {
       treeData.value = res.data;
-    }
+    });
   };
   const getRoleTreeSelect = async params => {
-    const res = await roleMenuTreeselect(params);
-    if (res.code == "0000") {
+    await roleMenuTreeselect(params).then(res => {
       const list = res?.checkedKeys ?? [];
       defaultChecked.value = list;
       treeData.value = res.menus;
@@ -34,7 +32,7 @@ const useTree = () => {
           }
         });
       });
-    }
+    });
   };
 
   return {
