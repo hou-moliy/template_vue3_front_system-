@@ -3,7 +3,7 @@
   <el-container class="layout">
     <div class="aside-split">
       <div class="logo flx-center">
-        <img src="@/assets/logo/logo.png" alt="logo" />
+        <img src="@/assets/logo/logo.png" alt="logo" v-if="SHOW_LOGO" />
       </div>
       <el-scrollbar>
         <div class="split-list">
@@ -54,7 +54,7 @@ import { ref, computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { GlobalStore } from "@/stores";
 import { AuthStore } from "@/stores/modules/auth";
-import { TABS_WHITE_LIST } from "@/config/config";
+import { TABS_WHITE_LIST, SHOW_LOGO } from "@/config/config";
 import Main from "@/layouts/components/Main/index.vue";
 import ToolBarLeft from "@/layouts/components/Header/ToolBarLeft.vue";
 import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";

@@ -3,7 +3,7 @@
   <el-container class="layout">
     <el-header>
       <div class="logo flx-center">
-        <img src="@/assets/logo/logo.png" alt="logo" />
+        <img src="@/assets/logo/logo.png" alt="logo" v-if="SHOW_LOGO" />
         <span>vue-diverse-admin</span>
       </div>
       <el-menu
@@ -49,6 +49,7 @@ import { useRoute, useRouter } from "vue-router";
 import Main from "@/layouts/components/Main/index.vue";
 import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";
 import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
+import { SHOW_LOGO } from "@/config/config";
 
 const route = useRoute();
 const router = useRouter();

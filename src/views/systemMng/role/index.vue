@@ -22,17 +22,8 @@
     </el-table-column>
     <el-table-column fixed="right" label="操作">
       <template #default="{ row }">
-        <el-button
-          type="primary"
-          v-if="row.roleId != 1"
-          link
-          v-hasPermi="['roleList:edit']"
-          @click="addRole({ data: row, isEdit: true })"
-          >修改</el-button
-        >
-        <el-button type="danger" v-if="parseInt(row.roleId) > 6" link v-hasPermi="['roleList:delete']" @click="handleDelete(row)"
-          >删除</el-button
-        >
+        <el-button type="primary" v-if="row.roleId != 1" @click="addRole({ data: row, isEdit: true })">修改</el-button>
+        <el-button type="danger" v-if="parseInt(row.roleId) > 6" @click="handleDelete(row)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -47,7 +38,7 @@ import roleDialog from "./components/roleDialog.vue";
 import useForm from "@/hooks/useForm";
 import { deleteRole, roleList } from "@/api/role";
 import mittBus from "@/utils/mittBus";
-import { useLoading } from "@/hooks/useLoading";
+import useLoading from "@/hooks/useLoading";
 const { isLoading, loadingWrapper } = useLoading();
 // 搜索表单
 const initialValues = {

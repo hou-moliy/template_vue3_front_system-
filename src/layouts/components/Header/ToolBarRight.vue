@@ -40,7 +40,7 @@ const authStore = AuthStore();
   .header-icon {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 140px;
     margin-right: 22px;
   }

@@ -21,4 +21,6 @@ export const I18N = false;
 // 是否展示主题切换功能
 export const THEME = false;
 // 是否展示菜单搜索功能
-export const MENU_SEARCH = false;
+export const MENU_SEARCH = true;
+// 是否展示LOGO
+export const SHOW_LOGO = true;

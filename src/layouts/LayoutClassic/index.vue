@@ -4,7 +4,7 @@
     <el-header>
       <div class="header-lf">
         <div class="logo flx-center">
-          <img src="@/assets/logo/logo.png" alt="logo" />
+          <img src="@/assets/logo/logo.png" alt="logo" v-if="SHOW_LOGO" />
           <span>{{ APPNAME }}</span>
         </div>
         <ToolBarLeft />
@@ -45,7 +45,7 @@ import MainApp from "@/layouts/components/Main/index.vue";
 import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
 import ToolBarLeft from "@/layouts/components/Header/ToolBarLeft.vue";
 import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";
-import { APP_NAME } from "@/config/config";
+import { APP_NAME, SHOW_LOGO } from "@/config/config";
 const APPNAME = APP_NAME;
 
 const route = useRoute();

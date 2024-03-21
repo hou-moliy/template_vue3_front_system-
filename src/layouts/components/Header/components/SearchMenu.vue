@@ -1,11 +1,6 @@
 <template>
   <div class="layout-search-dialog">
-    <img
-      src="@/assets/svg/sosuo.svg"
-      @click="handleOpen"
-      style="width: 20x; height: 20px; cursor: pointer"
-      class="toolBar-icon"
-    />
+    <img src="@/assets/svg/sosuo.svg" @click="handleOpen" class="toolBar-icon" alt="菜单搜索" />
     <el-dialog
       v-model="isShowSearch"
       width="300px"
@@ -29,9 +24,10 @@
           </el-icon>
         </template>
         <template #default="{ item }">
-          <el-icon>
+          <!-- <el-icon>
             <component :is="item.meta.icon"></component>
-          </el-icon>
+          </el-icon> -->
+          <SvgIcon :name="item.meta.icon" color="#333" />
           <span> {{ item.meta.title }} </span>
         </template>
       </el-autocomplete>
@@ -92,6 +88,12 @@ const handleClickMenu = menuItem => {
 </script>
 
 <style scoped lang="scss">
+.toolBar-icon {
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
 /* 菜单搜索样式 */
 .layout-search-dialog {
   :deep(.el-dialog) {

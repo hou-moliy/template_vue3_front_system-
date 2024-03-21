@@ -3,7 +3,7 @@
     <div class="login-box">
       <div class="login-form">
         <div class="login-logo">
-          <img class="login-icon" src="@/assets/logo/logo.png" alt="" />
+          <img class="login-icon" src="@/assets/logo/logo.png" alt="" v-if="SHOW_LOGO" />
           <h2 class="logo-text">{{ APPNAME }}</h2>
         </div>
         <LoginForm v-if="loginShow" @changeForm="changeForm" />
@@ -17,7 +17,7 @@
 <script setup name="login">
 import LoginForm from "./components/LoginForm.vue";
 import RegisterForm from "./components/RegisterForm.vue";
-import { APP_NAME } from "@/config/config";
+import { APP_NAME, SHOW_LOGO } from "@/config/config";
 import { ref } from "vue";
 const APPNAME = APP_NAME;
 const loginShow = ref(true);

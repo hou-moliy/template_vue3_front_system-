@@ -4,7 +4,7 @@
     <el-aside>
       <div class="menu" :style="{ width: isCollapse ? '65px' : '210px' }">
         <div class="logo flx-center">
-          <img src="@/assets/logo/logo.png" alt="logo" />
+          <img src="@/assets/logo/logo.png" alt="logo" v-if="SHOW_LOGO" />
           <span v-show="!isCollapse">{{ APPNAME }}</span>
         </div>
         <el-scrollbar>
@@ -42,7 +42,7 @@ import MainApp from "@/layouts/components/Main/index.vue";
 import ToolBarLeft from "@/layouts/components/Header/ToolBarLeft.vue";
 import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";
 import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
-import { APP_NAME } from "@/config/config";
+import { APP_NAME, SHOW_LOGO } from "@/config/config";
 const APPNAME = APP_NAME;
 
 const route = useRoute();

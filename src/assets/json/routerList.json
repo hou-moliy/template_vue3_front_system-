@@ -104,7 +104,7 @@
           "name": "fileExport",
           "component": "/assembly/fileExport",
           "meta": {
-            "title": "文件导出",
+            "title": "excel导出",
             "isLink": "",
             "isHide": false,
             "isFull": false,
@@ -186,35 +186,6 @@
       }
     },
     {
-      "path": "/table",
-      "name": "table",
-      "redirect": "/table/index",
-      "meta": {
-        "icon": "druid",
-        "title": "表格",
-        "isLink": "",
-        "isHide": false,
-        "isFull": false,
-        "isAffix": false,
-        "isKeepAlive": true
-      },
-      "children": [
-        {
-          "path": "/table/index",
-          "name": "index",
-          "component": "/table/index",
-          "meta": {
-            "title": "基础表格",
-            "isLink": "",
-            "isHide": false,
-            "isFull": false,
-            "isAffix": false,
-            "isKeepAlive": true
-          }
-        }
-      ]
-    },
-    {
       "path": "/systemMng",
       "name": "systemMng",
       "meta": {
@@ -247,7 +218,7 @@
           "name": "roleMng",
           "component": "/systemMng/role/index",
           "meta": {
-            "icon": "peoples",
+            "icon": "people",
             "title": "角色管理",
             "isLink": "",
             "isHide": false,
