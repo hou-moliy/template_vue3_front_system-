@@ -59,7 +59,7 @@
 </template>
 <script lang="ts">
 // listType的枚举值
-export enum listTypeEnum {
+export const enum listTypeEnum {
   text = "text",
   picture = "picture",
   pictureCard = "picture-card"

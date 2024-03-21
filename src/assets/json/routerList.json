@@ -12,7 +12,7 @@
         "isFull": false,
         "isAffix": false,
         "isKeepAlive": true,
-        "icon": "component"
+        "icon": "dict"
       },
       "children": [
         {
@@ -97,6 +97,20 @@
             "isAffix": false,
             "isKeepAlive": true,
             "icon": "fileUpload"
+          }
+        },
+        {
+          "path": "/assembly/fileExport",
+          "name": "fileExport",
+          "component": "/assembly/fileExport",
+          "meta": {
+            "title": "文件导出",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true,
+            "icon": "download"
           }
         }
       ]

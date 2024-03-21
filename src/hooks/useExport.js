@@ -12,6 +12,7 @@ const fileType = {
   ppt: "application/vnd.ms-powerpoint",
   pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation"
 };
+// 导出文件
 export const exportFile = (data, type, fileName) => {
   //⚠️注意：需要配置你需要导出的文件类型
   const blob = new Blob([data], { type: fileType[type] });
@@ -31,17 +32,8 @@ export const handleDownload = (promise, type, fileName) => {
     });
   });
 };
-
+//导出excel
 export const exportExcel = (json, fields, filename = "测试数据.xlsx") => {
-  // json.forEach(item => {
-  //   for (let i in item) {
-  //     if (fields.hasOwnProperty(i)) {
-  //       item[fields[i]] = item[i];
-  //     }
-  //     delete item[i]; //删除原先的对象属性
-  //   }
-  // });
-
   let sheetName = filename; //excel的文件名称
   let wb = XLSX.utils.book_new(); //工作簿对象包含一SheetNames数组，以及一个表对象映射表名称到表对象。XLSX.utils.book_new实用函数创建一个新的工作簿对象。
   let ws = XLSX.utils.json_to_sheet(json, { header: Object.values(fields) }); //将JS对象数组转换为工作表。
