@@ -9,21 +9,31 @@
       :limit="limitNum"
       :accept="acceptType"
       :auto-upload="false"
-      :show-file-list="false"
+      :show-file-list="listType != listTypeEnum.text"
       :disabled="isDisableUpload"
       :on-change="handleChange"
       :on-exceed="handleExceed"
       :on-remove="removeFile"
+      :on-preview="handlePreview"
+      :listType="listType"
     >
-      <div class="el-upload__text">
-        <el-icon><Upload /></el-icon>
-        <span>{{ btnText }}</span>
-      </div>
+      <slot name="icon">
+        <div class="el-upload__text" v-if="listType == listTypeEnum.text">
+          <el-icon><Upload /></el-icon>
+          <span>{{ btnText }}</span>
+        </div>
+        <div v-else-if="listType == listTypeEnum.pictureCard">
+          <el-icon><Plus /></el-icon>
+        </div>
+        <div v-else>
+          <el-button type="primary">点击上传</el-button>
+        </div>
+      </slot>
       <!-- 自定义内容，例如有些页面支持示例文件下载 -->
       <div @click.stop="() => {}"><slot name="default"></slot></div>
     </el-upload>
     <!-- 文件列表展示 -->
-    <div class="template_list" v-if="fileList.length">
+    <div class="template_list" v-if="listType == listTypeEnum.text && fileList.length">
       <div class="template" v-for="(item, index) in waitFileList" :key="index">
         <span>
           <el-icon><Link /></el-icon>
@@ -41,8 +51,20 @@
     <span class="tips" v-if="!props.isDisableUpload && props.acceptTypeDesc"
       >支持{{ acceptTypeDesc }}；文件大小不能超过{{ props.maxFileSize }}M</span
     >
+    <!-- 图片放大查看 -->
+    <el-dialog v-model="dialogVisible" title="图片预览">
+      <img w-full :src="dialogImageUrl" alt="预览图片" />
+    </el-dialog>
   </div>
 </template>
+<script lang="ts">
+// listType的枚举值
+export enum listTypeEnum {
+  text = "text",
+  picture = "picture",
+  pictureCard = "picture-card"
+}
+</script>
 
 <script lang="ts" setup>
 import { ref, watch, toRefs } from "vue";
@@ -50,6 +72,7 @@ import { ElLoading, ElMessage } from "element-plus";
 import { uploadIdsFile } from "@/api/upload";
 import { Close } from "@element-plus/icons-vue";
 const emits = defineEmits(["fileSuccess", "fileRemove"]);
+
 interface Props {
   acceptType?: string; // 上传文件类型
   acceptTypeDesc?: string; // 描述 - 上传文件类型,需要用/分割，用来校验类型
@@ -61,6 +84,7 @@ interface Props {
   fileList?: any; // 回显的文件
   isDownLoad?: boolean; // 是否可以下载
   btnText?: string; // 按钮文字
+  listType?: listTypeEnum; // 文件列表的类型
 }
 // 接收父组件传递过来的参数
 const props = withDefaults(defineProps<Props>(), {
@@ -73,14 +97,15 @@ const props = withDefaults(defineProps<Props>(), {
   action: "",
   fileList: [],
   isDownLoad: false,
-  btnText: "上传文件"
+  btnText: "上传文件",
+  listType: listTypeEnum.text
 });
 
 let waitFileList = ref<any[]>([]);
 const { fileList } = toRefs(props);
 waitFileList.value = fileList.value;
 waitFileList.value?.forEach((item: any) => {
-  item.name = item.original;
+  item.name = item.original || item.name;
 });
 
 watch(
@@ -88,10 +113,21 @@ watch(
   () => {
     waitFileList.value = props.fileList;
     waitFileList.value?.forEach((item: any) => {
-      item.name = item.original;
+      item.name = item.original || item.name;
     });
+  },
+  {
+    immediate: true,
+    deep: true
   }
 );
+// 图片放大查看
+const dialogVisible = ref(false);
+const dialogImageUrl = ref("");
+const handlePreview = async (file: any) => {
+  dialogImageUrl.value = file.url || file.response.url;
+  dialogVisible.value = true;
+};
 
 // 文件变化Handle 这里监听上传文件的变化是一个一个接收到变化的，所以文件也是一个一个上传到服务器上面的
 const handleChange = async (file: any, fileList: any[]) => {
@@ -203,23 +239,18 @@ const handleUpload = (rawFile: any) => {
   });
   uploadIdsFile({ url: requestURL, data: formData })
     .then(async (res: any) => {
-      if (res.code == "0000") {
-        loadingInstance.close();
-        let obj = {};
-        if (res.data) {
-          obj = {
-            ...res.data,
-            name: res.data.original
-          };
-        }
-        ElMessage.success("上传成功");
-        emits("fileSuccess", obj);
-      } else {
-        loadingInstance.close();
-        ElMessage.warning(`文件上传失败`);
+      loadingInstance.close();
+      let obj = {};
+      if (res.data) {
+        obj = {
+          ...res.data,
+          name: res.data.original
+        };
       }
+      ElMessage.success("上传成功");
+      emits("fileSuccess", obj);
     })
-    .catch(() => {
+    .catch(err => {
       loadingInstance.close();
       ElMessage.warning(`文件上传失败`);
     });
@@ -235,7 +266,6 @@ const handleExceed = (files: any, fileList: any[]) => {
 .upload_wrap {
   text-align: left;
   .upload {
-    // min-width: 468px;
     padding-bottom: 10px;
   }
   .tips {
@@ -244,11 +274,11 @@ const handleExceed = (files: any, fileList: any[]) => {
     font-family: PingFangSC-Regular, PingFang SC;
     font-weight: 400;
     color: rgba(0, 0, 0, 0.65);
+    margin-top: 10px;
   }
 }
 
 :deep().el-upload__text {
-  // width: 106px;
   padding: 0px 5px;
   box-sizing: border-box;
   height: 32px;
@@ -297,5 +327,17 @@ const handleExceed = (files: any, fileList: any[]) => {
 }
 .downLoad {
   padding-left: 5px;
+}
+</style>
+<style lang="scss">
+.el-dialog__body {
+  display: flex;
+  justify-content: center;
+  height: 500px;
+  overflow: scroll;
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 </style>

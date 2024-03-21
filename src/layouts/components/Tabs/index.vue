@@ -44,7 +44,6 @@ const keepAliveStore = KeepAliveStore();
 
 const tabsMenuValue = ref(route.fullPath);
 const tabsMenuList = computed(() => tabStore.tabsMenuList);
-console.log(tabsMenuList, "tabs");
 const themeConfig = computed(() => globalStore.themeConfig);
 
 onMounted(() => {

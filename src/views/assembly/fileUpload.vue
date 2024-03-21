@@ -1,28 +1,55 @@
 <template>
-  <div>
-    <h3>自定义文件上传</h3>
-    <upload-file
-      :fileList="fileList"
-      acceptType=".xls,.xlsx"
-      acceptTypeDesc="xls/xlsx"
-      :maxFileSize="10"
-      @file-success="handleImport"
-      btnText="批量新增"
-    >
-      <el-link type="primary" @click="handleTemp">模板下载</el-link>
-    </upload-file>
-    <el-progress
-      v-if="percentNum"
-      :percentage="percentNum"
-      :status="`${percentNum === 100 ? 'success' : ''}`"
-      :indeterminate="true"
-    />
+  <div class="box">
+    <div>
+      <h3>自定义文件上传</h3>
+      <upload-file
+        :fileList="fileList"
+        acceptType=".xls,.xlsx"
+        acceptTypeDesc="xls/xlsx"
+        :maxFileSize="10"
+        @file-success="handleImport"
+        btnText="批量新增"
+      >
+        <el-link type="primary" @click="handleTemp">模板下载</el-link>
+      </upload-file>
+      <el-progress
+        v-if="percentNum"
+        :percentage="percentNum"
+        :status="`${percentNum === 100 ? 'success' : ''}`"
+        :indeterminate="true"
+      />
+    </div>
+    <div>
+      <h3>自定义图片上传</h3>
+      <upload-file
+        :fileList="imgList"
+        acceptType=".jpg,.png,jpeg"
+        acceptTypeDesc="jpg/png/jpeg"
+        :maxFileSize="10"
+        @file-success="handleSuccess('imgList', $event)"
+        listType="picture-card"
+      >
+      </upload-file>
+    </div>
+    <div>
+      <h3>自定义缩略图片上传</h3>
+      <upload-file
+        :fileList="picList"
+        acceptType=".jpg,.png,jpeg"
+        acceptTypeDesc="jpg/png/jpeg"
+        :maxFileSize="10"
+        @file-success="handleSuccess('picList', $event)"
+        listType="picture"
+      >
+      </upload-file>
+    </div>
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
 import { handleDownload } from "@/hooks/useExport";
-import { templateExport, templateImport, importPercent } from "@/api/upload";
+import { templateExport, templateImport, importPercent, uploadImageFile } from "@/api/upload";
+
 const handleTemp = () => {
   // templateExport() 为导出模板接口
   handleDownload(templateExport(), "xlsx", "批量新增短号码模板").then(() => {
@@ -60,4 +87,52 @@ const getPercent = () => {
     }
   });
 };
+// 自定义图片上传
+const imgList = ref([]);
+const picList = ref([]);
+const handleSuccess = (listName, file) => {
+  // file 转formData
+  let formData = new FormData();
+  formData.append("file", file);
+  // 上传loading
+  const loading = ElLoading.service({
+    lock: true,
+    text: "上传中...",
+    spinner: "el-icon-loading",
+    background: "rgba(0, 0, 0, 0.7)"
+  });
+  uploadImageFile({
+    url: "/material/upload",
+    data: formData
+  })
+    .then(res => {
+      loading.close();
+      const url = res?.data?.materialUrl || "";
+      if (!url) {
+        ElMessage.error("图片上传失败");
+        return;
+      }
+      if (listName === "imgList") {
+        imgList.value.push({
+          url: url,
+          name: file.name
+        });
+      } else {
+        picList.value.push({
+          url: url,
+          name: file.name
+        });
+      }
+    })
+    .catch(err => {
+      loading.close();
+      ElMessage.error(`图片上传失败 catch：${err}`);
+    });
+};
 </script>
+<style lang="scss" scoped>
+.box {
+  display: flex;
+  gap: 50px;
+}
+</style>
