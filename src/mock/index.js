@@ -4,7 +4,6 @@ import UserInfo from "@/assets/json/userInfo.json";
 import TreeSelect from "@/assets/json/treeSelect.json";
 import RoleTreeSelect from "@/assets/json/roleTreeSelect.json";
 import BusinessCustomer from "@/assets/json/customerList.json";
-import DictData from "@/assets/json/dict.json";
 import ProvinceAndCity from "@/assets/json/provinceAndCity.json";
 import CaptchaImage from "@/assets/json/captchaImage.json";
 import UserList from "@/assets/json/userList.json";
@@ -66,9 +65,7 @@ Mock.mock(`/mock${baseURL}/system/menu/roleMenuTreeselect?roleId=117`, () => {
 Mock.mock(`/mock${baseURL}/businessCustomer/list`, () => {
   return Mock.mock(BusinessCustomer);
 });
-Mock.mock(`/mock${baseURL}/system/dict/data/dictTypes/1`, () => {
-  return Mock.mock(DictData);
-});
+
 Mock.mock(`/mock${baseURL}/system/dict/provinceAndCity`, () => {
   return Mock.mock(ProvinceAndCity);
 });

@@ -16,14 +16,14 @@ const useRegion = (formRef, formData) => {
   watch(
     () => state.address,
     newVal => {
-      if (newVal.length === 0) {
+      if (!newVal || newVal.length === 0) {
         formData.provinceId = "";
         formData.cityId = "";
-      } else if (newVal.length === 2) {
+      } else if (newVal && newVal.length === 2) {
         // 二级地址
         formData.provinceId = newVal[0];
         formData.cityId = newVal[1];
-      } else {
+      } else if (newVal && newVal.length === 3) {
         // 三级地址
         formData.provinceId = newVal[0];
         formData.cityId = newVal[1];

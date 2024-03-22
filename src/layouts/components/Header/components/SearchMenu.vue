@@ -1,22 +1,19 @@
 <template>
   <div class="layout-search-dialog">
-    <img src="@/assets/svg/sosuo.svg" @click="handleOpen" class="toolBar-icon" alt="菜单搜索" />
-    <el-dialog
-      v-model="isShowSearch"
-      width="300px"
-      destroy-on-close
-      :modal="false"
-      :show-close="false"
-      fullscreen
-      @click="closeSearch"
-    >
+    <el-popover placement="left" trigger="click" ref="popoverRef" :width="400">
+      <template #reference>
+        <img src="@/assets/svg/sosuo.svg" class="toolBar-icon" alt="菜单搜索" />
+      </template>
       <el-autocomplete
         v-model="searchMenu"
         ref="menuInputRef"
         placeholder="菜单搜索 ：支持菜单名称、路径"
         :fetch-suggestions="searchMenuList"
         @select="handleClickMenu"
+        @keyup.enter.native.prevent="KeyEnter"
         @click.stop
+        clearable
+        v-if="completeShow"
       >
         <template #prefix>
           <el-icon>
@@ -31,15 +28,16 @@
           <span> {{ item.meta.title }} </span>
         </template>
       </el-autocomplete>
-    </el-dialog>
+    </el-popover>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, nextTick } from "vue";
+import { ref, computed } from "vue";
 import { Search } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { AuthStore } from "@/stores/modules/auth";
+import { ElMessage } from "element-plus";
 const router = useRouter();
 const authStore = AuthStore();
 const menuList = computed(() => authStore.flatMenuListGet.filter(item => !item.meta.isHide));
@@ -50,23 +48,10 @@ const searchMenuList = (queryString, cb) => {
 };
 
 // 打开搜索菜单
-const isShowSearch = ref(false);
+const popoverRef = ref(null);
+const completeShow = ref(true);
 const menuInputRef = ref();
 const searchMenu = ref("");
-const handleOpen = () => {
-  isShowSearch.value = true;
-  searchMenu.value = "";
-  nextTick(() => {
-    setTimeout(() => {
-      menuInputRef.value.focus();
-    });
-  });
-};
-
-// 搜索窗关闭
-const closeSearch = () => {
-  isShowSearch.value = false;
-};
 
 // 筛选菜单
 const filterNodeMethod = queryString => {
@@ -83,7 +68,23 @@ const handleClickMenu = menuItem => {
   searchMenu.value = "";
   if (menuItem.meta.isLink) window.open(menuItem.meta.isLink, "_blank");
   else router.push(menuItem.path);
-  closeSearch();
+};
+// 键盘enter事件
+const KeyEnter = e => {
+  if (e.target.value) {
+    const menuItem = menuList.value.find(filterNodeMethod(e.target.value));
+    if (menuItem) {
+      searchMenu.value = "";
+      if (menuItem.meta.isLink) window.open(menuItem.meta.isLink, "_blank");
+      else router.push(menuItem.path);
+      popoverRef.value.hide();
+      completeShow.value = false;
+    } else {
+      ElMessage.warning("未找到相关菜单");
+    }
+  } else {
+    ElMessage.warning("请输入搜索内容");
+  }
 };
 </script>
 

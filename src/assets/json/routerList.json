@@ -1,5 +1,6 @@
 {
   "code": 200,
+  "msg": "成功",
   "data": [
     {
       "path": "/assembly",
@@ -111,6 +112,34 @@
             "isAffix": false,
             "isKeepAlive": true,
             "icon": "download"
+          }
+        },
+        {
+          "path": "/assembly/provinceSelect",
+          "name": "provinceSelect",
+          "component": "/assembly/provinceSelect",
+          "meta": {
+            "title": "省份选择器",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true,
+            "icon": "tree-table"
+          }
+        },
+        {
+          "path": "/assembly/timePicker",
+          "name": "timePicker",
+          "component": "/assembly/timePicker",
+          "meta": {
+            "title": "时间选择器",
+            "isLink": "",
+            "isHide": false,
+            "isFull": false,
+            "isAffix": false,
+            "isKeepAlive": true,
+            "icon": "date"
           }
         }
       ]
@@ -229,6 +258,5 @@
         }
       ]
     }
-  ],
-  "msg": "成功"
+  ]
 }

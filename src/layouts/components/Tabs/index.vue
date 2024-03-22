@@ -1,7 +1,7 @@
 <template>
   <div class="tabs-box">
     <div class="tabs-menu">
-      <el-tabs v-model="tabsMenuValue" type="card" class="demo-tabs" @tab-click="tabClick" @tab-remove="tabRemove">
+      <el-tabs :model-value="tabsMenuValue" type="card" class="demo-tabs" @tab-click="tabClick" @tab-remove="tabRemove">
         <el-tab-pane
           v-for="item in tabsMenuList"
           :key="item.fullPath"

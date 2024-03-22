@@ -65,9 +65,7 @@ export const GlobalStore = defineStore({
     // getProvinceCityData
     getProvinceCityData() {
       provinceAndCity().then(res => {
-        if (res.code == "0000") {
-          this.setProvinceCityData(res.data);
-        }
+        this.setProvinceCityData(res.data);
       });
     },
     // 根据value获取地址label

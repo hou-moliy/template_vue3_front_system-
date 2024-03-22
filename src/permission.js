@@ -5,7 +5,7 @@ import router from "./routers";
 import NProgress from "@/config/nprogress";
 import { AuthStore } from "@/stores/modules/auth";
 import { ElMessage } from "element-plus";
-// import { GlobalStore } from "@/stores";
+import { GlobalStore } from "@/stores";
 
 /**
  * @description 路由拦截 beforeEach
@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
       next(from.fullPath);
     } else {
       const authStore = AuthStore();
-      // const globalStore = GlobalStore();
+      const globalStore = GlobalStore();
       // 已登录跳转
       authStore.setRouteName(to.name);
       // 用户权限
@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
             });
         });
         // 获取省份-城市数据
-        // globalStore.getProvinceCityData();
+        globalStore.getProvinceCityData();
       } else {
         next();
       }
