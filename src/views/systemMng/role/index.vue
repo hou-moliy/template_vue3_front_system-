@@ -22,8 +22,10 @@
     </el-table-column>
     <el-table-column fixed="right" label="操作">
       <template #default="{ row }">
-        <el-button type="primary" v-if="row.roleId != 1" @click="addRole({ data: row, isEdit: true })">修改</el-button>
-        <el-button type="danger" v-if="parseInt(row.roleId) > 6" @click="handleDelete(row)">删除</el-button>
+        <el-space wrap>
+          <el-button type="primary" v-if="row.roleId != 1" @click="addRole({ data: row, isEdit: true })">修改</el-button>
+          <el-button type="danger" v-if="parseInt(row.roleId) > 6" @click="handleDelete(row)">删除</el-button>
+        </el-space>
       </template>
     </el-table-column>
   </el-table>

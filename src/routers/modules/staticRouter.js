@@ -49,6 +49,18 @@ export const staticRouter = [
 ];
 
 /**
+ * notFoundRouter(找不到路由)
+ */
+export const notFoundRouter = {
+  path: "/:catchAll(.*)",
+  meta: {
+    title: "找不到此页面",
+    isHide: true
+  },
+  component: () => import("@/components/ErrorMessage/404.vue")
+};
+
+/**
  * errorRouter(错误页面路由)
  */
 export const errorRouter = [
@@ -79,14 +91,6 @@ export const errorRouter = [
       title: "500页面",
       isHide: true
     }
-  }
+  },
+  notFoundRouter
 ];
-
-/**
- * notFoundRouter(找不到路由)
- */
-export const notFoundRouter = {
-  path: "/:pathMatch(.*)*",
-  name: "notFound",
-  redirect: { name: "404" }
-};

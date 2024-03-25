@@ -32,7 +32,6 @@ router.beforeEach((to, from, next) => {
           initDynamicRouter()
             .then(() => {
               next({ ...to, replace: true }); // hack方法 确保addRoutes已完成
-              // next({ path: to.path, query: to.query, replace: true });
             })
             .catch(err => {
               authStore.logout().then(() => {
@@ -48,6 +47,7 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
+    // 免登录判断
     TABS_WHITE_LIST.indexOf(to.path) !== -1 ? next() : next(`${LOGIN_URL}?redirect=${to.fullPath}`);
   }
 });

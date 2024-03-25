@@ -40,12 +40,14 @@
     <el-table-column fixed="right" label="操作">
       <template #default="{ row, index }">
         <!-- 超级管理员，当前账号本身，已删除账号都不展示操作按钮 -->
-        <div v-if="row.roleId != 1 && userId != row.userId && row.status != 2">
-          <el-button type="primary" @click="addAccount(row, true)">修改</el-button>
-          <el-button :type="row.status != 1 ? 'warning' : 'success'" @click="changeBindStatus(row)">
-            {{ row.status != 1 ? "冻结" : "解冻" }}
-          </el-button>
-          <el-button type="danger" @click="deleteAccount(row, index)">删除</el-button>
+        <div class="btn-wrap" v-if="row.roleId != 1 && userId != row.userId && row.status != 2">
+          <el-space wrap
+            ><el-button type="primary" @click="addAccount(row, true)">修改</el-button>
+            <el-button :type="row.status != 1 ? 'warning' : 'success'" @click="changeBindStatus(row)">
+              {{ row.status != 1 ? "冻结" : "解冻" }}
+            </el-button>
+            <el-button type="danger" @click="deleteAccount(row, index)">删除</el-button></el-space
+          >
         </div>
       </template>
     </el-table-column>
