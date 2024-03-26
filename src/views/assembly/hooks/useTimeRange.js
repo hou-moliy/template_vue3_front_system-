@@ -3,7 +3,7 @@ import useTime from "@/hooks/useTime";
 import { getPickerOptions } from "@/config/datePicker";
 
 export default function useTimeRange(form) {
-  const { getTodayDate, getThisMonth, getCurrentDate } = useTime();
+  const { getTodayDate, getThisMonth, getCurrentDate, getRecentDates, getDateRange, getMonthDates } = useTime();
   const dateRange = ref([]);
   const resetDateRange = () => {
     dateRange.value = [];
@@ -61,6 +61,9 @@ export default function useTimeRange(form) {
     showDisabledDate,
     getTodayDate,
     getThisMonth,
-    getCurrentDate
+    getCurrentDate,
+    getRecentDates,
+    getDateRange,
+    getMonthDates
   };
 }

@@ -10,7 +10,16 @@ const useTime = () => {
     const year = dateObj.getFullYear();
     const month = String(dateObj.getMonth() + 1).padStart(2, "0");
     const day = String(dateObj.getDate()).padStart(2, "0");
-    let formattedDate = format.replace("yyyy", year).replace("mm", month).replace("dd", day);
+    const hour = String(dateObj.getHours()).padStart(2, "0");
+    const miniute = String(dateObj.getMinutes()).padStart(2, "0");
+    const second = String(dateObj.getSeconds()).padStart(2, "0");
+    let formattedDate = format
+      .replace("yyyy", year)
+      .replace("mm", month)
+      .replace("dd", day)
+      .replace("HH", hour)
+      .replace("MM", miniute)
+      .replace("SS", second);
     return formattedDate;
   };
 
@@ -49,7 +58,7 @@ const useTime = () => {
     return dates;
   };
   // 获取当前时间
-  const getCurrentDate = (format = "yyyy-mm-dd") => {
+  const getCurrentDate = (format = "yyyy-mm-dd HH:MM:SS") => {
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate, format);
     return formattedDate;

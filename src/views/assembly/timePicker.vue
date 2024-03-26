@@ -27,13 +27,13 @@
       </template>
     </el-form>
     <div class="btn-wrap"><el-tag type="primary">获取当前时间</el-tag>{{ getCurrentDate() }}</div>
-    <div class="btn-wrap"><el-tag type="primary">获取最近n天的日期</el-tag>{{}}</div>
-    <div class="btn-wrap"><el-tag type="primary">获取某个月的所有日期</el-tag>{{}}</div>
+    <div class="btn-wrap"><el-tag type="primary">获取最近n天的日期,例如近7天</el-tag>{{ getRecentDates(7, "yyyy/mm/dd") }}</div>
     <div class="btn-wrap">
-      <el-tag type="primary">两个日期间的所有日期{{}}</el-tag>
+      <el-tag type="primary">获取某个月的所有日期，例如3月</el-tag>{{ getMonthDates("2024-03-26", "yyyy/mm/dd") }}
     </div>
-    <div class="btn-wrap"><el-tag type="primary">获取当前日期</el-tag>{{ getTodayDate() }}</div>
-    <div class="btn-wrap"><el-tag type="primary">获取当前月份</el-tag>{{ getThisMonth() }}</div>
+    <div class="btn-wrap"><el-tag type="primary">两个日期间的所有日期</el-tag>{{ getDateRange("2024-03-01", "2024-03-11") }}</div>
+    <div class="btn-wrap"><el-tag type="primary">获取当前日期</el-tag>{{ getTodayDate("yyyy/mm/dd") }}</div>
+    <div class="btn-wrap"><el-tag type="primary">获取当前月份</el-tag>{{ getThisMonth("yyyy/mm") }}</div>
   </div>
 </template>
 <script setup>
@@ -61,8 +61,18 @@ const initialValues = {
   disabledType: timePickerEnums.todayAfter
 };
 const { form, formRef } = useForm(initialValues);
-const { dateRange, resetDateRange, pickerDisabledDate, showDisabledDate, getTodayDate, getThisMonth, getCurrentDate } =
-  useTimeRange(form);
+const {
+  dateRange,
+  resetDateRange,
+  pickerDisabledDate,
+  showDisabledDate,
+  getTodayDate,
+  getThisMonth,
+  getCurrentDate,
+  getRecentDates,
+  getDateRange,
+  getMonthDates
+} = useTimeRange(form);
 const onChange = e => {
   resetDateRange();
   if (e === "0") {
