@@ -27,7 +27,7 @@
         acceptTypeDesc="jpg/png/jpeg"
         :maxFileSize="10"
         @file-success="handleSuccess('imgList', $event)"
-        listType="picture-card"
+        :listType="listTypeEnum.pictureCard"
       >
       </upload-file>
     </div>
@@ -39,7 +39,7 @@
         acceptTypeDesc="jpg/png/jpeg"
         :maxFileSize="10"
         @file-success="handleSuccess('picList', $event)"
-        listType="picture"
+        :listType="listTypeEnum.picture"
       >
       </upload-file>
     </div>
@@ -49,6 +49,7 @@
 import { ref } from "vue";
 import { handleDownload } from "@/hooks/useExport";
 import { templateExport, templateImport, importPercent, uploadImageFile } from "@/api/upload";
+import { listTypeEnum } from "@/types/upload.d.ts";
 
 const handleTemp = () => {
   // templateExport() 为导出模板接口

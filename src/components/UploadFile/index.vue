@@ -57,22 +57,14 @@
     </el-dialog>
   </div>
 </template>
-<script lang="ts">
-// listType的枚举值
-export const enum listTypeEnum {
-  text = "text",
-  picture = "picture",
-  pictureCard = "picture-card"
-}
-</script>
-
 <script lang="ts" setup>
 import { ref, watch, toRefs } from "vue";
 import { ElLoading, ElMessage } from "element-plus";
 import { uploadIdsFile } from "@/api/upload";
 import { Close } from "@element-plus/icons-vue";
 const emits = defineEmits(["fileSuccess", "fileRemove"]);
-
+// @ts-expect-error
+import { listTypeEnum } from "@/types/upload.d.ts";
 interface Props {
   acceptType?: string; // 上传文件类型
   acceptTypeDesc?: string; // 描述 - 上传文件类型,需要用/分割，用来校验类型

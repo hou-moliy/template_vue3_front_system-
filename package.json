@@ -1,9 +1,9 @@
 {
-  "name": "bjxh",
+  "name": "{{name}}",
   "private": true,
-  "version": "0.0.6",
-  "description": "北京融昱隐私号",
-  "author": "",
+  "version": "1.0.0",
+  "description": "{{description}}",
+  "author": "{{author}}",
   "scripts": {
     "dev": "vite --mode development",
     "serve": "vite --mode development",

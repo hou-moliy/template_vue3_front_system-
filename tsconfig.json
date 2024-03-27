@@ -23,6 +23,7 @@
       "@": ["src"],
       "@/*": ["src/*"]
     }
+    // "types": ["src/types/upload.d.ts"]
   },
   "include": [
     "src/**/*.ts",
